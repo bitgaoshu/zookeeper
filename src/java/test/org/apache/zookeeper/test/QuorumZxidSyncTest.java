@@ -26,7 +26,7 @@ import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.ZooDefs;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

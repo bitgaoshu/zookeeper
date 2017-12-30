@@ -24,7 +24,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.ZooDefs.OpCode;
 import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.server.Request;

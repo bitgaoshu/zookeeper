@@ -17,7 +17,7 @@
  */
 package org.apache.zookeeper.cli;
 
-import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.common.KeeperException;
 
 @SuppressWarnings("serial")
 public class CliWrapperException extends CliException {

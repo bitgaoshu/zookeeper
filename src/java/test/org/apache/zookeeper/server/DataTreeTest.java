@@ -20,13 +20,12 @@ package org.apache.zookeeper.server;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.zookeeper.KeeperException.NoNodeException;
-import org.apache.zookeeper.KeeperException.NodeExistsException;
+import org.apache.zookeeper.common.KeeperException.NoNodeException;
+import org.apache.zookeeper.common.KeeperException.NodeExistsException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.ZooDefs;
-import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
 import org.junit.After;
 import org.junit.Assert;
@@ -48,8 +47,6 @@ import java.lang.reflect.*;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.List;
-import java.util.ArrayList;
 
 public class DataTreeTest extends ZKTestCase {
     protected static final Logger LOG = LoggerFactory.getLogger(DataTreeTest.class);

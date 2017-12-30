@@ -24,6 +24,7 @@ import java.security.cert.Certificate;
 import org.apache.jute.Record;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.proto.ReplyHeader;
+import org.apache.zookeeper.server.cnxn.ServerCnxn;
 
 public class MockServerCnxn extends ServerCnxn {
     public Certificate[] clientChain;

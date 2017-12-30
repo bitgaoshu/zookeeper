@@ -26,6 +26,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.zookeeper.Watcher.Event.EventType;
 import org.apache.zookeeper.ZooDefs.Ids;
+import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.clients.client.ZooKeeperMain;
 import org.apache.zookeeper.test.ClientBase;
 import org.junit.Assert;
 import org.junit.Test;

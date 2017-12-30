@@ -17,7 +17,7 @@
  */
 package org.apache.zookeeper.server;
 
-import static org.apache.zookeeper.client.FourLetterWordMain.send4LetterWord;
+import static org.apache.zookeeper.clients.FourLetterWordMain.send4LetterWord;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,8 +26,11 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.common.X509Exception.SSLContextException;
+import org.apache.zookeeper.server.cnxn.NettyCnxn.NettyServerCnxnFactory;
+import org.apache.zookeeper.server.cnxn.ServerCnxn;
+import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.test.ClientBase.CountdownWatcher;
 import org.junit.After;

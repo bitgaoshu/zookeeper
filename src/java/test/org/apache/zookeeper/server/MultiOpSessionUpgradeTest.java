@@ -20,11 +20,11 @@ package org.apache.zookeeper.server;
 
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.Op;
 import org.apache.zookeeper.OpResult;
 import org.apache.zookeeper.ZooDefs;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.proto.CreateRequest;
 import org.apache.zookeeper.proto.GetDataRequest;

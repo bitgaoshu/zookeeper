@@ -124,7 +124,7 @@ start|startClean)
     do
         if ps -p $pid > /dev/null
         then
-            java -cp "$CLASSPATH" org.apache.zookeeper.ZooKeeperMain -server localhost:$ZOOPORT ls / > /dev/null 2>&1
+            java -cp "$CLASSPATH" org.apache.zookeeper.clients.client.ZooKeeperMain -server localhost:$ZOOPORT ls / > /dev/null 2>&1
             if [ $? -ne 0  ]
             then
                 # server not up yet - wait

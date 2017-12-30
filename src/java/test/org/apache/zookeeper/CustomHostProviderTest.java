@@ -17,7 +17,8 @@
  */
 package org.apache.zookeeper;
 
-import org.apache.zookeeper.client.HostProvider;
+import org.apache.zookeeper.clients.HostProvider;
+import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.test.ClientBase;
 import org.junit.Assert;
 import org.junit.Test;

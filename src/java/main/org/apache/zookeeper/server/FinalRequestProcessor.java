@@ -19,9 +19,9 @@
 package org.apache.zookeeper.server;
 
 import org.apache.jute.Record;
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.KeeperException.Code;
-import org.apache.zookeeper.KeeperException.SessionMovedException;
+import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.common.KeeperException.Code;
+import org.apache.zookeeper.common.KeeperException.SessionMovedException;
 import org.apache.zookeeper.MultiResponse;
 import org.apache.zookeeper.OpResult;
 import org.apache.zookeeper.OpResult.CheckResult;
@@ -57,6 +57,8 @@ import org.apache.zookeeper.proto.SyncRequest;
 import org.apache.zookeeper.proto.SyncResponse;
 import org.apache.zookeeper.server.DataTree.ProcessTxnResult;
 import org.apache.zookeeper.server.ZooKeeperServer.ChangeRecord;
+import org.apache.zookeeper.server.cnxn.ServerCnxn;
+import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.quorum.QuorumZooKeeperServer;
 import org.apache.zookeeper.txn.ErrorTxn;
 import org.apache.zookeeper.txn.TxnHeader;

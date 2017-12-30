@@ -21,15 +21,15 @@ package org.apache.zookeeper.test;
 
 import java.util.LinkedList;
 
-import org.apache.zookeeper.AsyncCallback.DataCallback;
-import org.apache.zookeeper.AsyncCallback.StringCallback;
-import org.apache.zookeeper.AsyncCallback.VoidCallback;
+import org.apache.zookeeper.cli.AsyncCallback.DataCallback;
+import org.apache.zookeeper.cli.AsyncCallback.StringCallback;
+import org.apache.zookeeper.cli.AsyncCallback.VoidCallback;
 import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.KeeperException.Code;
+import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.common.KeeperException.Code;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.ZooDefs.Ids;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 import org.junit.After;
 import org.junit.Assert;

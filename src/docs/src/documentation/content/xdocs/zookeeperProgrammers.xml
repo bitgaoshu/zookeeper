@@ -1506,13 +1506,13 @@ public abstract class ServerAuthenticationProvider implements AuthenticationProv
                 <listitem>
                     <para>
                         Specifies which ClientCnxnSocket to be used. Possible values are
-                        <emphasis role="bold">org.apache.zookeeper.ClientCnxnSocketNIO</emphasis>
+                        <emphasis role="bold">org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNIO</emphasis>
                         and
-                        <emphasis role="bold">org.apache.zookeeper.ClientCnxnSocketNetty</emphasis>
+                        <emphasis role="bold">org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNetty</emphasis>
                         . Default is
-                        <emphasis role="bold">org.apache.zookeeper.ClientCnxnSocketNIO</emphasis>
+                        <emphasis role="bold">org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNIO</emphasis>
                         . If you want to connect to server's secure client port, you need to set this property to
-                        <emphasis role="bold">org.apache.zookeeper.ClientCnxnSocketNetty</emphasis>
+                        <emphasis role="bold">org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNetty</emphasis>
                         on client.
                     </para>
                 </listitem>

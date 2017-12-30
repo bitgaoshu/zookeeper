@@ -20,8 +20,8 @@ package org.apache.zookeeper.server.command;
 
 import java.io.PrintWriter;
 
-import org.apache.zookeeper.server.ServerCnxn;
-import org.apache.zookeeper.server.ServerCnxnFactory;
+import org.apache.zookeeper.server.cnxn.ServerCnxn;
+import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.ZooKeeperServer;
 
 public class CommandExecutor {

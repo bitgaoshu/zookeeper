@@ -21,7 +21,10 @@ package org.apache.zookeeper.server;
 
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.ZooDefs.Ids;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.server.cnxn.NettyCnxn.NettyServerCnxnFactory;
+import org.apache.zookeeper.server.cnxn.ServerCnxn;
+import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.test.ClientBase;
 import org.junit.Assert;
 import org.junit.Test;
@@ -39,7 +42,7 @@ public class NettyServerCnxnTest extends ClientBase {
     @Override
     public void setUp() throws Exception {
         System.setProperty(ServerCnxnFactory.ZOOKEEPER_SERVER_CNXN_FACTORY,
-                "org.apache.zookeeper.server.NettyServerCnxnFactory");
+                "org.apache.zookeeper.server.cnxn.NettyCnxn.NettyServerCnxnFactory");
         super.setUp();
     }
 

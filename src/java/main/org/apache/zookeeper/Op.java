@@ -18,6 +18,9 @@
 package org.apache.zookeeper;
 
 import org.apache.jute.Record;
+import org.apache.zookeeper.cli.AsyncCallback;
+import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.common.PathUtils;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.proto.CheckVersionRequest;
@@ -39,7 +42,7 @@ import java.util.List;
  * the provided factory methods.
  *
  * @see ZooKeeper#create(String, byte[], java.util.List, CreateMode)
- * @see ZooKeeper#create(String, byte[], java.util.List, CreateMode, org.apache.zookeeper.AsyncCallback.StringCallback, Object)
+ * @see ZooKeeper#create(String, byte[], java.util.List, CreateMode, AsyncCallback.StringCallback, Object)
  * @see ZooKeeper#delete(String, int)
  * @see ZooKeeper#setData(String, byte[], int)
  */
@@ -212,7 +215,7 @@ public abstract class Op {
      * Reconstructs the transaction with the chroot prefix.
      * @return transaction with chroot.
      */
-    abstract Op withChroot(String addRootPrefix);
+    public abstract Op withChroot(String addRootPrefix);
 
     /**
      * Performs client path validations.
@@ -222,7 +225,7 @@ public abstract class Op {
      * @throws KeeperException.BadArgumentsException
      *             if an invalid create mode flag is specified
      */
-    void validate() throws KeeperException {
+    public void validate() throws KeeperException {
         PathUtils.validatePath(path);
     }
 
@@ -290,12 +293,12 @@ public abstract class Op {
         }
 
         @Override
-        Op withChroot(String path) {
+        public Op withChroot(String path) {
             return new Create(path, data, acl, flags);
         }
 
         @Override
-        void validate() throws KeeperException {
+        public void validate() throws KeeperException {
             CreateMode createMode = CreateMode.fromFlag(flags);
             PathUtils.validatePath(getPath(), createMode.isSequential());
             EphemeralType.validateTTL(createMode, -1);
@@ -331,12 +334,12 @@ public abstract class Op {
         }
 
         @Override
-        Op withChroot(String path) {
+        public Op withChroot(String path) {
             return new CreateTTL(path, data, acl, flags, ttl);
         }
 
         @Override
-        void validate() throws KeeperException {
+        public void validate() throws KeeperException {
             CreateMode createMode = CreateMode.fromFlag(flags);
             PathUtils.validatePath(getPath(), createMode.isSequential());
             EphemeralType.validateTTL(createMode, ttl);
@@ -373,7 +376,7 @@ public abstract class Op {
         }
 
         @Override
-        Op withChroot(String path) {
+        public Op withChroot(String path) {
             return new Delete(path, version);
         }
     }
@@ -410,7 +413,7 @@ public abstract class Op {
         }
 
         @Override
-        Op withChroot(String path) {
+        public Op withChroot(String path) {
             return new SetData(path, data, version);
         }
     }
@@ -444,7 +447,7 @@ public abstract class Op {
         }
 
         @Override
-        Op withChroot(String path) {
+        public Op withChroot(String path) {
             return new Check(path, version);
         }
     }

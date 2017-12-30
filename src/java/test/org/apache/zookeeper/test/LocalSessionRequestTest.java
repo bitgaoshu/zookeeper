@@ -19,7 +19,7 @@
 package org.apache.zookeeper.test;
 
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.server.TraceFormatter;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.quorum.Leader.Proposal;

@@ -24,7 +24,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 
-import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.ZooDefs.OpCode;
 import org.apache.zookeeper.server.SessionTrackerImpl.SessionImpl;

@@ -25,10 +25,10 @@ package org.apache.zookeeper.test;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.ZooDefs;
-import org.apache.zookeeper.ZooKeeper;
-import org.apache.zookeeper.client.ZKClientConfig;
+import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.clients.ZKClientConfig;
 import org.apache.zookeeper.common.ZKConfig;
-import org.apache.zookeeper.server.ServerCnxnFactory;
+import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.quorum.QuorumPeerTestBase;
 import org.junit.After;
 import org.junit.Assert;
@@ -40,8 +40,8 @@ public class SSLTest extends QuorumPeerTestBase {
     @Before
     public void setup() {
         String testDataPath = System.getProperty("test.data.dir", "build/test/data");
-        System.setProperty(ServerCnxnFactory.ZOOKEEPER_SERVER_CNXN_FACTORY, "org.apache.zookeeper.server.NettyServerCnxnFactory");
-        System.setProperty(ZKClientConfig.ZOOKEEPER_CLIENT_CNXN_SOCKET, "org.apache.zookeeper.ClientCnxnSocketNetty");
+        System.setProperty(ServerCnxnFactory.ZOOKEEPER_SERVER_CNXN_FACTORY, "org.apache.zookeeper.server.cnxn.NettyCnxn.NettyServerCnxnFactory");
+        System.setProperty(ZKClientConfig.ZOOKEEPER_CLIENT_CNXN_SOCKET, "org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNetty");
         System.setProperty(ZKClientConfig.SECURE_CLIENT, "true");
         System.setProperty(ZKConfig.SSL_KEYSTORE_LOCATION, testDataPath + "/ssl/testKeyStore.jks");
         System.setProperty(ZKConfig.SSL_KEYSTORE_PASSWD, "testpass");

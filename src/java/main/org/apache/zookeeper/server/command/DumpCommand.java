@@ -20,8 +20,8 @@ package org.apache.zookeeper.server.command;
 
 import java.io.PrintWriter;
 
-import org.apache.zookeeper.server.NIOServerCnxnFactory;
-import org.apache.zookeeper.server.ServerCnxn;
+import org.apache.zookeeper.server.cnxn.NIOCnxn.NIOServerCnxnFactory;
+import org.apache.zookeeper.server.cnxn.ServerCnxn;
 
 public class DumpCommand extends AbstractFourLetterCommand {
     public DumpCommand(PrintWriter pw, ServerCnxn serverCnxn) {

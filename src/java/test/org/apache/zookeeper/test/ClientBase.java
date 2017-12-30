@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.test;
 
-import static org.apache.zookeeper.client.FourLetterWordMain.send4LetterWord;
+import static org.apache.zookeeper.clients.FourLetterWordMain.send4LetterWord;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -43,16 +43,16 @@ import javax.management.ObjectName;
 
 import org.apache.zookeeper.common.Time;
 import org.apache.zookeeper.common.X509Exception.SSLContextException;
-import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.TestableZooKeeper;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.Watcher.Event.KeeperState;
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.common.IOUtils;
-import org.apache.zookeeper.server.ServerCnxnFactory;
+import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.ServerCnxnFactoryAccessor;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperServer;

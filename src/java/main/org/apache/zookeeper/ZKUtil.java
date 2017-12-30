@@ -23,9 +23,11 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.zookeeper.AsyncCallback.StringCallback;
-import org.apache.zookeeper.AsyncCallback.VoidCallback;
-import org.apache.zookeeper.KeeperException.Code;
+import org.apache.zookeeper.cli.AsyncCallback.StringCallback;
+import org.apache.zookeeper.cli.AsyncCallback.VoidCallback;
+import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.common.KeeperException.Code;
+import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.common.PathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,7 +77,7 @@ public class ZKUtil {
      * @throws IllegalArgumentException if an invalid path is specified
      */
     public static void deleteRecursive(ZooKeeper zk, final String pathRoot, VoidCallback cb,
-        Object ctx)
+                                       Object ctx)
         throws InterruptedException, KeeperException
     {
         PathUtils.validatePath(pathRoot);

@@ -25,15 +25,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.zookeeper.AsyncCallback.MultiCallback;
+import org.apache.zookeeper.cli.AsyncCallback.MultiCallback;
 import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.Op;
 import org.apache.zookeeper.OpResult;
 import org.apache.zookeeper.OpResult.CreateResult;
 import org.apache.zookeeper.OpResult.ErrorResult;
 import org.apache.zookeeper.ZooDefs.Ids;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.junit.Before;
 import org.junit.Test;
 

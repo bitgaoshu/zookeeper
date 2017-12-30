@@ -22,7 +22,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import org.apache.zookeeper.Environment;
-import org.apache.zookeeper.server.ServerCnxn;
+import org.apache.zookeeper.server.cnxn.ServerCnxn;
 
 public class EnvCommand extends AbstractFourLetterCommand {
     EnvCommand(PrintWriter pw, ServerCnxn serverCnxn) {

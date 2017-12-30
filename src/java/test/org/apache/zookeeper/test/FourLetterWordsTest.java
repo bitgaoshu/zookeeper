@@ -26,11 +26,11 @@ import java.io.StringReader;
 import java.util.regex.Pattern;
 
 import org.apache.zookeeper.TestableZooKeeper;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.common.IOUtils;
 import org.apache.zookeeper.common.X509Exception.SSLContextException;
 
-import static org.apache.zookeeper.client.FourLetterWordMain.send4LetterWord;
+import static org.apache.zookeeper.clients.FourLetterWordMain.send4LetterWord;
 
 import org.junit.Assert;
 import org.junit.Rule;

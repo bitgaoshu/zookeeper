@@ -18,8 +18,8 @@
 
 package org.apache.zookeeper.server.auth;
 
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.server.ServerCnxn;
+import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.server.cnxn.ServerCnxn;
 
 /**
  * Provides backwards compatibility between older {@link AuthenticationProvider}

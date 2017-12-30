@@ -30,8 +30,8 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.KeeperException.SessionExpiredException;
+import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.common.KeeperException.SessionExpiredException;
 import org.apache.zookeeper.common.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

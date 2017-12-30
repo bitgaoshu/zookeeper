@@ -20,7 +20,7 @@ package org.apache.zookeeper.server.command;
 
 import java.io.PrintWriter;
 
-import org.apache.zookeeper.server.ServerCnxn;
+import org.apache.zookeeper.server.cnxn.ServerCnxn;
 
 public class CnxnStatResetCommand extends AbstractFourLetterCommand {
     public CnxnStatResetCommand(PrintWriter pw, ServerCnxn serverCnxn) {

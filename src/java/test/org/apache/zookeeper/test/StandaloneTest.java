@@ -26,14 +26,14 @@ import java.util.List;
 
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.PortAssignment;
-import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
 import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.server.ServerCnxnFactory;
+import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.quorum.QuorumPeerTestBase;
 import org.apache.zookeeper.test.ClientBase.CountdownWatcher;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.admin.ZooKeeperAdmin;
 import org.junit.Before;
 import org.slf4j.Logger;

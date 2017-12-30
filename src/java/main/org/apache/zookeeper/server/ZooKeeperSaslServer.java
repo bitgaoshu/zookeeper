@@ -44,7 +44,7 @@ public class ZooKeeperSaslServer {
     private static final Logger LOG = LoggerFactory.getLogger(ZooKeeperSaslServer.class);
     private SaslServer saslServer;
 
-    ZooKeeperSaslServer(final Login login) {
+    public ZooKeeperSaslServer(final Login login) {
         saslServer = createSaslServer(login);
     }
 

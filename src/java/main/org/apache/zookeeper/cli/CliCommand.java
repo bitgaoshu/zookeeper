@@ -19,7 +19,7 @@ package org.apache.zookeeper.cli;
 
 import java.io.PrintStream;
 import java.util.Map;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.clients.client.ZooKeeper;
 
 /**
  * base class for all CLI commands

@@ -21,7 +21,7 @@ package org.apache.zookeeper.server.quorum;
 import java.io.IOException;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.apache.zookeeper.KeeperException.Code;
+import org.apache.zookeeper.common.KeeperException.Code;
 import org.apache.zookeeper.ZooDefs.OpCode;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.server.Request;

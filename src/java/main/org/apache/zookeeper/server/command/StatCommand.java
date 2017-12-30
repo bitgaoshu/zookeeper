@@ -21,7 +21,7 @@ package org.apache.zookeeper.server.command;
 import java.io.PrintWriter;
 
 import org.apache.zookeeper.Version;
-import org.apache.zookeeper.server.ServerCnxn;
+import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.quorum.ReadOnlyZooKeeperServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

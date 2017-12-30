@@ -22,10 +22,11 @@ import java.nio.ByteBuffer;
 import java.util.List;
 
 import org.apache.jute.Record;
-import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.ZooDefs.OpCode;
 import org.apache.zookeeper.common.Time;
 import org.apache.zookeeper.data.Id;
+import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 import org.apache.zookeeper.txn.TxnHeader;
 

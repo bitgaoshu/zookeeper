@@ -33,6 +33,7 @@ import org.apache.zookeeper.server.ServerStats;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.ZooTrace;
+import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.quorum.Leader;
 import org.apache.zookeeper.server.quorum.LeaderZooKeeperServer;
 import org.apache.zookeeper.server.quorum.ReadOnlyZooKeeperServer;
@@ -164,7 +165,7 @@ public class Commands {
     /**
      * Information on client connections to server. Returned Map contains:
      *   - "connections": list of connection info objects
-     * @see org.apache.zookeeper.server.ServerCnxn#getConnectionInfo(boolean)
+     * @see ServerCnxn#getConnectionInfo(boolean)
      */
     public static class ConsCommand extends CommandBase {
         public ConsCommand() {

@@ -20,7 +20,7 @@ package org.apache.zookeeper.server.quorum;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.server.SessionTracker;
 import org.apache.zookeeper.server.ZooKeeperServerListener;
 import org.slf4j.Logger;

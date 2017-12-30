@@ -25,12 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.ZooDefs.Perms;
-import org.apache.zookeeper.client.ZKClientConfig;
-import org.apache.zookeeper.client.ZooKeeperSaslClient;
+import org.apache.zookeeper.clients.ZKClientConfig;
+import org.apache.zookeeper.clients.client.ZooKeeperSaslClient;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
 import org.junit.Assert;

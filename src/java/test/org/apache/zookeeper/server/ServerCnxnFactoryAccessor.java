@@ -17,6 +17,8 @@
  */
 package org.apache.zookeeper.server;
 
+import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
+
 public class ServerCnxnFactoryAccessor {
     public static ZooKeeperServer getZkServer(ServerCnxnFactory fac) {
 	return fac.zkServer;

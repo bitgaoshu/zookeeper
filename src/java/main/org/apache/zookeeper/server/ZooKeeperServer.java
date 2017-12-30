@@ -41,9 +41,9 @@ import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
 import org.apache.zookeeper.Environment;
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.KeeperException.Code;
-import org.apache.zookeeper.KeeperException.SessionExpiredException;
+import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.common.KeeperException.Code;
+import org.apache.zookeeper.common.KeeperException.SessionExpiredException;
 import org.apache.zookeeper.ZooDefs.OpCode;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
@@ -58,11 +58,13 @@ import org.apache.zookeeper.proto.RequestHeader;
 import org.apache.zookeeper.proto.SetSASLResponse;
 import org.apache.zookeeper.server.DataTree.ProcessTxnResult;
 import org.apache.zookeeper.server.RequestProcessor.RequestProcessorException;
-import org.apache.zookeeper.server.ServerCnxn.CloseRequestException;
+import org.apache.zookeeper.server.cnxn.ServerCnxn;
+import org.apache.zookeeper.server.exception.ZKException.CloseRequestException;
 import org.apache.zookeeper.server.SessionTracker.Session;
 import org.apache.zookeeper.server.SessionTracker.SessionExpirer;
 import org.apache.zookeeper.server.auth.ProviderRegistry;
 import org.apache.zookeeper.server.auth.ServerAuthenticationProvider;
+import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.quorum.ReadOnlyZooKeeperServer;
 import org.apache.zookeeper.txn.CreateSessionTxn;
@@ -125,7 +127,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     private final ZooKeeperServerListener listener;
     private ZooKeeperServerShutdownHandler zkShutdownHandler;
 
-    void removeCnxn(ServerCnxn cnxn) {
+    public void removeCnxn(ServerCnxn cnxn) {
         zkDb.removeCnxn(cnxn);
     }
 
@@ -145,7 +147,6 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
      * Creates a ZooKeeperServer instance. It sets everything up, but doesn't
      * actually start listening for clients until run() is invoked.
      *
-     * @param dataDir the directory to put the data
      */
     public ZooKeeperServer(FileTxnSnapLog txnLogFactory, int tickTime,
             int minSessionTimeout, int maxSessionTimeout, ZKDatabase zkDb) {
@@ -699,9 +700,9 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         // register with JMX
         try {
             if (valid) {
-                if (serverCnxnFactory != null && serverCnxnFactory.cnxns.contains(cnxn)) {
+                if (serverCnxnFactory != null && serverCnxnFactory.contains(cnxn)) {
                     serverCnxnFactory.registerConnection(cnxn);
-                } else if (secureServerCnxnFactory != null && secureServerCnxnFactory.cnxns.contains(cnxn)) {
+                } else if (secureServerCnxnFactory != null && secureServerCnxnFactory.contains(cnxn)) {
                     secureServerCnxnFactory.registerConnection(cnxn);
                 }
             }
@@ -718,7 +719,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
             BinaryOutputArchive bos = BinaryOutputArchive.getArchive(baos);
             bos.writeInt(-1, "len");
             rsp.serialize(bos, "connect");
-            if (!cnxn.isOldClient) {
+            if (!cnxn.isOldClient()) {
                 bos.writeBool(
                         this instanceof ReadOnlyZooKeeperServer, "readOnly");
             }
@@ -741,7 +742,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
                         + " for client "
                         + cnxn.getRemoteSocketAddress()
                         + ", probably expired");
-                cnxn.sendBuffer(ServerCnxnFactory.closeConn);
+                cnxn.sendBuffer(ServerCnxnFactory.closeConn());
             }
 
         } catch (Exception e) {
@@ -979,7 +980,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         boolean readOnly = false;
         try {
             readOnly = bia.readBool("readOnly");
-            cnxn.isOldClient = false;
+            cnxn.setOldClient(false);
         } catch (IOException e) {
             // this is ok -- just a packet from an old client which
             // doesn't contain readOnly field
@@ -1093,7 +1094,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
                         KeeperException.Code.AUTHFAILED.intValue());
                 cnxn.sendResponse(rh, null, null);
                 // ... and close connection
-                cnxn.sendBuffer(ServerCnxnFactory.closeConn);
+                cnxn.sendBuffer(ServerCnxnFactory.closeConn());
                 cnxn.disableRecv();
             }
             return;
@@ -1125,7 +1126,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         LOG.debug("Size of client SASL token: " + clientToken.length);
         byte[] responseToken = null;
         try {
-            ZooKeeperSaslServer saslServer  = cnxn.zooKeeperSaslServer;
+            ZooKeeperSaslServer saslServer  = cnxn.zkSaslServer();
             try {
                 // note that clientToken might be empty (clientToken.length == 0):
                 // if using the DIGEST-MD5 mechanism, clientToken will be empty at the beginning of the
@@ -1217,5 +1218,9 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
      */
     void registerServerShutdownHandler(ZooKeeperServerShutdownHandler zkShutdownHandler) {
         this.zkShutdownHandler = zkShutdownHandler;
+    }
+
+    public ZooKeeperServerBean getJmxServerBean() {
+        return jmxServerBean;
     }
 }

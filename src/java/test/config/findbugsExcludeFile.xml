@@ -27,7 +27,7 @@
   <!-- We want to catch all exceptions and cleanup, regardless of source
        (incl runtime) -->
   <Match>
-    <Class name="org.apache.zookeeper.ClientCnxn$SendThread" />
+    <Class name="org.apache.zookeeper.clients.client.clientSocket.ClientCnxn$SendThread" />
     <Method name="run" />
     <Bug pattern="REC_CATCH_EXCEPTION" />
   </Match>
@@ -67,7 +67,7 @@
   </Match>
 
   <Match>
-    <Class name="org.apache.zookeeper.ClientCnxn"/>
+    <Class name="org.apache.zookeeper.clients.client.clientSocket.ClientCnxn"/>
       <Bug code="EI, EI2" />
   </Match>
 
@@ -109,7 +109,7 @@
 
   <!-- sync'd object is also being used to protect the isrunning flag, this is ok -->
   <Match>
-    <Class name="org.apache.zookeeper.ClientCnxn$EventThread"/>
+    <Class name="org.apache.zookeeper.clients.client.clientSocket.ClientCnxn$EventThread"/>
     <Bug code="JLM"/>
     <Or>
       <Method name="queuePacket" />

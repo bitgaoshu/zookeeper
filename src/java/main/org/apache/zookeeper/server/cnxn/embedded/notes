@@ -1,0 +1,8 @@
+embedded zookeeper.
+
+goals: a zookeeper embedded in application instance, like embedded tomcat.
+
+design:
+1, secure. the application instance can connect local embedded zookeeper. so the security between application and embedded
+zookeeper can be ignored.
+2, for simple. one application instance only connect local embedded zookeeper.

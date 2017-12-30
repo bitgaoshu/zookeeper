@@ -24,7 +24,7 @@ import java.io.OutputStream;
 import org.apache.jute.BinaryOutputArchive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.ZKTestCase;
 import org.junit.Test;
 

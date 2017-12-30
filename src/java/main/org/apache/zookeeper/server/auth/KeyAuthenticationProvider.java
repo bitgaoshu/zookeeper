@@ -20,8 +20,8 @@ package org.apache.zookeeper.server.auth;
 
 import java.io.UnsupportedEncodingException;
 
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.KeeperException.NoNodeException;
+import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.common.KeeperException.NoNodeException;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.ZKDatabase;

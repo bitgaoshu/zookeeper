@@ -23,8 +23,8 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.client.HostProvider;
-import org.apache.zookeeper.client.StaticHostProvider;
+import org.apache.zookeeper.clients.HostProvider;
+import org.apache.zookeeper.clients.StaticHostProvider;
 import org.apache.zookeeper.common.Time;
 import org.junit.Test;
 

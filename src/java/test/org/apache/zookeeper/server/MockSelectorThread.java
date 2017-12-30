@@ -18,6 +18,8 @@
 
 package org.apache.zookeeper.server;
 
+import org.apache.zookeeper.server.cnxn.NIOCnxn.NIOServerCnxnFactory;
+
 import java.io.IOException;
 import java.nio.channels.SelectionKey;
 

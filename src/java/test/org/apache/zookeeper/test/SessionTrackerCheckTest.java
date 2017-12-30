@@ -20,7 +20,7 @@ package org.apache.zookeeper.test;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.zookeeper.KeeperException.SessionExpiredException;
+import org.apache.zookeeper.common.KeeperException.SessionExpiredException;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.server.SessionTracker.Session;
 import org.apache.zookeeper.server.SessionTracker.SessionExpirer;

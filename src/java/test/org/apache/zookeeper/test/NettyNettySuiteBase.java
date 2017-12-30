@@ -18,10 +18,10 @@
 
 package org.apache.zookeeper.test;
 
-import org.apache.zookeeper.ClientCnxnSocketNetty;
-import org.apache.zookeeper.client.ZKClientConfig;
-import org.apache.zookeeper.server.NettyServerCnxnFactory;
-import org.apache.zookeeper.server.ServerCnxnFactory;
+import org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNetty;
+import org.apache.zookeeper.clients.ZKClientConfig;
+import org.apache.zookeeper.server.cnxn.NettyCnxn.NettyServerCnxnFactory;
+import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;

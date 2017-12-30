@@ -24,7 +24,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import org.apache.zookeeper.server.NIOServerCnxnFactory;
+import org.apache.zookeeper.server.cnxn.NIOCnxn.NIOServerCnxnFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

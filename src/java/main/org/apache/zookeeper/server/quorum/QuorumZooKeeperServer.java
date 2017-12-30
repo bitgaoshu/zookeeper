@@ -22,7 +22,7 @@ import java.io.PrintWriter;
 import java.nio.ByteBuffer;
 
 import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.MultiTransactionRecord;
 import org.apache.zookeeper.Op;
 import org.apache.zookeeper.ZooDefs.OpCode;

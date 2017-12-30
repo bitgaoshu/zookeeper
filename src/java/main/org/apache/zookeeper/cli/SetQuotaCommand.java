@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.util.List;
 import org.apache.commons.cli.*;
 import org.apache.zookeeper.*;
+import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,7 +92,7 @@ public class SetQuotaCommand extends CliCommand {
     }
 
     public static boolean createQuota(ZooKeeper zk, String path,
-            long bytes, int numNodes)
+                                      long bytes, int numNodes)
             throws KeeperException, IOException, InterruptedException, MalformedPathException {
         // check if the path exists. We cannot create
         // quota for a path that already exists in zookeeper

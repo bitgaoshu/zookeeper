@@ -26,6 +26,8 @@ import java.util.Arrays;
 import javax.management.ObjectName;
 
 import org.apache.zookeeper.common.Time;
+import org.apache.zookeeper.server.cnxn.ServerCnxn;
+import org.apache.zookeeper.server.cnxn.Stats;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.jmx.MBeanRegistry;

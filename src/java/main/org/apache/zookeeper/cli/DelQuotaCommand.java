@@ -20,10 +20,10 @@ package org.apache.zookeeper.cli;
 import java.io.IOException;
 import java.util.List;
 import org.apache.commons.cli.*;
-import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.Quotas;
 import org.apache.zookeeper.StatsTrack;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 
 /**

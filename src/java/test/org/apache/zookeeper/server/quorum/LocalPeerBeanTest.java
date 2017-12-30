@@ -26,7 +26,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
 import org.apache.zookeeper.PortAssignment;
-import org.apache.zookeeper.server.ServerCnxnFactory;
+import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.junit.Test;
 
 public class LocalPeerBeanTest {

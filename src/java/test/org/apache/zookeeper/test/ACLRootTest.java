@@ -19,8 +19,8 @@
 package org.apache.zookeeper.test;
 
 import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.junit.Assert;
 import org.junit.Test;

@@ -18,10 +18,11 @@
 
 package org.apache.zookeeper;
 
+import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn;
 import org.apache.zookeeper.proto.RequestHeader;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.jute.Record;
-import org.apache.zookeeper.ZooKeeper.WatchRegistration;
+import org.apache.zookeeper.clients.client.ZooKeeper.WatchRegistration;
 import java.nio.ByteBuffer;
 
 public class MockPacket extends ClientCnxn.Packet {

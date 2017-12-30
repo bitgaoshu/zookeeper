@@ -22,7 +22,7 @@ import java.net.InetSocketAddress;
 
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.server.NIOServerCnxnFactory;
+import org.apache.zookeeper.server.cnxn.NIOCnxn.NIOServerCnxnFactory;
 import org.apache.zookeeper.server.util.OSMXBean;
 import org.junit.Assert;
 import org.junit.Test;

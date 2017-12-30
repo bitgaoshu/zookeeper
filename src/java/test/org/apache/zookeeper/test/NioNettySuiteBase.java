@@ -18,8 +18,8 @@
 
 package org.apache.zookeeper.test;
 
-import org.apache.zookeeper.server.NettyServerCnxnFactory;
-import org.apache.zookeeper.server.ServerCnxnFactory;
+import org.apache.zookeeper.server.cnxn.NettyCnxn.NettyServerCnxnFactory;
+import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;

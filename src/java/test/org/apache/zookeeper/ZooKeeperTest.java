@@ -26,9 +26,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.zookeeper.AsyncCallback.VoidCallback;
+import org.apache.zookeeper.cli.AsyncCallback.VoidCallback;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.cli.*;
+import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.clients.client.ZooKeeperMain;
+import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.common.StringUtils;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.test.ClientBase;

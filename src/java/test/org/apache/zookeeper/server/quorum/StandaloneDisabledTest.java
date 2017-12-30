@@ -23,10 +23,10 @@ import static org.apache.zookeeper.test.ClientBase.CONNECTION_TIMEOUT;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.PortAssignment;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.admin.ZooKeeperAdmin;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.test.ReconfigTest;

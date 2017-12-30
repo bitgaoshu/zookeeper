@@ -22,6 +22,9 @@ import java.util.Collections;
 import java.util.List;
 
 import jline.console.completer.Completer;
+import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.clients.client.ZooKeeperMain;
+import org.apache.zookeeper.common.KeeperException;
 
 class JLineZNodeCompleter implements Completer {
     private ZooKeeper zk;

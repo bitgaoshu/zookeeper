@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.admin.ZooKeeperAdmin;

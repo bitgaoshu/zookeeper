@@ -27,6 +27,7 @@ import java.net.InetSocketAddress;
 
 import org.apache.jute.Record;
 import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.txn.SetDataTxn;
@@ -39,7 +40,7 @@ public class ZooKeeperServerBeanTest {
     @Before
     public void setup() {
         System.setProperty(ServerCnxnFactory.ZOOKEEPER_SERVER_CNXN_FACTORY,
-                "org.apache.zookeeper.server.NettyServerCnxnFactory");
+                "org.apache.zookeeper.server.cnxn.NettyCnxn.NettyServerCnxnFactory");
     }
 
     @After

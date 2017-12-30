@@ -22,12 +22,12 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.yetus.audience.InterfaceAudience;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.AsyncCallback.DataCallback;
-import org.apache.zookeeper.client.ZKClientConfig;
+import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.cli.AsyncCallback.DataCallback;
+import org.apache.zookeeper.clients.ZKClientConfig;
 import org.apache.zookeeper.common.StringUtils;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.proto.GetDataResponse;

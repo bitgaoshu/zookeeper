@@ -20,8 +20,8 @@ package org.apache.zookeeper.test;
 
 
 import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.ZooKeeper;
-import org.apache.zookeeper.AsyncCallback.VoidCallback;
+import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.cli.AsyncCallback.VoidCallback;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.common.Time;
 

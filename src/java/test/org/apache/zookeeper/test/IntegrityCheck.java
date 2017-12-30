@@ -37,11 +37,11 @@ import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.ZooDefs;
-import org.apache.zookeeper.ZooKeeper;
-import org.apache.zookeeper.AsyncCallback.DataCallback;
-import org.apache.zookeeper.AsyncCallback.StatCallback;
+import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.cli.AsyncCallback.DataCallback;
+import org.apache.zookeeper.cli.AsyncCallback.StatCallback;
 import org.apache.zookeeper.data.Stat;
 
 public class IntegrityCheck implements StatCallback, DataCallback {

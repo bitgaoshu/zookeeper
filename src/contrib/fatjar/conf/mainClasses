@@ -1,5 +1,5 @@
 ::Client Commands
-client:org.apache.zookeeper.ZooKeeperMain:Client shell to ZooKeeper
+client:org.apache.zookeeper.clients.client.ZooKeeperMain:Client shell to ZooKeeper
 ::Server Commands
 server:org.apache.zookeeper.server.quorum.QuorumPeerMain:Start ZooKeeper server
 ::Test Commands
