@@ -30,6 +30,7 @@ import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.common.OpCode;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
@@ -137,7 +138,7 @@ public class TruncateTest extends ZKTestCase {
     }
 
     private void append(ZKDatabase zkdb, int i) throws IOException {
-        TxnHeader hdr = new TxnHeader(1, 1, i, 1, ZooDefs.OpCode.setData);
+        TxnHeader hdr = new TxnHeader(1, 1, i, 1, OpCode.setData);
         Record txn = new SetDataTxn("/foo" + i, new byte[0], 1);
         Request req = new Request(0, 0, 0, hdr, txn, 0);
 

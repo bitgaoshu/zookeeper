@@ -6,3 +6,7 @@ design:
 1, secure. the application instance can connect local embedded zookeeper. so the security between application and embedded
 zookeeper can be ignored.
 2, for simple. one application instance only connect local embedded zookeeper.
+
+
+3, configuration
+ zookeeper.serverCnxnFactory = org.apache.zookeeper.server.cnxn.embedded.EmbeddedServerCnxnFactory

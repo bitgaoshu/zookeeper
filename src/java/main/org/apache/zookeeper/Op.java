@@ -21,6 +21,7 @@ import org.apache.jute.Record;
 import org.apache.zookeeper.cli.AsyncCallback;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.common.OpCode;
 import org.apache.zookeeper.common.PathUtils;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.proto.CheckVersionRequest;
@@ -190,7 +191,7 @@ public abstract class Op {
 
     /**
      * Gets the integer type code for an Op.  This code should be as from ZooDefs.OpCode
-     * @see ZooDefs.OpCode
+     * @see OpCode
      * @return  The type code.
      */
     public int getType() {
@@ -246,9 +247,9 @@ public abstract class Op {
 
         private static int getOpcode(CreateMode createMode) {
             if (createMode.isTTL()) {
-                return ZooDefs.OpCode.createTTL;
+                return OpCode.createTTL;
             }
-            return createMode.isContainer() ? ZooDefs.OpCode.createContainer : ZooDefs.OpCode.create;
+            return createMode.isContainer() ? OpCode.createContainer : OpCode.create;
         }
 
         private Create(String path, byte[] data, List<ACL> acl, CreateMode createMode) {
@@ -350,7 +351,7 @@ public abstract class Op {
         private int version;
 
         private Delete(String path, int version) {
-            super(ZooDefs.OpCode.delete, path);
+            super(OpCode.delete, path);
             this.version = version;
         }
 
@@ -386,7 +387,7 @@ public abstract class Op {
         private int version;
 
         private SetData(String path, byte[] data, int version) {
-            super(ZooDefs.OpCode.setData, path);
+            super(OpCode.setData, path);
             this.data = data;
             this.version = version;
         }
@@ -422,7 +423,7 @@ public abstract class Op {
         private int version;
 
         private Check(String path, int version) {
-            super(ZooDefs.OpCode.check, path);
+            super(OpCode.check, path);
             this.version = version;
         }
 

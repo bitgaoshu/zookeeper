@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.zookeeper.common.KeeperException;
-import org.apache.zookeeper.ZooDefs.OpCode;
+import org.apache.zookeeper.common.OpCode;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.server.ZooKeeperCriticalThread;

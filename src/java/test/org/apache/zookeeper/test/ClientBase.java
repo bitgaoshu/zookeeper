@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.test;
 
-import static org.apache.zookeeper.clients.FourLetterWordMain.send4LetterWord;
+import static org.apache.zookeeper.clients.client.common.FourLetterWordMain.send4LetterWord;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;

@@ -19,6 +19,7 @@ package org.apache.zookeeper;
 
 
 import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.common.OpCode;
 import org.apache.zookeeper.data.Stat;
 
 /**
@@ -35,7 +36,7 @@ public abstract class OpResult {
      * Encodes the return type as from ZooDefs.OpCode.  Can be used
      * to dispatch to the correct cast needed for getting the desired
      * additional result data.
-     * @see ZooDefs.OpCode
+     * @see OpCode
      * @return an integer identifying what kind of operation this result came from.
      */
     public int getType() {
@@ -52,11 +53,11 @@ public abstract class OpResult {
         private Stat stat;
 
         public CreateResult(String path) {
-        	this(ZooDefs.OpCode.create, path, null);
+        	this(OpCode.create, path, null);
         }
 
         public CreateResult(String path, Stat stat) {
-            this(ZooDefs.OpCode.create2, path, stat);
+            this(OpCode.create2, path, stat);
         }
 
         private CreateResult(int opcode, String path, Stat stat) {
@@ -99,7 +100,7 @@ public abstract class OpResult {
      */
     public static class DeleteResult extends OpResult {
         public DeleteResult() {
-            super(ZooDefs.OpCode.delete);
+            super(OpCode.delete);
         }
 
         @Override
@@ -125,7 +126,7 @@ public abstract class OpResult {
         private Stat stat;
 
         public SetDataResult(Stat stat) {
-            super(ZooDefs.OpCode.setData);
+            super(OpCode.setData);
             this.stat = stat;
         }
 
@@ -153,7 +154,7 @@ public abstract class OpResult {
      */
     public static class CheckResult extends OpResult {
         public CheckResult() {
-            super(ZooDefs.OpCode.check);
+            super(OpCode.check);
         }
 
         @Override
@@ -181,7 +182,7 @@ public abstract class OpResult {
         private int err;
 
         public ErrorResult(int err) {
-            super(ZooDefs.OpCode.error);
+            super(OpCode.error);
             this.err = err;
         }
 

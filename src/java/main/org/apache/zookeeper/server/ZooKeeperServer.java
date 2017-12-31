@@ -44,7 +44,7 @@ import org.apache.zookeeper.Environment;
 import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.common.KeeperException.Code;
 import org.apache.zookeeper.common.KeeperException.SessionExpiredException;
-import org.apache.zookeeper.ZooDefs.OpCode;
+import org.apache.zookeeper.common.OpCode;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.data.StatPersisted;
@@ -700,9 +700,10 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         // register with JMX
         try {
             if (valid) {
-                if (serverCnxnFactory != null && serverCnxnFactory.contains(cnxn)) {
+                Set<ServerCnxn> cnxns = serverCnxnFactory.getCnxns();
+                if (serverCnxnFactory != null && cnxns.contains(cnxn)) {
                     serverCnxnFactory.registerConnection(cnxn);
-                } else if (secureServerCnxnFactory != null && secureServerCnxnFactory.contains(cnxn)) {
+                } else if (secureServerCnxnFactory != null && cnxns.contains(cnxn)) {
                     secureServerCnxnFactory.registerConnection(cnxn);
                 }
             }
@@ -790,14 +791,14 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         }
         try {
             touch(si.cnxn);
-            boolean validpacket = Request.isValid(si.type);
+            boolean validpacket = OpCode.isValid(si.op);
             if (validpacket) {
                 firstProcessor.processRequest(si);
                 if (si.cnxn != null) {
                     incInProcess();
                 }
             } else {
-                LOG.warn("Received packet at server of unknown type " + si.type);
+                LOG.warn("Received packet at server of unknown type " + si.op);
                 new UnimplementedRequestProcessor().processRequest(si);
             }
         } catch (MissingSessionException e) {
@@ -1048,6 +1049,9 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         return false;
     }
 
+    public void processPacket(ServerCnxn cnxn, Request request) {
+
+    }
     public void processPacket(ServerCnxn cnxn, ByteBuffer incomingBuffer) throws IOException {
         // We have the request, now process and setup for next
         InputStream bais = new ByteBufferInputStream(incomingBuffer);
@@ -1058,7 +1062,8 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         // pointing
         // to the start of the txn
         incomingBuffer = incomingBuffer.slice();
-        if (h.getType() == OpCode.auth) {
+        OpCode opCode = h.getOp();
+        if (opCode == OpCode.auth) {
             LOG.info("got auth packet " + cnxn.getRemoteSocketAddress());
             AuthPacket authPacket = new AuthPacket();
             ByteBufferInputStream.byteBuffer2Record(incomingBuffer, authPacket);
@@ -1099,15 +1104,18 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
             }
             return;
         } else {
-            if (h.getType() == OpCode.sasl) {
-                Record rsp = processSasl(incomingBuffer,cnxn);
+            if (opCode == OpCode.sasl) {
+                LOG.debug("Responding to client SASL token.");
+                GetSASLRequest clientTokenRecord = new GetSASLRequest();
+                ByteBufferInputStream.byteBuffer2Record(incomingBuffer, clientTokenRecord);
+                Record rsp = processSasl(clientTokenRecord,cnxn);
                 ReplyHeader rh = new ReplyHeader(h.getXid(), 0, KeeperException.Code.OK.intValue());
                 cnxn.sendResponse(rh,rsp, "response"); // not sure about 3rd arg..what is it?
                 return;
             }
             else {
                 Request si = new Request(cnxn, cnxn.getSessionId(), h.getXid(),
-                  h.getType(), incomingBuffer, cnxn.getAuthInfo());
+                  opCode, incomingBuffer, cnxn.getAuthInfo());
                 si.setOwner(ServerCnxn.me);
                 // Always treat packet from the client as a possible
                 // local request.
@@ -1118,10 +1126,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         cnxn.incrOutstandingRequests(h);
     }
 
-    private Record processSasl(ByteBuffer incomingBuffer, ServerCnxn cnxn) throws IOException {
-        LOG.debug("Responding to client SASL token.");
-        GetSASLRequest clientTokenRecord = new GetSASLRequest();
-        ByteBufferInputStream.byteBuffer2Record(incomingBuffer,clientTokenRecord);
+    private Record processSasl(GetSASLRequest clientTokenRecord, ServerCnxn cnxn) {
         byte[] clientToken = clientTokenRecord.getToken();
         LOG.debug("Size of client SASL token: " + clientToken.length);
         byte[] responseToken = null;
@@ -1177,7 +1182,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     private ProcessTxnResult processTxn(Request request, TxnHeader hdr,
                                         Record txn) {
         ProcessTxnResult rc;
-        int opCode = request != null ? request.type : hdr.getType();
+        OpCode opCode = request != null ? request.op : hdr.getOp();
         long sessionId = request != null ? request.sessionId : hdr.getClientId();
         if (hdr != null) {
             rc = getZKDatabase().processTxn(hdr, txn);

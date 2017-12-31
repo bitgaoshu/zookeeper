@@ -18,13 +18,13 @@
 
 package org.apache.zookeeper.clients;
 
-import static org.apache.zookeeper.clients.ZKClientConfig.DISABLE_AUTO_WATCH_RESET;
-import static org.apache.zookeeper.clients.ZKClientConfig.ENABLE_CLIENT_SASL_KEY;
-import static org.apache.zookeeper.clients.ZKClientConfig.LOGIN_CONTEXT_NAME_KEY;
-import static org.apache.zookeeper.clients.ZKClientConfig.SECURE_CLIENT;
-import static org.apache.zookeeper.clients.ZKClientConfig.ZK_SASL_CLIENT_USERNAME;
-import static org.apache.zookeeper.clients.ZKClientConfig.ZOOKEEPER_CLIENT_CNXN_SOCKET;
-import static org.apache.zookeeper.clients.ZKClientConfig.ZOOKEEPER_SERVER_REALM;
+import static org.apache.zookeeper.clients.client.common.ZKClientConfig.DISABLE_AUTO_WATCH_RESET;
+import static org.apache.zookeeper.clients.client.common.ZKClientConfig.ENABLE_CLIENT_SASL_KEY;
+import static org.apache.zookeeper.clients.client.common.ZKClientConfig.LOGIN_CONTEXT_NAME_KEY;
+import static org.apache.zookeeper.clients.client.common.ZKClientConfig.SECURE_CLIENT;
+import static org.apache.zookeeper.clients.client.common.ZKClientConfig.ZK_SASL_CLIENT_USERNAME;
+import static org.apache.zookeeper.clients.client.common.ZKClientConfig.ZOOKEEPER_CLIENT_CNXN_SOCKET;
+import static org.apache.zookeeper.clients.client.common.ZKClientConfig.ZOOKEEPER_SERVER_REALM;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -39,6 +39,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.zookeeper.clients.client.common.ZKClientConfig;
 import org.apache.zookeeper.common.ZKConfig;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig.ConfigException;
 import org.junit.BeforeClass;

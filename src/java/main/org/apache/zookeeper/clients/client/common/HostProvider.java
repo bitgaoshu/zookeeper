@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.clients;
+package org.apache.zookeeper.clients.client.common;
 
 import org.apache.yetus.audience.InterfaceAudience;
 

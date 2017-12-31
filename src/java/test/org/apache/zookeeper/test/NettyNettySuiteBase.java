@@ -19,7 +19,7 @@
 package org.apache.zookeeper.test;
 
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNetty;
-import org.apache.zookeeper.clients.ZKClientConfig;
+import org.apache.zookeeper.clients.client.common.ZKClientConfig;
 import org.apache.zookeeper.server.cnxn.NettyCnxn.NettyServerCnxnFactory;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.junit.AfterClass;

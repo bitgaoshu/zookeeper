@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.clients;
+package org.apache.zookeeper.clients.client.common;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;

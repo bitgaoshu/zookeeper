@@ -26,7 +26,7 @@ import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.clients.ZKClientConfig;
+import org.apache.zookeeper.clients.client.common.ZKClientConfig;
 import org.junit.Assert;
 import org.junit.Test;
 

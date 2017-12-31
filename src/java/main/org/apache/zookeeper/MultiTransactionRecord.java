@@ -20,6 +20,7 @@ package org.apache.zookeeper;
 import org.apache.jute.InputArchive;
 import org.apache.jute.OutputArchive;
 import org.apache.jute.Record;
+import org.apache.zookeeper.common.OpCode;
 import org.apache.zookeeper.proto.*;
 
 import java.io.IOException;
@@ -66,13 +67,13 @@ public class MultiTransactionRecord implements Record, Iterable<Op> {
             MultiHeader h = new MultiHeader(op.getType(), false, -1);
             h.serialize(archive, tag);
             switch (op.getType()) {
-                case ZooDefs.OpCode.create:
-                case ZooDefs.OpCode.create2:
-                case ZooDefs.OpCode.createTTL:
-                case ZooDefs.OpCode.createContainer:
-                case ZooDefs.OpCode.delete:
-                case ZooDefs.OpCode.setData:
-                case ZooDefs.OpCode.check:
+                case OpCode.create:
+                case OpCode.create2:
+                case OpCode.createTTL:
+                case OpCode.createContainer:
+                case OpCode.delete:
+                case OpCode.setData:
+                case OpCode.check:
                     op.toRequestRecord().serialize(archive, tag);
                     break;
                 default:
@@ -91,29 +92,29 @@ public class MultiTransactionRecord implements Record, Iterable<Op> {
 
         while (!h.getDone()) {
             switch (h.getType()) {
-                case ZooDefs.OpCode.create:
-                case ZooDefs.OpCode.create2:
-                case ZooDefs.OpCode.createContainer:
+                case OpCode.create:
+                case OpCode.create2:
+                case OpCode.createContainer:
                     CreateRequest cr = new CreateRequest();
                     cr.deserialize(archive, tag);
                     add(Op.create(cr.getPath(), cr.getData(), cr.getAcl(), cr.getFlags()));
                     break;
-                case ZooDefs.OpCode.createTTL:
+                case OpCode.createTTL:
                     CreateTTLRequest crTtl = new CreateTTLRequest();
                     crTtl.deserialize(archive, tag);
                     add(Op.create(crTtl.getPath(), crTtl.getData(), crTtl.getAcl(), crTtl.getFlags(), crTtl.getTtl()));
                     break;
-                case ZooDefs.OpCode.delete:
+                case OpCode.delete:
                     DeleteRequest dr = new DeleteRequest();
                     dr.deserialize(archive, tag);
                     add(Op.delete(dr.getPath(), dr.getVersion()));
                     break;
-                case ZooDefs.OpCode.setData:
+                case OpCode.setData:
                     SetDataRequest sdr = new SetDataRequest();
                     sdr.deserialize(archive, tag);
                     add(Op.setData(sdr.getPath(), sdr.getData(), sdr.getVersion()));
                     break;
-                case ZooDefs.OpCode.check:
+                case OpCode.check:
                     CheckVersionRequest cvr = new CheckVersionRequest();
                     cvr.deserialize(archive, tag);
                     add(Op.check(cvr.getPath(), cvr.getVersion()));

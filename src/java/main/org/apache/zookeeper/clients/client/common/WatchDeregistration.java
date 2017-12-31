@@ -16,16 +16,15 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.clients.client;
+package org.apache.zookeeper.clients.client.common;
+
+import org.apache.zookeeper.Watcher;
+import org.apache.zookeeper.Watcher.Event.EventType;
+import org.apache.zookeeper.Watcher.WatcherType;
+import org.apache.zookeeper.common.KeeperException;
 
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.Watcher.WatcherType;
-import org.apache.zookeeper.Watcher.Event.EventType;
-import org.apache.zookeeper.clients.client.ZooKeeper.ZKWatchManager;
-import org.apache.zookeeper.common.KeeperException;
 
 /**
  * Handles the special case of removing watches which has registered for a

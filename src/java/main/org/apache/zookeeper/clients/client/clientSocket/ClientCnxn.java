@@ -57,8 +57,8 @@ import org.apache.zookeeper.cli.AsyncCallback.MultiCallback;
 import org.apache.zookeeper.cli.AsyncCallback.StatCallback;
 import org.apache.zookeeper.cli.AsyncCallback.StringCallback;
 import org.apache.zookeeper.cli.AsyncCallback.VoidCallback;
-import org.apache.zookeeper.clients.client.ClientWatchManager;
-import org.apache.zookeeper.clients.client.WatchDeregistration;
+import org.apache.zookeeper.clients.client.common.ClientWatchManager;
+import org.apache.zookeeper.clients.client.common.WatchDeregistration;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.clients.client.ZooKeeperSaslClient;
 import org.apache.zookeeper.common.KeeperException;
@@ -67,11 +67,11 @@ import org.apache.zookeeper.OpResult.ErrorResult;
 import org.apache.zookeeper.Watcher.Event;
 import org.apache.zookeeper.Watcher.Event.EventType;
 import org.apache.zookeeper.Watcher.Event.KeeperState;
-import org.apache.zookeeper.ZooDefs.OpCode;
+import org.apache.zookeeper.common.OpCode;
 import org.apache.zookeeper.clients.client.ZooKeeper.States;
 import org.apache.zookeeper.clients.client.ZooKeeper.WatchRegistration;
-import org.apache.zookeeper.clients.ZKClientConfig;
-import org.apache.zookeeper.clients.HostProvider;
+import org.apache.zookeeper.clients.client.common.ZKClientConfig;
+import org.apache.zookeeper.clients.client.common.HostProvider;
 import org.apache.zookeeper.common.Time;
 import org.apache.zookeeper.proto.AuthPacket;
 import org.apache.zookeeper.proto.ConnectRequest;
@@ -1001,7 +1001,7 @@ public class ClientCnxn {
                                                        dataWatchesBatch,
                                                        existWatchesBatch,
                                                        childWatchesBatch);
-                        RequestHeader header = new RequestHeader(-8, OpCode.setWatches);
+                        RequestHeader header = new RequestHeader(-8, OpCode.setWatches.getValue());
                         Packet packet = new Packet(header, new ReplyHeader(), sw, null, null);
                         outgoingQueue.addFirst(packet);
                     }
@@ -1010,7 +1010,7 @@ public class ClientCnxn {
 
             for (AuthData id : authInfo) {
                 outgoingQueue.addFirst(new Packet(new RequestHeader(-4,
-                        OpCode.auth), null, new AuthPacket(0, id.scheme,
+                        OpCode.auth.getValue()), null, new AuthPacket(0, id.scheme,
                         id.data), null, null));
             }
             outgoingQueue.addFirst(new Packet(null, null, conReq,
@@ -1041,7 +1041,7 @@ public class ClientCnxn {
 
         private void sendPing() {
             lastPingSentNs = System.nanoTime();
-            RequestHeader h = new RequestHeader(-2, OpCode.ping);
+            RequestHeader h = new RequestHeader(-2, OpCode.ping.getValue());
             queuePacket(h, null, null, null, null, null, null, null, null);
         }
 
@@ -1464,7 +1464,7 @@ public class ClientCnxn {
 
         try {
             RequestHeader h = new RequestHeader();
-            h.setType(ZooDefs.OpCode.closeSession);
+            h.setType(OpCode.closeSession.getValue());
 
             submitRequest(h, null, null, null);
         } catch (InterruptedException e) {
@@ -1561,7 +1561,7 @@ public class ClientCnxn {
             } else {
                 // If the client is asking to close the session then
                 // mark as closing
-                if (h.getType() == OpCode.closeSession) {
+                if (h.getOp() == OpCode.closeSession) {
                     closing = true;
                 }
                 outgoingQueue.add(packet);
@@ -1576,7 +1576,7 @@ public class ClientCnxn {
             return;
         }
         authInfo.add(new AuthData(scheme, auth));
-        queuePacket(new RequestHeader(-4, OpCode.auth), null,
+        queuePacket(new RequestHeader(-4, OpCode.auth.getValue()), null,
                 new AuthPacket(0, scheme, auth), null, null, null, null,
                 null, null);
     }

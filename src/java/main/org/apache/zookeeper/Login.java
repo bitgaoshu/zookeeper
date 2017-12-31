@@ -32,7 +32,7 @@ import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.callback.CallbackHandler;
 
-import org.apache.zookeeper.clients.ZKClientConfig;
+import org.apache.zookeeper.clients.client.common.ZKClientConfig;
 import org.apache.zookeeper.common.ZKConfig;
 import org.apache.zookeeper.server.ZooKeeperSaslServer;
 import org.apache.zookeeper.common.Time;

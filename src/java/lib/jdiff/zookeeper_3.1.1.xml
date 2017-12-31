@@ -136,12 +136,12 @@
     abstract="false"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <constructor name="ClientCnxn" type="java.lang.String, int, org.apache.zookeeper.clients.client.ZooKeeper, org.apache.zookeeper.clients.client.ClientWatchManager"
+    <constructor name="ClientCnxn" type="java.lang.String, int, org.apache.zookeeper.clients.client.ZooKeeper, org.apache.zookeeper.clients.client.common.ClientWatchManager"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <exception name="IOException" type="java.io.IOException"/>
     </constructor>
-    <constructor name="ClientCnxn" type="java.lang.String, int, org.apache.zookeeper.clients.client.ZooKeeper, org.apache.zookeeper.clients.client.ClientWatchManager, long, byte[]"
+    <constructor name="ClientCnxn" type="java.lang.String, int, org.apache.zookeeper.clients.client.ZooKeeper, org.apache.zookeeper.clients.client.common.ClientWatchManager, long, byte[]"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <exception name="IOException" type="java.io.IOException"/>
@@ -237,7 +237,7 @@
     </doc>
   </class>
   <!-- end class org.apache.zookeeper.clients.client.clientSocket.ClientCnxn -->
-  <!-- start interface org.apache.zookeeper.clients.client.ClientWatchManager -->
+  <!-- start interface org.apache.zookeeper.clients.client.commons.ClientWatchManager -->
   <interface name="ClientWatchManager"    abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
@@ -262,7 +262,7 @@
       </doc>
     </method>
   </interface>
-  <!-- end interface org.apache.zookeeper.clients.client.ClientWatchManager -->
+  <!-- end interface org.apache.zookeeper.clients.client.commons.ClientWatchManager -->
   <!-- start class org.apache.zookeeper.CreateMode -->
   <class name="CreateMode" extends="java.lang.Enum"
     abstract="false"

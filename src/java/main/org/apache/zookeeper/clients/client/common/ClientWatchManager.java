@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.clients.client;
+package org.apache.zookeeper.clients.client.common;
 
 import org.apache.zookeeper.Watcher;
 

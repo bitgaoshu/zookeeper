@@ -38,7 +38,7 @@ import org.apache.zookeeper.common.KeeperException.NoWatcherException;
 import org.apache.zookeeper.Watcher.Event.EventType;
 import org.apache.zookeeper.Watcher.WatcherType;
 import org.apache.zookeeper.ZooDefs.Ids;
-import org.apache.zookeeper.clients.ZKClientConfig;
+import org.apache.zookeeper.clients.client.common.ZKClientConfig;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.test.ClientBase;

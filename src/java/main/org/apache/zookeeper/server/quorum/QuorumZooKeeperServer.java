@@ -25,7 +25,7 @@ import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.MultiTransactionRecord;
 import org.apache.zookeeper.Op;
-import org.apache.zookeeper.ZooDefs.OpCode;
+import org.apache.zookeeper.common.OpCode;
 import org.apache.zookeeper.proto.CreateRequest;
 import org.apache.zookeeper.server.ByteBufferInputStream;
 import org.apache.zookeeper.server.Request;

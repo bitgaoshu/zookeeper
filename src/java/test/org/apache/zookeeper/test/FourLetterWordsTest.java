@@ -30,7 +30,7 @@ import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.common.IOUtils;
 import org.apache.zookeeper.common.X509Exception.SSLContextException;
 
-import static org.apache.zookeeper.clients.FourLetterWordMain.send4LetterWord;
+import static org.apache.zookeeper.clients.client.common.FourLetterWordMain.send4LetterWord;
 
 import org.junit.Assert;
 import org.junit.Rule;

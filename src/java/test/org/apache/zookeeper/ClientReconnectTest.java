@@ -28,9 +28,9 @@ import java.nio.channels.SocketChannel;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.zookeeper.clients.ZKClientConfig;
-import org.apache.zookeeper.clients.HostProvider;
-import org.apache.zookeeper.clients.client.ClientWatchManager;
+import org.apache.zookeeper.clients.client.common.ZKClientConfig;
+import org.apache.zookeeper.clients.client.common.HostProvider;
+import org.apache.zookeeper.clients.client.common.ClientWatchManager;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNIO;

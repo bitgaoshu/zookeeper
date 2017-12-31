@@ -33,7 +33,7 @@ import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.Op;
 import org.apache.zookeeper.OpResult;
-import org.apache.zookeeper.clients.client.Transaction;
+import org.apache.zookeeper.clients.client.common.Transaction;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.clients.client.ZooKeeper;

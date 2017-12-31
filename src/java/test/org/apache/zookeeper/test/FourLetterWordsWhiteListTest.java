@@ -23,7 +23,7 @@ import java.io.IOException;
 import org.apache.zookeeper.TestableZooKeeper;
 import org.apache.zookeeper.common.X509Exception.SSLContextException;
 
-import static org.apache.zookeeper.clients.FourLetterWordMain.send4LetterWord;
+import static org.apache.zookeeper.clients.client.common.FourLetterWordMain.send4LetterWord;
 
 import org.apache.zookeeper.server.command.FourLetterCommands;
 import org.junit.Assert;

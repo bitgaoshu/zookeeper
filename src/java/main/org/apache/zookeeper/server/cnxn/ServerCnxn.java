@@ -169,7 +169,7 @@ public abstract class ServerCnxn implements Stats, Watcher {
         return packetsSent.incrementAndGet();
     }
 
-    protected synchronized void updateStatsForResponse(long cxid, long zxid,
+    public synchronized void updateStatsForResponse(long cxid, long zxid,
                                                        String op, long start, long end) {
         // don't overwrite with "special" xids - we're interested
         // in the clients last real operation

@@ -41,9 +41,9 @@ import javax.security.sasl.SaslException;
 import org.apache.zookeeper.cli.AsyncCallback;
 import org.apache.zookeeper.Login;
 import org.apache.zookeeper.Watcher.Event.KeeperState;
-import org.apache.zookeeper.ZooDefs;
-import org.apache.zookeeper.clients.ZKClientConfig;
+import org.apache.zookeeper.clients.client.common.ZKClientConfig;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn;
+import org.apache.zookeeper.common.OpCode;
 import org.apache.zookeeper.common.ZKConfig;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.proto.GetSASLRequest;
@@ -446,7 +446,7 @@ public class ZooKeeperSaslClient {
         ServerSaslResponseCallback cb = new ServerSaslResponseCallback();
 
         try {
-            cnxn.sendPacket(request,response,cb, ZooDefs.OpCode.sasl);
+            cnxn.sendPacket(request,response,cb, OpCode.sasl);
         } catch (IOException e) {
             throw new SaslException("Failed to send SASL packet to server.",
                 e);
@@ -462,7 +462,7 @@ public class ZooKeeperSaslClient {
         SetSASLResponse response = new SetSASLResponse();
         ServerSaslResponseCallback cb = new ServerSaslResponseCallback();
         try {
-            cnxn.sendPacket(request,response,cb, ZooDefs.OpCode.sasl);
+            cnxn.sendPacket(request,response,cb, OpCode.sasl);
         } catch (IOException e) {
             throw new SaslException("Failed to send SASL packet to server due " +
               "to IOException:", e);

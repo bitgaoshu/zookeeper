@@ -22,7 +22,7 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
-import org.apache.zookeeper.clients.ZKClientConfig;
+import org.apache.zookeeper.clients.client.common.ZKClientConfig;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNIO;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNetty;
 import org.apache.zookeeper.common.ZKConfig;

@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.clients.client;
+package org.apache.zookeeper.clients.client.common;
 
 import org.apache.yetus.audience.InterfaceAudience;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.Op;
 import org.apache.zookeeper.OpResult;
 import org.apache.zookeeper.cli.AsyncCallback.MultiCallback;
+import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.data.ACL;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class Transaction {
     private ZooKeeper zk;
     private List<Op> ops = new ArrayList<Op>();
 
-    protected Transaction(ZooKeeper zk) {
+    public Transaction(ZooKeeper zk) {
         this.zk = zk;
     }
 

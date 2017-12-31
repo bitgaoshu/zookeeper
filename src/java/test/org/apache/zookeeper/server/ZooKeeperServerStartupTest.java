@@ -17,7 +17,7 @@
  */
 package org.apache.zookeeper.server;
 
-import static org.apache.zookeeper.clients.FourLetterWordMain.send4LetterWord;
+import static org.apache.zookeeper.clients.client.common.FourLetterWordMain.send4LetterWord;
 
 import java.io.File;
 import java.io.IOException;

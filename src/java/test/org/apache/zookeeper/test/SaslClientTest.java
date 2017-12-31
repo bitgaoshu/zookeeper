@@ -20,7 +20,7 @@ package org.apache.zookeeper.test;
 
 
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.clients.ZKClientConfig;
+import org.apache.zookeeper.clients.client.common.ZKClientConfig;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

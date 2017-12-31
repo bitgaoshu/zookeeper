@@ -28,7 +28,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 import org.apache.jute.BinaryInputArchive;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn.Packet;
-import org.apache.zookeeper.clients.ZKClientConfig;
+import org.apache.zookeeper.clients.client.common.ZKClientConfig;
 import org.apache.zookeeper.common.ZKConfig;
 import org.apache.zookeeper.common.Time;
 import org.apache.zookeeper.proto.ConnectResponse;

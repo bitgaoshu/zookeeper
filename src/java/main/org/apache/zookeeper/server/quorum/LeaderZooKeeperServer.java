@@ -43,16 +43,9 @@ import java.util.concurrent.TimeUnit;
 public class LeaderZooKeeperServer extends QuorumZooKeeperServer {
     private ContainerManager containerManager;  // guarded by sync
 
-
     CommitProcessor commitProcessor;
-
     PrepRequestProcessor prepRequestProcessor;
 
-    /**
-     * @param port
-     * @param dataDir
-     * @throws IOException
-     */
     LeaderZooKeeperServer(FileTxnSnapLog logFactory, QuorumPeer self, ZKDatabase zkDb) throws IOException {
         super(logFactory, self.tickTime, self.minSessionTimeout, self.maxSessionTimeout, zkDb, self);
     }
