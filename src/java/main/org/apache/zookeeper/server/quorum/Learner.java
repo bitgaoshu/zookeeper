@@ -175,7 +175,7 @@ public class Learner {
         DataOutputStream oa = new DataOutputStream(baos);
         oa.writeLong(request.sessionId);
         oa.writeInt(request.cxid);
-        oa.writeInt(request.type);
+        oa.writeInt(request.op.getValue());
         if (request.request != null) {
             request.request.rewind();
             int len = request.request.remaining();
@@ -440,7 +440,7 @@ public class Learner {
                     }
                     lastQueued = pif.hdr.getZxid();
                     
-                    if (pif.hdr.getType() == OpCode.reconfig){                
+                    if (pif.hdr.getType() == OpCode.reconfig.getValue()){
                         SetDataTxn setDataTxn = (SetDataTxn) pif.rec;       
                        QuorumVerifier qv = self.configFromString(new String(setDataTxn.getData()));
                        self.setLastSeenQuorumVerifier(qv, true);                               
@@ -585,8 +585,9 @@ public class Learner {
                     continue;
                 }
                 packetsCommitted.remove();
+                int opValue = p.hdr.getType();
                 Request request = new Request(null, p.hdr.getClientId(),
-                        p.hdr.getCxid(), p.hdr.getType(), null, null);
+                        p.hdr.getCxid(), OpCode.getOpCode(opValue), null, null);
                 request.setTxn(p.rec);
                 request.setHdr(p.hdr);
                 ozk.commitRequest(request);

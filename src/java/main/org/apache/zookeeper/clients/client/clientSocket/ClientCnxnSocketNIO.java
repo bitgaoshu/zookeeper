@@ -114,8 +114,8 @@ public class ClientCnxnSocketNIO extends ClientCnxnSocket {
                 // If we already started writing p, p.bb will already exist
                 if (p.bb == null) {
                     if ((p.requestHeader != null) &&
-                            (p.requestHeader.getType() != OpCode.ping) &&
-                            (p.requestHeader.getType() != OpCode.auth)) {
+                            (p.requestHeader.getType() != OpCode.ping.getValue()) &&
+                            (p.requestHeader.getType() != OpCode.auth.getValue())) {
                         p.requestHeader.setXid(cnxn.getXid());
                     }
                     p.createBB();
@@ -125,8 +125,8 @@ public class ClientCnxnSocketNIO extends ClientCnxnSocket {
                     sentCount++;
                     outgoingQueue.removeFirstOccurrence(p);
                     if (p.requestHeader != null
-                            && p.requestHeader.getType() != OpCode.ping
-                            && p.requestHeader.getType() != OpCode.auth) {
+                            && p.requestHeader.getType() != OpCode.ping.getValue()
+                            && p.requestHeader.getType() != OpCode.auth.getValue()) {
                         synchronized (pendingQueue) {
                             pendingQueue.add(p);
                         }

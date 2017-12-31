@@ -153,19 +153,19 @@ public abstract class ClientCnxnSocket {
                 conRsp.getPasswd(), isRO);
     }
 
-    public abstract boolean isConnected();
+    abstract boolean isConnected();
 
-    public abstract void connect(InetSocketAddress addr) throws IOException;
+    abstract void connect(InetSocketAddress addr) throws IOException;
 
     /**
      * Returns the address to which the socket is connected.
      */
-    public abstract SocketAddress getRemoteSocketAddress();
+    abstract SocketAddress getRemoteSocketAddress();
 
     /**
      * Returns the address to which the socket is bound.
      */
-    public abstract SocketAddress getLocalSocketAddress();
+    abstract SocketAddress getLocalSocketAddress();
 
     /**
      * Clean up resources for a fresh new socket.
@@ -192,7 +192,7 @@ public abstract class ClientCnxnSocket {
     /**
      * being called after ClientCnxn finish PrimeConnection
      */
-    public abstract void connectionPrimed();
+    abstract void connectionPrimed();
 
     /**
      * Do transportation work:
@@ -214,7 +214,7 @@ public abstract class ClientCnxnSocket {
     /**
      * Close the socket.
      */
-    public abstract void testableCloseSocket() throws IOException;
+    abstract void testableCloseSocket() throws IOException;
 
     /**
      * Close this client.

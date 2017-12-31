@@ -138,9 +138,9 @@ public class TruncateTest extends ZKTestCase {
     }
 
     private void append(ZKDatabase zkdb, int i) throws IOException {
-        TxnHeader hdr = new TxnHeader(1, 1, i, 1, OpCode.setData);
+        TxnHeader hdr = new TxnHeader(1, 1, i, 1, OpCode.setData.getValue());
         Record txn = new SetDataTxn("/foo" + i, new byte[0], 1);
-        Request req = new Request(0, 0, 0, hdr, txn, 0);
+        Request req = new Request(0, 0, OpCode.getOpCode(0), hdr, txn, 0);
 
         zkdb.append(req);
         zkdb.commit();

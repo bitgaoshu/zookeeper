@@ -977,11 +977,14 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         return false;
     }
 
-    /* process packet from client*/
-    public void processPacket(ServerCnxn cnxn, Request request) {
-
-    }
-
+    /**
+     * process request from client side.
+     *
+     * @param cnxn  ServerCnxn
+     * @param incomingBuffer  bytebuffer
+     * @throws IOException
+     */
+    /**/
     public void processPacket(ServerCnxn cnxn, ByteBuffer incomingBuffer) throws IOException {
         // We have the request, now process and setup for next
         InputStream bais = new ByteBufferInputStream(incomingBuffer);
@@ -992,7 +995,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         // pointing
         // to the start of the txn
         incomingBuffer = incomingBuffer.slice();
-        OpCode opCode = h.getOp();
+        OpCode opCode = OpCode.getOpCode(h.getType());
         if (opCode == OpCode.auth) {
             LOG.info("got auth packet " + cnxn.getRemoteSocketAddress());
             AuthPacket authPacket = new AuthPacket();
