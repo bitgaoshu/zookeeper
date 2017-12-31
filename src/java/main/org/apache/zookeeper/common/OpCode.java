@@ -129,4 +129,11 @@ public enum OpCode {
         }
     }
 
+    @Override
+    public String toString() {
+        return "OpCode{" +
+                "value=" + value + "\n" +
+                "name=" + name() + "\n" +
+                '}';
+    }
 }

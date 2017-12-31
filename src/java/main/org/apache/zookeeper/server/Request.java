@@ -126,16 +126,24 @@ public class Request {
         return OpCode.isQuorum(op, isLocalSession);
     }
 
+    public void setException(KeeperException e) {
+        this.e = e;
+    }
+
+    public KeeperException getException() {
+        return e;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("sessionid:0x").append(Long.toHexString(sessionId))
-            .append(" op:").append(op.name())
-            .append(" cxid:0x").append(Long.toHexString(cxid))
-            .append(" zxid:0x").append(Long.toHexString(hdr == null ?
-                    -2 : hdr.getZxid()))
-            .append(" txnop:").append(hdr == null ?
-                    "unknown" : "" + hdr.getType());
+                .append(" op:").append(op.name())
+                .append(" cxid:0x").append(Long.toHexString(cxid))
+                .append(" zxid:0x").append(Long.toHexString(hdr == null ?
+                -2 : hdr.getZxid()))
+                .append(" txnop:").append(hdr == null ?
+                "unknown" : "" + hdr.getType());
 
         // best effort to print the path assoc with this request
         String path = "n/a";
@@ -166,13 +174,5 @@ public class Request {
         sb.append(" reqpath:").append(path);
 
         return sb.toString();
-    }
-
-    public void setException(KeeperException e) {
-        this.e = e;
-    }
-
-    public KeeperException getException() {
-        return e;
     }
 }
