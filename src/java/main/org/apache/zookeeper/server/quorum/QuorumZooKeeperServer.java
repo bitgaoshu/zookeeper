@@ -17,14 +17,10 @@
  */
 package org.apache.zookeeper.server.quorum;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.ByteBuffer;
-
 import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.MultiTransactionRecord;
 import org.apache.zookeeper.Op;
+import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.common.OpCode;
 import org.apache.zookeeper.proto.CreateRequest;
 import org.apache.zookeeper.server.ByteBufferInputStream;
@@ -32,6 +28,10 @@ import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.ByteBuffer;
 
 /**
  * Abstract base class for all ZooKeeperServers that participate in
@@ -64,19 +64,20 @@ public abstract class QuorumZooKeeperServer extends ZooKeeperServer {
         // This is called by the request processor thread (either follower
         // or observer request processor), which is unique to a learner.
         // So will not be called concurrently by two threads.
-        if ((request.type != OpCode.create && request.type != OpCode.create2 && request.type != OpCode.multi) ||
+        OpCode opCode = request.op;
+        if ((opCode != OpCode.create && opCode != OpCode.create2 && opCode != OpCode.multi) ||
             !upgradeableSessionTracker.isLocalSession(request.sessionId)) {
             return null;
         }
 
-        if (OpCode.multi == request.type) {
+        if (OpCode.multi == opCode) {
             MultiTransactionRecord multiTransactionRecord = new MultiTransactionRecord();
             request.request.rewind();
             ByteBufferInputStream.byteBuffer2Record(request.request, multiTransactionRecord);
             request.request.rewind();
             boolean containsEphemeralCreate = false;
             for (Op op : multiTransactionRecord) {
-                if (op.getType() == OpCode.create || op.getType() == OpCode.create2) {
+                if (op.getType() == OpCode.create.getValue() || opCode.getValue() == OpCode.create2.getValue()) {
                     CreateRequest createRequest = (CreateRequest)op.toRequestRecord();
                     CreateMode createMode = CreateMode.fromFlag(createRequest.getFlags());
                     if (createMode.isEphemeral()) {
@@ -141,14 +142,14 @@ public abstract class QuorumZooKeeperServer extends ZooKeeperServer {
     protected void setLocalSessionFlag(Request si) {
         // We need to set isLocalSession to tree for these type of request
         // so that the request processor can process them correctly.
-        switch (si.type) {
-        case OpCode.createSession:
+        switch (si.op) {
+        case createSession:
             if (self.areLocalSessionsEnabled()) {
                 // All new sessions local by default.
                 si.setLocalSession(true);
             }
             break;
-        case OpCode.closeSession:
+        case closeSession:
             String reqType = "global";
             if (upgradeableSessionTracker.isLocalSession(si.sessionId)) {
                 si.setLocalSession(true);
