@@ -26,9 +26,9 @@ import org.apache.zookeeper.data.Stat;
  * Encodes the result of a single part of a multiple operation commit.
  */
 public abstract class OpResult {
-    private int type;
+    private OpCode type;
 
-    private OpResult(int type) {
+    private OpResult(OpCode type) {
         this.type = type;
     }
 
@@ -39,7 +39,7 @@ public abstract class OpResult {
      * @see OpCode
      * @return an integer identifying what kind of operation this result came from.
      */
-    public int getType() {
+    public OpCode getType() {
         return type;
     }
 
@@ -60,7 +60,7 @@ public abstract class OpResult {
             this(OpCode.create2, path, stat);
         }
 
-        private CreateResult(int opcode, String path, Stat stat) {
+        private CreateResult(OpCode opcode, String path, Stat stat) {
         	super(opcode);
             this.path = path;
             this.stat = stat;
@@ -90,7 +90,7 @@ public abstract class OpResult {
 
         @Override
         public int hashCode() {
-            return (int) (getType() * 35 + path.hashCode() +
+            return (int) (getType().getValue() * 35 + path.hashCode() +
                     (stat == null ? 0 : stat.getMzxid()));
         }
     }
@@ -114,7 +114,7 @@ public abstract class OpResult {
 
         @Override
         public int hashCode() {
-            return getType();
+            return getType().getValue();
         }
     }
 
@@ -145,7 +145,7 @@ public abstract class OpResult {
 
         @Override
         public int hashCode() {
-            return (int) (getType() * 35 + stat.getMzxid());
+            return (int) (getType().getValue() * 35 + stat.getMzxid());
         }
     }
 
@@ -168,7 +168,7 @@ public abstract class OpResult {
 
         @Override
         public int hashCode() {
-            return getType();
+            return getType().getValue();
         }
     }
 
@@ -201,7 +201,7 @@ public abstract class OpResult {
 
         @Override
         public int hashCode() {
-            return getType() * 35 + err;
+            return getType().getValue() * 35 + err;
         }
     }
 }
