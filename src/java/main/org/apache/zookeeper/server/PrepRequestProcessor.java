@@ -20,7 +20,7 @@ package org.apache.zookeeper.server;
 
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
-import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.MultiTransactionRecord;
 import org.apache.zookeeper.Op;
 import org.apache.zookeeper.ZooDefs;
@@ -30,6 +30,7 @@ import org.apache.zookeeper.common.KeeperException.Code;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.data.StatPersisted;
+import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.proto.*;
 import org.apache.zookeeper.server.ZooKeeperServer.ChangeRecord;
 import org.apache.zookeeper.server.auth.ProviderRegistry;
@@ -43,6 +44,7 @@ import org.apache.zookeeper.server.quorum.QuorumPeerConfig.ConfigException;
 import org.apache.zookeeper.server.quorum.flexible.QuorumMaj;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 import org.apache.zookeeper.txn.*;
+import org.apache.zookeeper.nodeMode.EphemeralType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

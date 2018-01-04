@@ -26,7 +26,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.common.KeeperException.Code;
 import org.apache.zookeeper.common.KeeperException.InvalidACLException;

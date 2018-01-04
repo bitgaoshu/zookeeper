@@ -1,7 +1,6 @@
-package org.apache.zookeeper.common;
+package org.apache.zookeeper.operation;
 
 import org.apache.yetus.audience.InterfaceAudience;
-import org.apache.zookeeper.ZooDefs;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -25,7 +25,7 @@ import static org.junit.Assert.assertNull;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 
-import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.clients.client.ZooKeeper;

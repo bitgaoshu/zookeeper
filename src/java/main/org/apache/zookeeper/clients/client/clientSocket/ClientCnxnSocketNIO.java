@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.clients.client.clientSocket;
 
-import org.apache.zookeeper.common.OpCode;
+import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn.EndOfStreamException;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn.Packet;
 import org.apache.zookeeper.clients.client.common.ZKClientConfig;

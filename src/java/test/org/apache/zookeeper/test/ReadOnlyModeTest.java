@@ -28,7 +28,7 @@ import org.apache.log4j.Layout;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.WriterAppender;
-import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.common.KeeperException.NotReadOnlyException;
 import org.apache.zookeeper.clients.client.common.Transaction;

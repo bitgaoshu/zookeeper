@@ -21,7 +21,7 @@ package org.apache.zookeeper.clients.client.clientSocket;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn.EndOfStreamException;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn.Packet;
 import org.apache.zookeeper.clients.client.common.ZKClientConfig;
-import org.apache.zookeeper.common.OpCode;
+import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.common.X509Util;
 import org.jboss.netty.bootstrap.ClientBootstrap;
 import org.jboss.netty.buffer.ChannelBuffer;

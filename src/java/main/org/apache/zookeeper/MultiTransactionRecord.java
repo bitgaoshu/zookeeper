@@ -20,7 +20,7 @@ package org.apache.zookeeper;
 import org.apache.jute.InputArchive;
 import org.apache.jute.OutputArchive;
 import org.apache.jute.Record;
-import org.apache.zookeeper.common.OpCode;
+import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.proto.*;
 
 import java.io.IOException;

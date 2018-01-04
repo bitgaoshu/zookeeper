@@ -21,7 +21,7 @@ package org.apache.zookeeper.test;
 import java.io.File;
 import java.util.List;
 
-import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.clients.client.ZooKeeper;

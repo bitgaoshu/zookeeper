@@ -26,7 +26,7 @@ import java.net.SocketException;
 import java.nio.ByteBuffer;
 
 import org.apache.zookeeper.PortAssignment;
-import org.apache.zookeeper.common.OpCode;
+import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.server.FinalRequestProcessor;
 import org.apache.zookeeper.server.PrepRequestProcessor;
 import org.apache.zookeeper.server.Request;

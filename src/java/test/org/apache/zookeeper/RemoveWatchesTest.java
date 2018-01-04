@@ -42,6 +42,7 @@ import org.apache.zookeeper.clients.client.common.ZKClientConfig;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.test.ClientBase;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

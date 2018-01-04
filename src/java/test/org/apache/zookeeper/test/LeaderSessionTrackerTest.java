@@ -24,10 +24,10 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 import org.apache.jute.BinaryOutputArchive;
-import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.ZooDefs.Ids;
-import org.apache.zookeeper.common.OpCode;
+import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.data.Stat;

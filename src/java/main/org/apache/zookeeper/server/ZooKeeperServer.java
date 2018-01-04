@@ -25,7 +25,7 @@ import org.apache.zookeeper.Environment;
 import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.common.KeeperException.Code;
 import org.apache.zookeeper.common.KeeperException.SessionExpiredException;
-import org.apache.zookeeper.common.OpCode;
+import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.data.StatPersisted;

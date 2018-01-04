@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.cli.AsyncCallback.StatCallback;

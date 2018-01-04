@@ -19,7 +19,7 @@
 package org.apache.zookeeper.test;
 
 
-import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.cli.AsyncCallback.VoidCallback;
 import org.apache.zookeeper.ZooDefs.Ids;

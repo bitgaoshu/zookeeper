@@ -41,6 +41,7 @@ import org.apache.zookeeper.cli.CommandNotFoundException;
 import org.apache.zookeeper.cli.MalformedCommandException;
 import org.apache.zookeeper.clients.client.common.ZKClientConfig;
 import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.ZooDefs.Ids;

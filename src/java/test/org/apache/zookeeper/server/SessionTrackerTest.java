@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.common.OpCode;
+import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.server.SessionTrackerImpl.SessionImpl;
 import org.apache.zookeeper.test.ClientBase;
 import org.junit.Assert;

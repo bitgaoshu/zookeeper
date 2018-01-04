@@ -24,7 +24,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;

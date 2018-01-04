@@ -24,7 +24,7 @@ import java.util.LinkedList;
 import org.apache.zookeeper.cli.AsyncCallback.DataCallback;
 import org.apache.zookeeper.cli.AsyncCallback.StringCallback;
 import org.apache.zookeeper.cli.AsyncCallback.VoidCallback;
-import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.common.KeeperException.Code;
 import org.apache.zookeeper.ZKTestCase;

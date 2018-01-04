@@ -263,7 +263,7 @@
     </method>
   </interface>
   <!-- end interface org.apache.zookeeper.clients.client.commons.ClientWatchManager -->
-  <!-- start class org.apache.zookeeper.CreateMode -->
+  <!-- start class org.apache.zookeeper.utils.CreateMode -->
   <class name="CreateMode" extends="java.lang.Enum"
     abstract="false"
     static="false" final="true" visibility="public"
@@ -273,7 +273,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="valueOf" return="org.apache.zookeeper.CreateMode"
+    <method name="valueOf" return="org.apache.zookeeper.nodeMode.CreateMode"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -294,7 +294,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="fromFlag" return="org.apache.zookeeper.CreateMode"
+    <method name="fromFlag" return="org.apache.zookeeper.nodeMode.CreateMode"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -304,7 +304,7 @@
       <![CDATA[Map an integer value to a CreateMode value]]>
       </doc>
     </method>
-    <field name="PERSISTENT" type="org.apache.zookeeper.CreateMode"
+    <field name="PERSISTENT" type="org.apache.zookeeper.nodeMode.CreateMode"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -312,7 +312,7 @@
       <![CDATA[The znode will not be automatically deleted upon client's disconnect.]]>
       </doc>
     </field>
-    <field name="PERSISTENT_SEQUENTIAL" type="org.apache.zookeeper.CreateMode"
+    <field name="PERSISTENT_SEQUENTIAL" type="org.apache.zookeeper.nodeMode.CreateMode"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -321,7 +321,7 @@
  and its name will be appended with a monotonically increasing number.]]>
       </doc>
     </field>
-    <field name="EPHEMERAL" type="org.apache.zookeeper.CreateMode"
+    <field name="EPHEMERAL" type="org.apache.zookeeper.nodeMode.CreateMode"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -329,7 +329,7 @@
       <![CDATA[The znode will be deleted upon the client's disconnect.]]>
       </doc>
     </field>
-    <field name="EPHEMERAL_SEQUENTIAL" type="org.apache.zookeeper.CreateMode"
+    <field name="EPHEMERAL_SEQUENTIAL" type="org.apache.zookeeper.nodeMode.CreateMode"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -342,7 +342,7 @@
     <![CDATA[CreateMode value determines how the znode is created on ZooKeeper.]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.CreateMode -->
+  <!-- end class org.apache.zookeeper.utils.CreateMode -->
   <!-- start class org.apache.zookeeper.Environment -->
   <class name="Environment" extends="java.lang.Object"
     abstract="false"
@@ -1994,7 +1994,7 @@
       <param name="path" type="java.lang.String"/>
       <param name="data" type="byte[]"/>
       <param name="acl" type="java.util.List"/>
-      <param name="createMode" type="org.apache.zookeeper.CreateMode"/>
+      <param name="createMode" type="org.apache.zookeeper.nodeMode.CreateMode"/>
       <exception name="KeeperException" type="org.apache.zookeeper.common.KeeperException"/>
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
       <doc>
@@ -2071,7 +2071,7 @@
       <param name="path" type="java.lang.String"/>
       <param name="data" type="byte[]"/>
       <param name="acl" type="java.util.List"/>
-      <param name="createMode" type="org.apache.zookeeper.CreateMode"/>
+      <param name="createMode" type="org.apache.zookeeper.nodeMode.CreateMode"/>
       <param name="cb" type="org.apache.zookeeper.cli.AsyncCallback.StringCallback"/>
       <param name="ctx" type="java.lang.Object"/>
       <doc>

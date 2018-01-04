@@ -18,7 +18,8 @@
 
 package org.apache.zookeeper.server;
 
-import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.nodeMode.CreateMode;
+import org.apache.zookeeper.nodeMode.EphemeralType;
 import org.junit.Assert;
 import org.junit.Test;
 

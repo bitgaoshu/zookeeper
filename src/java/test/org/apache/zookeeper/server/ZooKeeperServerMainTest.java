@@ -31,7 +31,7 @@ import org.apache.zookeeper.server.cnxn.NettyCnxn.NettyServerCnxnFactory;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.WatchedEvent;

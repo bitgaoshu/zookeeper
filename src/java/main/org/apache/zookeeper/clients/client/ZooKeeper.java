@@ -29,13 +29,13 @@ import org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocket;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNIO;
 import org.apache.zookeeper.clients.client.common.*;
 import org.apache.zookeeper.common.KeeperException;
-import org.apache.zookeeper.common.OpCode;
+import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.common.PathUtils;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
+import org.apache.zookeeper.nodeMode.CreateMode;
+import org.apache.zookeeper.nodeMode.EphemeralType;
 import org.apache.zookeeper.proto.*;
-import org.apache.zookeeper.server.DataTree;
-import org.apache.zookeeper.server.EphemeralType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -1154,7 +1154,7 @@ public class ZooKeeper implements AutoCloseable {
                     clientPath);
         }
         if (stat != null) {
-            DataTree.copyStat(response.getStat(), stat);
+            response.getStat().copyTo(stat);
         }
         if (cnxn.getChrootPath() == null) {
             return response.getPath();
@@ -1515,7 +1515,8 @@ public class ZooKeeper implements AutoCloseable {
 
         RequestHeader h = new RequestHeader();
         h.setType(OpCode.exists.getValue());
-        ExistsRequest request = new ExistsRequest();
+        ExistsRequest request;
+        request = new ExistsRequest();
         request.setPath(serverPath);
         request.setWatch(watcher != null);
         SetDataResponse response = new SetDataResponse();
@@ -1633,7 +1634,7 @@ public class ZooKeeper implements AutoCloseable {
                     clientPath);
         }
         if (stat != null) {
-            DataTree.copyStat(response.getStat(), stat);
+            response.getStat().copyTo(stat);
         }
         return response.getData();
     }
@@ -1737,7 +1738,7 @@ public class ZooKeeper implements AutoCloseable {
                     configZnode);
         }
         if (stat != null) {
-            DataTree.copyStat(response.getStat(), stat);
+            response.getStat().copyTo(stat);
         }
         return response.getData();
     }
@@ -1901,7 +1902,7 @@ public class ZooKeeper implements AutoCloseable {
                     clientPath);
         }
         if (stat != null) {
-            DataTree.copyStat(response.getStat(), stat);
+            response.getStat().copyTo(stat);
         }
         return response.getAcl();
     }
@@ -2153,7 +2154,7 @@ public class ZooKeeper implements AutoCloseable {
                     clientPath);
         }
         if (stat != null) {
-            DataTree.copyStat(response.getStat(), stat);
+            response.getStat().copyTo(stat);
         }
         return response.getChildren();
     }

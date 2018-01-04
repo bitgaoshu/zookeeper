@@ -41,7 +41,7 @@ import org.apache.zookeeper.clients.client.common.WatchDeregistration;
 import org.apache.zookeeper.clients.client.common.ZKClientConfig;
 import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.common.KeeperException.Code;
-import org.apache.zookeeper.common.OpCode;
+import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.common.Time;
 import org.apache.zookeeper.proto.*;
 import org.apache.zookeeper.server.ByteBufferInputStream;

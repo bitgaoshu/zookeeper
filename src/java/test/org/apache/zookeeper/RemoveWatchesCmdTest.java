@@ -29,6 +29,7 @@ import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.clients.client.ZooKeeperMain;
 import org.apache.zookeeper.test.ClientBase;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;

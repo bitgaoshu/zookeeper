@@ -18,7 +18,7 @@
 package org.apache.zookeeper.clients.client.common;
 
 import org.apache.yetus.audience.InterfaceAudience;
-import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.Op;
 import org.apache.zookeeper.OpResult;
 import org.apache.zookeeper.cli.AsyncCallback.MultiCallback;

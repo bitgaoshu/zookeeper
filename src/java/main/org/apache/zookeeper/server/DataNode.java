@@ -28,6 +28,7 @@ import org.apache.jute.OutputArchive;
 import org.apache.jute.Record;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.data.StatPersisted;
+import org.apache.zookeeper.nodeMode.EphemeralType;
 
 /**
  * This class contains the data for a node in the data tree.

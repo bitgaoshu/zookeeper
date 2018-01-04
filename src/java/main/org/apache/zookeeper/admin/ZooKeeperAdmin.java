@@ -28,14 +28,13 @@ import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.cli.AsyncCallback.DataCallback;
 import org.apache.zookeeper.clients.client.common.ZKClientConfig;
-import org.apache.zookeeper.common.OpCode;
+import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.common.StringUtils;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.proto.GetDataResponse;
 import org.apache.zookeeper.proto.ReconfigRequest;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.proto.RequestHeader;
-import org.apache.zookeeper.server.DataTree;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -180,7 +179,7 @@ public class ZooKeeperAdmin extends ZooKeeper {
     public byte[] reconfigure(String joiningServers, String leavingServers,
                               String newMembers, long fromConfig, Stat stat) throws KeeperException, InterruptedException {
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.reconfig);
+        h.setType(OpCode.reconfig.getValue());
         ReconfigRequest request = new ReconfigRequest(joiningServers, leavingServers, newMembers, fromConfig);
         GetDataResponse response = new GetDataResponse();
         ReplyHeader r = cnxn.submitRequest(h, request, response, null);
@@ -188,7 +187,7 @@ public class ZooKeeperAdmin extends ZooKeeper {
             throw KeeperException.create(KeeperException.Code.get(r.getErr()), "");
         }
         if (stat != null) {
-            DataTree.copyStat(response.getStat(), stat);
+            response.getStat().copyTo(stat);
         }
         return response.getData();
     }
@@ -217,7 +216,7 @@ public class ZooKeeperAdmin extends ZooKeeper {
     public void reconfigure(String joiningServers, String leavingServers,
                             String newMembers, long fromConfig, DataCallback cb, Object ctx) {
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.reconfig);
+        h.setType(OpCode.reconfig.getValue());
         ReconfigRequest request = new ReconfigRequest(joiningServers, leavingServers, newMembers, fromConfig);
         GetDataResponse response = new GetDataResponse();
         cnxn.queuePacket(h, new ReplyHeader(), request, response, cb,

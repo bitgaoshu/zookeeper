@@ -34,7 +34,7 @@ import org.apache.zookeeper.Watcher.Event.EventType;
 import org.apache.zookeeper.Watcher.Event.KeeperState;
 import org.apache.zookeeper.Watcher.WatcherType;
 import org.apache.zookeeper.ZooDefs;
-import org.apache.zookeeper.common.OpCode;
+import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.common.PathTrie;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
@@ -50,6 +50,7 @@ import org.apache.zookeeper.txn.SetACLTxn;
 import org.apache.zookeeper.txn.SetDataTxn;
 import org.apache.zookeeper.txn.Txn;
 import org.apache.zookeeper.txn.TxnHeader;
+import org.apache.zookeeper.nodeMode.EphemeralType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -287,19 +288,6 @@ public class DataTree {
         to.setEphemeralOwner(from.getEphemeralOwner());
     }
 
-    static public void copyStat(Stat from, Stat to) {
-        to.setAversion(from.getAversion());
-        to.setCtime(from.getCtime());
-        to.setCversion(from.getCversion());
-        to.setCzxid(from.getCzxid());
-        to.setMtime(from.getMtime());
-        to.setMzxid(from.getMzxid());
-        to.setPzxid(from.getPzxid());
-        to.setVersion(from.getVersion());
-        to.setEphemeralOwner(from.getEphemeralOwner());
-        to.setDataLength(from.getDataLength());
-        to.setNumChildren(from.getNumChildren());
-    }
 
     /**
      * update the count of this stat datanode
@@ -779,8 +767,9 @@ public class DataTree {
             rc.type = header.getType();
             rc.err = 0;
             rc.multiResult = null;
-            switch (header.getType()) {
-                case OpCode.create:
+            OpCode op = OpCode.getOpCode(header.getType());
+            switch (op) {
+                case create:
                     CreateTxn createTxn = (CreateTxn) txn;
                     rc.path = createTxn.getPath();
                     createNode(
@@ -791,7 +780,7 @@ public class DataTree {
                             createTxn.getParentCVersion(),
                             header.getZxid(), header.getTime(), null);
                     break;
-                case OpCode.create2:
+                case create2:
                     CreateTxn create2Txn = (CreateTxn) txn;
                     rc.path = create2Txn.getPath();
                     Stat stat = new Stat();
@@ -804,7 +793,7 @@ public class DataTree {
                             header.getZxid(), header.getTime(), stat);
                     rc.stat = stat;
                     break;
-                case OpCode.createTTL:
+                case createTTL:
                     CreateTTLTxn createTtlTxn = (CreateTTLTxn) txn;
                     rc.path = createTtlTxn.getPath();
                     stat = new Stat();
@@ -817,7 +806,7 @@ public class DataTree {
                             header.getZxid(), header.getTime(), stat);
                     rc.stat = stat;
                     break;
-                case OpCode.createContainer:
+                case createContainer:
                     CreateContainerTxn createContainerTxn = (CreateContainerTxn) txn;
                     rc.path = createContainerTxn.getPath();
                     stat = new Stat();
@@ -830,44 +819,44 @@ public class DataTree {
                             header.getZxid(), header.getTime(), stat);
                     rc.stat = stat;
                     break;
-                case OpCode.delete:
-                case OpCode.deleteContainer:
+                case delete:
+                case deleteContainer:
                     DeleteTxn deleteTxn = (DeleteTxn) txn;
                     rc.path = deleteTxn.getPath();
                     deleteNode(deleteTxn.getPath(), header.getZxid());
                     break;
-                case OpCode.reconfig:
-                case OpCode.setData:
+                case reconfig:
+                case setData:
                     SetDataTxn setDataTxn = (SetDataTxn) txn;
                     rc.path = setDataTxn.getPath();
                     rc.stat = setData(setDataTxn.getPath(), setDataTxn
                             .getData(), setDataTxn.getVersion(), header
                             .getZxid(), header.getTime());
                     break;
-                case OpCode.setACL:
+                case setACL:
                     SetACLTxn setACLTxn = (SetACLTxn) txn;
                     rc.path = setACLTxn.getPath();
                     rc.stat = setACL(setACLTxn.getPath(), setACLTxn.getAcl(),
                             setACLTxn.getVersion());
                     break;
-                case OpCode.closeSession:
+                case closeSession:
                     killSession(header.getClientId(), header.getZxid());
                     break;
-                case OpCode.error:
+                case error:
                     ErrorTxn errTxn = (ErrorTxn) txn;
                     rc.err = errTxn.getErr();
                     break;
-                case OpCode.check:
+                case check:
                     CheckVersionTxn checkTxn = (CheckVersionTxn) txn;
                     rc.path = checkTxn.getPath();
                     break;
-                case OpCode.multi:
+                case multi:
                     MultiTxn multiTxn = (MultiTxn) txn ;
                     List<Txn> txns = multiTxn.getTxns();
                     rc.multiResult = new ArrayList<ProcessTxnResult>();
                     boolean failed = false;
                     for (Txn subtxn : txns) {
-                        if (subtxn.getType() == OpCode.error) {
+                        if (subtxn.getType() == OpCode.error.getValue()) {
                             failed = true;
                             break;
                         }
@@ -877,28 +866,29 @@ public class DataTree {
                     for (Txn subtxn : txns) {
                         ByteBuffer bb = ByteBuffer.wrap(subtxn.getData());
                         Record record = null;
-                        switch (subtxn.getType()) {
-                            case OpCode.create:
+                        OpCode subTxnOp = OpCode.getOpCode(subtxn.getType());
+                        switch (subTxnOp) {
+                            case create:
                                 record = new CreateTxn();
                                 break;
-                            case OpCode.createTTL:
+                            case createTTL:
                                 record = new CreateTTLTxn();
                                 break;
-                            case OpCode.createContainer:
+                            case createContainer:
                                 record = new CreateContainerTxn();
                                 break;
-                            case OpCode.delete:
-                            case OpCode.deleteContainer:
+                            case delete:
+                            case deleteContainer:
                                 record = new DeleteTxn();
                                 break;
-                            case OpCode.setData:
+                            case setData:
                                 record = new SetDataTxn();
                                 break;
-                            case OpCode.error:
+                            case error:
                                 record = new ErrorTxn();
                                 post_failed = true;
                                 break;
-                            case OpCode.check:
+                            case check:
                                 record = new CheckVersionTxn();
                                 break;
                             default:
@@ -908,16 +898,16 @@ public class DataTree {
 
                         ByteBufferInputStream.byteBuffer2Record(bb, record);
 
-                        if (failed && subtxn.getType() != OpCode.error){
+                        if (failed && subTxnOp != OpCode.error){
                             int ec = post_failed ? Code.RUNTIMEINCONSISTENCY.intValue()
                                                  : Code.OK.intValue();
 
-                            subtxn.setType(OpCode.error);
+                            subtxn.setType(OpCode.error.getValue());
                             record = new ErrorTxn(ec);
                         }
 
                         if (failed) {
-                            assert(subtxn.getType() == OpCode.error) ;
+                            assert(subtxn.getType() == OpCode.error.getValue()) ;
                         }
 
                         TxnHeader subHdr = new TxnHeader(header.getClientId(), header.getCxid(),
@@ -973,7 +963,7 @@ public class DataTree {
          * Note, such failures on DT should be seen only during
          * restore.
          */
-        if (header.getType() == OpCode.create &&
+        if (header.getType() == OpCode.create.getValue() &&
                 rc.err == Code.NODEEXISTS.intValue()) {
             LOG.debug("Adjusting parent cversion for Txn: " + header.getType() +
                     " path:" + rc.path + " err: " + rc.err);

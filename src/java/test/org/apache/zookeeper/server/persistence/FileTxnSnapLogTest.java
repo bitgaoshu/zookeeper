@@ -19,7 +19,7 @@
 package org.apache.zookeeper.server.persistence;
 
 import org.apache.jute.Record;
-import org.apache.zookeeper.common.OpCode;
+import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.server.DataTree;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.test.ClientBase;

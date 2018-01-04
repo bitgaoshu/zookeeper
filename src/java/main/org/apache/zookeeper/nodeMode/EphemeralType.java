@@ -16,9 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
-
-import org.apache.zookeeper.CreateMode;
+package org.apache.zookeeper.nodeMode;
 
 
 public enum EphemeralType {

@@ -24,7 +24,7 @@ import org.apache.zookeeper.OpResult;
 import org.apache.zookeeper.OpResult.*;
 import org.apache.zookeeper.Watcher.WatcherType;
 import org.apache.zookeeper.ZooDefs;
-import org.apache.zookeeper.common.OpCode;
+import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.common.KeeperException.Code;
 import org.apache.zookeeper.common.KeeperException.SessionMovedException;

@@ -35,6 +35,7 @@ import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.common.StringUtils;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.test.ClientBase;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.junit.Assert;
 import org.junit.Test;
 

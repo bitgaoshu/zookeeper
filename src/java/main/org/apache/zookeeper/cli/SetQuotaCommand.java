@@ -24,6 +24,7 @@ import org.apache.zookeeper.*;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.data.Stat;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

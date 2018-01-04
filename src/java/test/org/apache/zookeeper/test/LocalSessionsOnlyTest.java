@@ -21,7 +21,7 @@ package org.apache.zookeeper.test;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.ZooDefs;

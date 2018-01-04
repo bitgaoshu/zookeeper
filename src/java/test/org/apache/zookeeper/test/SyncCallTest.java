@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.cli.AsyncCallback.Children2Callback;
 import org.apache.zookeeper.cli.AsyncCallback.ChildrenCallback;

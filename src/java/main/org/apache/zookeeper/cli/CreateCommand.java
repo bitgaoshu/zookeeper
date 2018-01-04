@@ -19,12 +19,12 @@ package org.apache.zookeeper.cli;
 
 import java.util.List;
 import org.apache.commons.cli.*;
-import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.server.EphemeralType;
+import org.apache.zookeeper.nodeMode.EphemeralType;
 
 /**
  * create command for cli

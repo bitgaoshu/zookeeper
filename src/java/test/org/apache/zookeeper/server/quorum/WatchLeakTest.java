@@ -43,7 +43,7 @@ import java.nio.channels.SocketChannel;
 import java.util.Collections;
 import java.util.Random;
 
-import org.apache.zookeeper.common.OpCode;
+import org.apache.zookeeper.operation.OpCode;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;

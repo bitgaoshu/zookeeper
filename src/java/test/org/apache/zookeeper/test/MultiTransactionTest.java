@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.zookeeper.cli.AsyncCallback;
 import org.apache.zookeeper.cli.AsyncCallback.MultiCallback;
-import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.common.KeeperException;
 import org.apache.zookeeper.Op;
 import org.apache.zookeeper.OpResult;

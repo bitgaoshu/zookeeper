@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.test;
 
-import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.Quotas;
 import org.apache.zookeeper.StatsTrack;
 import org.apache.zookeeper.clients.client.ZooKeeper;

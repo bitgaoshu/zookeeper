@@ -24,7 +24,7 @@ import java.io.RandomAccessFile;
 import java.util.Arrays;
 
 import org.apache.zookeeper.cli.AsyncCallback;
-import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.clients.client.ZooKeeper;
