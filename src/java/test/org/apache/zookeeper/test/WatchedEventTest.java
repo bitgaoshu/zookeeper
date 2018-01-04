@@ -22,8 +22,8 @@ import java.util.EnumSet;
 
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.Watcher.Event.EventType;
-import org.apache.zookeeper.Watcher.Event.KeeperState;
+import org.apache.zookeeper.watcher.Event.EventType;
+import org.apache.zookeeper.watcher.Event.KeeperState;
 import org.apache.zookeeper.proto.WatcherEvent;
 import org.junit.Assert;
 import org.junit.Test;

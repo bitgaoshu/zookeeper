@@ -26,11 +26,11 @@ import java.util.concurrent.TimeoutException;
 
 import org.apache.zookeeper.cli.AsyncCallback;
 import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.common.KeeperException;
-import org.apache.zookeeper.Op;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.operation.Op;
 import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.Watcher.Event.KeeperState;
+import org.apache.zookeeper.watcher.Watcher;
+import org.apache.zookeeper.watcher.Event.KeeperState;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.ZooDefs.Ids;

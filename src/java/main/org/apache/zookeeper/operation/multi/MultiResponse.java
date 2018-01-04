@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper;
+package org.apache.zookeeper.operation.multi;
 
 import org.apache.jute.InputArchive;
 import org.apache.jute.OutputArchive;
 import org.apache.jute.Record;
 import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpResult;
 import org.apache.zookeeper.proto.Create2Response;
 import org.apache.zookeeper.proto.CreateResponse;
 import org.apache.zookeeper.proto.MultiHeader;
@@ -62,24 +63,24 @@ public class MultiResponse implements Record, Iterable<OpResult> {
         for (OpResult result : results) {
             int err = result.getType() == OpCode.error ? ((OpResult.ErrorResult)result).getErr() : 0;
 
-            new MultiHeader(result.getType(), false, err).serialize(archive, tag);
+            new MultiHeader(result.getType().getValue(), false, err).serialize(archive, tag);
 
             switch (result.getType()) {
-                case OpCode.create:
+                case create:
                     new CreateResponse(((OpResult.CreateResult) result).getPath()).serialize(archive, tag);
                     break;
-                case OpCode.create2:
+                case create2:
                 	OpResult.CreateResult createResult = (OpResult.CreateResult) result;
                     new Create2Response(createResult.getPath(),
                     		createResult.getStat()).serialize(archive, tag);
                     break;
-                case OpCode.delete:
-                case OpCode.check:
+                case delete:
+                case check:
                     break;
-                case OpCode.setData:
+                case setData:
                     new SetDataResponse(((OpResult.SetDataResult) result).getStat()).serialize(archive, tag);
                     break;
-                case OpCode.error:
+                case error:
                     new ErrorResponse(((OpResult.ErrorResult) result).getErr()).serialize(archive, tag);
                     break;
                 default:
@@ -98,34 +99,35 @@ public class MultiResponse implements Record, Iterable<OpResult> {
         MultiHeader h = new MultiHeader();
         h.deserialize(archive, tag);
         while (!h.getDone()) {
-            switch (h.getType()) {
-                case OpCode.create:
+            OpCode op = OpCode.getOpCode(h.getType());
+            switch (op) {
+                case create:
                     CreateResponse cr = new CreateResponse();
                     cr.deserialize(archive, tag);
                     results.add(new OpResult.CreateResult(cr.getPath()));
                     break;
 
-                case OpCode.create2:
+                case create2:
                     Create2Response cr2 = new Create2Response();
                     cr2.deserialize(archive, tag);
                     results.add(new OpResult.CreateResult(cr2.getPath(), cr2.getStat()));
                     break;
 
-                case OpCode.delete:
+                case delete:
                     results.add(new OpResult.DeleteResult());
                     break;
 
-                case OpCode.setData:
+                case setData:
                     SetDataResponse sdr = new SetDataResponse();
                     sdr.deserialize(archive, tag);
                     results.add(new OpResult.SetDataResult(sdr.getStat()));
                     break;
 
-                case OpCode.check:
+                case check:
                     results.add(new OpResult.CheckResult());
                     break;
 
-                case OpCode.error:
+                case error:
                     //FIXME: need way to more cleanly serialize/deserialize exceptions
                     ErrorResponse er = new ErrorResponse();
                     er.deserialize(archive, tag);

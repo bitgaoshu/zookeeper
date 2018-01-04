@@ -21,7 +21,7 @@ import java.io.FileInputStream;
 import java.util.Properties;
 
 import org.apache.commons.cli.*;
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.admin.ZooKeeperAdmin;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig;

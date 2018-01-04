@@ -25,7 +25,7 @@ import javax.net.ssl.X509KeyManager;
 import javax.net.ssl.X509TrustManager;
 import javax.security.auth.x500.X500Principal;
 
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.common.ZKConfig;
 import org.apache.zookeeper.common.X509Exception.KeyManagerException;
 import org.apache.zookeeper.common.X509Exception.TrustManagerException;

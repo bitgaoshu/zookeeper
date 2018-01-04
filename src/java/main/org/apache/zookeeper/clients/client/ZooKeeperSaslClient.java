@@ -40,7 +40,7 @@ import javax.security.sasl.SaslException;
 
 import org.apache.zookeeper.cli.AsyncCallback;
 import org.apache.zookeeper.Login;
-import org.apache.zookeeper.Watcher.Event.KeeperState;
+import org.apache.zookeeper.watcher.Event.KeeperState;
 import org.apache.zookeeper.clients.client.common.ZKClientConfig;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn;
 import org.apache.zookeeper.operation.OpCode;

@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.test.system;
 
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.exception.KeeperException;
 
 /**
  * This interface is implemented by a class that can be run in an

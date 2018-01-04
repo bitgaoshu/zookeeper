@@ -40,14 +40,15 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import org.apache.zookeeper.watcher.Event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.cli.AsyncCallback.DataCallback;
 import org.apache.zookeeper.cli.AsyncCallback.StatCallback;
-import org.apache.zookeeper.common.KeeperException;
-import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.Watcher.Event.EventType;
-import org.apache.zookeeper.Watcher.Event.KeeperState;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.watcher.Watcher;
+import org.apache.zookeeper.watcher.Event.EventType;
+import org.apache.zookeeper.watcher.Event.KeeperState;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.clients.client.ZooKeeper;
@@ -535,9 +536,9 @@ public class GenerateLoad {
         volatile boolean connected;
 
         public void process(WatchedEvent event) {
-            if (event.getType() == Watcher.Event.EventType.None) {
+            if (event.getType() == Event.EventType.None) {
                 synchronized (this) {
-                    connected = event.getState() == Watcher.Event.KeeperState.SyncConnected;
+                    connected = event.getState() == Event.KeeperState.SyncConnected;
                     notifyAll();
                 }
             }

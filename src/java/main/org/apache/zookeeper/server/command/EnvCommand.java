@@ -21,7 +21,7 @@ package org.apache.zookeeper.server.command;
 import java.io.PrintWriter;
 import java.util.List;
 
-import org.apache.zookeeper.Environment;
+import org.apache.zookeeper.logEnv.LogEnv;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 
 public class EnvCommand extends AbstractFourLetterCommand {
@@ -31,10 +31,10 @@ public class EnvCommand extends AbstractFourLetterCommand {
 
     @Override
     public void commandRun() {
-        List<Environment.Entry> env = Environment.list();
+        List<LogEnv.Entry> env = LogEnv.list();
 
-        pw.println("Environment:");
-        for (Environment.Entry e : env) {
+        pw.println("LogEnv:");
+        for (LogEnv.Entry e : env) {
             pw.print(e.getKey());
             pw.print("=");
             pw.println(e.getValue());

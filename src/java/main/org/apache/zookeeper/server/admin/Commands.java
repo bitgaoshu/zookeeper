@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.zookeeper.Environment;
-import org.apache.zookeeper.Environment.Entry;
+import org.apache.zookeeper.logEnv.LogEnv;
+import org.apache.zookeeper.logEnv.LogEnv.Entry;
 import org.apache.zookeeper.Version;
 import org.apache.zookeeper.server.DataTree;
 import org.apache.zookeeper.server.ServerStats;
@@ -231,7 +231,7 @@ public class Commands {
         @Override
         public CommandResponse run(ZooKeeperServer zkServer, Map<String, String> kwargs) {
             CommandResponse response = initializeResponse();
-            for (Entry e : Environment.list()) {
+            for (Entry e : LogEnv.list()) {
                 response.put(e.getKey(), e.getValue());
             }
             return response;

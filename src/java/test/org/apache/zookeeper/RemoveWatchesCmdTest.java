@@ -24,12 +24,14 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.zookeeper.Watcher.Event.EventType;
+import org.apache.zookeeper.watcher.Event;
+import org.apache.zookeeper.watcher.Event.EventType;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.clients.client.ZooKeeperMain;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.nodeMode.CreateMode;
+import org.apache.zookeeper.watcher.Watcher;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -66,7 +68,7 @@ public class RemoveWatchesCmdTest extends ClientBase {
      */
     @Test(timeout = 30000)
     public void testRemoveWatchesWithNoPassedOptions() throws Exception {
-        List<EventType> expectedEvents = new ArrayList<Watcher.Event.EventType>();
+        List<EventType> expectedEvents = new ArrayList<Event.EventType>();
         expectedEvents.add(EventType.ChildWatchRemoved);
         expectedEvents.add(EventType.DataWatchRemoved);
         MyWatcher myWatcher = new MyWatcher("/testnode1", expectedEvents, 2);
@@ -106,7 +108,7 @@ public class RemoveWatchesCmdTest extends ClientBase {
     @Test(timeout = 30000)
     public void testRemoveNodeDataChangedWatches() throws Exception {
         LOG.info("Adding data watcher using getData()");
-        List<EventType> expectedEvents = new ArrayList<Watcher.Event.EventType>();
+        List<EventType> expectedEvents = new ArrayList<Event.EventType>();
         expectedEvents.add(EventType.DataWatchRemoved);
         MyWatcher myWatcher = new MyWatcher("/testnode1", expectedEvents, 1);
 
@@ -134,7 +136,7 @@ public class RemoveWatchesCmdTest extends ClientBase {
      */
     @Test(timeout = 30000)
     public void testRemoveNodeCreatedWatches() throws Exception {
-        List<EventType> expectedEvents = new ArrayList<Watcher.Event.EventType>();
+        List<EventType> expectedEvents = new ArrayList<Event.EventType>();
         expectedEvents.add(EventType.DataWatchRemoved);
         MyWatcher myWatcher1 = new MyWatcher("/testnode1", expectedEvents, 1);
         MyWatcher myWatcher2 = new MyWatcher("/testnode1/testnode2",
@@ -175,7 +177,7 @@ public class RemoveWatchesCmdTest extends ClientBase {
      */
     @Test(timeout = 30000)
     public void testRemoveNodeChildrenChangedWatches() throws Exception {
-        List<EventType> expectedEvents = new ArrayList<Watcher.Event.EventType>();
+        List<EventType> expectedEvents = new ArrayList<Event.EventType>();
         expectedEvents.add(EventType.ChildWatchRemoved);
         MyWatcher myWatcher = new MyWatcher("/testnode1", expectedEvents, 1);
 
@@ -201,7 +203,7 @@ public class RemoveWatchesCmdTest extends ClientBase {
     @Test(timeout = 30000)
     public void testRemoveNodeDeletedWatches() throws Exception {
         LOG.info("Adding NodeDeleted watcher");
-        List<EventType> expectedEvents = new ArrayList<Watcher.Event.EventType>();
+        List<EventType> expectedEvents = new ArrayList<Event.EventType>();
         expectedEvents.add(EventType.ChildWatchRemoved);
         expectedEvents.add(EventType.NodeDeleted);
         MyWatcher myWatcher = new MyWatcher("/testnode1", expectedEvents, 1);
@@ -279,7 +281,7 @@ public class RemoveWatchesCmdTest extends ClientBase {
                     WatchedEvent event) {
                 List<EventType> events = pathVsEvent.get(event.getPath());
                 if (null == events) {
-                    events = new ArrayList<Watcher.Event.EventType>();
+                    events = new ArrayList<Event.EventType>();
                     pathVsEvent.put(event.getPath(), events);
                 }
                 events.add(event.getType());

@@ -18,7 +18,7 @@
 package org.apache.zookeeper.nodeMode;
 
 import org.apache.yetus.audience.InterfaceAudience;
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.exception.KeeperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

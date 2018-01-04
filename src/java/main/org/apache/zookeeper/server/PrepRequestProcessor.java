@@ -20,13 +20,14 @@ package org.apache.zookeeper.server;
 
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.MultiTransactionRecord;
-import org.apache.zookeeper.Op;
+import org.apache.zookeeper.operation.multi.MultiTransactionRecord;
+import org.apache.zookeeper.operation.Op;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.common.*;
-import org.apache.zookeeper.common.KeeperException.BadArgumentsException;
-import org.apache.zookeeper.common.KeeperException.Code;
+import org.apache.zookeeper.exception.KeeperException.BadArgumentsException;
+import org.apache.zookeeper.exception.KeeperException.Code;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.data.StatPersisted;

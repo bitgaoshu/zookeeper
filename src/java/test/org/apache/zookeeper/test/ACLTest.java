@@ -28,11 +28,11 @@ import java.util.concurrent.CountDownLatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.common.KeeperException.InvalidACLException;
+import org.apache.zookeeper.exception.KeeperException.InvalidACLException;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.Watcher.Event.KeeperState;
+import org.apache.zookeeper.watcher.Watcher;
+import org.apache.zookeeper.watcher.Event.KeeperState;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.ZooDefs.Ids;
@@ -177,7 +177,7 @@ public class ACLTest extends ZKTestCase implements Watcher {
     /*
      * (non-Javadoc)
      *
-     * @see org.apache.zookeeper.Watcher#process(org.apache.zookeeper.WatcherEvent)
+     * @see org.apache.zookeeper.watcher.Watcher#process(org.apache.zookeeper.WatcherEvent)
      */
     public void process(WatchedEvent event) {
         LOG.info("Event:" + event.getState() + " " + event.getType() + " "

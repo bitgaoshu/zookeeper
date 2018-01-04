@@ -3,10 +3,15 @@ package org.apache.zookeeper.clients.client;
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.cli.AsyncCallback;
 import org.apache.zookeeper.clients.client.common.*;
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
+import org.apache.zookeeper.operation.multi.MultiTransactionRecord;
 import org.apache.zookeeper.nodeMode.CreateMode;
+import org.apache.zookeeper.operation.Op;
+import org.apache.zookeeper.operation.OpResult;
+import org.apache.zookeeper.watcher.Watcher;
+import org.apache.zookeeper.watcher.WatcherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -331,22 +336,22 @@ public class ZKEmbedded extends ZooKeeper{
     }
 
     @Override
-    public void removeWatches(String path, Watcher watcher, Watcher.WatcherType watcherType, boolean local) throws InterruptedException, KeeperException {
+    public void removeWatches(String path, Watcher watcher, WatcherType watcherType, boolean local) throws InterruptedException, KeeperException {
         super.removeWatches(path, watcher, watcherType, local);
     }
 
     @Override
-    public void removeWatches(String path, Watcher watcher, Watcher.WatcherType watcherType, boolean local, AsyncCallback.VoidCallback cb, Object ctx) {
+    public void removeWatches(String path, Watcher watcher, WatcherType watcherType, boolean local, AsyncCallback.VoidCallback cb, Object ctx) {
         super.removeWatches(path, watcher, watcherType, local, cb, ctx);
     }
 
     @Override
-    public void removeAllWatches(String path, Watcher.WatcherType watcherType, boolean local) throws InterruptedException, KeeperException {
+    public void removeAllWatches(String path, WatcherType watcherType, boolean local) throws InterruptedException, KeeperException {
         super.removeAllWatches(path, watcherType, local);
     }
 
     @Override
-    public void removeAllWatches(String path, Watcher.WatcherType watcherType, boolean local, AsyncCallback.VoidCallback cb, Object ctx) {
+    public void removeAllWatches(String path, WatcherType watcherType, boolean local, AsyncCallback.VoidCallback cb, Object ctx) {
         super.removeAllWatches(path, watcherType, local, cb, ctx);
     }
 

@@ -22,7 +22,7 @@ import java.nio.ByteBuffer;
 import java.util.List;
 
 import org.apache.jute.Record;
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.common.Time;
 import org.apache.zookeeper.data.Id;

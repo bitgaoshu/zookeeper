@@ -20,15 +20,22 @@ package org.apache.zookeeper.clients.client;
 
 import org.apache.jute.Record;
 import org.apache.yetus.audience.InterfaceAudience;
-import org.apache.zookeeper.*;
-import org.apache.zookeeper.OpResult.ErrorResult;
-import org.apache.zookeeper.Watcher.WatcherType;
+import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.operation.multi.MultiResponse;
+import org.apache.zookeeper.operation.multi.MultiTransactionRecord;
+import org.apache.zookeeper.operation.Op;
+import org.apache.zookeeper.operation.OpResult;
+import org.apache.zookeeper.operation.OpResult.ErrorResult;
+import org.apache.zookeeper.Testable;
+import org.apache.zookeeper.logEnv.LogEnv;
+import org.apache.zookeeper.watcher.Watcher;
+import org.apache.zookeeper.watcher.WatcherType;
 import org.apache.zookeeper.cli.AsyncCallback.*;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocket;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNIO;
 import org.apache.zookeeper.clients.client.common.*;
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.common.PathUtils;
 import org.apache.zookeeper.data.ACL;
@@ -123,7 +130,7 @@ public class ZooKeeper implements AutoCloseable {
     static {
         //Keep these two lines together to keep the initialization order explicit
         LOG = LoggerFactory.getLogger(ZooKeeper.class);
-        Environment.logEnv("Client environment:", LOG);
+        LogEnv.logEnv("Client environment:", LOG);
     }
 
     protected final HostProvider hostProvider;

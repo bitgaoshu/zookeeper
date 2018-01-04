@@ -30,10 +30,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn.SendThread;
-import org.apache.zookeeper.Watcher.Event.KeeperState;
+import org.apache.zookeeper.watcher.Event.KeeperState;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.test.ClientBase;

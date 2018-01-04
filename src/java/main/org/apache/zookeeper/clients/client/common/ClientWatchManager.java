@@ -18,7 +18,8 @@
 
 package org.apache.zookeeper.clients.client.common;
 
-import org.apache.zookeeper.Watcher;
+import org.apache.zookeeper.watcher.Watcher;
+import org.apache.zookeeper.watcher.Event;
 
 import java.util.Set;
 
@@ -37,6 +38,6 @@ public interface ClientWatchManager {
      * @param path event path
      * @return may be empty set but must not be null
      */
-    public Set<Watcher> materialize(Watcher.Event.KeeperState state,
-        Watcher.Event.EventType type, String path);
+    public Set<Watcher> materialize(Event.KeeperState state,
+                                    Event.EventType type, String path);
 }

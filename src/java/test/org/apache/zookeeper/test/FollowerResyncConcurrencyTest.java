@@ -37,7 +37,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.zookeeper.cli.AsyncCallback;
 import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.TestableZooKeeper;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.ZKTestCase;
@@ -47,6 +47,7 @@ import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.quorum.Leader;
 import org.apache.zookeeper.test.ClientBase.CountdownWatcher;
+import org.apache.zookeeper.watcher.Event;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

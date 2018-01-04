@@ -15,11 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper;
+package org.apache.zookeeper.operation.multi;
 
 import org.apache.jute.InputArchive;
 import org.apache.jute.OutputArchive;
 import org.apache.jute.Record;
+import org.apache.zookeeper.operation.Op;
 import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.proto.*;
 
@@ -66,14 +67,14 @@ public class MultiTransactionRecord implements Record, Iterable<Op> {
         for (Op op : ops) {
             MultiHeader h = new MultiHeader(op.getType(), false, -1);
             h.serialize(archive, tag);
-            switch (op.getType()) {
-                case OpCode.create:
-                case OpCode.create2:
-                case OpCode.createTTL:
-                case OpCode.createContainer:
-                case OpCode.delete:
-                case OpCode.setData:
-                case OpCode.check:
+            switch (op.getOpCode()) {
+                case create:
+                case create2:
+                case createTTL:
+                case createContainer:
+                case delete:
+                case setData:
+                case check:
                     op.toRequestRecord().serialize(archive, tag);
                     break;
                 default:
@@ -91,30 +92,31 @@ public class MultiTransactionRecord implements Record, Iterable<Op> {
         h.deserialize(archive, tag);
 
         while (!h.getDone()) {
-            switch (h.getType()) {
-                case OpCode.create:
-                case OpCode.create2:
-                case OpCode.createContainer:
+            OpCode op = OpCode.getOpCode(h.getType());
+            switch (op) {
+                case create:
+                case create2:
+                case createContainer:
                     CreateRequest cr = new CreateRequest();
                     cr.deserialize(archive, tag);
                     add(Op.create(cr.getPath(), cr.getData(), cr.getAcl(), cr.getFlags()));
                     break;
-                case OpCode.createTTL:
+                case createTTL:
                     CreateTTLRequest crTtl = new CreateTTLRequest();
                     crTtl.deserialize(archive, tag);
                     add(Op.create(crTtl.getPath(), crTtl.getData(), crTtl.getAcl(), crTtl.getFlags(), crTtl.getTtl()));
                     break;
-                case OpCode.delete:
+                case delete:
                     DeleteRequest dr = new DeleteRequest();
                     dr.deserialize(archive, tag);
                     add(Op.delete(dr.getPath(), dr.getVersion()));
                     break;
-                case OpCode.setData:
+                case setData:
                     SetDataRequest sdr = new SetDataRequest();
                     sdr.deserialize(archive, tag);
                     add(Op.setData(sdr.getPath(), sdr.getData(), sdr.getVersion()));
                     break;
-                case OpCode.check:
+                case check:
                     CheckVersionRequest cvr = new CheckVersionRequest();
                     cvr.deserialize(archive, tag);
                     add(Op.check(cvr.getPath(), cvr.getVersion()));

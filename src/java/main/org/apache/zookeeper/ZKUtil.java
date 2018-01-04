@@ -25,8 +25,8 @@ import java.util.List;
 
 import org.apache.zookeeper.cli.AsyncCallback.StringCallback;
 import org.apache.zookeeper.cli.AsyncCallback.VoidCallback;
-import org.apache.zookeeper.common.KeeperException;
-import org.apache.zookeeper.common.KeeperException.Code;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.exception.KeeperException.Code;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.common.PathUtils;
 import org.slf4j.Logger;

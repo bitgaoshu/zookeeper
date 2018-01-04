@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import org.apache.commons.cli.*;
 import org.apache.zookeeper.cli.AsyncCallback.StringCallback;
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.ZKUtil;
 import org.apache.zookeeper.data.Stat;
 

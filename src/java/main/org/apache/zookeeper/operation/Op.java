@@ -15,13 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper;
+package org.apache.zookeeper.operation;
 
 import org.apache.jute.Record;
 import org.apache.zookeeper.cli.AsyncCallback;
 import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.common.KeeperException;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.common.PathUtils;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.proto.*;

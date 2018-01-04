@@ -24,13 +24,13 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.Watcher;
+import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.common.KeeperException.Code;
-import org.apache.zookeeper.Watcher.Event.EventType;
+import org.apache.zookeeper.exception.KeeperException.Code;
+import org.apache.zookeeper.watcher.Event.EventType;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.common.Time;
 import org.apache.zookeeper.data.Stat;

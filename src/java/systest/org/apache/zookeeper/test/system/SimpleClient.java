@@ -21,7 +21,7 @@ package org.apache.zookeeper.test.system;
 import org.apache.zookeeper.cli.AsyncCallback;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.Watcher;
+import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.cli.AsyncCallback.StatCallback;
 import org.apache.zookeeper.cli.AsyncCallback.StringCallback;

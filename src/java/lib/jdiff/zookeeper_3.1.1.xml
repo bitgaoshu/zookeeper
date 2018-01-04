@@ -245,8 +245,8 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="state" type="org.apache.zookeeper.Watcher.Event.KeeperState"/>
-      <param name="type" type="org.apache.zookeeper.Watcher.Event.EventType"/>
+      <param name="state" type="org.apache.zookeeper.watcher.Watcher.Event.KeeperState"/>
+      <param name="type" type="org.apache.zookeeper.watcher.Watcher.Event.EventType"/>
       <param name="path" type="java.lang.String"/>
       <doc>
       <![CDATA[Return a set of watchers that should be notified of the event. The 
@@ -299,7 +299,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="flag" type="int"/>
-      <exception name="KeeperException" type="org.apache.zookeeper.common.KeeperException"/>
+      <exception name="KeeperException" type="org.apache.zookeeper.exception.KeeperException"/>
       <doc>
       <![CDATA[Map an integer value to a CreateMode value]]>
       </doc>
@@ -343,8 +343,7 @@
     </doc>
   </class>
   <!-- end class org.apache.zookeeper.utils.CreateMode -->
-  <!-- start class org.apache.zookeeper.Environment -->
-  <class name="Environment" extends="java.lang.Object"
+  <!-- start class org.apache.zookeeper.logEnv.LogEnv  <class name="Environment" extends="java.lang.Object"
     abstract="false"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
@@ -368,8 +367,7 @@
     <![CDATA[Provide insight into the runtime environment.]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.Environment -->
-  <!-- start class org.apache.zookeeper.Environment.Entry -->
+  <!-- end class org.apache.zookeeper.logEnv.LogEnv  <!-- start class org.apache.zookeeper.logEnv.LogEnvy -->
   <class name="Environment.Entry" extends="java.lang.Object"
     abstract="false"
     static="true" final="false" visibility="public"
@@ -394,21 +392,21 @@
       deprecated="not deprecated">
     </method>
   </class>
-  <!-- end class org.apache.zookeeper.Environment.Entry -->
-  <!-- start class org.apache.zookeeper.common.KeeperException -->
+  <!-- end class org.apache.zookeeper.logEnv.LogEnvy -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException -->
   <class name="KeeperException" extends="java.lang.Exception"
     abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <constructor name="KeeperException" type="org.apache.zookeeper.common.KeeperException.Code"
+    <constructor name="KeeperException" type="org.apache.zookeeper.exception.KeeperException.Code"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </constructor>
-    <method name="create" return="org.apache.zookeeper.common.KeeperException"
+    <method name="create" return="org.apache.zookeeper.exception.KeeperException"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="code" type="org.apache.zookeeper.common.KeeperException.Code"/>
+      <param name="code" type="org.apache.zookeeper.exception.KeeperException.Code"/>
       <param name="path" type="java.lang.String"/>
       <doc>
       <![CDATA[All non-specific keeper exceptions should be constructed via
@@ -424,7 +422,7 @@
   the caller.]]>
       </doc>
     </method>
-    <method name="create" return="org.apache.zookeeper.common.KeeperException"
+    <method name="create" return="org.apache.zookeeper.exception.KeeperException"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="deprecated in 3.1.0, use {@link #create(Code, String)}
@@ -436,7 +434,7 @@
  instead]]>
       </doc>
     </method>
-    <method name="create" return="org.apache.zookeeper.common.KeeperException"
+    <method name="create" return="org.apache.zookeeper.exception.KeeperException"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="deprecated in 3.1.0, use {@link #create(Code)}
@@ -447,11 +445,11 @@
  instead]]>
       </doc>
     </method>
-    <method name="create" return="org.apache.zookeeper.common.KeeperException"
+    <method name="create" return="org.apache.zookeeper.exception.KeeperException"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="code" type="org.apache.zookeeper.common.KeeperException.Code"/>
+      <param name="code" type="org.apache.zookeeper.exception.KeeperException.Code"/>
       <doc>
       <![CDATA[All non-specific keeper exceptions should be constructed via
  this factory method in order to guarantee consistency in error
@@ -490,7 +488,7 @@
  @deprecated deprecated in 3.1.0, use {@link #code()} instead]]>
       </doc>
     </method>
-    <method name="code" return="org.apache.zookeeper.common.KeeperException.Code"
+    <method name="code" return="org.apache.zookeeper.exception.KeeperException.Code"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -514,9 +512,9 @@
       deprecated="not deprecated">
     </method>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException -->
-  <!-- start class org.apache.zookeeper.common.KeeperException.APIErrorException -->
-  <class name="KeeperException.APIErrorException" extends="org.apache.zookeeper.common.KeeperException"
+  <!-- end class org.apache.zookeeper.exception.KeeperException -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.APIErrorException -->
+  <class name="KeeperException.APIErrorException" extends="org.apache.zookeeper.exception.KeeperException"
     abstract="false"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -528,9 +526,9 @@
     <![CDATA[@see Code.APIERROR]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException.APIErrorException -->
-  <!-- start class org.apache.zookeeper.common.KeeperException.AuthFailedException -->
-  <class name="KeeperException.AuthFailedException" extends="org.apache.zookeeper.common.KeeperException"
+  <!-- end class org.apache.zookeeper.exception.KeeperException.APIErrorException -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.AuthFailedException -->
+  <class name="KeeperException.AuthFailedException" extends="org.apache.zookeeper.exception.KeeperException"
     abstract="false"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -542,9 +540,9 @@
     <![CDATA[@see Code.AUTHFAILED]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException.AuthFailedException -->
-  <!-- start class org.apache.zookeeper.common.KeeperException.BadArgumentsException -->
-  <class name="KeeperException.BadArgumentsException" extends="org.apache.zookeeper.common.KeeperException"
+  <!-- end class org.apache.zookeeper.exception.KeeperException.AuthFailedException -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.BadArgumentsException -->
+  <class name="KeeperException.BadArgumentsException" extends="org.apache.zookeeper.exception.KeeperException"
     abstract="false"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -556,9 +554,9 @@
     <![CDATA[@see Code.BADARGUMENTS]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException.BadArgumentsException -->
-  <!-- start class org.apache.zookeeper.common.KeeperException.BadVersionException -->
-  <class name="KeeperException.BadVersionException" extends="org.apache.zookeeper.common.KeeperException"
+  <!-- end class org.apache.zookeeper.exception.KeeperException.BadArgumentsException -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.BadVersionException -->
+  <class name="KeeperException.BadVersionException" extends="org.apache.zookeeper.exception.KeeperException"
     abstract="false"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -570,19 +568,19 @@
     <![CDATA[@see Code.BADVERSION]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException.BadVersionException -->
-  <!-- start class org.apache.zookeeper.common.KeeperException.Code -->
+  <!-- end class org.apache.zookeeper.exception.KeeperException.BadVersionException -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.Code -->
   <class name="KeeperException.Code" extends="java.lang.Enum"
     abstract="false"
     static="true" final="true" visibility="public"
     deprecated="not deprecated">
-    <implements name="org.apache.zookeeper.common.KeeperException.CodeDeprecated"/>
-    <method name="values" return="org.apache.zookeeper.common.KeeperException.Code[]"
+    <implements name="org.apache.zookeeper.exception.KeeperException.CodeDeprecated"/>
+    <method name="values" return="org.apache.zookeeper.exception.KeeperException.Code[]"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="valueOf" return="org.apache.zookeeper.common.KeeperException.Code"
+    <method name="valueOf" return="org.apache.zookeeper.exception.KeeperException.Code"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -597,7 +595,7 @@
  @return error code as integer]]>
       </doc>
     </method>
-    <method name="get" return="org.apache.zookeeper.common.KeeperException.Code"
+    <method name="get" return="org.apache.zookeeper.exception.KeeperException.Code"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -608,7 +606,7 @@
  @return Code value corresponding to specified int code, or null]]>
       </doc>
     </method>
-    <field name="OK" type="org.apache.zookeeper.common.KeeperException.Code"
+    <field name="OK" type="org.apache.zookeeper.exception.KeeperException.Code"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -616,7 +614,7 @@
       <![CDATA[Everything is OK]]>
       </doc>
     </field>
-    <field name="SYSTEMERROR" type="org.apache.zookeeper.common.KeeperException.Code"
+    <field name="SYSTEMERROR" type="org.apache.zookeeper.exception.KeeperException.Code"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -627,7 +625,7 @@
  value, but lesser than {@link #APIERROR}, are system errors.]]>
       </doc>
     </field>
-    <field name="RUNTIMEINCONSISTENCY" type="org.apache.zookeeper.common.KeeperException.Code"
+    <field name="RUNTIMEINCONSISTENCY" type="org.apache.zookeeper.exception.KeeperException.Code"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -635,7 +633,7 @@
       <![CDATA[A runtime inconsistency was found]]>
       </doc>
     </field>
-    <field name="DATAINCONSISTENCY" type="org.apache.zookeeper.common.KeeperException.Code"
+    <field name="DATAINCONSISTENCY" type="org.apache.zookeeper.exception.KeeperException.Code"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -643,7 +641,7 @@
       <![CDATA[A data inconsistency was found]]>
       </doc>
     </field>
-    <field name="CONNECTIONLOSS" type="org.apache.zookeeper.common.KeeperException.Code"
+    <field name="CONNECTIONLOSS" type="org.apache.zookeeper.exception.KeeperException.Code"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -651,7 +649,7 @@
       <![CDATA[Connection to the server has been lost]]>
       </doc>
     </field>
-    <field name="MARSHALLINGERROR" type="org.apache.zookeeper.common.KeeperException.Code"
+    <field name="MARSHALLINGERROR" type="org.apache.zookeeper.exception.KeeperException.Code"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -659,7 +657,7 @@
       <![CDATA[Error while marshalling or unmarshalling data]]>
       </doc>
     </field>
-    <field name="UNIMPLEMENTED" type="org.apache.zookeeper.common.KeeperException.Code"
+    <field name="UNIMPLEMENTED" type="org.apache.zookeeper.exception.KeeperException.Code"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -667,7 +665,7 @@
       <![CDATA[Operation is unimplemented]]>
       </doc>
     </field>
-    <field name="OPERATIONTIMEOUT" type="org.apache.zookeeper.common.KeeperException.Code"
+    <field name="OPERATIONTIMEOUT" type="org.apache.zookeeper.exception.KeeperException.Code"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -675,7 +673,7 @@
       <![CDATA[Operation timeout]]>
       </doc>
     </field>
-    <field name="BADARGUMENTS" type="org.apache.zookeeper.common.KeeperException.Code"
+    <field name="BADARGUMENTS" type="org.apache.zookeeper.exception.KeeperException.Code"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -683,7 +681,7 @@
       <![CDATA[Invalid arguments]]>
       </doc>
     </field>
-    <field name="APIERROR" type="org.apache.zookeeper.common.KeeperException.Code"
+    <field name="APIERROR" type="org.apache.zookeeper.exception.KeeperException.Code"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -695,7 +693,7 @@
  {@link #SYSTEMERROR}).]]>
       </doc>
     </field>
-    <field name="NONODE" type="org.apache.zookeeper.common.KeeperException.Code"
+    <field name="NONODE" type="org.apache.zookeeper.exception.KeeperException.Code"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -703,7 +701,7 @@
       <![CDATA[Node does not exist]]>
       </doc>
     </field>
-    <field name="NOAUTH" type="org.apache.zookeeper.common.KeeperException.Code"
+    <field name="NOAUTH" type="org.apache.zookeeper.exception.KeeperException.Code"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -711,7 +709,7 @@
       <![CDATA[Not authenticated]]>
       </doc>
     </field>
-    <field name="BADVERSION" type="org.apache.zookeeper.common.KeeperException.Code"
+    <field name="BADVERSION" type="org.apache.zookeeper.exception.KeeperException.Code"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -719,7 +717,7 @@
       <![CDATA[Version conflict]]>
       </doc>
     </field>
-    <field name="NOCHILDRENFOREPHEMERALS" type="org.apache.zookeeper.common.KeeperException.Code"
+    <field name="NOCHILDRENFOREPHEMERALS" type="org.apache.zookeeper.exception.KeeperException.Code"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -727,7 +725,7 @@
       <![CDATA[Ephemeral nodes may not have children]]>
       </doc>
     </field>
-    <field name="NODEEXISTS" type="org.apache.zookeeper.common.KeeperException.Code"
+    <field name="NODEEXISTS" type="org.apache.zookeeper.exception.KeeperException.Code"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -735,7 +733,7 @@
       <![CDATA[The node already exists]]>
       </doc>
     </field>
-    <field name="NOTEMPTY" type="org.apache.zookeeper.common.KeeperException.Code"
+    <field name="NOTEMPTY" type="org.apache.zookeeper.exception.KeeperException.Code"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -743,7 +741,7 @@
       <![CDATA[The node has children]]>
       </doc>
     </field>
-    <field name="SESSIONEXPIRED" type="org.apache.zookeeper.common.KeeperException.Code"
+    <field name="SESSIONEXPIRED" type="org.apache.zookeeper.exception.KeeperException.Code"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -751,7 +749,7 @@
       <![CDATA[The session has been expired by the server]]>
       </doc>
     </field>
-    <field name="INVALIDCALLBACK" type="org.apache.zookeeper.common.KeeperException.Code"
+    <field name="INVALIDCALLBACK" type="org.apache.zookeeper.exception.KeeperException.Code"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -759,7 +757,7 @@
       <![CDATA[Invalid callback specified]]>
       </doc>
     </field>
-    <field name="INVALIDACL" type="org.apache.zookeeper.common.KeeperException.Code"
+    <field name="INVALIDACL" type="org.apache.zookeeper.exception.KeeperException.Code"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -767,7 +765,7 @@
       <![CDATA[Invalid ACL specified]]>
       </doc>
     </field>
-    <field name="AUTHFAILED" type="org.apache.zookeeper.common.KeeperException.Code"
+    <field name="AUTHFAILED" type="org.apache.zookeeper.exception.KeeperException.Code"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -782,8 +780,8 @@
  enum values are in all CAPS.]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException.Code -->
-  <!-- start interface org.apache.zookeeper.common.KeeperException.CodeDeprecated -->
+  <!-- end class org.apache.zookeeper.exception.KeeperException.Code -->
+  <!-- start interface org.apache.zookeeper.exception.KeeperException.CodeDeprecated -->
   <interface name="KeeperException.CodeDeprecated"    abstract="true"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -982,9 +980,9 @@
  javadoc to include in the user API spec.]]>
     </doc>
   </interface>
-  <!-- end interface org.apache.zookeeper.common.KeeperException.CodeDeprecated -->
-  <!-- start class org.apache.zookeeper.common.KeeperException.ConnectionLossException -->
-  <class name="KeeperException.ConnectionLossException" extends="org.apache.zookeeper.common.KeeperException"
+  <!-- end interface org.apache.zookeeper.exception.KeeperException.CodeDeprecated -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.ConnectionLossException -->
+  <class name="KeeperException.ConnectionLossException" extends="org.apache.zookeeper.exception.KeeperException"
     abstract="false"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -996,9 +994,9 @@
     <![CDATA[@see Code.CONNECTIONLOSS]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException.ConnectionLossException -->
-  <!-- start class org.apache.zookeeper.common.KeeperException.DataInconsistencyException -->
-  <class name="KeeperException.DataInconsistencyException" extends="org.apache.zookeeper.common.KeeperException"
+  <!-- end class org.apache.zookeeper.exception.KeeperException.ConnectionLossException -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.DataInconsistencyException -->
+  <class name="KeeperException.DataInconsistencyException" extends="org.apache.zookeeper.exception.KeeperException"
     abstract="false"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -1010,9 +1008,9 @@
     <![CDATA[@see Code.DATAINCONSISTENCY]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException.DataInconsistencyException -->
-  <!-- start class org.apache.zookeeper.common.KeeperException.InvalidACLException -->
-  <class name="KeeperException.InvalidACLException" extends="org.apache.zookeeper.common.KeeperException"
+  <!-- end class org.apache.zookeeper.exception.KeeperException.DataInconsistencyException -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.InvalidACLException -->
+  <class name="KeeperException.InvalidACLException" extends="org.apache.zookeeper.exception.KeeperException"
     abstract="false"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -1024,9 +1022,9 @@
     <![CDATA[@see Code.INVALIDACL]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException.InvalidACLException -->
-  <!-- start class org.apache.zookeeper.common.KeeperException.InvalidCallbackException -->
-  <class name="KeeperException.InvalidCallbackException" extends="org.apache.zookeeper.common.KeeperException"
+  <!-- end class org.apache.zookeeper.exception.KeeperException.InvalidACLException -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.InvalidCallbackException -->
+  <class name="KeeperException.InvalidCallbackException" extends="org.apache.zookeeper.exception.KeeperException"
     abstract="false"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -1038,9 +1036,9 @@
     <![CDATA[@see Code.INVALIDCALLBACK]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException.InvalidCallbackException -->
-  <!-- start class org.apache.zookeeper.common.KeeperException.MarshallingErrorException -->
-  <class name="KeeperException.MarshallingErrorException" extends="org.apache.zookeeper.common.KeeperException"
+  <!-- end class org.apache.zookeeper.exception.KeeperException.InvalidCallbackException -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.MarshallingErrorException -->
+  <class name="KeeperException.MarshallingErrorException" extends="org.apache.zookeeper.exception.KeeperException"
     abstract="false"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -1052,9 +1050,9 @@
     <![CDATA[@see Code.MARSHALLINGERROR]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException.MarshallingErrorException -->
-  <!-- start class org.apache.zookeeper.common.KeeperException.NoAuthException -->
-  <class name="KeeperException.NoAuthException" extends="org.apache.zookeeper.common.KeeperException"
+  <!-- end class org.apache.zookeeper.exception.KeeperException.MarshallingErrorException -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.NoAuthException -->
+  <class name="KeeperException.NoAuthException" extends="org.apache.zookeeper.exception.KeeperException"
     abstract="false"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -1066,9 +1064,9 @@
     <![CDATA[@see Code.NOAUTH]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException.NoAuthException -->
-  <!-- start class org.apache.zookeeper.common.KeeperException.NoChildrenForEphemeralsException -->
-  <class name="KeeperException.NoChildrenForEphemeralsException" extends="org.apache.zookeeper.common.KeeperException"
+  <!-- end class org.apache.zookeeper.exception.KeeperException.NoAuthException -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.NoChildrenForEphemeralsException -->
+  <class name="KeeperException.NoChildrenForEphemeralsException" extends="org.apache.zookeeper.exception.KeeperException"
     abstract="false"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -1080,9 +1078,9 @@
     <![CDATA[@see Code.NOCHILDRENFOREPHEMERALS]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException.NoChildrenForEphemeralsException -->
-  <!-- start class org.apache.zookeeper.common.KeeperException.NodeExistsException -->
-  <class name="KeeperException.NodeExistsException" extends="org.apache.zookeeper.common.KeeperException"
+  <!-- end class org.apache.zookeeper.exception.KeeperException.NoChildrenForEphemeralsException -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.NodeExistsException -->
+  <class name="KeeperException.NodeExistsException" extends="org.apache.zookeeper.exception.KeeperException"
     abstract="false"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -1094,9 +1092,9 @@
     <![CDATA[@see Code.NODEEXISTS]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException.NodeExistsException -->
-  <!-- start class org.apache.zookeeper.common.KeeperException.NoNodeException -->
-  <class name="KeeperException.NoNodeException" extends="org.apache.zookeeper.common.KeeperException"
+  <!-- end class org.apache.zookeeper.exception.KeeperException.NodeExistsException -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.NoNodeException -->
+  <class name="KeeperException.NoNodeException" extends="org.apache.zookeeper.exception.KeeperException"
     abstract="false"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -1108,9 +1106,9 @@
     <![CDATA[@see Code.NONODE]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException.NoNodeException -->
-  <!-- start class org.apache.zookeeper.common.KeeperException.NotEmptyException -->
-  <class name="KeeperException.NotEmptyException" extends="org.apache.zookeeper.common.KeeperException"
+  <!-- end class org.apache.zookeeper.exception.KeeperException.NoNodeException -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.NotEmptyException -->
+  <class name="KeeperException.NotEmptyException" extends="org.apache.zookeeper.exception.KeeperException"
     abstract="false"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -1122,9 +1120,9 @@
     <![CDATA[@see Code.NOTEMPTY]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException.NotEmptyException -->
-  <!-- start class org.apache.zookeeper.common.KeeperException.OperationTimeoutException -->
-  <class name="KeeperException.OperationTimeoutException" extends="org.apache.zookeeper.common.KeeperException"
+  <!-- end class org.apache.zookeeper.exception.KeeperException.NotEmptyException -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.OperationTimeoutException -->
+  <class name="KeeperException.OperationTimeoutException" extends="org.apache.zookeeper.exception.KeeperException"
     abstract="false"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -1136,9 +1134,9 @@
     <![CDATA[@see Code.OPERATIONTIMEOUT]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException.OperationTimeoutException -->
-  <!-- start class org.apache.zookeeper.common.KeeperException.RuntimeInconsistencyException -->
-  <class name="KeeperException.RuntimeInconsistencyException" extends="org.apache.zookeeper.common.KeeperException"
+  <!-- end class org.apache.zookeeper.exception.KeeperException.OperationTimeoutException -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.RuntimeInconsistencyException -->
+  <class name="KeeperException.RuntimeInconsistencyException" extends="org.apache.zookeeper.exception.KeeperException"
     abstract="false"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -1150,9 +1148,9 @@
     <![CDATA[@see Code.RUNTIMEINCONSISTENCY]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException.RuntimeInconsistencyException -->
-  <!-- start class org.apache.zookeeper.common.KeeperException.SessionExpiredException -->
-  <class name="KeeperException.SessionExpiredException" extends="org.apache.zookeeper.common.KeeperException"
+  <!-- end class org.apache.zookeeper.exception.KeeperException.RuntimeInconsistencyException -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.SessionExpiredException -->
+  <class name="KeeperException.SessionExpiredException" extends="org.apache.zookeeper.exception.KeeperException"
     abstract="false"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -1164,9 +1162,9 @@
     <![CDATA[@see Code.SESSIONEXPIRED]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException.SessionExpiredException -->
-  <!-- start class org.apache.zookeeper.common.KeeperException.SystemErrorException -->
-  <class name="KeeperException.SystemErrorException" extends="org.apache.zookeeper.common.KeeperException"
+  <!-- end class org.apache.zookeeper.exception.KeeperException.SessionExpiredException -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.SystemErrorException -->
+  <class name="KeeperException.SystemErrorException" extends="org.apache.zookeeper.exception.KeeperException"
     abstract="false"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -1178,9 +1176,9 @@
     <![CDATA[@see Code.SYSTEMERROR]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException.SystemErrorException -->
-  <!-- start class org.apache.zookeeper.common.KeeperException.UnimplementedException -->
-  <class name="KeeperException.UnimplementedException" extends="org.apache.zookeeper.common.KeeperException"
+  <!-- end class org.apache.zookeeper.exception.KeeperException.SystemErrorException -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.UnimplementedException -->
+  <class name="KeeperException.UnimplementedException" extends="org.apache.zookeeper.exception.KeeperException"
     abstract="false"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -1192,7 +1190,7 @@
     <![CDATA[@see Code.UNIMPLEMENTED]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.common.KeeperException.UnimplementedException -->
+  <!-- end class org.apache.zookeeper.exception.KeeperException.UnimplementedException -->
   <!-- start class org.apache.zookeeper.Quotas -->
   <class name="Quotas" extends="java.lang.Object"
     abstract="false"
@@ -1469,7 +1467,7 @@
     abstract="false"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <constructor name="WatchedEvent" type="org.apache.zookeeper.Watcher.Event.EventType, org.apache.zookeeper.Watcher.Event.KeeperState, java.lang.String"
+    <constructor name="WatchedEvent" type="org.apache.zookeeper.watcher.Watcher.Event.EventType, org.apache.zookeeper.watcher.Watcher.Event.KeeperState, java.lang.String"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
@@ -1483,12 +1481,12 @@
       <![CDATA[Convert a WatcherEvent sent over the wire into a full-fledged WatcherEvent]]>
       </doc>
     </constructor>
-    <method name="getState" return="org.apache.zookeeper.Watcher.Event.KeeperState"
+    <method name="getState" return="org.apache.zookeeper.watcher.Watcher.Event.KeeperState"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="getType" return="org.apache.zookeeper.Watcher.Event.EventType"
+    <method name="getType" return="org.apache.zookeeper.watcher.Watcher.Event.EventType"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -1519,7 +1517,7 @@
     </doc>
   </class>
   <!-- end class org.apache.zookeeper.WatchedEvent -->
-  <!-- start interface org.apache.zookeeper.Watcher -->
+  <!-- start interface org.apache.zookeeper.watcher.Watcher -->
   <interface name="Watcher"    abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
@@ -1537,8 +1535,8 @@
  is expected to be an instance of a class that implements Watcher interface.]]>
     </doc>
   </interface>
-  <!-- end interface org.apache.zookeeper.Watcher -->
-  <!-- start interface org.apache.zookeeper.Watcher.Event -->
+  <!-- end interface org.apache.zookeeper.watcher.Watcher -->
+  <!-- start interface org.apache.zookeeper.watcher.Watcher.Event -->
   <interface name="Watcher.Event"    abstract="true"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -1546,18 +1544,18 @@
     <![CDATA[This interface defines the possible states an Event may represent]]>
     </doc>
   </interface>
-  <!-- end interface org.apache.zookeeper.Watcher.Event -->
-  <!-- start class org.apache.zookeeper.Watcher.Event.EventType -->
+  <!-- end interface org.apache.zookeeper.watcher.Watcher.Event -->
+  <!-- start class org.apache.zookeeper.watcher.Watcher.Event.EventType -->
   <class name="Watcher.Event.EventType" extends="java.lang.Enum"
     abstract="false"
     static="true" final="true" visibility="public"
     deprecated="not deprecated">
-    <method name="values" return="org.apache.zookeeper.Watcher.Event.EventType[]"
+    <method name="values" return="org.apache.zookeeper.watcher.Watcher.Event.EventType[]"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="valueOf" return="org.apache.zookeeper.Watcher.Event.EventType"
+    <method name="valueOf" return="org.apache.zookeeper.watcher.Watcher.Event.EventType"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -1568,33 +1566,33 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="fromInt" return="org.apache.zookeeper.Watcher.Event.EventType"
+    <method name="fromInt" return="org.apache.zookeeper.watcher.Watcher.Event.EventType"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="intValue" type="int"/>
     </method>
-    <field name="None" type="org.apache.zookeeper.Watcher.Event.EventType"
+    <field name="None" type="org.apache.zookeeper.watcher.Watcher.Event.EventType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
     </field>
-    <field name="NodeCreated" type="org.apache.zookeeper.Watcher.Event.EventType"
+    <field name="NodeCreated" type="org.apache.zookeeper.watcher.Watcher.Event.EventType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
     </field>
-    <field name="NodeDeleted" type="org.apache.zookeeper.Watcher.Event.EventType"
+    <field name="NodeDeleted" type="org.apache.zookeeper.watcher.Watcher.Event.EventType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
     </field>
-    <field name="NodeDataChanged" type="org.apache.zookeeper.Watcher.Event.EventType"
+    <field name="NodeDataChanged" type="org.apache.zookeeper.watcher.Watcher.Event.EventType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
     </field>
-    <field name="NodeChildrenChanged" type="org.apache.zookeeper.Watcher.Event.EventType"
+    <field name="NodeChildrenChanged" type="org.apache.zookeeper.watcher.Watcher.Event.EventType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -1603,18 +1601,18 @@
     <![CDATA[Enumeration of types of events that may occur on the ZooKeeper]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.Watcher.Event.EventType -->
-  <!-- start class org.apache.zookeeper.Watcher.Event.KeeperState -->
+  <!-- end class org.apache.zookeeper.watcher.Watcher.Event.EventType -->
+  <!-- start class org.apache.zookeeper.watcher.Watcher.Event.KeeperState -->
   <class name="Watcher.Event.KeeperState" extends="java.lang.Enum"
     abstract="false"
     static="true" final="true" visibility="public"
     deprecated="not deprecated">
-    <method name="values" return="org.apache.zookeeper.Watcher.Event.KeeperState[]"
+    <method name="values" return="org.apache.zookeeper.watcher.Watcher.Event.KeeperState[]"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="valueOf" return="org.apache.zookeeper.Watcher.Event.KeeperState"
+    <method name="valueOf" return="org.apache.zookeeper.watcher.Watcher.Event.KeeperState"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -1625,13 +1623,13 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="fromInt" return="org.apache.zookeeper.Watcher.Event.KeeperState"
+    <method name="fromInt" return="org.apache.zookeeper.watcher.Watcher.Event.KeeperState"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="intValue" type="int"/>
     </method>
-    <field name="Unknown" type="org.apache.zookeeper.Watcher.Event.KeeperState"
+    <field name="Unknown" type="org.apache.zookeeper.watcher.Watcher.Event.KeeperState"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -1639,7 +1637,7 @@
       <![CDATA[Unused, this state is never generated by the server]]>
       </doc>
     </field>
-    <field name="Disconnected" type="org.apache.zookeeper.Watcher.Event.KeeperState"
+    <field name="Disconnected" type="org.apache.zookeeper.watcher.Watcher.Event.KeeperState"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -1648,7 +1646,7 @@
  to any server in the ensemble.]]>
       </doc>
     </field>
-    <field name="NoSyncConnected" type="org.apache.zookeeper.Watcher.Event.KeeperState"
+    <field name="NoSyncConnected" type="org.apache.zookeeper.watcher.Watcher.Event.KeeperState"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -1656,7 +1654,7 @@
       <![CDATA[Unused, this state is never generated by the server]]>
       </doc>
     </field>
-    <field name="SyncConnected" type="org.apache.zookeeper.Watcher.Event.KeeperState"
+    <field name="SyncConnected" type="org.apache.zookeeper.watcher.Watcher.Event.KeeperState"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -1667,7 +1665,7 @@
  creation).]]>
       </doc>
     </field>
-    <field name="Expired" type="org.apache.zookeeper.Watcher.Event.KeeperState"
+    <field name="Expired" type="org.apache.zookeeper.watcher.Watcher.Event.KeeperState"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
@@ -1682,7 +1680,7 @@
     <![CDATA[Enumeration of states the ZooKeeper may be at the event]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.Watcher.Event.KeeperState -->
+  <!-- end class org.apache.zookeeper.watcher.Watcher.Event.KeeperState -->
   <!-- start class org.apache.zookeeper.ZooDefs -->
   <class name="ZooDefs" extends="java.lang.Object"
     abstract="false"
@@ -1873,7 +1871,7 @@
     abstract="false"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <constructor name="ZooKeeper" type="java.lang.String, int, org.apache.zookeeper.Watcher"
+    <constructor name="ZooKeeper" type="java.lang.String, int, org.apache.zookeeper.watcher.Watcher"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <exception name="IOException" type="java.io.IOException"/>
@@ -1898,7 +1896,7 @@
  @throws IOException in cases of network failure]]>
       </doc>
     </constructor>
-    <constructor name="ZooKeeper" type="java.lang.String, int, org.apache.zookeeper.Watcher, long, byte[]"
+    <constructor name="ZooKeeper" type="java.lang.String, int, org.apache.zookeeper.watcher.Watcher, long, byte[]"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <exception name="IOException" type="java.io.IOException"/>
@@ -1968,7 +1966,7 @@
       abstract="false" native="false" synchronized="true"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="watcher" type="org.apache.zookeeper.Watcher"/>
+      <param name="watcher" type="org.apache.zookeeper.watcher.Watcher"/>
     </method>
     <method name="close"
       abstract="false" native="false" synchronized="true"
@@ -1995,7 +1993,7 @@
       <param name="data" type="byte[]"/>
       <param name="acl" type="java.util.List"/>
       <param name="createMode" type="org.apache.zookeeper.nodeMode.CreateMode"/>
-      <exception name="KeeperException" type="org.apache.zookeeper.common.KeeperException"/>
+      <exception name="KeeperException" type="org.apache.zookeeper.exception.KeeperException"/>
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
       <doc>
           <![CDATA[Create a node with the given path. The node data will be the given data,
@@ -2047,7 +2045,7 @@
                 and/or sequential
  @return the actual path of the created node
  @throws KeeperException if the server returns a non-zero error code
- @throws org.apache.zookeeper.common.KeeperException.InvalidACLException if the ACL is invalid
+ @throws org.apache.zookeeper.exception.KeeperException.InvalidACLException if the ACL is invalid
  @throws InterruptedException if the transaction is interrupted
  @throws IllegalArgumentException if an invalid path is specified]]>
       </doc>
@@ -2088,7 +2086,7 @@
       <param name="path" type="java.lang.String"/>
       <param name="version" type="int"/>
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
-      <exception name="KeeperException" type="org.apache.zookeeper.common.KeeperException"/>
+      <exception name="KeeperException" type="org.apache.zookeeper.exception.KeeperException"/>
       <doc>
       <![CDATA[Delete the node with the given path. The call will succeed if such a node
  exists, and the given version matches the node's version (if the given
@@ -2136,8 +2134,8 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="path" type="java.lang.String"/>
-      <param name="watcher" type="org.apache.zookeeper.Watcher"/>
-      <exception name="KeeperException" type="org.apache.zookeeper.common.KeeperException"/>
+      <param name="watcher" type="org.apache.zookeeper.watcher.Watcher"/>
+      <exception name="KeeperException" type="org.apache.zookeeper.exception.KeeperException"/>
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
       <doc>
       <![CDATA[Return the stat of the node of the given path. Return null if no such a
@@ -2163,7 +2161,7 @@
       deprecated="not deprecated">
       <param name="path" type="java.lang.String"/>
       <param name="watch" type="boolean"/>
-      <exception name="KeeperException" type="org.apache.zookeeper.common.KeeperException"/>
+      <exception name="KeeperException" type="org.apache.zookeeper.exception.KeeperException"/>
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
       <doc>
       <![CDATA[Return the stat of the node of the given path. Return null if no such a
@@ -2189,7 +2187,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="path" type="java.lang.String"/>
-      <param name="watcher" type="org.apache.zookeeper.Watcher"/>
+      <param name="watcher" type="org.apache.zookeeper.watcher.Watcher"/>
       <param name="cb" type="org.apache.zookeeper.cli.AsyncCallback.StatCallback"/>
       <param name="ctx" type="java.lang.Object"/>
       <doc>
@@ -2219,9 +2217,9 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="path" type="java.lang.String"/>
-      <param name="watcher" type="org.apache.zookeeper.Watcher"/>
+      <param name="watcher" type="org.apache.zookeeper.watcher.Watcher"/>
       <param name="stat" type="org.apache.zookeeper.data.Stat"/>
-      <exception name="KeeperException" type="org.apache.zookeeper.common.KeeperException"/>
+      <exception name="KeeperException" type="org.apache.zookeeper.exception.KeeperException"/>
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
       <doc>
       <![CDATA[Return the data and the stat of the node of the given path.
@@ -2250,7 +2248,7 @@
       <param name="path" type="java.lang.String"/>
       <param name="watch" type="boolean"/>
       <param name="stat" type="org.apache.zookeeper.data.Stat"/>
-      <exception name="KeeperException" type="org.apache.zookeeper.common.KeeperException"/>
+      <exception name="KeeperException" type="org.apache.zookeeper.exception.KeeperException"/>
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
       <doc>
       <![CDATA[Return the data and the stat of the node of the given path.
@@ -2276,7 +2274,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="path" type="java.lang.String"/>
-      <param name="watcher" type="org.apache.zookeeper.Watcher"/>
+      <param name="watcher" type="org.apache.zookeeper.watcher.Watcher"/>
       <param name="cb" type="org.apache.zookeeper.cli.AsyncCallback.DataCallback"/>
       <param name="ctx" type="java.lang.Object"/>
       <doc>
@@ -2308,7 +2306,7 @@
       <param name="path" type="java.lang.String"/>
       <param name="data" type="byte[]"/>
       <param name="version" type="int"/>
-      <exception name="KeeperException" type="org.apache.zookeeper.common.KeeperException"/>
+      <exception name="KeeperException" type="org.apache.zookeeper.exception.KeeperException"/>
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
       <doc>
       <![CDATA[Set the data for the node of the given path if such a node exists and the
@@ -2361,7 +2359,7 @@
       deprecated="not deprecated">
       <param name="path" type="java.lang.String"/>
       <param name="stat" type="org.apache.zookeeper.data.Stat"/>
-      <exception name="KeeperException" type="org.apache.zookeeper.common.KeeperException"/>
+      <exception name="KeeperException" type="org.apache.zookeeper.exception.KeeperException"/>
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
       <doc>
       <![CDATA[Return the ACL and stat of the node of the given path.
@@ -2401,7 +2399,7 @@
       <param name="path" type="java.lang.String"/>
       <param name="acl" type="java.util.List"/>
       <param name="version" type="int"/>
-      <exception name="KeeperException" type="org.apache.zookeeper.common.KeeperException"/>
+      <exception name="KeeperException" type="org.apache.zookeeper.exception.KeeperException"/>
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
       <doc>
           <![CDATA[Set the ACL for the node of the given path if such a node exists and the
@@ -2420,7 +2418,7 @@
  @return the stat of the node.
  @throws InterruptedException If the server transaction is interrupted.
  @throws KeeperException If the server signals an error with a non-zero error code.
- @throws org.apache.zookeeper.common.KeeperException.InvalidACLException If the acl is invalide.
+ @throws org.apache.zookeeper.exception.KeeperException.InvalidACLException If the acl is invalide.
  @throws IllegalArgumentException if an invalid path is specified]]>
       </doc>
     </method>
@@ -2445,8 +2443,8 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="path" type="java.lang.String"/>
-      <param name="watcher" type="org.apache.zookeeper.Watcher"/>
-      <exception name="KeeperException" type="org.apache.zookeeper.common.KeeperException"/>
+      <param name="watcher" type="org.apache.zookeeper.watcher.Watcher"/>
+      <exception name="KeeperException" type="org.apache.zookeeper.exception.KeeperException"/>
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
       <doc>
       <![CDATA[Return the list of the children of the node of the given path.
@@ -2476,7 +2474,7 @@
       deprecated="not deprecated">
       <param name="path" type="java.lang.String"/>
       <param name="watch" type="boolean"/>
-      <exception name="KeeperException" type="org.apache.zookeeper.common.KeeperException"/>
+      <exception name="KeeperException" type="org.apache.zookeeper.exception.KeeperException"/>
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
       <doc>
       <![CDATA[Return the list of the children of the node of the given path.
@@ -2504,7 +2502,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="path" type="java.lang.String"/>
-      <param name="watcher" type="org.apache.zookeeper.Watcher"/>
+      <param name="watcher" type="org.apache.zookeeper.watcher.Watcher"/>
       <param name="cb" type="org.apache.zookeeper.cli.AsyncCallback.ChildrenCallback"/>
       <param name="ctx" type="java.lang.Object"/>
       <doc>
@@ -2658,7 +2656,7 @@
       deprecated="not deprecated">
       <param name="args" type="java.lang.String[]"/>
       <exception name="NumberFormatException" type="java.lang.NumberFormatException"/>
-      <exception name="KeeperException" type="org.apache.zookeeper.common.KeeperException"/>
+      <exception name="KeeperException" type="org.apache.zookeeper.exception.KeeperException"/>
       <exception name="IOException" type="java.io.IOException"/>
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
     </method>
@@ -2670,7 +2668,7 @@
       <param name="path" type="java.lang.String"/>
       <param name="bytes" type="boolean"/>
       <param name="numNodes" type="boolean"/>
-      <exception name="KeeperException" type="org.apache.zookeeper.common.KeeperException"/>
+      <exception name="KeeperException" type="org.apache.zookeeper.exception.KeeperException"/>
       <exception name="IOException" type="java.io.IOException"/>
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
       <doc>
@@ -2695,7 +2693,7 @@
       <param name="path" type="java.lang.String"/>
       <param name="bytes" type="long"/>
       <param name="numNodes" type="int"/>
-      <exception name="KeeperException" type="org.apache.zookeeper.common.KeeperException"/>
+      <exception name="KeeperException" type="org.apache.zookeeper.exception.KeeperException"/>
       <exception name="IOException" type="java.io.IOException"/>
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
       <doc>

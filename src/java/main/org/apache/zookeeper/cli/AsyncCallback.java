@@ -20,9 +20,9 @@ package org.apache.zookeeper.cli;
 import java.util.List;
 
 import org.apache.yetus.audience.InterfaceAudience;
-import org.apache.zookeeper.OpResult;
+import org.apache.zookeeper.operation.OpResult;
 import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
 
@@ -310,13 +310,13 @@ public interface AsyncCallback {
          * On success, rc is
          * {@link KeeperException.Code#OK}.
          * All opResults are
-         * non-{@link org.apache.zookeeper.OpResult.ErrorResult},
+         * non-{@link OpResult.ErrorResult},
          *
          * <p/>
          * On failure, rc is a failure code in
          * {@link KeeperException.Code}.
          * All opResults are
-         * {@link org.apache.zookeeper.OpResult.ErrorResult}.
+         * {@link OpResult.ErrorResult}.
          * All operations will be rollback-ed even if operations
          * before the failing one were successful.
          *

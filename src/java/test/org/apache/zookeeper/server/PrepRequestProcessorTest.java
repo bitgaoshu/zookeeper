@@ -20,11 +20,11 @@ package org.apache.zookeeper.server;
 
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
-import org.apache.zookeeper.common.KeeperException;
-import org.apache.zookeeper.common.KeeperException.SessionExpiredException;
-import org.apache.zookeeper.common.KeeperException.SessionMovedException;
-import org.apache.zookeeper.MultiTransactionRecord;
-import org.apache.zookeeper.Op;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
+import org.apache.zookeeper.exception.KeeperException.SessionMovedException;
+import org.apache.zookeeper.operation.multi.MultiTransactionRecord;
+import org.apache.zookeeper.operation.Op;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.operation.OpCode;

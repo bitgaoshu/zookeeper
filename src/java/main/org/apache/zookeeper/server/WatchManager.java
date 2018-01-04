@@ -26,9 +26,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.Watcher.Event.EventType;
-import org.apache.zookeeper.Watcher.Event.KeeperState;
+import org.apache.zookeeper.watcher.Watcher;
+import org.apache.zookeeper.watcher.Event.EventType;
+import org.apache.zookeeper.watcher.Event.KeeperState;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

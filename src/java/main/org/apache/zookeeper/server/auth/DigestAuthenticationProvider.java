@@ -23,7 +23,7 @@ import java.security.NoSuchAlgorithmException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 

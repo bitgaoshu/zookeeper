@@ -20,8 +20,8 @@ package org.apache.zookeeper.clients.client;
 
 import org.apache.zookeeper.Testable;
 import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn;
+import org.apache.zookeeper.watcher.Event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,8 +42,8 @@ class ZooKeeperTestable implements Testable {
         LOG.info("injectSessionExpiration() called");
 
         clientCnxn.eventThread.queueEvent(new WatchedEvent(
-                Watcher.Event.EventType.None,
-                Watcher.Event.KeeperState.Expired, null));
+                Event.EventType.None,
+                Event.KeeperState.Expired, null));
         clientCnxn.eventThread.queueEventOfDeath();
         clientCnxn.state = ZooKeeper.States.CLOSED;
         clientCnxn.sendThread.getClientCnxnSocket().onClosing();

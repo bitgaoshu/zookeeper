@@ -20,9 +20,9 @@ package org.apache.zookeeper.server;
 
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.common.KeeperException;
-import org.apache.zookeeper.Op;
-import org.apache.zookeeper.OpResult;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.operation.Op;
+import org.apache.zookeeper.operation.OpResult;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.operation.OpCode;

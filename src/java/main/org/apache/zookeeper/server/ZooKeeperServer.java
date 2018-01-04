@@ -21,10 +21,10 @@ package org.apache.zookeeper.server;
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
-import org.apache.zookeeper.Environment;
-import org.apache.zookeeper.common.KeeperException;
-import org.apache.zookeeper.common.KeeperException.Code;
-import org.apache.zookeeper.common.KeeperException.SessionExpiredException;
+import org.apache.zookeeper.logEnv.LogEnv;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.exception.KeeperException.Code;
+import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
 import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
@@ -72,8 +72,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
 
     static {
         LOG = LoggerFactory.getLogger(ZooKeeperServer.class);
-
-        Environment.logEnv("Server environment:", LOG);
+        LogEnv.logEnv("Server environment:", LOG);
     }
 
     final List<ChangeRecord> outstandingChanges = new ArrayList<ChangeRecord>();

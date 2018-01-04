@@ -22,8 +22,8 @@ import java.io.PrintWriter;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.zookeeper.common.KeeperException;
-import org.apache.zookeeper.common.KeeperException.SessionExpiredException;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
 
 /**
  * This is the basic interface that ZooKeeperServer uses to track sessions. The

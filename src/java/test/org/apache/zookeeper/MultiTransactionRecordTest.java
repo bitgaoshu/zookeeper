@@ -20,6 +20,8 @@ package org.apache.zookeeper;
 
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
+import org.apache.zookeeper.operation.multi.MultiTransactionRecord;
+import org.apache.zookeeper.operation.Op;
 import org.apache.zookeeper.server.ByteBufferInputStream;
 import org.junit.Assert;
 import org.junit.Test;

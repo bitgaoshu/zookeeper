@@ -23,9 +23,9 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.apache.zookeeper.common.KeeperException.SessionExpiredException;
-import org.apache.zookeeper.common.KeeperException.SessionMovedException;
-import org.apache.zookeeper.common.KeeperException.UnknownSessionException;
+import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
+import org.apache.zookeeper.exception.KeeperException.SessionMovedException;
+import org.apache.zookeeper.exception.KeeperException.UnknownSessionException;
 import org.apache.zookeeper.server.SessionTrackerImpl;
 import org.apache.zookeeper.server.ZooKeeperServerListener;
 import org.slf4j.Logger;

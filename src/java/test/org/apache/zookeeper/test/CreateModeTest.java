@@ -21,9 +21,9 @@ package org.apache.zookeeper.test;
 import java.util.EnumSet;
 
 import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.common.KeeperException.Code;
+import org.apache.zookeeper.exception.KeeperException.Code;
 import org.junit.Assert;
 import org.junit.Test;
 

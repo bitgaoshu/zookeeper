@@ -18,7 +18,7 @@
 package org.apache.zookeeper.cli;
 
 import org.apache.commons.cli.*;
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.Quotas;
 import org.apache.zookeeper.StatsTrack;
 import org.apache.zookeeper.data.Stat;

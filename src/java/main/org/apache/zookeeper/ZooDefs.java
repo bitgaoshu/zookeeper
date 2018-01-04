@@ -24,8 +24,6 @@ import org.apache.zookeeper.data.Id;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 @InterfaceAudience.Public
 public interface ZooDefs {

@@ -20,7 +20,7 @@ package org.apache.zookeeper.test;
 
 import java.io.IOException;
 
-import org.apache.zookeeper.Watcher;
+import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 
 public class DisconnectableZooKeeper extends ZooKeeper {

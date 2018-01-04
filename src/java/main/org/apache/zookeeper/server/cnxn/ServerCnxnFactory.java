@@ -31,7 +31,7 @@ import javax.security.auth.login.AppConfigurationEntry;
 import javax.security.auth.login.Configuration;
 import javax.security.auth.login.LoginException;
 
-import org.apache.zookeeper.Environment;
+import org.apache.zookeeper.logEnv.LogEnv;
 import org.apache.zookeeper.Login;
 import org.apache.zookeeper.common.ZKConfig;
 import org.apache.zookeeper.jmx.MBeanRegistry;
@@ -221,7 +221,7 @@ public abstract class ServerCnxnFactory {
         // the user has required sasl by specifying a LOGIN_CONTEXT_NAME_KEY or a jaas file
         // we throw an exception otherwise we continue without authentication.
         if (entries == null) {
-            String jaasFile = System.getProperty(Environment.JAAS_CONF_KEY);
+            String jaasFile = System.getProperty(LogEnv.JAAS_CONF_KEY);
             String loginContextName = System.getProperty(ZooKeeperSaslServer.LOGIN_CONTEXT_NAME_KEY);
             if (securityException != null && (loginContextName != null || jaasFile != null)) {
                 String errorMessage = "No JAAS configuration section named '" + serverSection +  "' was found";

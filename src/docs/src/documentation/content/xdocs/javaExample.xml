@@ -541,7 +541,7 @@ public class Executor
         import org.apache.zookeeper.Watcher;
         import org.apache.zookeeper.ZooKeeper;
         import org.apache.zookeeper.cli.AsyncCallback.StatCallback;
-        import org.apache.zookeeper.common.KeeperException.Code;
+        import org.apache.zookeeper.exception.KeeperException.Code;
         import org.apache.zookeeper.data.Stat;
 
         public class DataMonitor implements Watcher, StatCallback {

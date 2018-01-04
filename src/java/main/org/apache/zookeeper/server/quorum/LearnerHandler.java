@@ -35,7 +35,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
-import org.apache.zookeeper.common.KeeperException.SessionExpiredException;
+import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
 import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.TxnLogProposalIterator;

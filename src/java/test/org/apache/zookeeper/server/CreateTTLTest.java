@@ -20,12 +20,12 @@ package org.apache.zookeeper.server;
 
 import org.apache.zookeeper.cli.AsyncCallback;
 import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.common.KeeperException;
-import org.apache.zookeeper.Op;
-import org.apache.zookeeper.OpResult;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.operation.Op;
+import org.apache.zookeeper.operation.OpResult;
 import org.apache.zookeeper.TestableZooKeeper;
 import org.apache.zookeeper.ZooDefs;
-import org.apache.zookeeper.common.KeeperException.Code;
+import org.apache.zookeeper.exception.KeeperException.Code;
 import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.proto.CreateResponse;

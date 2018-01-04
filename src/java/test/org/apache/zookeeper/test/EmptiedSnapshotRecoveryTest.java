@@ -27,7 +27,7 @@ import org.apache.log4j.Logger;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.Watcher;
+import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.ZooDefs.Ids;

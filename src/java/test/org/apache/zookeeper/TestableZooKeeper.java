@@ -28,6 +28,7 @@ import org.apache.jute.Record;
 import org.apache.zookeeper.admin.ZooKeeperAdmin;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.proto.RequestHeader;
+import org.apache.zookeeper.watcher.Watcher;
 
 public class TestableZooKeeper extends ZooKeeperAdmin {
 

@@ -19,11 +19,11 @@ package org.apache.zookeeper.clients.client.common;
 
 import org.apache.yetus.audience.InterfaceAudience;
 import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.Op;
-import org.apache.zookeeper.OpResult;
+import org.apache.zookeeper.operation.Op;
+import org.apache.zookeeper.operation.OpResult;
 import org.apache.zookeeper.cli.AsyncCallback.MultiCallback;
 import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.data.ACL;
 import java.util.ArrayList;
 import java.util.List;

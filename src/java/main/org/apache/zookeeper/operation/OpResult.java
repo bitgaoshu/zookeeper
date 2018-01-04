@@ -15,11 +15,10 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper;
+package org.apache.zookeeper.operation;
 
 
-import org.apache.zookeeper.common.KeeperException;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.data.Stat;
 
 /**

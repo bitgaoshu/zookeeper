@@ -35,7 +35,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.WriterAppender;
 import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.clients.client.ZooKeeper;

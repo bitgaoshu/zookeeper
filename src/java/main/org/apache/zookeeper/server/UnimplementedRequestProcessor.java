@@ -20,7 +20,7 @@ package org.apache.zookeeper.server;
 
 import java.io.IOException;
 
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.proto.ReplyHeader;
 
 /**

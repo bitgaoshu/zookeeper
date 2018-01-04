@@ -25,10 +25,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.Watcher;
+import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.ZooDefs.Ids;
@@ -152,7 +152,7 @@ public class OOMTest extends ZKTestCase implements Watcher {
     /*
      * (non-Javadoc)
      *
-     * @see org.apache.zookeeper.Watcher#process(org.apache.zookeeper.proto.WatcherEvent)
+     * @see org.apache.zookeeper.watcher.Watcher#process(org.apache.zookeeper.proto.WatcherEvent)
      */
     public void process(WatchedEvent event) {
         System.err.println("Got event " + event.getType() + " "

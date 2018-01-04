@@ -20,10 +20,10 @@ package org.apache.zookeeper.server;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.zookeeper.common.KeeperException.NoNodeException;
-import org.apache.zookeeper.common.KeeperException.NodeExistsException;
+import org.apache.zookeeper.exception.KeeperException.NoNodeException;
+import org.apache.zookeeper.exception.KeeperException.NodeExistsException;
 import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.Watcher;
+import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.data.Stat;

@@ -26,8 +26,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.jute.Record;
-import org.apache.zookeeper.common.KeeperException;
-import org.apache.zookeeper.common.KeeperException.Code;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.exception.KeeperException.Code;
 import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.server.DataTree;
 import org.apache.zookeeper.server.DataTree.ProcessTxnResult;

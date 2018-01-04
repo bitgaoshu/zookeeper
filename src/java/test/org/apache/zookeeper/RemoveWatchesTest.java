@@ -32,11 +32,12 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.zookeeper.cli.AsyncCallback;
-import org.apache.zookeeper.common.KeeperException;
-import org.apache.zookeeper.common.KeeperException.Code;
-import org.apache.zookeeper.common.KeeperException.NoWatcherException;
-import org.apache.zookeeper.Watcher.Event.EventType;
-import org.apache.zookeeper.Watcher.WatcherType;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.exception.KeeperException.Code;
+import org.apache.zookeeper.exception.KeeperException.NoWatcherException;
+import org.apache.zookeeper.watcher.Event.EventType;
+import org.apache.zookeeper.watcher.Watcher;
+import org.apache.zookeeper.watcher.WatcherType;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.clients.client.common.ZKClientConfig;
 import org.apache.zookeeper.clients.client.ZooKeeper;

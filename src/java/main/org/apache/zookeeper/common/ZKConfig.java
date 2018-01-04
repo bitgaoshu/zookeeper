@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import org.apache.zookeeper.Environment;
+import org.apache.zookeeper.logEnv.LogEnv;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig.ConfigException;
 import org.apache.zookeeper.server.util.VerifyingFileFactory;
 import org.slf4j.Logger;
@@ -146,7 +146,7 @@ public class ZKConfig {
      * @return value
      */
     public String getJaasConfKey() {
-        return System.getProperty(Environment.JAAS_CONF_KEY);
+        return System.getProperty(LogEnv.JAAS_CONF_KEY);
     }
 
     /**

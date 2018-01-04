@@ -19,15 +19,15 @@
 package org.apache.zookeeper.server;
 
 import org.apache.jute.Record;
-import org.apache.zookeeper.MultiResponse;
-import org.apache.zookeeper.OpResult;
-import org.apache.zookeeper.OpResult.*;
-import org.apache.zookeeper.Watcher.WatcherType;
+import org.apache.zookeeper.operation.multi.MultiResponse;
+import org.apache.zookeeper.operation.OpResult;
+import org.apache.zookeeper.operation.OpResult.*;
+import org.apache.zookeeper.watcher.WatcherType;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.operation.OpCode;
-import org.apache.zookeeper.common.KeeperException;
-import org.apache.zookeeper.common.KeeperException.Code;
-import org.apache.zookeeper.common.KeeperException.SessionMovedException;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.exception.KeeperException.Code;
+import org.apache.zookeeper.exception.KeeperException.SessionMovedException;
 import org.apache.zookeeper.common.Time;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;

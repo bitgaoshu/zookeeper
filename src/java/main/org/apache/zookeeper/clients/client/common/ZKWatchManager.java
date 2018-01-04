@@ -1,7 +1,9 @@
 package org.apache.zookeeper.clients.client.common;
 
-import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.watcher.Watcher;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.watcher.Event;
+import org.apache.zookeeper.watcher.WatcherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,19 +61,19 @@ public class ZKWatchManager implements ClientWatchManager {
         }
     }
 
-    public Map<Watcher.Event.EventType, Set<Watcher>> removeWatcher(String clientPath,
-                                                                    Watcher watcher, Watcher.WatcherType watcherType, boolean local, int rc)
+    public Map<Event.EventType, Set<Watcher>> removeWatcher(String clientPath,
+                                                            Watcher watcher, WatcherType watcherType, boolean local, int rc)
             throws KeeperException {
         // Validate the provided znode path contains the given watcher of
         // watcherType
         containsWatcher(clientPath, watcher, watcherType);
 
-        Map<Watcher.Event.EventType, Set<Watcher>> removedWatchers = new HashMap<Watcher.Event.EventType, Set<Watcher>>();
+        Map<Event.EventType, Set<Watcher>> removedWatchers = new HashMap<Event.EventType, Set<Watcher>>();
         HashSet<Watcher> childWatchersToRem = new HashSet<Watcher>();
         removedWatchers
-                .put(Watcher.Event.EventType.ChildWatchRemoved, childWatchersToRem);
+                .put(Event.EventType.ChildWatchRemoved, childWatchersToRem);
         HashSet<Watcher> dataWatchersToRem = new HashSet<Watcher>();
-        removedWatchers.put(Watcher.Event.EventType.DataWatchRemoved, dataWatchersToRem);
+        removedWatchers.put(Event.EventType.DataWatchRemoved, dataWatchersToRem);
         boolean removedWatcher = false;
         switch (watcherType) {
             case Children: {
@@ -147,7 +149,7 @@ public class ZKWatchManager implements ClientWatchManager {
      * @throws KeeperException.NoWatcherException
      */
     void containsWatcher(String path, Watcher watcher,
-                         Watcher.WatcherType watcherType) throws KeeperException.NoWatcherException {
+                         WatcherType watcherType) throws KeeperException.NoWatcherException {
         boolean containsWatcher = false;
         switch (watcherType) {
             case Children: {
@@ -233,15 +235,15 @@ public class ZKWatchManager implements ClientWatchManager {
      *                                                        Event.EventType, java.lang.String)
      */
     @Override
-    public Set<Watcher> materialize(Watcher.Event.KeeperState state,
-                                    Watcher.Event.EventType type,
+    public Set<Watcher> materialize(Event.KeeperState state,
+                                    Event.EventType type,
                                     String clientPath) {
         Set<Watcher> result = new HashSet<Watcher>();
 
         switch (type) {
             case None:
                 result.add(defaultWatcher);
-                boolean clear = disableAutoWatchReset && state != Watcher.Event.KeeperState.SyncConnected;
+                boolean clear = disableAutoWatchReset && state != Event.KeeperState.SyncConnected;
                 synchronized (dataWatches) {
                     for (Set<Watcher> ws : dataWatches.values()) {
                         result.addAll(ws);

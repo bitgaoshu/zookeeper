@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.common;
+package org.apache.zookeeper.exception;
 
 import org.apache.yetus.audience.InterfaceAudience;
-import org.apache.zookeeper.OpResult;
+import org.apache.zookeeper.operation.OpResult;
 
 import java.util.ArrayList;
 import java.util.EnumSet;

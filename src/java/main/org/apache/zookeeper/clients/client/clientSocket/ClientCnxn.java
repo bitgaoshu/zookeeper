@@ -21,14 +21,14 @@ package org.apache.zookeeper.clients.client.clientSocket;
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
-import org.apache.zookeeper.MultiResponse;
-import org.apache.zookeeper.OpResult;
-import org.apache.zookeeper.OpResult.ErrorResult;
+import org.apache.zookeeper.operation.multi.MultiResponse;
+import org.apache.zookeeper.operation.OpResult;
+import org.apache.zookeeper.operation.OpResult.ErrorResult;
 import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.Watcher.Event;
-import org.apache.zookeeper.Watcher.Event.EventType;
-import org.apache.zookeeper.Watcher.Event.KeeperState;
+import org.apache.zookeeper.watcher.Watcher;
+import org.apache.zookeeper.watcher.Event;
+import org.apache.zookeeper.watcher.Event.EventType;
+import org.apache.zookeeper.watcher.Event.KeeperState;
 import org.apache.zookeeper.cli.AsyncCallback;
 import org.apache.zookeeper.cli.AsyncCallback.*;
 import org.apache.zookeeper.clients.client.ZooKeeper;
@@ -39,8 +39,8 @@ import org.apache.zookeeper.clients.client.common.ClientWatchManager;
 import org.apache.zookeeper.clients.client.common.HostProvider;
 import org.apache.zookeeper.clients.client.common.WatchDeregistration;
 import org.apache.zookeeper.clients.client.common.ZKClientConfig;
-import org.apache.zookeeper.common.KeeperException;
-import org.apache.zookeeper.common.KeeperException.Code;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.exception.KeeperException.Code;
 import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.common.Time;
 import org.apache.zookeeper.proto.*;
@@ -972,8 +972,8 @@ public class ClientCnxn {
                 // -4 is the xid for AuthPacket
                 if (replyHdr.getErr() == KeeperException.Code.AUTHFAILED.intValue()) {
                     state = States.AUTH_FAILED;
-                    eventThread.queueEvent(new WatchedEvent(Watcher.Event.EventType.None,
-                            Watcher.Event.KeeperState.AuthFailed, null));
+                    eventThread.queueEvent(new WatchedEvent(Event.EventType.None,
+                            Event.KeeperState.AuthFailed, null));
                 }
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Got auth sessionid:0x"
@@ -1219,8 +1219,8 @@ public class ClientCnxn {
                     LOG.warn("SASL configuration failed: " + e + " Will continue connection to Zookeeper server without "
                             + "SASL authentication, if Zookeeper server allows it.");
                     eventThread.queueEvent(new WatchedEvent(
-                            Watcher.Event.EventType.None,
-                            Watcher.Event.KeeperState.AuthFailed, null));
+                            Event.EventType.None,
+                            Event.KeeperState.AuthFailed, null));
                     saslLoginFailed = true;
                 }
             }
@@ -1291,7 +1291,7 @@ public class ClientCnxn {
 
                             if (sendAuthEvent == true) {
                                 eventThread.queueEvent(new WatchedEvent(
-                                        Watcher.Event.EventType.None,
+                                        Event.EventType.None,
                                         authState, null));
                             }
                         }
@@ -1486,8 +1486,8 @@ public class ClientCnxn {
                 state = States.CLOSED;
 
                 eventThread.queueEvent(new WatchedEvent(
-                        Watcher.Event.EventType.None,
-                        Watcher.Event.KeeperState.Expired, null));
+                        Event.EventType.None,
+                        Event.KeeperState.Expired, null));
                 eventThread.queueEventOfDeath();
 
                 String warnInfo;
@@ -1515,7 +1515,7 @@ public class ClientCnxn {
             KeeperState eventState = (isRO) ?
                     KeeperState.ConnectedReadOnly : KeeperState.SyncConnected;
             eventThread.queueEvent(new WatchedEvent(
-                    Watcher.Event.EventType.None,
+                    Event.EventType.None,
                     eventState, null));
         }
 

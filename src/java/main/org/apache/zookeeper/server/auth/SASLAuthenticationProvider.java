@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.server.auth;
 
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 
 public class SASLAuthenticationProvider implements AuthenticationProvider {

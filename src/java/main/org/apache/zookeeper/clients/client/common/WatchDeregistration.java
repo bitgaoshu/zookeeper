@@ -18,10 +18,10 @@
 
 package org.apache.zookeeper.clients.client.common;
 
-import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.Watcher.Event.EventType;
-import org.apache.zookeeper.Watcher.WatcherType;
-import org.apache.zookeeper.common.KeeperException;
+import org.apache.zookeeper.watcher.Watcher;
+import org.apache.zookeeper.watcher.Event.EventType;
+import org.apache.zookeeper.watcher.WatcherType;
+import org.apache.zookeeper.exception.KeeperException;
 
 import java.util.Map;
 import java.util.Set;
