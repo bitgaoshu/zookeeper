@@ -15,31 +15,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.cli;
+package org.apache.zookeeper.clients.cliCmds;
 
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.Parser;
+import org.apache.commons.cli.PosixParser;
 import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.ZKUtil;
 
 /**
- * delete command for cli
+ * deleteAll command for cli
  */
-public class DeleteCommand extends CliCommand {
+public class DeleteAllCommand extends CliCommand {
 
     private static Options options = new Options();
     private String[] args;
-    private CommandLine cl;
 
-    {
-        options.addOption("v", true, "version");
+    public DeleteAllCommand() {
+        this("deleteall");
     }
 
-    public DeleteCommand() {
-        super("delete", "[-v version] path");
+    public DeleteAllCommand(String cmdStr) {
+        super(cmdStr, "path");
     }
-
+    
     @Override
     public CliCommand parse(String[] cmdArgs) throws CliParseException {
         Parser parser = new PosixParser();
+        CommandLine cl;
         try {
             cl = parser.parse(options, cmdArgs);
         } catch (ParseException ex) {
@@ -49,43 +54,29 @@ public class DeleteCommand extends CliCommand {
         if (args.length < 2) {
             throw new CliParseException(getUsageStr());
         }
-        
-        retainCompatibility(cmdArgs);
 
         return this;
     }
 
-    private void retainCompatibility(String[] cmdArgs) throws CliParseException {
-        if (args.length > 2) {
-            err.println("'delete path [version]' has been deprecated. "
-                    + "Please use 'delete [-v version] path' instead.");
-            Parser parser = new PosixParser();
-            try {
-                cl = parser.parse(options, cmdArgs);
-            } catch (ParseException ex) {
-                throw new CliParseException(ex);
-            }
-            args = cl.getArgs();
-        }
-    }
-
     @Override
     public boolean exec() throws CliException {
-        String path = args[1];
-        int version;
-        if (cl.hasOption("v")) {
-            version = Integer.parseInt(cl.getOptionValue("v"));
-        } else {
-            version = -1;
-        }
+        printDeprecatedWarning();
         
+        String path = args[1];
         try {
-            zk.delete(path, version);
+            ZKUtil.deleteRecursive(zk, path);
         } catch (IllegalArgumentException ex) {
             throw new MalformedPathException(ex.getMessage());
-        } catch(KeeperException|InterruptedException ex) {
+        } catch (KeeperException|InterruptedException ex) {
             throw new CliWrapperException(ex);
         }
         return false;
+    }
+    
+    private void printDeprecatedWarning() {
+        if("rmr".equals(args[0])) {
+            err.println("The command 'rmr' has been deprecated. " +
+                  "Please use 'deleteall' instead.");
+        }
     }
 }

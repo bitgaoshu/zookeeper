@@ -435,7 +435,7 @@ public class ZooKeeperTest extends ClientBase {
         // revert redirect of out/err streams - important step!
         System.setErr(systemErr);
         if (errContent.toString().contains("ZooKeeper -server host:port cmd args")) {
-            fail("CLI commands (history, redo, connect, printwatches) display usage info!");
+            fail("CLI cliCmds (history, redo, connect, printwatches) display usage info!");
         }
     }
 

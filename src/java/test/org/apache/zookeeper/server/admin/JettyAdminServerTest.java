@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
 public class JettyAdminServerTest extends ZKTestCase{
     protected static final Logger LOG = LoggerFactory.getLogger(JettyAdminServerTest.class);
 
-    private static final String URL_FORMAT = "http://localhost:%d/commands";
+    private static final String URL_FORMAT = "http://localhost:%d/cliCmds";
     private static final int jettyAdminPort = PortAssignment.unique();
 
     @Before
@@ -143,7 +143,7 @@ public class JettyAdminServerTest extends ZKTestCase{
     }
 
     /**
-     * Check that we can load the commands page of an AdminServer running at
+     * Check that we can load the cliCmds page of an AdminServer running at
      * localhost:port. (Note that this should work even if no zk server is set.)
      */
     private void queryAdminServer(int port) throws MalformedURLException, IOException {

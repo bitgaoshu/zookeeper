@@ -18,6 +18,43 @@
 
 package org.apache.zookeeper.clients.client;
 
+import org.apache.yetus.audience.InterfaceAudience;
+import org.apache.zookeeper.Quotas;
+import org.apache.zookeeper.StatsTrack;
+import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.ZooDefs.Ids;
+import org.apache.zookeeper.admin.ZooKeeperAdmin;
+import org.apache.zookeeper.clients.cliCmds.AddAuthCommand;
+import org.apache.zookeeper.clients.cliCmds.CliCommand;
+import org.apache.zookeeper.clients.cliCmds.CliException;
+import org.apache.zookeeper.clients.cliCmds.CloseCommand;
+import org.apache.zookeeper.clients.cliCmds.CommandNotFoundException;
+import org.apache.zookeeper.clients.cliCmds.CreateCommand;
+import org.apache.zookeeper.clients.cliCmds.DelQuotaCommand;
+import org.apache.zookeeper.clients.cliCmds.DeleteAllCommand;
+import org.apache.zookeeper.clients.cliCmds.DeleteCommand;
+import org.apache.zookeeper.clients.cliCmds.GetAclCommand;
+import org.apache.zookeeper.clients.cliCmds.GetCommand;
+import org.apache.zookeeper.clients.cliCmds.GetConfigCommand;
+import org.apache.zookeeper.clients.cliCmds.ListQuotaCommand;
+import org.apache.zookeeper.clients.cliCmds.Ls2Command;
+import org.apache.zookeeper.clients.cliCmds.LsCommand;
+import org.apache.zookeeper.clients.cliCmds.MalformedCommandException;
+import org.apache.zookeeper.clients.cliCmds.ReconfigCommand;
+import org.apache.zookeeper.clients.cliCmds.RemoveWatchesCommand;
+import org.apache.zookeeper.clients.cliCmds.SetAclCommand;
+import org.apache.zookeeper.clients.cliCmds.SetCommand;
+import org.apache.zookeeper.clients.cliCmds.SetQuotaCommand;
+import org.apache.zookeeper.clients.cliCmds.StatCommand;
+import org.apache.zookeeper.clients.cliCmds.SyncCommand;
+import org.apache.zookeeper.clients.client.common.ZKClientConfig;
+import org.apache.zookeeper.data.Stat;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.nodeMode.CreateMode;
+import org.apache.zookeeper.watcher.Watcher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,45 +70,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
-
-import org.apache.yetus.audience.InterfaceAudience;
-import org.apache.zookeeper.*;
-import org.apache.zookeeper.cli.CliException;
-import org.apache.zookeeper.cli.CommandNotFoundException;
-import org.apache.zookeeper.cli.MalformedCommandException;
-import org.apache.zookeeper.clients.client.common.ZKClientConfig;
-import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.watcher.Watcher;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.apache.zookeeper.ZooDefs.Ids;
-import org.apache.zookeeper.data.Stat;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.zookeeper.cli.AddAuthCommand;
-import org.apache.zookeeper.cli.CliCommand;
-import org.apache.zookeeper.cli.CloseCommand;
-import org.apache.zookeeper.cli.CreateCommand;
-import org.apache.zookeeper.cli.DelQuotaCommand;
-import org.apache.zookeeper.cli.DeleteAllCommand;
-import org.apache.zookeeper.cli.DeleteCommand;
-import org.apache.zookeeper.cli.RemoveWatchesCommand;
-import org.apache.zookeeper.cli.GetAclCommand;
-import org.apache.zookeeper.cli.GetCommand;
-import org.apache.zookeeper.cli.GetConfigCommand;
-import org.apache.zookeeper.cli.ListQuotaCommand;
-import org.apache.zookeeper.cli.Ls2Command;
-import org.apache.zookeeper.cli.LsCommand;
-import org.apache.zookeeper.cli.ReconfigCommand;
-import org.apache.zookeeper.cli.SetAclCommand;
-import org.apache.zookeeper.cli.SetCommand;
-import org.apache.zookeeper.cli.SetQuotaCommand;
-import org.apache.zookeeper.cli.StatCommand;
-import org.apache.zookeeper.cli.SyncCommand;
-import org.apache.zookeeper.admin.ZooKeeperAdmin;
 
 /**
  * The command line client to ZooKeeper.
@@ -151,7 +151,7 @@ public class ZooKeeperMain {
     }
 
     /**
-     * A storage class for both command line options and shell commands.
+     * A storage class for both command line options and shell cliCmds.
      *
      */
     static class MyCommandOptions {
@@ -254,7 +254,7 @@ public class ZooKeeperMain {
 
 
     /**
-     * Makes a list of possible completions, either for commands
+     * Makes a list of possible completions, either for cliCmds
      * or for zk nodes if the token to complete begins with /
      *
      */
@@ -317,7 +317,7 @@ public class ZooKeeperMain {
             try {
                 Class<?> consoleC = Class.forName("jline.console.ConsoleReader");
                 Class<?> completorC =
-                    Class.forName("org.apache.zookeeper.JLineZNodeCompleter");
+                    Class.forName("org.apache.zookeeper.clients.client.JLineZNodeCompleter");
 
                 System.out.println("JLine support is enabled");
 
@@ -648,7 +648,7 @@ public class ZooKeeperMain {
             }
         }
         
-        // Below commands all need a live connection
+        // Below cliCmds all need a live connection
         if (zk == null || !zk.getState().isAlive()) {
             System.out.println("Not connected");
             return false;

@@ -45,7 +45,7 @@ public class FourLetterWordsWhiteListTest extends ClientBase {
     public void testFourLetterWordsAllDisabledByDefault() throws Exception {
         stopServer();
         FourLetterCommands.resetWhiteList();
-        System.setProperty("zookeeper.4lw.commands.whitelist", "stat");
+        System.setProperty("zookeeper.4lw.cliCmds.whitelist", "stat");
         startServer();
 
         // Default white list for 3.5.x is empty, so all command should fail.
@@ -69,14 +69,14 @@ public class FourLetterWordsWhiteListTest extends ClientBase {
     public void testFourLetterWordsEnableSomeCommands() throws Exception {
         stopServer();
         FourLetterCommands.resetWhiteList();
-        System.setProperty("zookeeper.4lw.commands.whitelist", "stat, ruok, isro");
+        System.setProperty("zookeeper.4lw.cliCmds.whitelist", "stat, ruok, isro");
         startServer();
         // stat, ruok and isro are white listed.
         verifyFuzzyMatch("stat", "Outstanding");
         verifyExactMatch("ruok", "imok");
         verifyExactMatch("isro", "rw");
 
-        // Rest of commands fail.
+        // Rest of cliCmds fail.
         verifyExactMatch("conf", generateExpectedMessage("conf"));
         verifyExactMatch("cons", generateExpectedMessage("cons"));
         verifyExactMatch("crst", generateExpectedMessage("crst"));
@@ -96,7 +96,7 @@ public class FourLetterWordsWhiteListTest extends ClientBase {
     public void testISROEnabledWhenReadOnlyModeEnabled() throws Exception {
         stopServer();
         FourLetterCommands.resetWhiteList();
-        System.setProperty("zookeeper.4lw.commands.whitelist", "stat");
+        System.setProperty("zookeeper.4lw.cliCmds.whitelist", "stat");
         System.setProperty("readonlymode.enabled", "true");
         startServer();
         verifyExactMatch("isro", "rw");
@@ -107,7 +107,7 @@ public class FourLetterWordsWhiteListTest extends ClientBase {
     public void testFourLetterWordsInvalidConfiguration() throws Exception {
         stopServer();
         FourLetterCommands.resetWhiteList();
-        System.setProperty("zookeeper.4lw.commands.whitelist", "foo bar" +
+        System.setProperty("zookeeper.4lw.cliCmds.whitelist", "foo bar" +
                 " foo,,, " +
                 "bar :.,@#$%^&*() , , , , bar, bar, stat,        ");
         startServer();
@@ -122,7 +122,7 @@ public class FourLetterWordsWhiteListTest extends ClientBase {
     public void testFourLetterWordsEnableAllCommandsThroughAsterisk() throws Exception {
         stopServer();
         FourLetterCommands.resetWhiteList();
-        System.setProperty("zookeeper.4lw.commands.whitelist", "*");
+        System.setProperty("zookeeper.4lw.cliCmds.whitelist", "*");
         startServer();
         verifyAllCommandsSuccess();
     }
@@ -131,7 +131,7 @@ public class FourLetterWordsWhiteListTest extends ClientBase {
     public void testFourLetterWordsEnableAllCommandsThroughExplicitList() throws Exception {
         stopServer();
         FourLetterCommands.resetWhiteList();
-        System.setProperty("zookeeper.4lw.commands.whitelist",
+        System.setProperty("zookeeper.4lw.cliCmds.whitelist",
                 "ruok, envi, conf, stat, srvr, cons, dump," +
                         "wchs, wchp, wchc, srst, crst, " +
                         "dirs, mntr, gtmk, isro, stmk");

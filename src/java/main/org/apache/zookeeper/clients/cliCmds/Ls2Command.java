@@ -14,26 +14,25 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.apache.zookeeper.cli;
+package org.apache.zookeeper.clients.cliCmds;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.Parser;
-import org.apache.commons.cli.PosixParser;
+import java.util.List;
+import org.apache.commons.cli.*;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.data.Stat;
 
 /**
- * sync command for cli
+ * ls2 command for cli
  */
-public class SyncCommand extends CliCommand {
+public class Ls2Command extends CliCommand {
 
     private static Options options = new Options();
-    private String[] args;
-
-    public SyncCommand() {
-        super("sync", "path");
+    private String args[];
+    
+    public Ls2Command() {
+        super("ls2", "path [watch]");
     }
-
+    
     @Override
     public CliCommand parse(String[] cmdArgs) throws CliParseException {
         Parser parser = new PosixParser();
@@ -47,25 +46,27 @@ public class SyncCommand extends CliCommand {
         if (args.length < 2) {
             throw new CliParseException(getUsageStr());
         }
-
+        
         return this;
     }
 
     @Override
     public boolean exec() throws CliException {
+        err.println("'ls2' has been deprecated. "
+                  + "Please use 'ls [-s] path' instead.");
         String path = args[1];
+        boolean watch = args.length > 2;
+        Stat stat = new Stat();
+        List<String> children;
         try {
-            zk.sync(path, new AsyncCallback.VoidCallback() {
-
-                public void processResult(int rc, String path, Object ctx) {
-                    out.println("Sync returned " + rc);
-                }
-            }, null);
+            children = zk.getChildren(path, watch, stat);
         } catch (IllegalArgumentException ex) {
             throw new MalformedPathException(ex.getMessage());
+        } catch (KeeperException|InterruptedException ex) {
+            throw new CliWrapperException(ex);
         }
-
-
-        return false;
+        out.println(children);
+        new StatPrinter(out).print(stat);
+        return watch;
     }
 }

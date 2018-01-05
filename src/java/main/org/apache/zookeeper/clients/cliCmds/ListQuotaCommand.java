@@ -15,67 +15,68 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.cli;
+package org.apache.zookeeper.clients.cliCmds;
 
 import org.apache.commons.cli.*;
 import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.Quotas;
+import org.apache.zookeeper.StatsTrack;
 import org.apache.zookeeper.data.Stat;
 
 /**
- * set command for cli
+ * listQuta command for cli
  */
-public class SetCommand extends CliCommand {
+public class ListQuotaCommand extends CliCommand {
 
     private static Options options = new Options();
     private String[] args;
-    private CommandLine cl;
-
-    {
-        options.addOption("s", false, "stats");
-        options.addOption("v", true, "version");
-    }
-
-    public SetCommand() {
-        super("set", "[-s] [-v version] path data");
+    
+    public ListQuotaCommand() {
+        super("listquota", "path");
     }
 
     @Override
     public CliCommand parse(String[] cmdArgs) throws CliParseException {
         Parser parser = new PosixParser();
+        CommandLine cl;
         try {
             cl = parser.parse(options, cmdArgs);
         } catch (ParseException ex) {
             throw new CliParseException(ex);
         }
         args = cl.getArgs();
-        if (args.length < 3) {
+        if(args.length < 2) {
             throw new CliParseException(getUsageStr());
         }
-
+        
         return this;
     }
-
+    
     @Override
     public boolean exec() throws CliException {
         String path = args[1];
-        byte[] data = args[2].getBytes();
-        int version;
-        if (cl.hasOption("v")) {
-            version = Integer.parseInt(cl.getOptionValue("v"));
-        } else {
-            version = -1;
-        }
-
+        String absolutePath = Quotas.quotaZookeeper + path + "/"
+                + Quotas.limitNode;
         try {
-            Stat stat = zk.setData(path, data, version);
-            if (cl.hasOption("s")) {
-                new StatPrinter(out).print(stat);
-            }
+            err.println("absolute path is " + absolutePath);
+            Stat stat = new Stat();
+            byte[] data = zk.getData(absolutePath, false, stat);
+            StatsTrack st = new StatsTrack(new String(data));
+            out.println("Output quota for " + path + " "
+                    + st.toString());
+
+            data = zk.getData(Quotas.quotaZookeeper + path + "/"
+                    + Quotas.statNode, false, stat);
+            out.println("Output stat for " + path + " "
+                    + new StatsTrack(new String(data)).toString());
         } catch (IllegalArgumentException ex) {
             throw new MalformedPathException(ex.getMessage());
+        } catch (KeeperException.NoNodeException ne) {
+            err.println("quota for " + path + " does not exist.");
         } catch (KeeperException|InterruptedException ex) {
             throw new CliWrapperException(ex);
         }
+        
         return false;
     }
 }

@@ -43,8 +43,8 @@ import org.slf4j.LoggerFactory;
  * This class encapsulates a Jetty server for running Commands.
  *
  * Given the default settings, start a ZooKeeper server and visit
- * http://<hostname>:8080/commands for links to all registered commands. Visiting
- * http://<hostname>:8080/commands/<commandname> will execute the associated
+ * http://<hostname>:8080/cliCmds for links to all registered cliCmds. Visiting
+ * http://<hostname>:8080/cliCmds/<commandname> will execute the associated
  * Command and return the result in the body of the response. Any keyword
  * arguments to the command are specified with URL parameters (e.g.,
  * http://localhost:8080/commands/set_trace_mask?traceMask=306).
@@ -57,7 +57,7 @@ public class JettyAdminServer implements AdminServer {
 
     public static final int DEFAULT_PORT = 8080;
     public static final int DEFAULT_IDLE_TIMEOUT = 30000;
-    public static final String DEFAULT_COMMAND_URL = "/commands";
+    public static final String DEFAULT_COMMAND_URL = "/cliCmds";
     private static final String DEFAULT_ADDRESS = "0.0.0.0";
 
     private final Server server;
@@ -153,7 +153,7 @@ public class JettyAdminServer implements AdminServer {
             // Capture the command name from the URL
             String cmd = request.getPathInfo();
             if (cmd == null || cmd.equals("/")) {
-                // No command specified, print links to all commands instead
+                // No command specified, print links to all cliCmds instead
                 for (String link : commandLinks()) {
                     response.getWriter().println(link);
                     response.getWriter().println("<br/>");

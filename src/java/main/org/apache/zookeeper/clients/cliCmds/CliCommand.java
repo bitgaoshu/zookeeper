@@ -15,14 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.cli;
+package org.apache.zookeeper.clients.cliCmds;
 
 import java.io.PrintStream;
 import java.util.Map;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 
 /**
- * base class for all CLI commands
+ * base class for all CLI cliCmds
  */
 abstract public class CliCommand {
     protected ZooKeeper zk;

@@ -56,7 +56,7 @@ public class Commands {
     private static Set<String> primaryNames = new HashSet<String>();
 
     /**
-     * Registers the given command. Registered commands can be run by passing
+     * Registers the given command. Registered cliCmds can be run by passing
      * any of their names to runCommand.
      */
     public static void registerCommand(Command command) {
@@ -94,14 +94,14 @@ public class Commands {
     }
 
     /**
-     * Returns the primary names of all registered commands.
+     * Returns the primary names of all registered cliCmds.
      */
     public static Set<String> getPrimaryNames() {
         return primaryNames;
     }
 
     /**
-     * Returns the commands registered under cmdName with registerCommand, or
+     * Returns the cliCmds registered under cmdName with registerCommand, or
      * null if no command is registered with that name.
      */
     public static Command getCommand(String cmdName) {

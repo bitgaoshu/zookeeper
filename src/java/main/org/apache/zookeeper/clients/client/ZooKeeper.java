@@ -347,7 +347,7 @@ public class ZooKeeper implements AutoCloseable {
      * session is explicitly closed.
      * <p>
      * Added in 3.2.0: An optional "chroot" suffix may also be appended to the
-     * connection string. This will run the client commands while interpreting
+     * connection string. This will run the client cliCmds while interpreting
      * all paths relative to this root (similar to the unix chroot command).
      *
      * @param connectString  comma separated host:port pairs, each corresponding to a zk
@@ -389,7 +389,7 @@ public class ZooKeeper implements AutoCloseable {
      * session is explicitly closed.
      * <p>
      * Added in 3.2.0: An optional "chroot" suffix may also be appended to the
-     * connection string. This will run the client commands while interpreting
+     * connection string. This will run the client cliCmds while interpreting
      * all paths relative to this root (similar to the unix chroot command).
      *
      * @param connectString  comma separated host:port pairs, each corresponding to a zk
@@ -433,7 +433,7 @@ public class ZooKeeper implements AutoCloseable {
      * session is explicitly closed.
      * <p>
      * Added in 3.2.0: An optional "chroot" suffix may also be appended to the
-     * connection string. This will run the client commands while interpreting
+     * connection string. This will run the client cliCmds while interpreting
      * all paths relative to this root (similar to the unix chroot command).
      * <p>
      * For backward compatibility, there is another version
@@ -490,7 +490,7 @@ public class ZooKeeper implements AutoCloseable {
      * session is explicitly closed.
      * <p>
      * Added in 3.2.0: An optional "chroot" suffix may also be appended to the
-     * connection string. This will run the client commands while interpreting
+     * connection string. This will run the client cliCmds while interpreting
      * all paths relative to this root (similar to the unix chroot command).
      * <p>
      * For backward compatibility, there is another version
@@ -563,7 +563,7 @@ public class ZooKeeper implements AutoCloseable {
      * session is explicitly closed.
      * <p>
      * Added in 3.2.0: An optional "chroot" suffix may also be appended to the
-     * connection string. This will run the client commands while interpreting
+     * connection string. This will run the client cliCmds while interpreting
      * all paths relative to this root (similar to the unix chroot command).
      * <p>
      *
@@ -614,7 +614,7 @@ public class ZooKeeper implements AutoCloseable {
      * session is explicitly closed.
      * <p>
      * Added in 3.2.0: An optional "chroot" suffix may also be appended to the
-     * connection string. This will run the client commands while interpreting
+     * connection string. This will run the client cliCmds while interpreting
      * all paths relative to this root (similar to the unix chroot command).
      * <p>
      *
@@ -667,7 +667,7 @@ public class ZooKeeper implements AutoCloseable {
      * session is explicitly closed (or the session is expired by the server).
      * <p>
      * Added in 3.2.0: An optional "chroot" suffix may also be appended to the
-     * connection string. This will run the client commands while interpreting
+     * connection string. This will run the client cliCmds while interpreting
      * all paths relative to this root (similar to the unix chroot command).
      * <p>
      * Use {@link #getSessionId} and {@link #getSessionPasswd} on an established
@@ -719,7 +719,7 @@ public class ZooKeeper implements AutoCloseable {
      * session is explicitly closed (or the session is expired by the server).
      * <p>
      * Added in 3.2.0: An optional "chroot" suffix may also be appended to the
-     * connection string. This will run the client commands while interpreting
+     * connection string. This will run the client cliCmds while interpreting
      * all paths relative to this root (similar to the unix chroot command).
      * <p>
      * Use {@link #getSessionId} and {@link #getSessionPasswd} on an established
@@ -801,7 +801,7 @@ public class ZooKeeper implements AutoCloseable {
      * session is explicitly closed (or the session is expired by the server).
      * <p>
      * Added in 3.2.0: An optional "chroot" suffix may also be appended to the
-     * connection string. This will run the client commands while interpreting
+     * connection string. This will run the client cliCmds while interpreting
      * all paths relative to this root (similar to the unix chroot command).
      * <p>
      * Use {@link #getSessionId} and {@link #getSessionPasswd} on an established

@@ -29,123 +29,123 @@ import java.util.Set;
 import java.util.Arrays;
 
 /**
- * This class contains constants for all the four letter commands
+ * This class contains constants for all the four letter cliCmds
  */
 public class FourLetterCommands {
     /*
      * See <a href="{@docRoot}/../../../docs/zookeeperAdmin.html#sc_zkCommands">
-     * Zk Admin</a>. this link is for all the commands.
+     * Zk Admin</a>. this link is for all the cliCmds.
      */
     public final static int confCmd =
         ByteBuffer.wrap("conf".getBytes()).getInt();
 
     /*
      * See <a href="{@docRoot}/../../../docs/zookeeperAdmin.html#sc_zkCommands">
-     * Zk Admin</a>. this link is for all the commands.
+     * Zk Admin</a>. this link is for all the cliCmds.
      */
     public final static int consCmd =
         ByteBuffer.wrap("cons".getBytes()).getInt();
 
     /*
      * See <a href="{@docRoot}/../../../docs/zookeeperAdmin.html#sc_zkCommands">
-     * Zk Admin</a>. this link is for all the commands.
+     * Zk Admin</a>. this link is for all the cliCmds.
      */
     public final static int crstCmd =
         ByteBuffer.wrap("crst".getBytes()).getInt();
 
     /*
      * See <a href="{@docRoot}/../../../docs/zookeeperAdmin.html#sc_zkCommands">
-     * Zk Admin</a>. this link is for all the commands.
+     * Zk Admin</a>. this link is for all the cliCmds.
      */
     public final static int dirsCmd =
         ByteBuffer.wrap("dirs".getBytes()).getInt();
 
     /*
      * See <a href="{@docRoot}/../../../docs/zookeeperAdmin.html#sc_zkCommands">
-     * Zk Admin</a>. this link is for all the commands.
+     * Zk Admin</a>. this link is for all the cliCmds.
      */
     public final static int dumpCmd =
         ByteBuffer.wrap("dump".getBytes()).getInt();
 
     /*
      * See <a href="{@docRoot}/../../../docs/zookeeperAdmin.html#sc_zkCommands">
-     * Zk Admin</a>. this link is for all the commands.
+     * Zk Admin</a>. this link is for all the cliCmds.
      */
     public final static int enviCmd =
         ByteBuffer.wrap("envi".getBytes()).getInt();
 
     /*
      * See <a href="{@docRoot}/../../../docs/zookeeperAdmin.html#sc_zkCommands">
-     * Zk Admin</a>. this link is for all the commands.
+     * Zk Admin</a>. this link is for all the cliCmds.
      */
     public final static int getTraceMaskCmd =
         ByteBuffer.wrap("gtmk".getBytes()).getInt();
 
     /*
      * See <a href="{@docRoot}/../../../docs/zookeeperAdmin.html#sc_zkCommands">
-     * Zk Admin</a>. this link is for all the commands.
+     * Zk Admin</a>. this link is for all the cliCmds.
      */
     public final static int ruokCmd =
         ByteBuffer.wrap("ruok".getBytes()).getInt();
     /*
      * See <a href="{@docRoot}/../../../docs/zookeeperAdmin.html#sc_zkCommands">
-     * Zk Admin</a>. this link is for all the commands.
+     * Zk Admin</a>. this link is for all the cliCmds.
      */
     public final static int setTraceMaskCmd =
         ByteBuffer.wrap("stmk".getBytes()).getInt();
 
     /*
      * See <a href="{@docRoot}/../../../docs/zookeeperAdmin.html#sc_zkCommands">
-     * Zk Admin</a>. this link is for all the commands.
+     * Zk Admin</a>. this link is for all the cliCmds.
      */
     public final static int srvrCmd =
         ByteBuffer.wrap("srvr".getBytes()).getInt();
 
     /*
      * See <a href="{@docRoot}/../../../docs/zookeeperAdmin.html#sc_zkCommands">
-     * Zk Admin</a>. this link is for all the commands.
+     * Zk Admin</a>. this link is for all the cliCmds.
      */
     public final static int srstCmd =
         ByteBuffer.wrap("srst".getBytes()).getInt();
 
     /*
      * See <a href="{@docRoot}/../../../docs/zookeeperAdmin.html#sc_zkCommands">
-     * Zk Admin</a>. this link is for all the commands.
+     * Zk Admin</a>. this link is for all the cliCmds.
      */
     public final static int statCmd =
         ByteBuffer.wrap("stat".getBytes()).getInt();
 
     /*
      * See <a href="{@docRoot}/../../../docs/zookeeperAdmin.html#sc_zkCommands">
-     * Zk Admin</a>. this link is for all the commands.
+     * Zk Admin</a>. this link is for all the cliCmds.
      */
     public final static int wchcCmd =
         ByteBuffer.wrap("wchc".getBytes()).getInt();
 
     /*
      * See <a href="{@docRoot}/../../../docs/zookeeperAdmin.html#sc_zkCommands">
-     * Zk Admin</a>. this link is for all the commands.
+     * Zk Admin</a>. this link is for all the cliCmds.
      */
     public final static int wchpCmd =
         ByteBuffer.wrap("wchp".getBytes()).getInt();
 
     /*
      * See <a href="{@docRoot}/../../../docs/zookeeperAdmin.html#sc_zkCommands">
-     * Zk Admin</a>. this link is for all the commands.
+     * Zk Admin</a>. this link is for all the cliCmds.
      */
     public final static int wchsCmd =
         ByteBuffer.wrap("wchs".getBytes()).getInt();
 
     /*
      * See <a href="{@docRoot}/../../../docs/zookeeperAdmin.html#sc_zkCommands">
-     * Zk Admin</a>. this link is for all the commands.
+     * Zk Admin</a>. this link is for all the cliCmds.
      */
     public final static int mntrCmd = ByteBuffer.wrap("mntr".getBytes())
             .getInt();
 
     /*
      * See <a href="{@docRoot}/../../../docs/zookeeperAdmin.html#sc_zkCommands">
-     * Zk Admin</a>. this link is for all the commands.
+     * Zk Admin</a>. this link is for all the cliCmds.
      */
     public final static int isroCmd = ByteBuffer.wrap("isro".getBytes())
             .getInt();
@@ -158,7 +158,7 @@ public class FourLetterCommands {
      */
     public final static int telnetCloseCmd = 0xfff4fffd;
 
-    private static final String ZOOKEEPER_4LW_COMMANDS_WHITELIST = "zookeeper.4lw.commands.whitelist";
+    private static final String ZOOKEEPER_4LW_COMMANDS_WHITELIST = "zookeeper.4lw.cliCmds.whitelist";
 
     private static final Logger LOG = LoggerFactory.getLogger(FourLetterCommands.class);
 
@@ -195,7 +195,7 @@ public class FourLetterCommands {
      * Check if the specified command is enabled.
      *
      * In ZOOKEEPER-2693 we introduce a configuration option to only
-     * allow a specific set of white listed commands to execute.
+     * allow a specific set of white listed cliCmds to execute.
      * A command will only be executed if it is also configured
      * in the white list.
      *
@@ -231,12 +231,12 @@ public class FourLetterCommands {
         // zkServer.sh depends on "srvr".
         whiteListedCommands.add("srvr");
         whiteListInitialized = true;
-        LOG.info("The list of known four letter word commands is : {}", Arrays.asList(cmd2String));
-        LOG.info("The list of enabled four letter word commands is : {}", Arrays.asList(whiteListedCommands));
+        LOG.info("The list of known four letter word cliCmds is : {}", Arrays.asList(cmd2String));
+        LOG.info("The list of enabled four letter word cliCmds is : {}", Arrays.asList(whiteListedCommands));
         return whiteListedCommands.contains(command);
     }
 
-    // specify all of the commands that are available
+    // specify all of the cliCmds that are available
     static {
         cmd2String.put(confCmd, "conf");
         cmd2String.put(consCmd, "cons");

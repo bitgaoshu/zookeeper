@@ -28,13 +28,13 @@
 
 <!--  Command line arguments =  -doclet jdiff.JDiff -docletpath /home/gkesavan/zk-3.1/src/java/lib/jdiff-1.0.9.jar:/home/gkesavan/zk-3.1/src/java/lib/xerces-1.4.4.jar -classpath /home/gkesavan/zk-3.1/src/java/lib/jdiff-1.0.9.jar:/home/gkesavan/zk-3.1/src/java/lib/junit-4.4.jar:/home/gkesavan/zk-3.1/src/java/lib/log4j-1.2.15.jar:/home/gkesavan/zk-3.1/src/java/lib/xerces-1.4.4.jar:/home/gkesavan/zk-3.1/build/classes -sourcepath /home/gkesavan/zk-3.1/src/java/main -apidir /home/gkesavan/zk-3.1/src/java/lib/jdiff -apiname zookeeper 3.1.1 -->
 <package name="org.apache.zookeeper">
-  <!-- start interface org.apache.zookeeper.cli.AsyncCallback -->
+  <!-- start interface org.apache.zookeeper.clients.cli.AsyncCallback -->
   <interface name="AsyncCallback"    abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
   </interface>
-  <!-- end interface org.apache.zookeeper.cli.AsyncCallback -->
-  <!-- start interface org.apache.zookeeper.cli.AsyncCallback.ACLCallback -->
+  <!-- end interface org.apache.zookeeper.clients.cli.AsyncCallback -->
+  <!-- start interface org.apache.zookeeper.clients.cli.AsyncCallback.ACLCallback -->
   <interface name="AsyncCallback.ACLCallback"    abstract="true"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -50,8 +50,8 @@
       <param name="stat" type="org.apache.zookeeper.data.Stat"/>
     </method>
   </interface>
-  <!-- end interface org.apache.zookeeper.cli.AsyncCallback.ACLCallback -->
-  <!-- start interface org.apache.zookeeper.cli.AsyncCallback.ChildrenCallback -->
+  <!-- end interface org.apache.zookeeper.clients.cli.AsyncCallback.ACLCallback -->
+  <!-- start interface org.apache.zookeeper.clients.cli.AsyncCallback.ChildrenCallback -->
   <interface name="AsyncCallback.ChildrenCallback"    abstract="true"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -66,8 +66,8 @@
       <param name="children" type="java.util.List"/>
     </method>
   </interface>
-  <!-- end interface org.apache.zookeeper.cli.AsyncCallback.ChildrenCallback -->
-  <!-- start interface org.apache.zookeeper.cli.AsyncCallback.DataCallback -->
+  <!-- end interface org.apache.zookeeper.clients.cli.AsyncCallback.ChildrenCallback -->
+  <!-- start interface org.apache.zookeeper.clients.cli.AsyncCallback.DataCallback -->
   <interface name="AsyncCallback.DataCallback"    abstract="true"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -83,8 +83,8 @@
       <param name="stat" type="org.apache.zookeeper.data.Stat"/>
     </method>
   </interface>
-  <!-- end interface org.apache.zookeeper.cli.AsyncCallback.DataCallback -->
-  <!-- start interface org.apache.zookeeper.cli.AsyncCallback.StatCallback -->
+  <!-- end interface org.apache.zookeeper.clients.cli.AsyncCallback.DataCallback -->
+  <!-- start interface org.apache.zookeeper.clients.cli.AsyncCallback.StatCallback -->
   <interface name="AsyncCallback.StatCallback"    abstract="true"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -99,8 +99,8 @@
       <param name="stat" type="org.apache.zookeeper.data.Stat"/>
     </method>
   </interface>
-  <!-- end interface org.apache.zookeeper.cli.AsyncCallback.StatCallback -->
-  <!-- start interface org.apache.zookeeper.cli.AsyncCallback.StringCallback -->
+  <!-- end interface org.apache.zookeeper.clients.cli.AsyncCallback.StatCallback -->
+  <!-- start interface org.apache.zookeeper.clients.cli.AsyncCallback.StringCallback -->
   <interface name="AsyncCallback.StringCallback"    abstract="true"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -115,8 +115,8 @@
       <param name="name" type="java.lang.String"/>
     </method>
   </interface>
-  <!-- end interface org.apache.zookeeper.cli.AsyncCallback.StringCallback -->
-  <!-- start interface org.apache.zookeeper.cli.AsyncCallback.VoidCallback -->
+  <!-- end interface org.apache.zookeeper.clients.cli.AsyncCallback.StringCallback -->
+  <!-- start interface org.apache.zookeeper.clients.cli.AsyncCallback.VoidCallback -->
   <interface name="AsyncCallback.VoidCallback"    abstract="true"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -130,7 +130,7 @@
       <param name="ctx" type="java.lang.Object"/>
     </method>
   </interface>
-  <!-- end interface org.apache.zookeeper.cli.AsyncCallback.VoidCallback -->
+  <!-- end interface org.apache.zookeeper.clients.cli.AsyncCallback.VoidCallback -->
   <!-- start class org.apache.zookeeper.clients.client.clientSocket.ClientCnxn -->
   <class name="ClientCnxn" extends="java.lang.Object"
     abstract="false"

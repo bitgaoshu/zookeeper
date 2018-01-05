@@ -15,38 +15,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.cli;
+package org.apache.zookeeper.clients.cliCmds;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.Parser;
-import org.apache.commons.cli.PosixParser;
+import org.apache.commons.cli.*;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.data.Stat;
 
 /**
- * addAuth command for cli
+ * set command for cli
  */
-public class AddAuthCommand extends CliCommand {
+public class SetCommand extends CliCommand {
 
     private static Options options = new Options();
     private String[] args;
+    private CommandLine cl;
 
-    public AddAuthCommand() {
-        super("addauth", "scheme auth");
+    {
+        options.addOption("s", false, "stats");
+        options.addOption("v", true, "version");
+    }
+
+    public SetCommand() {
+        super("set", "[-s] [-v version] path data");
     }
 
     @Override
     public CliCommand parse(String[] cmdArgs) throws CliParseException {
         Parser parser = new PosixParser();
-        CommandLine cl;
         try {
             cl = parser.parse(options, cmdArgs);
         } catch (ParseException ex) {
             throw new CliParseException(ex);
         }
-
         args = cl.getArgs();
-        if (args.length < 2) {
+        if (args.length < 3) {
             throw new CliParseException(getUsageStr());
         }
 
@@ -55,13 +57,25 @@ public class AddAuthCommand extends CliCommand {
 
     @Override
     public boolean exec() throws CliException {
-        byte[] b = null;
-        if (args.length >= 3) {
-            b = args[2].getBytes();
+        String path = args[1];
+        byte[] data = args[2].getBytes();
+        int version;
+        if (cl.hasOption("v")) {
+            version = Integer.parseInt(cl.getOptionValue("v"));
+        } else {
+            version = -1;
         }
 
-        zk.addAuthInfo(args[1], b);
-
+        try {
+            Stat stat = zk.setData(path, data, version);
+            if (cl.hasOption("s")) {
+                new StatPrinter(out).print(stat);
+            }
+        } catch (IllegalArgumentException ex) {
+            throw new MalformedPathException(ex.getMessage());
+        } catch (KeeperException|InterruptedException ex) {
+            throw new CliWrapperException(ex);
+        }
         return false;
     }
 }

@@ -14,29 +14,39 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.apache.zookeeper.cli;
+package org.apache.zookeeper.clients.cliCmds;
 
 import java.util.List;
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.Parser;
+import org.apache.commons.cli.PosixParser;
 import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
 
 /**
- * ls2 command for cli
+ * getAcl command for cli
  */
-public class Ls2Command extends CliCommand {
+public class GetAclCommand extends CliCommand {
 
     private static Options options = new Options();
     private String args[];
-    
-    public Ls2Command() {
-        super("ls2", "path [watch]");
+    private CommandLine cl;
+
+    {
+        options.addOption("s", false, "stats");
     }
-    
+
+    public GetAclCommand() {
+        super("getAcl", "[-s] path");
+    }
+
     @Override
     public CliCommand parse(String[] cmdArgs) throws CliParseException {
         Parser parser = new PosixParser();
-        CommandLine cl;
         try {
             cl = parser.parse(options, cmdArgs);
         } catch (ParseException ex) {
@@ -46,27 +56,51 @@ public class Ls2Command extends CliCommand {
         if (args.length < 2) {
             throw new CliParseException(getUsageStr());
         }
-        
+
         return this;
     }
 
     @Override
     public boolean exec() throws CliException {
-        err.println("'ls2' has been deprecated. "
-                  + "Please use 'ls [-s] path' instead.");
         String path = args[1];
-        boolean watch = args.length > 2;
         Stat stat = new Stat();
-        List<String> children;
+        List<ACL> acl;
         try {
-            children = zk.getChildren(path, watch, stat);
+           acl = zk.getACL(path, stat);
         } catch (IllegalArgumentException ex) {
             throw new MalformedPathException(ex.getMessage());
         } catch (KeeperException|InterruptedException ex) {
             throw new CliWrapperException(ex);
         }
-        out.println(children);
-        new StatPrinter(out).print(stat);
-        return watch;
+
+        for (ACL a : acl) {
+            out.println(a.getId() + ": "
+                        + getPermString(a.getPerms()));
+        }
+
+        if (cl.hasOption("s")) {
+            new StatPrinter(out).print(stat);
+        }
+        return false;
+    }
+
+    private static String getPermString(int perms) {
+        StringBuilder p = new StringBuilder();
+        if ((perms & ZooDefs.Perms.CREATE) != 0) {
+            p.append('c');
+        }
+        if ((perms & ZooDefs.Perms.DELETE) != 0) {
+            p.append('d');
+        }
+        if ((perms & ZooDefs.Perms.READ) != 0) {
+            p.append('r');
+        }
+        if ((perms & ZooDefs.Perms.WRITE) != 0) {
+            p.append('w');
+        }
+        if ((perms & ZooDefs.Perms.ADMIN) != 0) {
+            p.append('a');
+        }
+        return p.toString();
     }
 }

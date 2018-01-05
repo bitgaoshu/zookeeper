@@ -15,39 +15,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.cli;
+package org.apache.zookeeper.clients.cliCmds;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.Parser;
-import org.apache.commons.cli.PosixParser;
+import org.apache.commons.cli.*;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.watcher.WatcherType;
+import org.apache.zookeeper.data.Stat;
 
 /**
- * Remove watches command for cli
+ * get command for cli
  */
-public class RemoveWatchesCommand extends CliCommand {
+public class GetCommand extends CliCommand {
 
     private static Options options = new Options();
-    private String[] args;
+    private String args[];
     private CommandLine cl;
 
     {
-        options.addOption("c", false, "child watcher type");
-        options.addOption("d", false, "data watcher type");
-        options.addOption("a", false, "any watcher type");
-        options.addOption("l", false,
-                "remove locally when there is no server connection");
+        options.addOption("s", false, "stats");
+        options.addOption("w", false, "watch");
     }
 
-    public RemoveWatchesCommand() {
-        super("removewatches", "path [-c|-d|-a] [-l]");
+    public GetCommand() {
+        super("get", "[-s] [-w] path");
     }
 
     @Override
     public CliCommand parse(String[] cmdArgs) throws CliParseException {
+
         Parser parser = new PosixParser();
         try {
             cl = parser.parse(options, cmdArgs);
@@ -58,32 +52,47 @@ public class RemoveWatchesCommand extends CliCommand {
         if (args.length < 2) {
             throw new CliParseException(getUsageStr());
         }
+
+        retainCompatibility(cmdArgs);
+
         return this;
     }
 
-    @Override
-    public boolean exec() throws CliWrapperException, MalformedPathException {
-        String path = args[1];
-        WatcherType wtype = WatcherType.Any;
-        // if no matching option -c or -d or -a is specified, we remove
-        // the watches of the given node by choosing WatcherType.Any
-        if (cl.hasOption("c")) {
-            wtype = WatcherType.Children;
-        } else if (cl.hasOption("d")) {
-            wtype = WatcherType.Data;
-        } else if (cl.hasOption("a")) {
-            wtype = WatcherType.Any;
+    private void retainCompatibility(String[] cmdArgs) throws CliParseException {
+        // get path [watch]
+        if (args.length > 2) {
+            // rewrite to option
+            cmdArgs[2] = "-w";
+            err.println("'get path [watch]' has been deprecated. "
+                    + "Please use 'get [-s] [-w] path' instead.");
+            Parser parser = new PosixParser();
+            try {
+                cl = parser.parse(options, cmdArgs);
+            } catch (ParseException ex) {
+                throw new CliParseException(ex);
+            }
+            args = cl.getArgs();
         }
-        // whether to remove the watches locally
-        boolean local = cl.hasOption("l");
+    }
 
+    @Override
+    public boolean exec() throws CliException {
+        boolean watch = cl.hasOption("w");
+        String path = args[1];
+        Stat stat = new Stat();
+        byte data[];
         try {
-            zk.removeAllWatches(path, wtype, local);
+            data = zk.getData(path, watch, stat);
         } catch (IllegalArgumentException ex) {
             throw new MalformedPathException(ex.getMessage());
         } catch (KeeperException|InterruptedException ex) {
-            throw new CliWrapperException(ex);
+            throw new CliException(ex);
         }
-        return true;
+        data = (data == null) ? "null".getBytes() : data;
+        out.println(new String(data));
+        if (cl.hasOption("s")) {
+            new StatPrinter(out).print(stat);
+        }
+        return watch;
     }
 }

@@ -15,35 +15,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.cli;
+package org.apache.zookeeper.clients.cliCmds;
 
 import org.apache.commons.cli.*;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.server.util.ConfigUtils;
 
 /**
- * get command for cli
+ * delete command for cli
  */
-public class GetConfigCommand extends CliCommand {
+public class DeleteCommand extends CliCommand {
 
     private static Options options = new Options();
-    private String args[];
+    private String[] args;
     private CommandLine cl;
 
     {
-        options.addOption("s", false, "stats");
-        options.addOption("w", false, "watch");
-        options.addOption("c", false, "client connection string");
+        options.addOption("v", true, "version");
     }
 
-    public GetConfigCommand() {
-        super("config", "[-c] [-w] [-s]");
+    public DeleteCommand() {
+        super("delete", "[-v version] path");
     }
 
     @Override
     public CliCommand parse(String[] cmdArgs) throws CliParseException {
-
         Parser parser = new PosixParser();
         try {
             cl = parser.parse(options, cmdArgs);
@@ -51,34 +46,46 @@ public class GetConfigCommand extends CliCommand {
             throw new CliParseException(ex);
         }
         args = cl.getArgs();
-        if (args.length < 1) {
+        if (args.length < 2) {
             throw new CliParseException(getUsageStr());
         }
+        
+        retainCompatibility(cmdArgs);
 
         return this;
     }
 
+    private void retainCompatibility(String[] cmdArgs) throws CliParseException {
+        if (args.length > 2) {
+            err.println("'delete path [version]' has been deprecated. "
+                    + "Please use 'delete [-v version] path' instead.");
+            Parser parser = new PosixParser();
+            try {
+                cl = parser.parse(options, cmdArgs);
+            } catch (ParseException ex) {
+                throw new CliParseException(ex);
+            }
+            args = cl.getArgs();
+        }
+    }
+
     @Override
     public boolean exec() throws CliException {
-        boolean watch = cl.hasOption("w");        
-        Stat stat = new Stat();
-        byte data[];
+        String path = args[1];
+        int version;
+        if (cl.hasOption("v")) {
+            version = Integer.parseInt(cl.getOptionValue("v"));
+        } else {
+            version = -1;
+        }
+        
         try {
-            data = zk.getConfig(watch, stat);
-        } catch (KeeperException|InterruptedException ex) {
+            zk.delete(path, version);
+        } catch (IllegalArgumentException ex) {
+            throw new MalformedPathException(ex.getMessage());
+        } catch(KeeperException|InterruptedException ex) {
             throw new CliWrapperException(ex);
         }
-        data = (data == null) ? "null".getBytes() : data;
-        if (cl.hasOption("c")) {
-            out.println(ConfigUtils.getClientConfigStr(new String(data)));
-        } else {
-            out.println(new String(data));
-        }
-        
-        if (cl.hasOption("s")) {
-            new StatPrinter(out).print(stat);
-        }                
-        
-        return watch;
+        return false;
     }
 }

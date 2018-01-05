@@ -15,17 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.cli;
-
-import org.apache.commons.cli.ParseException;
+package org.apache.zookeeper.clients.cliCmds;
 
 @SuppressWarnings("serial")
-public class CliParseException extends CliException {
-    public CliParseException(ParseException parseException) {
-        super(parseException);
-    }
+public class CommandNotFoundException extends CliException {
 
-    public CliParseException(String message) {
-        super(message);
+    public CommandNotFoundException(String command) {
+        super("Command not found: " + command, 127);
     }
 }

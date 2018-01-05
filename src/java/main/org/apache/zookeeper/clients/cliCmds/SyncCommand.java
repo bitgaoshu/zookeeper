@@ -14,39 +14,30 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.apache.zookeeper.cli;
+package org.apache.zookeeper.clients.cliCmds;
 
-import java.util.List;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.Parser;
 import org.apache.commons.cli.PosixParser;
-import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.ZooDefs;
-import org.apache.zookeeper.data.ACL;
-import org.apache.zookeeper.data.Stat;
 
 /**
- * getAcl command for cli
+ * sync command for cli
  */
-public class GetAclCommand extends CliCommand {
+public class SyncCommand extends CliCommand {
 
     private static Options options = new Options();
-    private String args[];
-    private CommandLine cl;
+    private String[] args;
 
-    {
-        options.addOption("s", false, "stats");
-    }
-
-    public GetAclCommand() {
-        super("getAcl", "[-s] path");
+    public SyncCommand() {
+        super("sync", "path");
     }
 
     @Override
     public CliCommand parse(String[] cmdArgs) throws CliParseException {
         Parser parser = new PosixParser();
+        CommandLine cl;
         try {
             cl = parser.parse(options, cmdArgs);
         } catch (ParseException ex) {
@@ -63,44 +54,18 @@ public class GetAclCommand extends CliCommand {
     @Override
     public boolean exec() throws CliException {
         String path = args[1];
-        Stat stat = new Stat();
-        List<ACL> acl;
         try {
-           acl = zk.getACL(path, stat);
+            zk.sync(path, new AsyncCallback.VoidCallback() {
+
+                public void processResult(int rc, String path, Object ctx) {
+                    out.println("Sync returned " + rc);
+                }
+            }, null);
         } catch (IllegalArgumentException ex) {
             throw new MalformedPathException(ex.getMessage());
-        } catch (KeeperException|InterruptedException ex) {
-            throw new CliWrapperException(ex);
         }
 
-        for (ACL a : acl) {
-            out.println(a.getId() + ": "
-                        + getPermString(a.getPerms()));
-        }
 
-        if (cl.hasOption("s")) {
-            new StatPrinter(out).print(stat);
-        }
         return false;
-    }
-
-    private static String getPermString(int perms) {
-        StringBuilder p = new StringBuilder();
-        if ((perms & ZooDefs.Perms.CREATE) != 0) {
-            p.append('c');
-        }
-        if ((perms & ZooDefs.Perms.DELETE) != 0) {
-            p.append('d');
-        }
-        if ((perms & ZooDefs.Perms.READ) != 0) {
-            p.append('r');
-        }
-        if ((perms & ZooDefs.Perms.WRITE) != 0) {
-            p.append('w');
-        }
-        if ((perms & ZooDefs.Perms.ADMIN) != 0) {
-            p.append('a');
-        }
-        return p.toString();
     }
 }

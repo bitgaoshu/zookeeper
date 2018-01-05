@@ -46,8 +46,8 @@ import org.slf4j.LoggerFactory;
 /**
  * A base class for running a Unix command.
  *
- * <code>Shell</code> can be used to run unix commands like <code>du</code> or
- * <code>df</code>. It also offers facilities to gate commands by 
+ * <code>Shell</code> can be used to run unix cliCmds like <code>du</code> or
+ * <code>df</code>. It also offers facilities to gate cliCmds by
  * time-intervals.
  */
 abstract public class Shell {
@@ -368,7 +368,7 @@ abstract public class Shell {
     }
 
     /**
-     * Returns the commands of this instance.
+     * Returns the cliCmds of this instance.
      * Arguments with spaces in are presented with quotes round; other
      * arguments are presented raw
      *
