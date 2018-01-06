@@ -21,7 +21,7 @@ package org.apache.zookeeper.test;
 import java.util.EnumSet;
 
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.exception.KeeperException.Code;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.watcher.Event.KeeperState;
 import org.junit.Assert;
 import org.junit.Test;
@@ -56,8 +56,9 @@ public class KeeperStateTest extends ZKTestCase {
     @SuppressWarnings("deprecation")
     public void testDeprecatedCodeOkInSwitch() {
         int test = 1;
-        switch (test) {
-        case Code.Ok:
+        KeeperException.KECode keCode = KeeperException.KECode.get(test);
+        switch (keCode) {
+        case OK:
             Assert.assertTrue(true);
             break;
         }
@@ -66,7 +67,7 @@ public class KeeperStateTest extends ZKTestCase {
     /** Verify the enum works (paranoid) */
     @Test
     public void testCodeOKInSwitch() {
-        Code test = Code.OK;
+        KeeperException.KECode test = KeeperException.KECode.OK;
         switch (test) {
         case OK:
             Assert.assertTrue(true);

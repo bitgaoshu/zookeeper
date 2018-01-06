@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.common;
+package org.apache.zookeeper.server.common;
 
 
 import javax.net.ssl.KeyManager;
@@ -33,9 +33,9 @@ import java.security.KeyStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.apache.zookeeper.common.X509Exception.KeyManagerException;
-import static org.apache.zookeeper.common.X509Exception.SSLContextException;
-import static org.apache.zookeeper.common.X509Exception.TrustManagerException;
+import static org.apache.zookeeper.server.common.X509Exception.KeyManagerException;
+import static org.apache.zookeeper.server.common.X509Exception.SSLContextException;
+import static org.apache.zookeeper.server.common.X509Exception.TrustManagerException;
 
 /**
  * Utility code for X509 handling

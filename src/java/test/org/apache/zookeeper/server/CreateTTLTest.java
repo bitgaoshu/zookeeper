@@ -25,7 +25,7 @@ import org.apache.zookeeper.operation.Op;
 import org.apache.zookeeper.operation.OpResult;
 import org.apache.zookeeper.clients.client.clientSocket.TestableZooKeeper;
 import org.apache.zookeeper.ZooDefs;
-import org.apache.zookeeper.exception.KeeperException.Code;
+import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.proto.CreateResponse;
@@ -84,7 +84,7 @@ public class CreateTTLTest extends ClientBase {
         CreateResponse response = new CreateResponse();
         ReplyHeader r = zk.submitRequest(h, request, response, null);
         Assert.assertEquals("An invalid CreateTTLRequest should throw BadArguments",
-                            r.getErr(), Code.BADARGUMENTS.intValue());
+                            r.getErr(), KECode.BADARGUMENTS.intValue());
         Assert.assertNull("An invalid CreateTTLRequest should not result in znode creation",
                           zk.exists(path, false));
     }

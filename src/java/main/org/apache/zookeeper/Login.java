@@ -33,9 +33,9 @@ import javax.security.auth.login.LoginException;
 import javax.security.auth.callback.CallbackHandler;
 
 import org.apache.zookeeper.clients.client.common.ZKClientConfig;
-import org.apache.zookeeper.common.ZKConfig;
+import org.apache.zookeeper.server.common.ZKConfig;
 import org.apache.zookeeper.server.ZooKeeperSaslServer;
-import org.apache.zookeeper.common.Time;
+import org.apache.zookeeper.server.common.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

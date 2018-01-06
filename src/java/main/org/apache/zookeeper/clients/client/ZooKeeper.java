@@ -37,8 +37,9 @@ import org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocket;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNIO;
 import org.apache.zookeeper.clients.client.common.*;
 import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.operation.OpCode;
-import org.apache.zookeeper.common.PathUtils;
+import org.apache.zookeeper.server.common.PathUtils;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.nodeMode.CreateMode;
@@ -283,7 +284,7 @@ public class ZooKeeper implements AutoCloseable {
 
         @Override
         protected boolean shouldAddWatch(int rc) {
-            return rc == 0 || rc == KeeperException.Code.NONODE.intValue();
+            return rc == 0 || rc == KeeperException.KECode.NONODE.intValue();
         }
     }
 
@@ -1061,7 +1062,7 @@ public class ZooKeeper implements AutoCloseable {
         request.setAcl(acl);
         ReplyHeader r = cnxn.submitRequest(h, request, response, null);
         if (r.getErr() != 0) {
-            throw KeeperException.create(KeeperException.Code.get(r.getErr()),
+            throw KeeperException.create(KeeperException.KECode.get(r.getErr()),
                     clientPath);
         }
         if (cnxn.getChrootPath() == null) {
@@ -1153,7 +1154,7 @@ public class ZooKeeper implements AutoCloseable {
         Record record = makeCreateRecord(createMode, serverPath, data, acl, ttl);
         ReplyHeader r = cnxn.submitRequest(h, record, response, null);
         if (r.getErr() != 0) {
-            throw KeeperException.create(KeeperException.Code.get(r.getErr()),
+            throw KeeperException.create(KeeperException.KECode.get(r.getErr()),
                     clientPath);
         }
         if (stat != null) {
@@ -1303,7 +1304,7 @@ public class ZooKeeper implements AutoCloseable {
         request.setVersion(version);
         ReplyHeader r = cnxn.submitRequest(h, request, null, null);
         if (r.getErr() != 0) {
-            throw KeeperException.create(KeeperException.Code.get(r.getErr()),
+            throw KeeperException.create(KeeperException.KECode.get(r.getErr()),
                     clientPath);
         }
     }
@@ -1350,7 +1351,7 @@ public class ZooKeeper implements AutoCloseable {
     public void multi(Iterable<Op> ops, MultiCallback cb, Object ctx) {
         List<OpResult> results = validatePath(ops);
         if (results.size() > 0) {
-            cb.processResult(KeeperException.Code.BADARGUMENTS.intValue(),
+            cb.processResult(KeeperException.KECode.BADARGUMENTS.intValue(),
                     null, ctx, results);
             return;
         }
@@ -1366,7 +1367,7 @@ public class ZooKeeper implements AutoCloseable {
             } catch (IllegalArgumentException iae) {
                 LOG.error("IllegalArgumentException: " + iae.getMessage());
                 ErrorResult err = new ErrorResult(
-                        KeeperException.Code.BADARGUMENTS.intValue());
+                        KeeperException.KECode.BADARGUMENTS.intValue());
                 results.add(err);
                 error = true;
                 continue;
@@ -1378,7 +1379,7 @@ public class ZooKeeper implements AutoCloseable {
                 continue;
             }
             ErrorResult err = new ErrorResult(
-                    KeeperException.Code.RUNTIMEINCONSISTENCY.intValue());
+                    KeeperException.KECode.RUNTIMEINCONSISTENCY.intValue());
             results.add(err);
         }
         if (false == error) {
@@ -1420,21 +1421,21 @@ public class ZooKeeper implements AutoCloseable {
         MultiResponse response = new MultiResponse();
         ReplyHeader r = cnxn.submitRequest(h, request, response, null);
         if (r.getErr() != 0) {
-            throw KeeperException.create(KeeperException.Code.get(r.getErr()));
+            throw KECode.get(r.getErr()).exception();
         }
 
         List<OpResult> results = response.getResultList();
 
         ErrorResult fatalError = null;
         for (OpResult result : results) {
-            if (result instanceof ErrorResult && ((ErrorResult) result).getErr() != KeeperException.Code.OK.intValue()) {
+            if (result instanceof ErrorResult && ((ErrorResult) result).getErr() != KeeperException.KECode.OK.intValue()) {
                 fatalError = (ErrorResult) result;
                 break;
             }
         }
 
         if (fatalError != null) {
-            KeeperException ex = KeeperException.create(KeeperException.Code.get(fatalError.getErr()));
+            KeeperException ex = KECode.get(r.getErr()).exception();
             ex.setMultiResults(results);
             throw ex;
         }
@@ -1525,10 +1526,10 @@ public class ZooKeeper implements AutoCloseable {
         SetDataResponse response = new SetDataResponse();
         ReplyHeader r = cnxn.submitRequest(h, request, response, wcb);
         if (r.getErr() != 0) {
-            if (r.getErr() == KeeperException.Code.NONODE.intValue()) {
+            if (r.getErr() == KeeperException.KECode.NONODE.intValue()) {
                 return null;
             }
-            throw KeeperException.create(KeeperException.Code.get(r.getErr()),
+            throw KeeperException.create(KeeperException.KECode.get(r.getErr()),
                     clientPath);
         }
 
@@ -1633,7 +1634,7 @@ public class ZooKeeper implements AutoCloseable {
         GetDataResponse response = new GetDataResponse();
         ReplyHeader r = cnxn.submitRequest(h, request, response, wcb);
         if (r.getErr() != 0) {
-            throw KeeperException.create(KeeperException.Code.get(r.getErr()),
+            throw KeeperException.create(KeeperException.KECode.get(r.getErr()),
                     clientPath);
         }
         if (stat != null) {
@@ -1737,7 +1738,7 @@ public class ZooKeeper implements AutoCloseable {
         GetDataResponse response = new GetDataResponse();
         ReplyHeader r = cnxn.submitRequest(h, request, response, wcb);
         if (r.getErr() != 0) {
-            throw KeeperException.create(KeeperException.Code.get(r.getErr()),
+            throw KeeperException.create(KeeperException.KECode.get(r.getErr()),
                     configZnode);
         }
         if (stat != null) {
@@ -1844,7 +1845,7 @@ public class ZooKeeper implements AutoCloseable {
         SetDataResponse response = new SetDataResponse();
         ReplyHeader r = cnxn.submitRequest(h, request, response, null);
         if (r.getErr() != 0) {
-            throw KeeperException.create(KeeperException.Code.get(r.getErr()),
+            throw KeeperException.create(KeeperException.KECode.get(r.getErr()),
                     clientPath);
         }
         return response.getStat();
@@ -1901,7 +1902,7 @@ public class ZooKeeper implements AutoCloseable {
         GetACLResponse response = new GetACLResponse();
         ReplyHeader r = cnxn.submitRequest(h, request, response, null);
         if (r.getErr() != 0) {
-            throw KeeperException.create(KeeperException.Code.get(r.getErr()),
+            throw KeeperException.create(KeeperException.KECode.get(r.getErr()),
                     clientPath);
         }
         if (stat != null) {
@@ -1968,7 +1969,7 @@ public class ZooKeeper implements AutoCloseable {
         SetACLResponse response = new SetACLResponse();
         ReplyHeader r = cnxn.submitRequest(h, request, response, null);
         if (r.getErr() != 0) {
-            throw KeeperException.create(KeeperException.Code.get(r.getErr()),
+            throw KeeperException.create(KeeperException.KECode.get(r.getErr()),
                     clientPath);
         }
         return response.getStat();
@@ -2039,7 +2040,7 @@ public class ZooKeeper implements AutoCloseable {
         GetChildrenResponse response = new GetChildrenResponse();
         ReplyHeader r = cnxn.submitRequest(h, request, response, wcb);
         if (r.getErr() != 0) {
-            throw KeeperException.create(KeeperException.Code.get(r.getErr()),
+            throw KeeperException.create(KeeperException.KECode.get(r.getErr()),
                     clientPath);
         }
         return response.getChildren();
@@ -2153,7 +2154,7 @@ public class ZooKeeper implements AutoCloseable {
         GetChildren2Response response = new GetChildren2Response();
         ReplyHeader r = cnxn.submitRequest(h, request, response, wcb);
         if (r.getErr() != 0) {
-            throw KeeperException.create(KeeperException.Code.get(r.getErr()),
+            throw KeeperException.create(KeeperException.KECode.get(r.getErr()),
                     clientPath);
         }
         if (stat != null) {
@@ -2359,7 +2360,7 @@ public class ZooKeeper implements AutoCloseable {
 
         ReplyHeader r = cnxn.submitRequest(h, request, null, null, wcb);
         if (r.getErr() != 0) {
-            throw KeeperException.create(KeeperException.Code.get(r.getErr()),
+            throw KeeperException.create(KeeperException.KECode.get(r.getErr()),
                     clientPath);
         }
     }

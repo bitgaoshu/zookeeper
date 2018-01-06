@@ -22,7 +22,7 @@ import org.apache.jute.InputArchive;
 import org.apache.jute.OutputArchive;
 import org.apache.jute.Record;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.exception.KeeperException.Code;
+import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.exception.KeeperException.NoNodeException;
 import org.apache.zookeeper.exception.KeeperException.NodeExistsException;
 import org.apache.zookeeper.Quotas;
@@ -35,7 +35,7 @@ import org.apache.zookeeper.watcher.Event.KeeperState;
 import org.apache.zookeeper.watcher.WatcherType;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.operation.OpCode;
-import org.apache.zookeeper.common.PathTrie;
+import org.apache.zookeeper.server.common.PathTrie;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.data.StatPersisted;
@@ -899,8 +899,8 @@ public class DataTree {
                         ByteBufferInputStream.byteBuffer2Record(bb, record);
 
                         if (failed && subTxnOp != OpCode.error){
-                            int ec = post_failed ? Code.RUNTIMEINCONSISTENCY.intValue()
-                                                 : Code.OK.intValue();
+                            int ec = post_failed ? KeeperException.KECode.RUNTIMEINCONSISTENCY.intValue()
+                                                 : KECode.OK.intValue();
 
                             subtxn.setType(OpCode.error.getValue());
                             record = new ErrorTxn(ec);
@@ -964,7 +964,7 @@ public class DataTree {
          * restore.
          */
         if (header.getType() == OpCode.create.getValue() &&
-                rc.err == Code.NODEEXISTS.intValue()) {
+                rc.err == KECode.NODEEXISTS.intValue()) {
             LOG.debug("Adjusting parent cversion for Txn: " + header.getType() +
                     " path:" + rc.path + " err: " + rc.err);
             int lastSlash = rc.path.lastIndexOf('/');
@@ -978,7 +978,7 @@ public class DataTree {
                       parentName, e);
                 rc.err = e.code().intValue();
             }
-        } else if (rc.err != Code.OK.intValue()) {
+        } else if (rc.err != KeeperException.KECode.OK.intValue()) {
             LOG.debug("Ignoring processTxn failure hdr: " + header.getType() +
                   " : error: " + rc.err);
         }

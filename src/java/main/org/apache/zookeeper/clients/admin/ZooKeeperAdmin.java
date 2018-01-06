@@ -29,7 +29,7 @@ import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.clients.AsyncCallback.DataCallback;
 import org.apache.zookeeper.clients.client.common.ZKClientConfig;
 import org.apache.zookeeper.operation.OpCode;
-import org.apache.zookeeper.common.StringUtils;
+import org.apache.zookeeper.server.common.StringUtils;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.proto.GetDataResponse;
 import org.apache.zookeeper.proto.ReconfigRequest;
@@ -184,7 +184,7 @@ public class ZooKeeperAdmin extends ZooKeeper {
         GetDataResponse response = new GetDataResponse();
         ReplyHeader r = cnxn.submitRequest(h, request, response, null);
         if (r.getErr() != 0) {
-            throw KeeperException.create(KeeperException.Code.get(r.getErr()), "");
+            throw KeeperException.create(KeeperException.KECode.get(r.getErr()), "");
         }
         if (stat != null) {
             response.getStat().copyTo(stat);

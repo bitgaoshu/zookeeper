@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
-import org.apache.zookeeper.common.Time;
+import org.apache.zookeeper.server.common.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

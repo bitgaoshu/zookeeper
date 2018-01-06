@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.common;
+package org.apache.zookeeper.server.common;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -29,8 +29,8 @@ import java.io.OutputStream;
 import java.io.Writer;
 
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.common.AtomicFileWritingIdiom.OutputStreamStatement;
-import org.apache.zookeeper.common.AtomicFileWritingIdiom.WriterStatement;
+import org.apache.zookeeper.server.common.AtomicFileWritingIdiom.OutputStreamStatement;
+import org.apache.zookeeper.server.common.AtomicFileWritingIdiom.WriterStatement;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

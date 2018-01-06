@@ -40,7 +40,6 @@ import org.apache.zookeeper.clients.AsyncCallback.StatCallback;
 import org.apache.zookeeper.clients.AsyncCallback.StringCallback;
 import org.apache.zookeeper.clients.AsyncCallback.VoidCallback;
 import org.apache.zookeeper.clients.AsyncCallback.MultiCallback;
-import org.apache.zookeeper.exception.KeeperException.Code;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
@@ -74,7 +73,7 @@ public class AsyncOps {
         /** the latch is used to await the results from the server */
         CountDownLatch latch;
 
-        Code rc = Code.OK;
+        KeeperException.KECode rc = KeeperException.KECode.OK;
         String path = "/foo";
         String expected;
         
@@ -83,7 +82,7 @@ public class AsyncOps {
             this.latch = latch;
         }
         
-        public void setRC(Code rc) {
+        public void setRC(KeeperException.KECode rc) {
             this.rc = rc;
         }
         
@@ -91,7 +90,7 @@ public class AsyncOps {
             this.path = path;
         }
         
-        public void processResult(Code rc, String path, Object ctx)
+        public void processResult(KeeperException.KECode rc, String path, Object ctx)
         {
             this.rc = rc;
             this.path = path;
@@ -147,7 +146,7 @@ public class AsyncOps {
         public void processResult(int rc, String path, Object ctx, String name)
         {
             this.name = name;
-            super.processResult(Code.get(rc), path, ctx);
+            super.processResult(KeeperException.KECode.get(rc), path, ctx);
         }
 
         public AsyncCB create() {
@@ -173,7 +172,7 @@ public class AsyncOps {
         public void verifyCreateFailure_NodeExists() {
             new StringCB(zk).verifyCreate();
             
-            rc = Code.NODEEXISTS;
+            rc = KeeperException.KECode.NODEEXISTS;
             name = null;
             zk.create(path, data, acl, flags, this, toString());
             verify();
@@ -181,7 +180,7 @@ public class AsyncOps {
 
         public void verifyCreateFailure_NoNode() {
 
-            rc = Code.NONODE;
+            rc = KeeperException.KECode.NONODE;
             name = null;
             path = path + "/bar";
             zk.create(path, data, acl, flags, this, toString());
@@ -192,7 +191,7 @@ public class AsyncOps {
         public void verifyCreateFailure_NoChildForEphemeral() {
             new StringCB(zk).verifyCreateEphemeral();
 
-            rc = Code.NOCHILDRENFOREPHEMERALS;
+            rc = KeeperException.KECode.NOCHILDRENFOREPHEMERALS;
             name = null;
             path = path + "/bar";
             zk.create(path, data, acl, flags, this, toString());
@@ -229,7 +228,7 @@ public class AsyncOps {
         {
             this.acl = acl;
             this.stat = stat;
-            super.processResult(Code.get(rc), path, ctx);
+            super.processResult(KeeperException.KECode.get(rc), path, ctx);
         }
         
         public void verifyGetACL() {
@@ -240,7 +239,7 @@ public class AsyncOps {
         }
 
         public void verifyGetACLFailure_NoNode(){
-            rc = Code.NONODE;
+            rc = KeeperException.KECode.NONODE;
             stat = null;
             acl = null;
             zk.getACL(path, stat, this, toString());
@@ -287,7 +286,7 @@ public class AsyncOps {
             this.children =
                 (children == null ? new ArrayList<String>() : children);
             Collections.sort(this.children);
-            super.processResult(Code.get(rc), path, ctx);
+            super.processResult(KeeperException.KECode.get(rc), path, ctx);
         }
         
         public StringCB createNode() {
@@ -340,7 +339,7 @@ public class AsyncOps {
         }
         
         public void verifyGetChildrenFailure_NoNode() {
-            rc = KeeperException.Code.NONODE;
+            rc = KeeperException.KECode.NONODE;
             verify();
         }
         
@@ -373,7 +372,7 @@ public class AsyncOps {
             this.children =
                 (children == null ? new ArrayList<String>() : children);
             Collections.sort(this.children);
-            super.processResult(Code.get(rc), path, ctx);
+            super.processResult(KeeperException.KECode.get(rc), path, ctx);
         }
         
         public StringCB createNode() {
@@ -426,7 +425,7 @@ public class AsyncOps {
         }
         
         public void verifyGetChildrenFailure_NoNode() {
-            rc = KeeperException.Code.NONODE;
+            rc = KeeperException.KECode.NONODE;
             verify();
         }
         
@@ -470,7 +469,7 @@ public class AsyncOps {
                 String name, Stat stat) {
             this.name = name;
             this.stat = stat;
-            super.processResult(Code.get(rc), path, ctx);
+            super.processResult(KeeperException.KECode.get(rc), path, ctx);
         }
 
         public AsyncCB create() {
@@ -485,7 +484,7 @@ public class AsyncOps {
 
         public void verifyCreateFailure_NodeExists() {
             new Create2CB(zk).verifyCreate();
-            rc = Code.NODEEXISTS;
+            rc = KeeperException.KECode.NODEEXISTS;
             name = null;
             stat = null;
             zk.create(path, data, acl, flags, this, toString());
@@ -493,7 +492,7 @@ public class AsyncOps {
         }
 
         public void verifyCreateFailure_NoNode() {
-            rc = Code.NONODE;
+            rc = KeeperException.KECode.NONODE;
             name = null;
             stat = null;
             path = path + "/bar";
@@ -505,7 +504,7 @@ public class AsyncOps {
         public void verifyCreateFailure_NoChildForEphemeral() {
             new StringCB(zk).verifyCreateEphemeral();
 
-            rc = Code.NOCHILDRENFOREPHEMERALS;
+            rc = KeeperException.KECode.NOCHILDRENFOREPHEMERALS;
             name = null;
             stat = null;
             path = path + "/bar";
@@ -544,7 +543,7 @@ public class AsyncOps {
         {
             this.data = data;
             this.stat = stat;
-            super.processResult(Code.get(rc), path, ctx);
+            super.processResult(KeeperException.KECode.get(rc), path, ctx);
         }
         
         public void verifyGetData() {
@@ -555,7 +554,7 @@ public class AsyncOps {
         }
         
         public void verifyGetDataFailure_NoNode() {
-            rc = KeeperException.Code.NONODE;
+            rc = KeeperException.KECode.NONODE;
             data = null;
             stat = null;
             zk.getData(path, false, this, toString());
@@ -592,7 +591,7 @@ public class AsyncOps {
         
         public void processResult(int rc, String path, Object ctx, Stat stat) {
             this.stat = stat;
-            super.processResult(Code.get(rc), path, ctx);
+            super.processResult(KeeperException.KECode.get(rc), path, ctx);
         }
         
         public void verifySetACL() {
@@ -604,7 +603,7 @@ public class AsyncOps {
         }
         
         public void verifySetACLFailure_NoNode() {
-            rc = KeeperException.Code.NONODE;
+            rc = KeeperException.KECode.NONODE;
             stat = null;
             zk.setACL(path, acl, version, this, toString());
             verify();
@@ -613,7 +612,7 @@ public class AsyncOps {
         public void verifySetACLFailure_BadVersion() {
             new StringCB(zk).verifyCreate();
 
-            rc = Code.BADVERSION;
+            rc = KeeperException.KECode.BADVERSION;
             stat = null;
             zk.setACL(path, acl, version + 1, this, toString());
 
@@ -633,7 +632,7 @@ public class AsyncOps {
         }
         
         public void verifySetDataFailure_NoNode() {
-            rc = KeeperException.Code.NONODE;
+            rc = KeeperException.KECode.NONODE;
             stat = null;
             zk.setData(path, data, version, this, toString());
             verify();
@@ -642,7 +641,7 @@ public class AsyncOps {
         public void verifySetDataFailure_BadVersion() {
             new StringCB(zk).verifyCreate();
 
-            rc = Code.BADVERSION;
+            rc = KeeperException.KECode.BADVERSION;
             stat = null;
             zk.setData(path, data, version + 1, this, toString());
 
@@ -657,7 +656,7 @@ public class AsyncOps {
         }
         
         public void verifyExistsFailure_NoNode() {
-            rc = KeeperException.Code.NONODE;
+            rc = KeeperException.KECode.NONODE;
             stat = null;
             zk.exists(path, false, this, toString());
             verify();
@@ -685,7 +684,7 @@ public class AsyncOps {
         }
         
         public void processResult(int rc, String path, Object ctx) {
-            super.processResult(Code.get(rc), path, ctx);
+            super.processResult(KeeperException.KECode.get(rc), path, ctx);
         }
 
         public void delete() {
@@ -700,14 +699,14 @@ public class AsyncOps {
         }
         
         public void verifyDeleteFailure_NoNode() {
-            rc = Code.NONODE;
+            rc = KeeperException.KECode.NONODE;
             zk.delete(path, version, this, toString());
             verify();
         }
 
         public void verifyDeleteFailure_BadVersion() {
             new StringCB(zk).verifyCreate();
-            rc = Code.BADVERSION;
+            rc = KeeperException.KECode.BADVERSION;
             zk.delete(path, version + 1, this, toString());
             verify();
         }
@@ -718,7 +717,7 @@ public class AsyncOps {
             scb.setPath(path + "/bar");
             scb.create();
 
-            rc = Code.NOTEMPTY;
+            rc = KeeperException.KECode.NOTEMPTY;
             zk.delete(path, version, this, toString());
             verify();
         }
@@ -772,7 +771,7 @@ public class AsyncOps {
             zk.multi(ops, this, null);
             latch_await();
 
-            Assert.assertEquals(this.rc, KeeperException.Code.OK.intValue());
+            Assert.assertEquals(this.rc, KeeperException.KECode.OK.intValue());
             Assert.assertTrue(this.opResults.get(0) instanceof OpResult.CreateResult);
             Assert.assertTrue(this.opResults.get(1) instanceof OpResult.DeleteResult);
         }

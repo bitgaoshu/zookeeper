@@ -46,7 +46,7 @@ class WrappedAuthenticationProvider extends ServerAuthenticationProvider {
      * forwards to older method {@link #handleAuthentication(ServerCnxn, byte[])}
      */
     @Override
-    public KeeperException.Code handleAuthentication(ServerObjs serverObjs, byte[] authData) {
+    public KeeperException.KECode handleAuthentication(ServerObjs serverObjs, byte[] authData) {
         return implementation.handleAuthentication(serverObjs.getCnxn(), authData);
     }
 

@@ -23,7 +23,7 @@ import java.util.EnumSet;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.exception.KeeperException.Code;
+import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -78,14 +78,14 @@ public class CreateModeTest extends ZKTestCase {
             CreateMode.fromFlag(99);
             Assert.fail("Shouldn't be able to convert 99 to a CreateMode.");
         } catch(KeeperException ke) {
-            Assert.assertEquals(Code.BADARGUMENTS, ke.code());
+            Assert.assertEquals(KeeperException.KECode.BADARGUMENTS, ke.code());
         }
 
         try {
             CreateMode.fromFlag(-1);
             Assert.fail("Shouldn't be able to convert -1 to a CreateMode.");
         } catch(KeeperException ke) {
-            Assert.assertEquals(Code.BADARGUMENTS, ke.code());
+            Assert.assertEquals(KECode.BADARGUMENTS, ke.code());
         }
     }
 }

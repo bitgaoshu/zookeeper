@@ -42,7 +42,7 @@ import org.apache.zookeeper.Quotas;
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
-import org.apache.zookeeper.common.PathTrie;
+import org.apache.zookeeper.server.common.PathTrie;
 import java.lang.reflect.*;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;

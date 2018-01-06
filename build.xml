@@ -1428,7 +1428,7 @@ xmlns:cs="antlib:com.puppycrawl.tools.checkstyle.ant">
         <available property="findbugs.present" file="${findbugs.home}/lib/findbugs.jar" />
     </target>
 
-    <!-- Code coverage -->
+    <!-- KECode coverage -->
     <target name="cobertura-instrument" depends="compile-test">
       <taskdef resource="tasks.properties">
         <classpath>

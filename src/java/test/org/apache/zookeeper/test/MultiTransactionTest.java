@@ -110,8 +110,8 @@ public class MultiTransactionTest extends ClientBase {
                     res.wait();
                 }
             }
-            if (KeeperException.Code.OK.intValue() != res.rc) {
-                KeeperException ke = KeeperException.create(KeeperException.Code.get(res.rc));
+            if (KeeperException.KECode.OK.intValue() != res.rc) {
+                KeeperException ke = KeeperException.create(KeeperException.KECode.get(res.rc));
                 throw ke;
             }
             return res.results;
@@ -185,8 +185,8 @@ public class MultiTransactionTest extends ClientBase {
                     res.wait();
                 }
             }
-            if (KeeperException.Code.OK.intValue() != res.rc) {
-                KeeperException ke = KeeperException.create(KeeperException.Code.get(res.rc));
+            if (KeeperException.KECode.OK.intValue() != res.rc) {
+                KeeperException ke = KeeperException.create(KeeperException.KECode.get(res.rc));
                 throw ke;
             }
             return res.results;
@@ -201,10 +201,10 @@ public class MultiTransactionTest extends ClientBase {
     @Test(timeout = 90000)
     public void testInvalidPath() throws Exception {
         List<Integer> expectedResultCodes = new ArrayList<Integer>();
-        expectedResultCodes.add(KeeperException.Code.RUNTIMEINCONSISTENCY
+        expectedResultCodes.add(KeeperException.KECode.RUNTIMEINCONSISTENCY
                 .intValue());
-        expectedResultCodes.add(KeeperException.Code.BADARGUMENTS.intValue());
-        expectedResultCodes.add(KeeperException.Code.RUNTIMEINCONSISTENCY
+        expectedResultCodes.add(KeeperException.KECode.BADARGUMENTS.intValue());
+        expectedResultCodes.add(KeeperException.KECode.RUNTIMEINCONSISTENCY
                 .intValue());
         // create with CreateMode
         List<Op> opList = Arrays.asList(Op.create("/multi0", new byte[0],
@@ -236,7 +236,7 @@ public class MultiTransactionTest extends ClientBase {
         multiHavingErrors(zk, opList, expectedResultCodes, expectedErr);
 
         // Multiple bad arguments
-        expectedResultCodes.add(KeeperException.Code.BADARGUMENTS.intValue());
+        expectedResultCodes.add(KeeperException.KECode.BADARGUMENTS.intValue());
 
         // setdata
         opList = Arrays.asList(Op.setData("/multi0", new byte[0], -1),
@@ -304,12 +304,12 @@ public class MultiTransactionTest extends ClientBase {
     @Test(timeout = 90000)
     public void testBlankPath() throws Exception {
         List<Integer> expectedResultCodes = new ArrayList<Integer>();
-        expectedResultCodes.add(KeeperException.Code.RUNTIMEINCONSISTENCY
+        expectedResultCodes.add(KeeperException.KECode.RUNTIMEINCONSISTENCY
                 .intValue());
-        expectedResultCodes.add(KeeperException.Code.BADARGUMENTS.intValue());
-        expectedResultCodes.add(KeeperException.Code.RUNTIMEINCONSISTENCY
+        expectedResultCodes.add(KeeperException.KECode.BADARGUMENTS.intValue());
+        expectedResultCodes.add(KeeperException.KECode.RUNTIMEINCONSISTENCY
                 .intValue());
-        expectedResultCodes.add(KeeperException.Code.BADARGUMENTS.intValue());
+        expectedResultCodes.add(KeeperException.KECode.BADARGUMENTS.intValue());
 
         // delete
         String expectedErr = "Path cannot be null";
@@ -325,10 +325,10 @@ public class MultiTransactionTest extends ClientBase {
     @Test(timeout = 90000)
     public void testInvalidCreateModeFlag() throws Exception {
         List<Integer> expectedResultCodes = new ArrayList<Integer>();
-        expectedResultCodes.add(KeeperException.Code.RUNTIMEINCONSISTENCY
+        expectedResultCodes.add(KeeperException.KECode.RUNTIMEINCONSISTENCY
                 .intValue());
-        expectedResultCodes.add(KeeperException.Code.BADARGUMENTS.intValue());
-        expectedResultCodes.add(KeeperException.Code.RUNTIMEINCONSISTENCY
+        expectedResultCodes.add(KeeperException.KECode.BADARGUMENTS.intValue());
+        expectedResultCodes.add(KeeperException.KECode.RUNTIMEINCONSISTENCY
                 .intValue());
 
         int createModeFlag = 6789;
@@ -337,7 +337,7 @@ public class MultiTransactionTest extends ClientBase {
                 "/multi1", new byte[0], Ids.OPEN_ACL_UNSAFE, createModeFlag),
                 Op.create("/multi2", new byte[0], Ids.OPEN_ACL_UNSAFE,
                         CreateMode.PERSISTENT));
-        String expectedErr = KeeperException.Code.BADARGUMENTS.name();
+        String expectedErr = KeeperException.KECode.BADARGUMENTS.name();
         multiHavingErrors(zk, opList, expectedResultCodes, expectedErr);
     }
 
@@ -609,7 +609,7 @@ public class MultiTransactionTest extends ClientBase {
                 }
             }
             Assert.assertFalse("/multi should have been deleted so setData should have failed",
-                               KeeperException.Code.OK.intValue() == res.rc);
+                               KeeperException.KECode.OK.intValue() == res.rc);
             Assert.assertNull(zk.exists("/multi", null));
             results = res.results;
         } else {
@@ -628,7 +628,7 @@ public class MultiTransactionTest extends ClientBase {
             LOG.info("RESULT==> {}", r);
             if (r instanceof ErrorResult) {
                 ErrorResult er = (ErrorResult) r;
-                LOG.info("ERROR RESULT: {} ERR=>{}", er, KeeperException.Code.get(er.getErr()));
+                LOG.info("ERROR RESULT: {} ERR=>{}", er, KeeperException.KECode.get(er.getErr()));
             }
         }
     }

@@ -39,10 +39,10 @@ import javax.net.ssl.X509KeyManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.common.ZKConfig;
-import org.apache.zookeeper.common.X509Exception;
-import org.apache.zookeeper.common.X509Exception.SSLContextException;
-import org.apache.zookeeper.common.X509Util;
+import org.apache.zookeeper.server.common.ZKConfig;
+import org.apache.zookeeper.server.common.X509Exception;
+import org.apache.zookeeper.server.common.X509Exception.SSLContextException;
+import org.apache.zookeeper.server.common.X509Util;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.auth.ProviderRegistry;
@@ -307,7 +307,7 @@ public class NettyServerCnxnFactory extends ServerCnxnFactory {
                         return;
                     }
 
-                    if (KeeperException.Code.OK !=
+                    if (KeeperException.KECode.OK !=
                             authProvider.handleAuthentication(cnxn, null)) {
                         LOG.error("Authentication failed for session 0x{}",
                                 Long.toHexString(cnxn.sessionId));

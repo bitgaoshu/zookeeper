@@ -17,10 +17,10 @@
  */
 package org.apache.zookeeper.server.quorum;
 
-import org.apache.zookeeper.common.AtomicFileWritingIdiom;
-import org.apache.zookeeper.common.AtomicFileWritingIdiom.WriterStatement;
+import org.apache.zookeeper.server.common.AtomicFileWritingIdiom;
+import org.apache.zookeeper.server.common.AtomicFileWritingIdiom.WriterStatement;
 import org.apache.zookeeper.exception.KeeperException.BadArgumentsException;
-import org.apache.zookeeper.common.Time;
+import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.jmx.MBeanRegistry;
 import org.apache.zookeeper.jmx.ZKMBeanInfo;
 import org.apache.zookeeper.server.ZKDatabase;

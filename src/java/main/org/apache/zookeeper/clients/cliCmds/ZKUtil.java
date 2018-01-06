@@ -26,9 +26,8 @@ import java.util.List;
 import org.apache.zookeeper.clients.AsyncCallback.StringCallback;
 import org.apache.zookeeper.clients.AsyncCallback.VoidCallback;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.exception.KeeperException.Code;
 import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.common.PathUtils;
+import org.apache.zookeeper.server.common.PathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -139,7 +138,7 @@ public class ZKUtil {
         PathUtils.validatePath(path);
 
         zk.getData(path, watch, null);
-        cb.processResult(Code.OK.intValue(), path, null, path);
+        cb.processResult(KeeperException.KECode.OK.intValue(), path, null, path);
         visitSubTreeDFSHelper(zk, path, watch, cb);
     }
 
@@ -155,7 +154,7 @@ public class ZKUtil {
 
             for (String child : children) {
                 String childPath = (isRoot ? path : path + "/") + child;
-                cb.processResult(Code.OK.intValue(), childPath, null, child);
+                cb.processResult(KeeperException.KECode.OK.intValue(), childPath, null, child);
             }
 
             for (String child : children) {

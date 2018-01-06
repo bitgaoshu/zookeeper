@@ -26,10 +26,10 @@ import javax.net.ssl.X509TrustManager;
 import javax.security.auth.x500.X500Principal;
 
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.common.ZKConfig;
-import org.apache.zookeeper.common.X509Exception.KeyManagerException;
-import org.apache.zookeeper.common.X509Exception.TrustManagerException;
-import org.apache.zookeeper.common.X509Util;
+import org.apache.zookeeper.server.common.ZKConfig;
+import org.apache.zookeeper.server.common.X509Exception.KeyManagerException;
+import org.apache.zookeeper.server.common.X509Exception.TrustManagerException;
+import org.apache.zookeeper.server.common.X509Util;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.slf4j.Logger;
@@ -116,19 +116,19 @@ public class X509AuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public KeeperException.Code handleAuthentication(ServerCnxn cnxn,
-                                                     byte[] authData) {
+    public KeeperException.KECode handleAuthentication(ServerCnxn cnxn,
+                                                       byte[] authData) {
         X509Certificate[] certChain
                 = (X509Certificate[]) cnxn.getClientCertificateChain();
 
         if (certChain == null || certChain.length == 0) {
-            return KeeperException.Code.AUTHFAILED;
+            return KeeperException.KECode.AUTHFAILED;
         }
 
         if (trustManager == null) {
             LOG.error("No trust manager available to authenticate session 0x{}",
                     Long.toHexString(cnxn.getSessionId()));
-            return KeeperException.Code.AUTHFAILED;
+            return KeeperException.KECode.AUTHFAILED;
         }
 
         X509Certificate clientCert = certChain[0];
@@ -140,7 +140,7 @@ public class X509AuthenticationProvider implements AuthenticationProvider {
         } catch (CertificateException ce) {
             LOG.error("Failed to trust certificate for session 0x" +
                     Long.toHexString(cnxn.getSessionId()), ce);
-            return KeeperException.Code.AUTHFAILED;
+            return KeeperException.KECode.AUTHFAILED;
         }
 
         String clientId = getClientId(clientCert);
@@ -156,7 +156,7 @@ public class X509AuthenticationProvider implements AuthenticationProvider {
 
         LOG.info("Authenticated Id '{}' for Scheme '{}'",
                 authInfo.getId(), authInfo.getScheme());
-        return KeeperException.Code.OK;
+        return KeeperException.KECode.OK;
     }
 
     /**

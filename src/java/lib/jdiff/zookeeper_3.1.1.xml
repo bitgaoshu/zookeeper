@@ -569,7 +569,7 @@
     </doc>
   </class>
   <!-- end class org.apache.zookeeper.exception.KeeperException.BadVersionException -->
-  <!-- start class org.apache.zookeeper.exception.KeeperException.Code -->
+  <!-- start class org.apache.zookeeper.exception.KeeperException.KECodede -->
   <class name="KeeperException.Code" extends="java.lang.Enum"
     abstract="false"
     static="true" final="true" visibility="public"
@@ -780,7 +780,7 @@
  enum values are in all CAPS.]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.exception.KeeperException.Code -->
+  <!-- end class org.apache.zookeeper.exception.KeeperException.KECodede -->
   <!-- start interface org.apache.zookeeper.exception.KeeperException.CodeDeprecated -->
   <interface name="KeeperException.CodeDeprecated"    abstract="true"
     static="true" final="false" visibility="public"

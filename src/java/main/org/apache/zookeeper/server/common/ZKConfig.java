@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.common;
+package org.apache.zookeeper.server.common;
 
 import java.io.File;
 import java.io.FileInputStream;

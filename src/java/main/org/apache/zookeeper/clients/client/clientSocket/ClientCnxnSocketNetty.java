@@ -22,7 +22,7 @@ import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn.EndOfStreamEx
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn.Packet;
 import org.apache.zookeeper.clients.client.common.ZKClientConfig;
 import org.apache.zookeeper.operation.OpCode;
-import org.apache.zookeeper.common.X509Util;
+import org.apache.zookeeper.server.common.X509Util;
 import org.jboss.netty.bootstrap.ClientBootstrap;
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
@@ -47,7 +47,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static org.apache.zookeeper.common.X509Exception.SSLContextException;
+import static org.apache.zookeeper.server.common.X509Exception.SSLContextException;
 
 /**
  * ClientCnxnSocketNetty implements ClientCnxnSocket abstract methods.

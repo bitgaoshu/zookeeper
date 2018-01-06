@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.server.quorum;
 
-import org.apache.zookeeper.common.Time;
+import org.apache.zookeeper.server.common.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

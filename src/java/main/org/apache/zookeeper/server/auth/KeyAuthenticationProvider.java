@@ -90,7 +90,7 @@ public class KeyAuthenticationProvider extends ServerAuthenticationProvider {
     }
 
     @Override
-    public KeeperException.Code handleAuthentication(ServerObjs serverObjs, byte[] authData) {
+    public KeeperException.KECode handleAuthentication(ServerObjs serverObjs, byte[] authData) {
         byte[] key = getKey(serverObjs.getZks());
         String authStr = "";
         String keyStr = "";
@@ -109,7 +109,7 @@ public class KeyAuthenticationProvider extends ServerAuthenticationProvider {
                     keyStr = authStr;
                 }
                 LOG.debug("KeyAuthenticationProvider handleAuthentication ("+keyStr+", "+authStr+") -> FAIL.\n");
-                return KeeperException.Code.AUTHFAILED;
+                return KeeperException.KECode.AUTHFAILED;
             }
         }
         // default to allow, so the key can be initially written
@@ -120,7 +120,7 @@ public class KeyAuthenticationProvider extends ServerAuthenticationProvider {
         //
         // BOTH addAuthInfo and an OK return-code are needed for authentication.
         serverObjs.getCnxn().addAuthInfo(new Id(getScheme(), keyStr));
-        return KeeperException.Code.OK;
+        return KeeperException.KECode.OK;
     }
 
     @Override

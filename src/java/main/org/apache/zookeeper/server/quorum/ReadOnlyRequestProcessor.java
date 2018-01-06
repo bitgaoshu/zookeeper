@@ -21,7 +21,7 @@ package org.apache.zookeeper.server.quorum;
 import java.io.IOException;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.apache.zookeeper.exception.KeeperException.Code;
+import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.server.Request;
@@ -92,7 +92,7 @@ public class ReadOnlyRequestProcessor extends ZooKeeperCriticalThread implements
                 case multi:
                 case check:
                     ReplyHeader hdr = new ReplyHeader(request.cxid, zks.getZKDatabase()
-                            .getDataTreeLastProcessedZxid(), Code.NOTREADONLY.intValue());
+                            .getDataTreeLastProcessedZxid(), KECode.NOTREADONLY.intValue());
                     try {
                         request.cnxn.sendResponse(hdr, null, null);
                     } catch (IOException e) {

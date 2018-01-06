@@ -222,7 +222,7 @@ public class SessionTest extends ZKTestCase {
         AsyncCallback.DataCallback cb = new AsyncCallback.DataCallback() {
             String status = "not done";
             public void processResult(int rc, String p, Object c, byte[] b, Stat s) {
-                synchronized(this) { status = KeeperException.Code.get(rc).toString(); this.notify(); }
+                synchronized(this) { status = KeeperException.KECode.get(rc).toString(); this.notify(); }
             }
            public String toString() { return status; }
         };
@@ -232,7 +232,7 @@ public class SessionTest extends ZKTestCase {
                 cb.wait(1000);
             }
         }
-        Assert.assertEquals(KeeperException.Code.SESSIONEXPIRED.toString(), cb.toString());
+        Assert.assertEquals(KeeperException.KECode.SESSIONEXPIRED.toString(), cb.toString());
     }
 
     private List<Thread> findThreads(String name) {
@@ -339,7 +339,7 @@ public class SessionTest extends ZKTestCase {
                 }
             }
             LOG.info(hostPorts[(i+1)%hostPorts.length] + " Sync returned " + result[0]);
-            Assert.assertTrue(result[0] == KeeperException.Code.OK.intValue());
+            Assert.assertTrue(result[0] == KeeperException.KECode.OK.intValue());
             zknew.setData("/", new byte[1], -1);
             try {
                 zk.setData("/", new byte[1], -1);

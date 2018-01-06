@@ -45,17 +45,17 @@ public interface AsyncCallback {
          * Process the result of the asynchronous call.
          * <p/>
          * On success, rc is
-         * {@link KeeperException.Code#OK}.
+         * {@link KeeperException.KECode#OK}.
          * <p/>
          * On failure, rc is set to the corresponding failure code in
          * {@link KeeperException}.
          * <ul>
          * <li>
-         * {@link KeeperException.Code#NONODE}
+         * {@link KeeperException.KECode#NONODE}
          * - The node on given path doesn't exist for some API calls.
          * </li>
          * <li>
-         * {@link KeeperException.Code#BADVERSION}
+         * {@link KeeperException.KECode#BADVERSION}
          * - The given version doesn't match the node's version
          * for some API calls.
          * </li>
@@ -80,13 +80,13 @@ public interface AsyncCallback {
          * Process the result of asynchronous calls.
          * <p/>
          * On success, rc is
-         * {@link KeeperException.Code#OK}.
+         * {@link KeeperException.KECode#OK}.
          * <p/>
          * On failure, rc is set to the corresponding failure code in
          * {@link KeeperException}.
          * <ul>
          * <li>
-         * {@link KeeperException.Code#NONODE}
+         * {@link KeeperException.KECode#NONODE}
          * - The node on given path doesn't exist for some API calls.
          * </li>
          * </ul>
@@ -113,13 +113,13 @@ public interface AsyncCallback {
          * Process the result of the asynchronous call.
          * <p/>
          * On success, rc is
-         * {@link KeeperException.Code#OK}.
+         * {@link KeeperException.KECode#OK}.
          * <p/>
          * On failure, rc is set to the corresponding failure code in
          * {@link KeeperException}.
          * <ul>
          * <li>
-         * {@link KeeperException.Code#NONODE}
+         * {@link KeeperException.KECode#NONODE}
          * - The node on given path doesn't exist for some API calls.
          * </li>
          * </ul>
@@ -146,13 +146,13 @@ public interface AsyncCallback {
          * Process the result of the asynchronous call.
          * <p/>
          * On success, rc is
-         * {@link KeeperException.Code#OK}.
+         * {@link KeeperException.KECode#OK}.
          * <p/>
          * On failure, rc is set to the corresponding failure code in
          * {@link KeeperException}.
          * <ul>
          * <li>
-         * {@link KeeperException.Code#NONODE}
+         * {@link KeeperException.KECode#NONODE}
          * - The node on given path doesn't exist for some API calls.
          * </li>
          * </ul>
@@ -222,22 +222,22 @@ public interface AsyncCallback {
          * Process the result of the asynchronous call.
          * <p/>
          * On success, rc is
-         * {@link KeeperException.Code#OK}.
+         * {@link KeeperException.KECode#OK}.
          * <p/>
          * On failure, rc is set to the corresponding failure code in
          * {@link KeeperException}.
          * <ul>
          * <li>
-         * {@link KeeperException.Code#NODEEXISTS}
+         * {@link KeeperException.KECode#NODEEXISTS}
          * - The node on give path already exists for some API calls.
          * </li>
          * <li>
-         * {@link KeeperException.Code#NONODE}
+         * {@link KeeperException.KECode#NONODE}
          * - The node on given path doesn't exist for some API calls.
          * </li>
          * <li>
          * {@link
-         * KeeperException.Code#NOCHILDRENFOREPHEMERALS}
+         * KeeperException.KECode#NOCHILDRENFOREPHEMERALS}
          * - an ephemeral node cannot have children. There is discussion in
          * community. It might be changed in the future.
          * </li>
@@ -266,22 +266,22 @@ public interface AsyncCallback {
          * Process the result of the asynchronous call.
          * <p/>
          * On success, rc is
-         * {@link KeeperException.Code#OK}.
+         * {@link KeeperException.KECode#OK}.
          * <p/>
          * On failure, rc is set to the corresponding failure code in
          * {@link KeeperException}.
          * <ul>
          * <li>
-         * {@link KeeperException.Code#NONODE}
+         * {@link KeeperException.KECode#NONODE}
          * - The node on given path doesn't exist for some API calls.
          * </li>
          * <li>
-         * {@link KeeperException.Code#BADVERSION}
+         * {@link KeeperException.KECode#BADVERSION}
          * - The given version doesn't match the node's version
          * for some API calls.
          * </li>
          * <li>
-         * {@link KeeperException.Code#NOTEMPTY}
+         * {@link KeeperException.KECode#NOTEMPTY}
          * - the node has children and some API calls cannnot succeed,
          * e.g. {@link
          * ZooKeeper#delete(String, int,
@@ -308,13 +308,13 @@ public interface AsyncCallback {
          * Process the result of the asynchronous call.
          * <p/>
          * On success, rc is
-         * {@link KeeperException.Code#OK}.
+         * {@link KeeperException.KECode#OK}.
          * All opResults are
          * non-{@link OpResult.ErrorResult},
          *
          * <p/>
          * On failure, rc is a failure code in
-         * {@link KeeperException.Code}.
+         * {@link KeeperException.KECode}.
          * All opResults are
          * {@link OpResult.ErrorResult}.
          * All operations will be rollback-ed even if operations

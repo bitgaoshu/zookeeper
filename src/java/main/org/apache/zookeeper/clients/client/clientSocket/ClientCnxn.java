@@ -40,9 +40,9 @@ import org.apache.zookeeper.clients.client.common.ClientWatchManager;
 import org.apache.zookeeper.clients.client.common.HostProvider;
 import org.apache.zookeeper.clients.client.common.WatchDeregistration;
 import org.apache.zookeeper.clients.client.common.ZKClientConfig;
-import org.apache.zookeeper.common.Time;
+import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.exception.KeeperException.Code;
+import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.operation.OpResult;
 import org.apache.zookeeper.operation.OpResult.ErrorResult;
@@ -308,7 +308,7 @@ public class ClientCnxn {
                                 watchers, entry.getKey());
                         // ignore connectionloss when removing from local
                         // session
-                        p.replyHeader.setErr(Code.OK.intValue());
+                        p.replyHeader.setErr(KECode.OK.intValue());
                     }
                 }
             } catch (KeeperException.NoWatcherException nwe) {
@@ -332,8 +332,8 @@ public class ClientCnxn {
     void queueEvent(String clientPath, int err,
                     Set<Watcher> materializedWatchers, EventType eventType) {
         KeeperState sessionState = KeeperState.SyncConnected;
-        if (KeeperException.Code.SESSIONEXPIRED.intValue() == err
-                || KeeperException.Code.CONNECTIONLOSS.intValue() == err) {
+        if (KECode.SESSIONEXPIRED.intValue() == err
+                || KECode.CONNECTIONLOSS.intValue() == err) {
             sessionState = Event.KeeperState.Disconnected;
         }
         WatchedEvent event = new WatchedEvent(eventType, sessionState,
@@ -351,13 +351,13 @@ public class ClientCnxn {
         }
         switch (state) {
             case AUTH_FAILED:
-                p.replyHeader.setErr(KeeperException.Code.AUTHFAILED.intValue());
+                p.replyHeader.setErr(KECode.AUTHFAILED.intValue());
                 break;
             case CLOSED:
-                p.replyHeader.setErr(KeeperException.Code.SESSIONEXPIRED.intValue());
+                p.replyHeader.setErr(KeeperException.KECode.SESSIONEXPIRED.intValue());
                 break;
             default:
-                p.replyHeader.setErr(KeeperException.Code.CONNECTIONLOSS.intValue());
+                p.replyHeader.setErr(KECode.CONNECTIONLOSS.intValue());
         }
         finishPacket(p);
     }
@@ -950,7 +950,7 @@ public class ClientCnxn {
                             int newRc = rc;
                             for (OpResult result : results) {
                                 if (result instanceof ErrorResult
-                                        && KeeperException.Code.OK.intValue() != (newRc = ((ErrorResult) result)
+                                        && KeeperException.KECode.OK.intValue() != (newRc = ((ErrorResult) result)
                                         .getErr())) {
                                     break;
                                 }
@@ -1023,7 +1023,7 @@ public class ClientCnxn {
             }
             if (replyHdr.getXid() == -4) {
                 // -4 is the xid for AuthPacket
-                if (replyHdr.getErr() == KeeperException.Code.AUTHFAILED.intValue()) {
+                if (replyHdr.getErr() == KECode.AUTHFAILED.intValue()) {
                     state = States.AUTH_FAILED;
                     eventThread.queueEvent(new WatchedEvent(Event.EventType.None,
                             Event.KeeperState.AuthFailed, null));
@@ -1093,7 +1093,7 @@ public class ClientCnxn {
             try {
                 if (packet.requestHeader.getXid() != replyHdr.getXid()) {
                     packet.replyHeader.setErr(
-                            KeeperException.Code.CONNECTIONLOSS.intValue());
+                            KeeperException.KECode.CONNECTIONLOSS.intValue());
                     throw new IOException("Xid out of order. Got Xid "
                             + replyHdr.getXid() + " with err " +
                             +replyHdr.getErr() +

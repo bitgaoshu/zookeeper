@@ -225,7 +225,7 @@ public class QuorumTest extends ZKTestCase {
                 }
             }
             LOG.info(hostPorts[(i+1)%hostPorts.length] + " Sync returned " + result[0]);
-            Assert.assertTrue(result[0] == KeeperException.Code.OK.intValue());
+            Assert.assertTrue(result[0] == KeeperException.KECode.OK.intValue());
             try {
                 zk.setData("/", new byte[1], -1);
                 Assert.fail("Should have lost the connection");

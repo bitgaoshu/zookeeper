@@ -33,7 +33,7 @@ import javax.security.auth.login.LoginException;
 
 import org.apache.zookeeper.util.LogEnv;
 import org.apache.zookeeper.Login;
-import org.apache.zookeeper.common.ZKConfig;
+import org.apache.zookeeper.server.common.ZKConfig;
 import org.apache.zookeeper.jmx.MBeanRegistry;
 import org.apache.zookeeper.server.ZooKeeperSaslServer;
 import org.apache.zookeeper.server.ZooKeeperServer;

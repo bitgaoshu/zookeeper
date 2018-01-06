@@ -29,10 +29,10 @@ import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.exception.KeeperException.Code;
+import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.watcher.Event.EventType;
 import org.apache.zookeeper.ZooDefs.Ids;
-import org.apache.zookeeper.common.Time;
+import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.data.Stat;
 import org.junit.Assert;
 
@@ -131,8 +131,8 @@ public class ZooKeeperTestClient extends ZKTestCase implements Watcher {
     try {
       zk.create(nodeName, null, Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
     } catch (KeeperException ke) {
-      Code code = ke.code();
-      boolean valid = code == KeeperException.Code.NODEEXISTS;
+      KECode code = ke.code();
+      boolean valid = code == KECode.NODEEXISTS;
       if (!valid) {
         Assert.fail("Unexpected exception code for createin: " + ke.getMessage());
       }
@@ -188,9 +188,9 @@ public class ZooKeeperTestClient extends ZKTestCase implements Watcher {
       try {
         zk.delete(nodeName, -1);
       } catch (KeeperException ke) {
-        Code code = ke.code();
-        boolean valid = code == KeeperException.Code.NONODE
-            || code == KeeperException.Code.NOTEMPTY;
+        KECode code = ke.code();
+        boolean valid = code == KECode.NONODE
+            || code == KeeperException.KECode.NOTEMPTY;
         if (!valid) {
           Assert.fail("Unexpected exception code for delete: " + ke.getMessage());
         }
@@ -212,8 +212,8 @@ public class ZooKeeperTestClient extends ZKTestCase implements Watcher {
     try {
       zk.create(nodeName, null, Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
     } catch (KeeperException ke) {
-      Code code = ke.code();
-      boolean valid = code == KeeperException.Code.NODEEXISTS;
+      KeeperException.KECode code = ke.code();
+      boolean valid = code == KECode.NODEEXISTS;
       if (!valid) {
         Assert.fail("Unexpected exception code for createin: " + ke.getMessage());
       }
@@ -238,8 +238,8 @@ public class ZooKeeperTestClient extends ZKTestCase implements Watcher {
       zk.delete(parentName, -1);
       Assert.fail("Should be impossible to delete a non-empty node " + parentName);
     } catch (KeeperException ke) {
-      Code code = ke.code();
-      boolean valid = code == KeeperException.Code.NOTEMPTY;
+      KECode code = ke.code();
+      boolean valid = code == KECode.NOTEMPTY;
       if (!valid) {
         Assert.fail("Unexpected exception code for delete: " + code);
       }
@@ -249,8 +249,8 @@ public class ZooKeeperTestClient extends ZKTestCase implements Watcher {
       zk.create(nodeName + "/def", null, Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
       Assert.fail("Should be impossible to create child off Ephemeral node " + nodeName);
     } catch (KeeperException ke) {
-      Code code = ke.code();
-      boolean valid = code == KeeperException.Code.NOCHILDRENFOREPHEMERALS;
+      KECode code = ke.code();
+      boolean valid = code == KECode.NOCHILDRENFOREPHEMERALS;
       if (!valid) {
         Assert.fail("Unexpected exception code for createin: " + code);
       }
@@ -268,8 +268,8 @@ public class ZooKeeperTestClient extends ZKTestCase implements Watcher {
         Assert.fail("ephemeral node " + nodeName + " should not have children");
       }
     } catch (KeeperException ke) {
-      Code code = ke.code();
-      boolean valid = code == KeeperException.Code.NONODE;
+      KECode code = ke.code();
+      boolean valid = code == KECode.NONODE;
       if (!valid) {
         Assert.fail("Unexpected exception code for createin: " + code);
       }
@@ -339,9 +339,9 @@ public class ZooKeeperTestClient extends ZKTestCase implements Watcher {
     try {
       zk.delete(nodeName, -1);
     } catch (KeeperException ke) {
-      Code code = ke.code();
-      boolean valid = code == KeeperException.Code.NONODE
-          || code == KeeperException.Code.NOTEMPTY;
+      KECode code = ke.code();
+      boolean valid = code == KECode.NONODE
+          || code == KECode.NOTEMPTY;
       if (!valid) {
         Assert.fail("Unexpected exception code for delete: " + ke.getMessage());
       }
@@ -349,8 +349,8 @@ public class ZooKeeperTestClient extends ZKTestCase implements Watcher {
     try {
       zk.create(nodeName, null, Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
     } catch (KeeperException ke) {
-      Code code = ke.code();
-      boolean valid = code == KeeperException.Code.NODEEXISTS;
+      KECode code = ke.code();
+      boolean valid = code == KECode.NODEEXISTS;
       if (!valid) {
         Assert.fail("Unexpected exception code for create: " + ke.getMessage());
       }
@@ -359,7 +359,7 @@ public class ZooKeeperTestClient extends ZKTestCase implements Watcher {
       zk.setData(nodeName, "hi".getBytes(), 5700);
       Assert.fail("Should have gotten BadVersion exception");
     } catch (KeeperException ke) {
-      if (ke.code() != Code.BADVERSION) {
+      if (ke.code() != KECode.BADVERSION) {
         Assert.fail("Should have gotten BadVersion exception");
       }
     }
@@ -375,9 +375,9 @@ public class ZooKeeperTestClient extends ZKTestCase implements Watcher {
       zk.delete(nodeName, 6800);
       Assert.fail("Should have gotten BadVersion exception");
     } catch (KeeperException ke) {
-      Code code = ke.code();
-      boolean valid = code == KeeperException.Code.NOTEMPTY
-          || code == KeeperException.Code.BADVERSION;
+      KECode code = ke.code();
+      boolean valid = code == KeeperException.KECode.NOTEMPTY
+          || code == KeeperException.KECode.BADVERSION;
       if (!valid) {
         Assert.fail("Unexpected exception code for delete: " + ke.getMessage());
       }
@@ -385,8 +385,8 @@ public class ZooKeeperTestClient extends ZKTestCase implements Watcher {
     try {
       zk.delete(nodeName, -1);
     } catch (KeeperException ke) {
-      Code code = ke.code();
-      boolean valid = code == KeeperException.Code.NOTEMPTY;
+      KECode code = ke.code();
+      boolean valid = code == KECode.NOTEMPTY;
       if (!valid) {
         Assert.fail("Unexpected exception code for delete: " + code);
       }
@@ -400,9 +400,9 @@ public class ZooKeeperTestClient extends ZKTestCase implements Watcher {
     try {
       zk.delete(nodeName, -1);
     } catch (KeeperException ke) {
-      Code code = ke.code();
-      boolean valid = code == KeeperException.Code.NONODE ||
-                      code == KeeperException.Code.NOTEMPTY;
+      KECode code = ke.code();
+      boolean valid = code == KeeperException.KECode.NONODE ||
+                      code == KECode.NOTEMPTY;
       if (!valid) {
         Assert.fail("Unexpected exception code for delete: " + ke.getMessage());
       }

@@ -174,7 +174,7 @@ public abstract class OpResult {
     /**
      * An error result from any kind of operation.  The point of error results
      * is that they contain an error code which helps understand what happened.
-     * @see KeeperException.Code
+     * @see KeeperException.KECode
      *
      */
     public static class ErrorResult extends OpResult {

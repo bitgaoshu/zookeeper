@@ -72,7 +72,7 @@ public class X509AuthTest extends ZKTestCase {
         X509AuthenticationProvider provider = createProvider(clientCert);
         MockServerCnxn cnxn = new MockServerCnxn();
         cnxn.clientChain = new X509Certificate[] { clientCert };
-        Assert.assertEquals(KeeperException.Code.OK, provider.handleAuthentication(cnxn, null));
+        Assert.assertEquals(KeeperException.KECode.OK, provider.handleAuthentication(cnxn, null));
     }
 
     @Test
@@ -80,7 +80,7 @@ public class X509AuthTest extends ZKTestCase {
         X509AuthenticationProvider provider = createProvider(superCert);
         MockServerCnxn cnxn = new MockServerCnxn();
         cnxn.clientChain = new X509Certificate[] { superCert };
-        Assert.assertEquals(KeeperException.Code.OK, provider.handleAuthentication(cnxn, null));
+        Assert.assertEquals(KeeperException.KECode.OK, provider.handleAuthentication(cnxn, null));
         Assert.assertEquals("super", cnxn.getAuthInfo().get(0).getScheme());
     }
 
@@ -89,7 +89,7 @@ public class X509AuthTest extends ZKTestCase {
         X509AuthenticationProvider provider = createProvider(clientCert);
         MockServerCnxn cnxn = new MockServerCnxn();
         cnxn.clientChain = new X509Certificate[] { unknownCert };
-        Assert.assertEquals(KeeperException.Code.AUTHFAILED, provider.handleAuthentication(cnxn, null));
+        Assert.assertEquals(KeeperException.KECode.AUTHFAILED, provider.handleAuthentication(cnxn, null));
     }
 
     private static class TestPublicKey implements PublicKey {

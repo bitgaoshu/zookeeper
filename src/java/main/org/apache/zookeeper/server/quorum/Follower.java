@@ -24,7 +24,7 @@ import java.nio.ByteBuffer;
 
 import org.apache.jute.Record;
 import org.apache.zookeeper.operation.OpCode;
-import org.apache.zookeeper.common.Time;
+import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 import org.apache.zookeeper.server.util.SerializeUtils;

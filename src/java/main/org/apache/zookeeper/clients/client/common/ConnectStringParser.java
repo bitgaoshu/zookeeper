@@ -19,13 +19,13 @@
 package org.apache.zookeeper.clients.client.common;
 
 import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.common.PathUtils;
+import org.apache.zookeeper.server.common.PathUtils;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.apache.zookeeper.common.StringUtils.split;
+import static org.apache.zookeeper.server.common.StringUtils.split;
 
 /**
  * A parser for ZooKeeper Client connect strings.

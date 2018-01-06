@@ -24,7 +24,7 @@ import java.util.List;
 import org.apache.jute.Record;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.operation.OpCode;
-import org.apache.zookeeper.common.Time;
+import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;

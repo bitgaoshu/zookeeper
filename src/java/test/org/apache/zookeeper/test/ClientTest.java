@@ -28,7 +28,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.exception.KeeperException.Code;
 import org.apache.zookeeper.exception.KeeperException.InvalidACLException;
 import org.apache.zookeeper.clients.client.clientSocket.TestableZooKeeper;
 import org.apache.zookeeper.WatchedEvent;
@@ -170,7 +169,7 @@ public class ClientTest extends ClientBase {
                     zk.getData("/acltest", false, null);
                     Assert.fail("Should have received a permission error");
                 } catch (KeeperException e) {
-                    Assert.assertEquals(Code.NOAUTH, e.code());
+                    Assert.assertEquals(KeeperException.KECode.NOAUTH, e.code());
                 }
             }
             zk.addAuthInfo("digest", "ben:passwd".getBytes());
@@ -219,7 +218,7 @@ public class ClientTest extends ClientBase {
                     zk.getData("/acltest", false, null);
                     Assert.fail("Should have received a permission error");
                 } catch (KeeperException e) {
-                    Assert.assertEquals(Code.NOAUTH, e.code());
+                    Assert.assertEquals(KeeperException.KECode.NOAUTH, e.code());
                 }
             }
             zk.addAuthInfo("digest", "ben:passwd".getBytes());
@@ -738,7 +737,7 @@ public class ClientTest extends ClientBase {
             zk.delete("/parent", -1);
             Assert.fail("Should have received a not equals message");
         } catch (KeeperException e) {
-            Assert.assertEquals(KeeperException.Code.NOTEMPTY, e.code());
+            Assert.assertEquals(KeeperException.KECode.NOTEMPTY, e.code());
         }
         zk.delete("/parent/child", -1);
         zk.delete("/parent", -1);
@@ -849,7 +848,7 @@ public class ClientTest extends ClientBase {
 
         ReplyHeader r = zk.submitRequest(h, request, response, null);
 
-        Assert.assertEquals(r.getErr(), Code.UNIMPLEMENTED.intValue());
+        Assert.assertEquals(r.getErr(), KeeperException.KECode.UNIMPLEMENTED.intValue());
 
         // Sending a nonexisting opcode should cause the server to disconnect
         Assert.assertTrue("failed to disconnect",

@@ -97,7 +97,7 @@ public class PrepRequestProcessorTest extends ClientBase {
         Request foo = new Request(null, 1l, 1, OpCode.create, ByteBuffer.allocate(3), null);
         processor.pRequest(foo);
 
-        Assert.assertEquals("Request should have marshalling error", new ErrorTxn(KeeperException.Code.MARSHALLINGERROR.intValue()),
+        Assert.assertEquals("Request should have marshalling error", new ErrorTxn(KeeperException.KECode.MARSHALLINGERROR.intValue()),
                 outcome.getTxn());
         Assert.assertTrue("request hasn't been processed in chain", pLatch.await(5, TimeUnit.SECONDS));
     }
@@ -196,7 +196,7 @@ public class PrepRequestProcessorTest extends ClientBase {
         processor.pRequest(req);
         pLatch.await();
         Assert.assertEquals(outcome.getHdr().getType(), OpCode.error);
-        Assert.assertEquals(outcome.getException().code(), KeeperException.Code.BADARGUMENTS);
+        Assert.assertEquals(outcome.getException().code(), KeeperException.KECode.BADARGUMENTS);
     }
 
     private class MyRequestProcessor implements RequestProcessor {

@@ -54,7 +54,7 @@ import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.common.Time;
+import org.apache.zookeeper.server.common.Time;
 
 
 public class GenerateLoad {

@@ -25,9 +25,9 @@ import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.operation.multi.MultiTransactionRecord;
 import org.apache.zookeeper.operation.Op;
 import org.apache.zookeeper.ZooDefs;
-import org.apache.zookeeper.common.*;
+import org.apache.zookeeper.server.common.*;
 import org.apache.zookeeper.exception.KeeperException.BadArgumentsException;
-import org.apache.zookeeper.exception.KeeperException.Code;
+import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.data.StatPersisted;
@@ -774,7 +774,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                          */
                         if (ke != null) {
                             opCode = OpCode.error;
-                            txn = new ErrorTxn(Code.RUNTIMEINCONSISTENCY.intValue());
+                            txn = new ErrorTxn(KECode.RUNTIMEINCONSISTENCY.intValue());
                         }
 
                         /* Prep the request and convert to a Txn */
@@ -873,7 +873,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
             LOG.error("Dumping request buffer: 0x" + sb.toString());
             if (request.getHdr() != null) {
                 request.getHdr().setType(OpCode.error.getValue());
-                request.setTxn(new ErrorTxn(Code.MARSHALLINGERROR.intValue()));
+                request.setTxn(new ErrorTxn(KeeperException.KECode.MARSHALLINGERROR.intValue()));
             }
         }
         request.zxid = zks.getZxid();

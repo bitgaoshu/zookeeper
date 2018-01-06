@@ -19,7 +19,7 @@
 package org.apache.zookeeper.server;
 
 
-import org.apache.zookeeper.common.Time;
+import org.apache.zookeeper.server.common.Time;
 
 import java.util.concurrent.atomic.AtomicLong;
 

@@ -195,15 +195,15 @@ public class ZKWatchManager implements ClientWatchManager {
     protected boolean removeWatches(Map<String, Set<Watcher>> pathVsWatcher,
                                     Watcher watcher, String path, boolean local, int rc,
                                     Set<Watcher> removedWatchers) throws KeeperException {
-        if (!local && rc != KeeperException.Code.OK.intValue()) {
+        if (!local && rc != KeeperException.KECode.OK.intValue()) {
             throw KeeperException
-                    .create(KeeperException.Code.get(rc), path);
+                    .create(KeeperException.KECode.get(rc), path);
         }
         boolean success = false;
         // When local flag is true, remove watchers for the given path
         // irrespective of rc. Otherwise shouldn't remove watchers locally
         // when sees failure from server.
-        if (rc == KeeperException.Code.OK.intValue() || (local && rc != KeeperException.Code.OK.intValue())) {
+        if (rc == KeeperException.KECode.OK.intValue() || (local && rc != KeeperException.KECode.OK.intValue())) {
             // Remove all the watchers for the given path
             if (watcher == null) {
                 Set<Watcher> pathWatchers = pathVsWatcher.remove(path);

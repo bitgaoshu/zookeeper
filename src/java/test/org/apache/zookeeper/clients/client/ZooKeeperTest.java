@@ -33,10 +33,8 @@ import org.apache.zookeeper.clients.AsyncCallback.VoidCallback;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.clients.cliCmds.*;
 import org.apache.zookeeper.clients.cliCmds.ZKUtil;
-import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.clients.client.ZooKeeperMain;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.common.StringUtils;
+import org.apache.zookeeper.server.common.StringUtils;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.nodeMode.CreateMode;
@@ -377,7 +375,7 @@ public class ZooKeeperTest extends ClientBase {
             Assert.assertFalse(zkMain.processZKCmd(zkMain.cl));
             Assert.fail("Path doesn't exists so, command should fail.");
         } catch (CliWrapperException e) {
-            Assert.assertEquals(KeeperException.Code.NONODE, ((KeeperException)e.getCause()).code());
+            Assert.assertEquals(KeeperException.KECode.NONODE, ((KeeperException)e.getCause()).code());
         }
     }
 
@@ -573,7 +571,7 @@ public class ZooKeeperTest extends ClientBase {
             runCommandExpect(cmd, new ArrayList<String>());
             Assert.fail("Path doesn't exists so, command should fail.");
         } catch (CliWrapperException e) {
-            Assert.assertEquals(KeeperException.Code.NONODE, ((KeeperException)e.getCause()).code());
+            Assert.assertEquals(KeeperException.KECode.NONODE, ((KeeperException)e.getCause()).code());
         }
     }
 

@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.common;
+package org.apache.zookeeper.server.common;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -53,7 +53,7 @@ public class AtomicFileOutputStream extends FilterOutputStream {
     private final File tmpFile;
 
     public AtomicFileOutputStream(File f) throws FileNotFoundException {
-        // Code unfortunately must be duplicated below since we can't assign
+        // KECode unfortunately must be duplicated below since we can't assign
         // anything
         // before calling super
         super(new FileOutputStream(new File(f.getParentFile(), f.getName()

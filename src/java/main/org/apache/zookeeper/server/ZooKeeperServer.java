@@ -23,7 +23,7 @@ import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
 import org.apache.zookeeper.util.LogEnv;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.exception.KeeperException.Code;
+import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
 import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.data.ACL;
@@ -1001,22 +1001,22 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
             ByteBufferInputStream.byteBuffer2Record(incomingBuffer, authPacket);
             String scheme = authPacket.getScheme();
             ServerAuthenticationProvider ap = ProviderRegistry.getServerProvider(scheme);
-            Code authReturn = KeeperException.Code.AUTHFAILED;
+            KECode authReturn = KECode.AUTHFAILED;
             if (ap != null) {
                 try {
                     authReturn = ap.handleAuthentication(new ServerAuthenticationProvider.ServerObjs(this, cnxn), authPacket.getAuth());
                 } catch (RuntimeException e) {
                     LOG.warn("Caught runtime exception from AuthenticationProvider: " + scheme + " due to " + e);
-                    authReturn = KeeperException.Code.AUTHFAILED;
+                    authReturn = KECode.AUTHFAILED;
                 }
             }
-            if (authReturn == KeeperException.Code.OK) {
+            if (authReturn == KECode.OK) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Authentication succeeded for scheme: " + scheme);
                 }
                 LOG.info("auth success " + cnxn.getRemoteSocketAddress());
                 ReplyHeader rh = new ReplyHeader(h.getXid(), 0,
-                        KeeperException.Code.OK.intValue());
+                        KeeperException.KECode.OK.intValue());
                 cnxn.sendResponse(rh, null, null);
             } else {
                 if (ap == null) {
@@ -1028,7 +1028,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
                 }
                 // send a response...
                 ReplyHeader rh = new ReplyHeader(h.getXid(), 0,
-                        KeeperException.Code.AUTHFAILED.intValue());
+                        KeeperException.KECode.AUTHFAILED.intValue());
                 cnxn.sendResponse(rh, null, null);
                 // ... and close connection
                 cnxn.sendBuffer(ServerCnxnFactory.closeConn());
@@ -1041,7 +1041,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
                 GetSASLRequest clientTokenRecord = new GetSASLRequest();
                 ByteBufferInputStream.byteBuffer2Record(incomingBuffer, clientTokenRecord);
                 Record rsp = processSasl(clientTokenRecord, cnxn);
-                ReplyHeader rh = new ReplyHeader(h.getXid(), 0, KeeperException.Code.OK.intValue());
+                ReplyHeader rh = new ReplyHeader(h.getXid(), 0, KECode.OK.intValue());
                 cnxn.sendResponse(rh, rsp, "response"); // not sure about 3rd arg..what is it?
                 return;
             } else {

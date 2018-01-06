@@ -114,7 +114,7 @@ public abstract class ServerAuthenticationProvider implements AuthenticationProv
      *                the authentication data received.
      * @return indication of success or failure
      */
-    public abstract KeeperException.Code handleAuthentication(ServerObjs serverObjs, byte authData[]);
+    public abstract KeeperException.KECode handleAuthentication(ServerObjs serverObjs, byte authData[]);
 
     /**
      * This method is called to see if the given id matches the given id
@@ -129,7 +129,7 @@ public abstract class ServerAuthenticationProvider implements AuthenticationProv
     public abstract boolean matches(ServerObjs serverObjs, MatchValues matchValues);
 
     @Override
-    public final KeeperException.Code handleAuthentication(ServerCnxn cnxn, byte[] authData) {
+    public final KeeperException.KECode handleAuthentication(ServerCnxn cnxn, byte[] authData) {
         throw new UnsupportedOperationException();
     }
 

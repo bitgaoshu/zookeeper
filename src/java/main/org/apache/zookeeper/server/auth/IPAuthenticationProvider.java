@@ -28,12 +28,12 @@ public class IPAuthenticationProvider implements AuthenticationProvider {
         return "ip";
     }
 
-    public KeeperException.Code
+    public KeeperException.KECode
         handleAuthentication(ServerCnxn cnxn, byte[] authData)
     {
         String id = cnxn.getRemoteSocketAddress().getAddress().getHostAddress();
         cnxn.addAuthInfo(new Id(getScheme(), id));
-        return KeeperException.Code.OK;
+        return KeeperException.KECode.OK;
     }
 
     // This is a bit weird but we need to return the address and the number of

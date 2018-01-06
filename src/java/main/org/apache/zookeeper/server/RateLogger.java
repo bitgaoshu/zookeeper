@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.server;
 
-import org.apache.zookeeper.common.Time;
+import org.apache.zookeeper.server.common.Time;
 import org.slf4j.Logger;
 
 public class RateLogger {

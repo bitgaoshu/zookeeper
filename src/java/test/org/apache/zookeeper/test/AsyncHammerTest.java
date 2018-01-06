@@ -132,7 +132,7 @@ public class AsyncHammerTest extends ZKTestCase
         }
 
         public void processResult(int rc, String path, Object ctx, String name) {
-            if (rc != KeeperException.Code.OK.intValue()) {
+            if (rc != KeeperException.KECode.OK.intValue()) {
                 if (bang) {
                     failed = true;
                     LOG.error("Create Assert.failed for 0x"
@@ -154,7 +154,7 @@ public class AsyncHammerTest extends ZKTestCase
         }
 
         public void processResult(int rc, String path, Object ctx) {
-            if (rc != KeeperException.Code.OK.intValue()) {
+            if (rc != KeeperException.KECode.OK.intValue()) {
                 if (bang) {
                     failed = true;
                     LOG.error("Delete Assert.failed for 0x"

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.common;
+package org.apache.zookeeper.server.common;
 
 import org.apache.zookeeper.ZKTestCase;
 import org.junit.Test;

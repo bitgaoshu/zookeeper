@@ -109,26 +109,26 @@ public class MultiAsyncTransactionTest extends ClientBase {
         waitForPendingOps(CONNECTION_TIMEOUT);
 
         // Check that return code of all request are correct
-        assertEquals(KeeperException.Code.OK.intValue(), results.get(0).rc);
-        assertEquals(KeeperException.Code.NODEEXISTS.intValue(), results.get(1).rc);
-        assertEquals(KeeperException.Code.NODEEXISTS.intValue(), results.get(2).rc);
-        assertEquals(KeeperException.Code.NODEEXISTS.intValue(), results.get(3).rc);
+        assertEquals(KeeperException.KECode.OK.intValue(), results.get(0).rc);
+        assertEquals(KeeperException.KECode.NODEEXISTS.intValue(), results.get(1).rc);
+        assertEquals(KeeperException.KECode.NODEEXISTS.intValue(), results.get(2).rc);
+        assertEquals(KeeperException.KECode.NODEEXISTS.intValue(), results.get(3).rc);
 
         // Check that the first operation is successful in all request
         assertTrue(results.get(0).results.get(0) instanceof CreateResult);
-        assertEquals(KeeperException.Code.OK.intValue(),
+        assertEquals(KeeperException.KECode.OK.intValue(),
                 ((ErrorResult) results.get(1).results.get(0)).getErr());
-        assertEquals(KeeperException.Code.OK.intValue(),
+        assertEquals(KeeperException.KECode.OK.intValue(),
                 ((ErrorResult) results.get(2).results.get(0)).getErr());
-        assertEquals(KeeperException.Code.OK.intValue(),
+        assertEquals(KeeperException.KECode.OK.intValue(),
                 ((ErrorResult) results.get(3).results.get(0)).getErr());
 
         // Check that the second operation failed after the first request
-        assertEquals(KeeperException.Code.NODEEXISTS.intValue(),
+        assertEquals(KeeperException.KECode.NODEEXISTS.intValue(),
                 ((ErrorResult) results.get(1).results.get(1)).getErr());
-        assertEquals(KeeperException.Code.NODEEXISTS.intValue(),
+        assertEquals(KeeperException.KECode.NODEEXISTS.intValue(),
                 ((ErrorResult) results.get(2).results.get(1)).getErr());
-        assertEquals(KeeperException.Code.NODEEXISTS.intValue(),
+        assertEquals(KeeperException.KECode.NODEEXISTS.intValue(),
                 ((ErrorResult) results.get(3).results.get(1)).getErr());
 
     }

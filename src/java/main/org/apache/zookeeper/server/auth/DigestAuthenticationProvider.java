@@ -96,7 +96,7 @@ public class DigestAuthenticationProvider implements AuthenticationProvider {
         return parts[0] + ":" + base64Encode(digest);
     }
 
-    public KeeperException.Code 
+    public KeeperException.KECode
         handleAuthentication(ServerCnxn cnxn, byte[] authData)
     {
         String id = new String(authData);
@@ -106,11 +106,11 @@ public class DigestAuthenticationProvider implements AuthenticationProvider {
                 cnxn.addAuthInfo(new Id("super", ""));
             }
             cnxn.addAuthInfo(new Id(getScheme(), digest));
-            return KeeperException.Code.OK;
+            return KeeperException.KECode.OK;
         } catch (NoSuchAlgorithmException e) {
             LOG.error("Missing algorithm",e);
         }
-        return KeeperException.Code.AUTHFAILED;
+        return KeeperException.KECode.AUTHFAILED;
     }
 
     public boolean isAuthenticated() {

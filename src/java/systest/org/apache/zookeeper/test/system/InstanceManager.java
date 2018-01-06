@@ -38,7 +38,7 @@ import org.apache.zookeeper.exception.KeeperException.NoNodeException;
 import org.apache.zookeeper.exception.KeeperException.NodeExistsException;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.common.Time;
+import org.apache.zookeeper.server.common.Time;
 
 /**
  * This class doles out assignments to InstanceContainers that are registered to
@@ -130,7 +130,7 @@ public class InstanceManager implements AsyncCallback.ChildrenCallback, Watcher 
     
     synchronized public void processResult(int rc, String path, Object ctx,
             List<String> children) {
-        if (rc != KeeperException.Code.OK.intValue()) {
+        if (rc != KeeperException.KECode.OK.intValue()) {
             zk.getChildren(statusNode, this, this, null);
             return;
         }

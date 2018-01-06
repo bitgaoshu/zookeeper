@@ -26,9 +26,9 @@ import org.apache.zookeeper.watcher.WatcherType;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.exception.KeeperException.Code;
+import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.exception.KeeperException.SessionMovedException;
-import org.apache.zookeeper.common.Time;
+import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.proto.*;
@@ -129,7 +129,7 @@ public class FinalRequestProcessor implements RequestProcessor {
 
         String lastOp = "NA";
         zks.decInProcess();
-        Code err = Code.OK;
+        KECode err = KeeperException.KECode.OK;
         Record rsp = null;
         try {
             if (request.getHdr() != null && request.getHdr().getOp() == OpCode.error) {
@@ -143,7 +143,7 @@ public class FinalRequestProcessor implements RequestProcessor {
                 if (request.getException() != null) {
                     throw request.getException();
                 } else {
-                    throw KeeperException.create(KeeperException.Code
+                    throw KeeperException.create(KECode
                             .get(((ErrorTxn) request.getTxn()).getErr()));
                 }
             }
@@ -219,7 +219,7 @@ public class FinalRequestProcessor implements RequestProcessor {
                 case create: {
                     lastOp = "CREA";
                     rsp = new CreateResponse(rc.path);
-                    err = Code.get(rc.err);
+                    err = KECode.get(rc.err);
                     break;
                 }
                 case create2:
@@ -227,36 +227,36 @@ public class FinalRequestProcessor implements RequestProcessor {
                 case createContainer: {
                     lastOp = "CREA";
                     rsp = new Create2Response(rc.path, rc.stat);
-                    err = Code.get(rc.err);
+                    err = KECode.get(rc.err);
                     break;
                 }
                 case delete:
                 case deleteContainer: {
                     lastOp = "DELE";
-                    err = Code.get(rc.err);
+                    err = KeeperException.KECode.get(rc.err);
                     break;
                 }
                 case setData: {
                     lastOp = "SETD";
                     rsp = new SetDataResponse(rc.stat);
-                    err = Code.get(rc.err);
+                    err = KECode.get(rc.err);
                     break;
                 }
                 case reconfig: {
                     lastOp = "RECO";
                     rsp = new GetDataResponse(((QuorumZooKeeperServer) zks).self.getQuorumVerifier().toString().getBytes(), rc.stat);
-                    err = Code.get(rc.err);
+                    err = KECode.get(rc.err);
                     break;
                 }
                 case setACL: {
                     lastOp = "SETA";
                     rsp = new SetACLResponse(rc.stat);
-                    err = Code.get(rc.err);
+                    err = KECode.get(rc.err);
                     break;
                 }
                 case closeSession: {
                     lastOp = "CLOS";
-                    err = Code.get(rc.err);
+                    err = KeeperException.KECode.get(rc.err);
                     break;
                 }
                 case sync: {
@@ -270,7 +270,7 @@ public class FinalRequestProcessor implements RequestProcessor {
                 case check: {
                     lastOp = "CHEC";
                     rsp = new SetDataResponse(rc.stat);
-                    err = Code.get(rc.err);
+                    err = KECode.get(rc.err);
                     break;
                 }
                 case exists: {
@@ -422,7 +422,7 @@ public class FinalRequestProcessor implements RequestProcessor {
                 sb.append(Integer.toHexString(bb.get() & 0xff));
             }
             LOG.error("Dumping request buffer: 0x" + sb.toString());
-            err = Code.MARSHALLINGERROR;
+            err = KECode.MARSHALLINGERROR;
         }
 
         long lastZxid = zks.getZKDatabase().getDataTreeLastProcessedZxid();

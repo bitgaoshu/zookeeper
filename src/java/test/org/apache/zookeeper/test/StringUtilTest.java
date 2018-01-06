@@ -19,10 +19,8 @@ package org.apache.zookeeper.test;
 
 
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.common.StringUtils;
+import org.apache.zookeeper.server.common.StringUtils;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 

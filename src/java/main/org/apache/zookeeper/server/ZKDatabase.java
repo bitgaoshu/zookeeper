@@ -42,7 +42,7 @@ import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.watcher.WatcherType;
 import org.apache.zookeeper.ZooDefs;
-import org.apache.zookeeper.common.Time;
+import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.server.DataTree.ProcessTxnResult;

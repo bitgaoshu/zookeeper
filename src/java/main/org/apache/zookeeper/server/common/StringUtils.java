@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.common;
+package org.apache.zookeeper.server.common;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;

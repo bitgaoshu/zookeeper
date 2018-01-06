@@ -37,14 +37,14 @@ public abstract class KeeperException extends Exception {
      * these results.
      */
     private List<OpResult> results;
-    private Code code;
+    private KECode code;
     private String path;
 
-    public KeeperException(Code code) {
+    public KeeperException(KECode code) {
         this.code = code;
     }
 
-    KeeperException(Code code, String path) {
+    KeeperException(KECode code, String path) {
         this.code = code;
         this.path = path;
     }
@@ -62,18 +62,21 @@ public abstract class KeeperException extends Exception {
      * @return The specialized exception, presumably to be thrown by
      * the caller.
      */
-    public static KeeperException create(Code code, String path) {
+    public static KeeperException create(KECode code, String path) {
         KeeperException r = code.exception();
         r.path = path;
         return r;
     }
+    public static KeeperException create(KECode code) {
+        return create(code, null);
+    }
 
     /**
-     * Read the error Code for this exception
+     * Read the error KECode for this exception
      *
-     * @return the error Code for this exception
+     * @return the error KECode for this exception
      */
-    public Code code() {
+    public KECode code() {
         return code;
     }
 
@@ -116,7 +119,7 @@ public abstract class KeeperException extends Exception {
      * enum values are in all CAPS.
      */
     @InterfaceAudience.Public
-    public enum Code {
+    public enum KECode {
         /**
          * Everything is OK
          */
@@ -243,11 +246,11 @@ public abstract class KeeperException extends Exception {
          */
         RECONFIGDISABLED(-123, "Reconfig is disabled", ReconfigDisabledException.class);
 
-        private static final Map<Integer, Code> lookup
+        private static final Map<Integer, KECode> lookup
                 = new HashMap<>();
 
         static {
-            for (Code c : EnumSet.allOf(Code.class))
+            for (KECode c : EnumSet.allOf(KECode.class))
                 lookup.put(c.code, c);
         }
 
@@ -255,24 +258,24 @@ public abstract class KeeperException extends Exception {
         private final String msg;
         private final Class exceptionClass;
 
-        Code(int code, String msg, Class exceptionClass) {
+        KECode(int code, String msg, Class exceptionClass) {
             this.code = code;
             this.msg = msg;
             this.exceptionClass = exceptionClass;
         }
 
         /**
-         * Get the Code value for a particular integer error code
+         * Get the KECode value for a particular integer error code
          *
          * @param code int error code
-         * @return Code value corresponding to specified int code, or null
+         * @return KECode value corresponding to specified int code, or null
          */
-        public static Code get(int code) {
+        public static KECode get(int code) {
             return lookup.get(code);
         }
 
         /**
-         * Get the int value for a particular Code.
+         * Get the int value for a particular KECode.
          *
          * @return error code as integer
          */
@@ -295,300 +298,300 @@ public abstract class KeeperException extends Exception {
     }
 
     /**
-     * @see Code#APIERROR
+     * @see KECode#APIERROR
      */
     @InterfaceAudience.Public
     public static class APIErrorException extends KeeperException {
         public APIErrorException() {
-            super(Code.APIERROR);
+            super(KECode.APIERROR);
         }
     }
 
     /**
-     * @see Code#AUTHFAILED
+     * @see KECode#AUTHFAILED
      */
     @InterfaceAudience.Public
     public static class AuthFailedException extends KeeperException {
         public AuthFailedException() {
-            super(Code.AUTHFAILED);
+            super(KECode.AUTHFAILED);
         }
     }
 
     /**
-     * @see Code#BADARGUMENTS
+     * @see KECode#BADARGUMENTS
      */
     @InterfaceAudience.Public
     public static class BadArgumentsException extends KeeperException {
         public BadArgumentsException() {
-            super(Code.BADARGUMENTS);
+            super(KECode.BADARGUMENTS);
         }
 
         public BadArgumentsException(String path) {
-            super(Code.BADARGUMENTS, path);
+            super(KECode.BADARGUMENTS, path);
         }
     }
 
     /**
-     * @see Code#BADVERSION
+     * @see KECode#BADVERSION
      */
     @InterfaceAudience.Public
     public static class BadVersionException extends KeeperException {
         public BadVersionException() {
-            super(Code.BADVERSION);
+            super(KECode.BADVERSION);
         }
 
         public BadVersionException(String path) {
-            super(Code.BADVERSION, path);
+            super(KECode.BADVERSION, path);
         }
     }
 
     /**
-     * @see Code#CONNECTIONLOSS
+     * @see KECode#CONNECTIONLOSS
      */
     @InterfaceAudience.Public
     public static class ConnectionLossException extends KeeperException {
         public ConnectionLossException() {
-            super(Code.CONNECTIONLOSS);
+            super(KECode.CONNECTIONLOSS);
         }
     }
 
     /**
-     * @see Code#DATAINCONSISTENCY
+     * @see KECode#DATAINCONSISTENCY
      */
     @InterfaceAudience.Public
     public static class DataInconsistencyException extends KeeperException {
         public DataInconsistencyException() {
-            super(Code.DATAINCONSISTENCY);
+            super(KECode.DATAINCONSISTENCY);
         }
     }
 
     /**
-     * @see Code#INVALIDACL
+     * @see KECode#INVALIDACL
      */
     @InterfaceAudience.Public
     public static class InvalidACLException extends KeeperException {
         public InvalidACLException() {
-            super(Code.INVALIDACL);
+            super(KECode.INVALIDACL);
         }
 
         public InvalidACLException(String path) {
-            super(Code.INVALIDACL, path);
+            super(KECode.INVALIDACL, path);
         }
     }
 
     /**
-     * @see Code#INVALIDCALLBACK
+     * @see KECode#INVALIDCALLBACK
      */
     @InterfaceAudience.Public
     public static class InvalidCallbackException extends KeeperException {
         public InvalidCallbackException() {
-            super(Code.INVALIDCALLBACK);
+            super(KECode.INVALIDCALLBACK);
         }
     }
 
     /**
-     * @see Code#MARSHALLINGERROR
+     * @see KECode#MARSHALLINGERROR
      */
     @InterfaceAudience.Public
     public static class MarshallingErrorException extends KeeperException {
         public MarshallingErrorException() {
-            super(Code.MARSHALLINGERROR);
+            super(KECode.MARSHALLINGERROR);
         }
     }
 
     /**
-     * @see Code#NOAUTH
+     * @see KECode#NOAUTH
      */
     @InterfaceAudience.Public
     public static class NoAuthException extends KeeperException {
         public NoAuthException() {
-            super(Code.NOAUTH);
+            super(KECode.NOAUTH);
         }
     }
 
     /**
-     * @see Code#NEWCONFIGNOQUORUM
+     * @see KECode#NEWCONFIGNOQUORUM
      */
     @InterfaceAudience.Public
     public static class NewConfigNoQuorumException extends KeeperException {
         public NewConfigNoQuorumException() {
-            super(Code.NEWCONFIGNOQUORUM);
+            super(KECode.NEWCONFIGNOQUORUM);
         }
     }
 
     /**
-     * @see Code#RECONFIGINPROGRESS
+     * @see KECode#RECONFIGINPROGRESS
      */
     @InterfaceAudience.Public
     public static class ReconfigInProgressException extends KeeperException {
         public ReconfigInProgressException() {
-            super(Code.RECONFIGINPROGRESS);
+            super(KECode.RECONFIGINPROGRESS);
         }
     }
 
     /**
-     * @see Code#NOCHILDRENFOREPHEMERALS
+     * @see KECode#NOCHILDRENFOREPHEMERALS
      */
     @InterfaceAudience.Public
     public static class NoChildrenForEphemeralsException extends KeeperException {
         public NoChildrenForEphemeralsException() {
-            super(Code.NOCHILDRENFOREPHEMERALS);
+            super(KECode.NOCHILDRENFOREPHEMERALS);
         }
 
         public NoChildrenForEphemeralsException(String path) {
-            super(Code.NOCHILDRENFOREPHEMERALS, path);
+            super(KECode.NOCHILDRENFOREPHEMERALS, path);
         }
     }
 
     /**
-     * @see Code#NODEEXISTS
+     * @see KECode#NODEEXISTS
      */
     @InterfaceAudience.Public
     public static class NodeExistsException extends KeeperException {
         public NodeExistsException() {
-            super(Code.NODEEXISTS);
+            super(KECode.NODEEXISTS);
         }
 
         public NodeExistsException(String path) {
-            super(Code.NODEEXISTS, path);
+            super(KECode.NODEEXISTS, path);
         }
     }
 
     /**
-     * @see Code#NONODE
+     * @see KECode#NONODE
      */
     @InterfaceAudience.Public
     public static class NoNodeException extends KeeperException {
         public NoNodeException() {
-            super(Code.NONODE);
+            super(KECode.NONODE);
         }
 
         public NoNodeException(String path) {
-            super(Code.NONODE, path);
+            super(KECode.NONODE, path);
         }
     }
 
     /**
-     * @see Code#NOTEMPTY
+     * @see KECode#NOTEMPTY
      */
     @InterfaceAudience.Public
     public static class NotEmptyException extends KeeperException {
         public NotEmptyException() {
-            super(Code.NOTEMPTY);
+            super(KECode.NOTEMPTY);
         }
 
         public NotEmptyException(String path) {
-            super(Code.NOTEMPTY, path);
+            super(KECode.NOTEMPTY, path);
         }
     }
 
     /**
-     * @see Code#OPERATIONTIMEOUT
+     * @see KECode#OPERATIONTIMEOUT
      */
     @InterfaceAudience.Public
     public static class OperationTimeoutException extends KeeperException {
         public OperationTimeoutException() {
-            super(Code.OPERATIONTIMEOUT);
+            super(KECode.OPERATIONTIMEOUT);
         }
     }
 
     /**
-     * @see Code#RUNTIMEINCONSISTENCY
+     * @see KECode#RUNTIMEINCONSISTENCY
      */
     @InterfaceAudience.Public
     public static class RuntimeInconsistencyException extends KeeperException {
         public RuntimeInconsistencyException() {
-            super(Code.RUNTIMEINCONSISTENCY);
+            super(KECode.RUNTIMEINCONSISTENCY);
         }
     }
 
     /**
-     * @see Code#SESSIONEXPIRED
+     * @see KECode#SESSIONEXPIRED
      */
     @InterfaceAudience.Public
     public static class SessionExpiredException extends KeeperException {
         public SessionExpiredException() {
-            super(Code.SESSIONEXPIRED);
+            super(KECode.SESSIONEXPIRED);
         }
     }
 
     /**
-     * @see Code#UNKNOWNSESSION
+     * @see KECode#UNKNOWNSESSION
      */
     @InterfaceAudience.Public
     public static class UnknownSessionException extends KeeperException {
         public UnknownSessionException() {
-            super(Code.UNKNOWNSESSION);
+            super(KECode.UNKNOWNSESSION);
         }
     }
 
     /**
-     * @see Code#SESSIONMOVED
+     * @see KECode#SESSIONMOVED
      */
     @InterfaceAudience.Public
     public static class SessionMovedException extends KeeperException {
         public SessionMovedException() {
-            super(Code.SESSIONMOVED);
+            super(KECode.SESSIONMOVED);
         }
     }
 
     /**
-     * @see Code#NOTREADONLY
+     * @see KECode#NOTREADONLY
      */
     @InterfaceAudience.Public
     public static class NotReadOnlyException extends KeeperException {
         public NotReadOnlyException() {
-            super(Code.NOTREADONLY);
+            super(KECode.NOTREADONLY);
         }
     }
 
     /**
-     * @see Code#EPHEMERALONLOCALSESSION
+     * @see KECode#EPHEMERALONLOCALSESSION
      */
     @InterfaceAudience.Public
     public static class EphemeralOnLocalSessionException extends KeeperException {
         public EphemeralOnLocalSessionException() {
-            super(Code.EPHEMERALONLOCALSESSION);
+            super(KECode.EPHEMERALONLOCALSESSION);
         }
     }
 
     /**
-     * @see Code#SYSTEMERROR
+     * @see KECode#SYSTEMERROR
      */
     @InterfaceAudience.Public
     public static class SystemErrorException extends KeeperException {
         public SystemErrorException() {
-            super(Code.SYSTEMERROR);
+            super(KECode.SYSTEMERROR);
         }
     }
 
     /**
-     * @see Code#UNIMPLEMENTED
+     * @see KECode#UNIMPLEMENTED
      */
     @InterfaceAudience.Public
     public static class UnimplementedException extends KeeperException {
         public UnimplementedException() {
-            super(Code.UNIMPLEMENTED);
+            super(KECode.UNIMPLEMENTED);
         }
     }
 
     /**
-     * @see Code#NOWATCHER
+     * @see KECode#NOWATCHER
      */
     @InterfaceAudience.Public
     public static class NoWatcherException extends KeeperException {
         public NoWatcherException(String path) {
-            super(Code.NOWATCHER, path);
+            super(KECode.NOWATCHER, path);
         }
     }
 
     /**
-     * @see Code#RECONFIGDISABLED
+     * @see KECode#RECONFIGDISABLED
      */
     @InterfaceAudience.Public
     public static class ReconfigDisabledException extends KeeperException {
         public ReconfigDisabledException() {
-            super(Code.RECONFIGDISABLED);
+            super(KECode.RECONFIGDISABLED);
         }
     }
 }

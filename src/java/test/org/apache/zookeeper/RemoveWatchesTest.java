@@ -34,7 +34,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.zookeeper.clients.AsyncCallback;
 import org.apache.zookeeper.clients.client.common.ZKWatchManager;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.exception.KeeperException.Code;
+import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.exception.KeeperException.NoWatcherException;
 import org.apache.zookeeper.watcher.Event.EventType;
 import org.apache.zookeeper.watcher.Watcher;
@@ -92,7 +92,7 @@ public class RemoveWatchesTest extends ClientBase {
     }
 
     private void removeWatches(ZooKeeper zk, String path, Watcher watcher,
-            WatcherType watcherType, boolean local, KeeperException.Code rc)
+            WatcherType watcherType, boolean local, KeeperException.KECode rc)
             throws InterruptedException, KeeperException {
         LOG.info(
                 "Sending removeWatches req using zk {} path: {} type: {} watcher: {} ",
@@ -102,9 +102,9 @@ public class RemoveWatchesTest extends ClientBase {
             zk.removeWatches(path, watcher, watcherType, local, c1, null);
             Assert.assertTrue("Didn't succeeds removeWatch operation",
                     c1.matches());
-            if (KeeperException.Code.OK.intValue() != c1.rc) {
+            if (KeeperException.KECode.OK.intValue() != c1.rc) {
                 KeeperException ke = KeeperException
-                        .create(KeeperException.Code.get(c1.rc));
+                        .create(KECode.get(c1.rc));
                 throw ke;
             }
         } else {
@@ -113,7 +113,7 @@ public class RemoveWatchesTest extends ClientBase {
     }
 
     private void removeAllWatches(ZooKeeper zk, String path,
-            WatcherType watcherType, boolean local, KeeperException.Code rc)
+            WatcherType watcherType, boolean local, KeeperException.KECode rc)
             throws InterruptedException, KeeperException {
         LOG.info("Sending removeWatches req using zk {} path: {} type: {} ",
                 new Object[] { zk, path, watcherType });
@@ -122,9 +122,9 @@ public class RemoveWatchesTest extends ClientBase {
             zk.removeAllWatches(path, watcherType, local, c1, null);
             Assert.assertTrue("Didn't succeeds removeWatch operation",
                     c1.matches());
-            if (KeeperException.Code.OK.intValue() != c1.rc) {
+            if (KeeperException.KECode.OK.intValue() != c1.rc) {
                 KeeperException ke = KeeperException
-                        .create(KeeperException.Code.get(c1.rc));
+                        .create(KeeperException.KECode.get(c1.rc));
                 throw ke;
             }
         } else {
@@ -149,12 +149,12 @@ public class RemoveWatchesTest extends ClientBase {
                 "/node1" });
         Assert.assertNotNull("Didn't set data watches",
                 zk2.exists("/node2", w2));
-        removeWatches(zk2, "/node1", w1, WatcherType.Data, false, Code.OK);
+        removeWatches(zk2, "/node1", w1, WatcherType.Data, false, KeeperException.KECode.OK);
         Assert.assertEquals("Didn't find data watcher", 1,
                 zk2.getDataWatches().size());
         Assert.assertEquals("Didn't find data watcher", "/node2",
                 zk2.getDataWatches().get(0));
-        removeWatches(zk2, "/node2", w2, WatcherType.Any, false, Code.OK);
+        removeWatches(zk2, "/node2", w2, WatcherType.Any, false, KeeperException.KECode.OK);
         Assert.assertTrue("Didn't remove data watcher", w2.matches());
         // closing session should remove ephemeral nodes and trigger data
         // watches if any
@@ -190,12 +190,12 @@ public class RemoveWatchesTest extends ClientBase {
                 "/node1" });
         Assert.assertNotNull("Didn't set data watches",
                 zk2.exists("/node1", w2));
-        removeWatches(zk2, "/node1", w2, WatcherType.Data, false, Code.OK);
+        removeWatches(zk2, "/node1", w2, WatcherType.Data, false, KeeperException.KECode.OK);
         Assert.assertEquals("Didn't find data watcher", 1,
                 zk2.getDataWatches().size());
         Assert.assertEquals("Didn't find data watcher", "/node1",
                 zk2.getDataWatches().get(0));
-        removeWatches(zk2, "/node1", w1, WatcherType.Any, false, Code.OK);
+        removeWatches(zk2, "/node1", w1, WatcherType.Any, false, KeeperException.KECode.OK);
         Assert.assertTrue("Didn't remove data watcher", w2.matches());
         // closing session should remove ephemeral nodes and trigger data
         // watches if any
@@ -226,11 +226,11 @@ public class RemoveWatchesTest extends ClientBase {
         LOG.info("Adding child watcher {} on path {}", new Object[] { w2,
                 "/node1" });
         zk2.getChildren("/node1", w2);
-        removeWatches(zk2, "/node1", w2, WatcherType.Children, false, Code.OK);
+        removeWatches(zk2, "/node1", w2, WatcherType.Children, false, KECode.OK);
         Assert.assertTrue("Didn't remove child watcher", w2.matches());
         Assert.assertEquals("Didn't find child watcher", 1, zk2
                 .getChildWatches().size());
-        removeWatches(zk2, "/node1", w1, WatcherType.Any, false, Code.OK);
+        removeWatches(zk2, "/node1", w1, WatcherType.Any, false, KeeperException.KECode.OK);
         Assert.assertTrue("Didn't remove child watcher", w1.matches());
         // create child to see NodeChildren notification
         zk1.create("/node1/node2", null, Ids.OPEN_ACL_UNSAFE,
@@ -274,8 +274,8 @@ public class RemoveWatchesTest extends ClientBase {
         LOG.info("Adding child watcher {} on path {}", new Object[] { w2,
                 "/node1" });
         zk2.getChildren("/node1", w2);
-        removeWatches(zk2, "/node1", w1, WatcherType.Any, false, Code.OK);
-        removeWatches(zk2, "/node1", w2, WatcherType.Any, false, Code.OK);
+        removeWatches(zk2, "/node1", w1, WatcherType.Any, false, KeeperException.KECode.OK);
+        removeWatches(zk2, "/node1", w2, WatcherType.Any, false, KECode.OK);
         zk1.create("/node1/child", null, Ids.OPEN_ACL_UNSAFE,
                 CreateMode.EPHEMERAL);
         Assert.assertTrue("Didn't remove data watcher", w1.matches());
@@ -306,8 +306,8 @@ public class RemoveWatchesTest extends ClientBase {
         LOG.info("Adding child watcher {} on path {}", new Object[] { w2,
                 "/node1" });
         zk2.getChildren("/node1", w2);
-        removeWatches(zk2, "/node1", w1, WatcherType.Data, false, Code.OK);
-        removeWatches(zk2, "/node1", w2, WatcherType.Data, false, Code.OK);
+        removeWatches(zk2, "/node1", w1, WatcherType.Data, false, KeeperException.KECode.OK);
+        removeWatches(zk2, "/node1", w2, WatcherType.Data, false, KeeperException.KECode.OK);
         zk1.create("/node1/child", null, Ids.OPEN_ACL_UNSAFE,
                 CreateMode.EPHEMERAL);
         Assert.assertTrue("Didn't remove data watcher", w1.matches());
@@ -360,8 +360,8 @@ public class RemoveWatchesTest extends ClientBase {
         LOG.info("Adding child watcher {} on path {}", new Object[] { w2,
                 "/node1" });
         zk2.getChildren("/node1", w2);
-        removeWatches(zk2, "/node1", w1, WatcherType.Children, false, Code.OK);
-        removeWatches(zk2, "/node1", w2, WatcherType.Children, false, Code.OK);
+        removeWatches(zk2, "/node1", w1, WatcherType.Children, false, KECode.OK);
+        removeWatches(zk2, "/node1", w2, WatcherType.Children, false, KeeperException.KECode.OK);
         zk1.setData("/node1", "test".getBytes(), -1);
         Assert.assertTrue("Didn't remove child watcher", w1.matches());
         Assert.assertTrue("Didn't remove child watcher", w2.matches());
@@ -417,28 +417,28 @@ public class RemoveWatchesTest extends ClientBase {
 
         try {
             removeWatches(zk2, "/node1", w3, WatcherType.Any, false,
-                    Code.NOWATCHER);
+                    KeeperException.KECode.NOWATCHER);
             Assert.fail("Should throw exception as given watcher doesn't exists");
         } catch (KeeperException.NoWatcherException nwe) {
             // expected
         }
         try {
             removeWatches(zk2, "/node1", w3, WatcherType.Children, false,
-                    Code.NOWATCHER);
+                    KECode.NOWATCHER);
             Assert.fail("Should throw exception as given watcher doesn't exists");
         } catch (KeeperException.NoWatcherException nwe) {
             // expected
         }
         try {
             removeWatches(zk2, "/node1", w3, WatcherType.Data, false,
-                    Code.NOWATCHER);
+                    KeeperException.KECode.NOWATCHER);
             Assert.fail("Should throw exception as given watcher doesn't exists");
         } catch (KeeperException.NoWatcherException nwe) {
             // expected
         }
         try {
             removeWatches(zk2, "/nonexists", w3, WatcherType.Data, false,
-                    Code.NOWATCHER);
+                    KECode.NOWATCHER);
             Assert.fail("Should throw exception as given watcher doesn't exists");
         } catch (KeeperException.NoWatcherException nwe) {
             // expected
@@ -467,13 +467,13 @@ public class RemoveWatchesTest extends ClientBase {
         LOG.info("Adding child watcher {} on path {}", new Object[] { w2,
                 "/node1" });
         zk2.getChildren("/node1", w2);
-        removeWatches(zk2, "/node1", w1, WatcherType.Any, false, Code.OK);
+        removeWatches(zk2, "/node1", w1, WatcherType.Any, false, KeeperException.KECode.OK);
         Assert.assertTrue("Didn't remove data watcher", w1.matches());
         Assert.assertEquals("Didn't find child watcher", 1, zk2
                 .getChildWatches().size());
         Assert.assertEquals("Didn't find data watcher", 1, zk2
                 .getDataWatches().size());
-        removeWatches(zk2, "/node1", w2, WatcherType.Any, false, Code.OK);
+        removeWatches(zk2, "/node1", w2, WatcherType.Any, false, KECode.OK);
         Assert.assertTrue("Didn't remove child watcher", w2.matches());
     }
 
@@ -497,13 +497,13 @@ public class RemoveWatchesTest extends ClientBase {
         LOG.info("Adding child watcher {} on path {}", new Object[] { w2,
                 "/node1" });
         zk2.getChildren("/node1", w1);
-        removeWatches(zk2, "/node1", w2, WatcherType.Any, false, Code.OK);
+        removeWatches(zk2, "/node1", w2, WatcherType.Any, false, KECode.OK);
         Assert.assertTrue("Didn't remove child watcher", w2.matches());
         Assert.assertEquals("Didn't find child watcher", 1, zk2
                 .getChildWatches().size());
         Assert.assertEquals("Didn't find data watcher", 1, zk2
                 .getDataWatches().size());
-        removeWatches(zk2, "/node1", w1, WatcherType.Any, false, Code.OK);
+        removeWatches(zk2, "/node1", w1, WatcherType.Any, false, KeeperException.KECode.OK);
         Assert.assertTrue("Didn't remove watchers", w1.matches());
     }
 
@@ -528,12 +528,12 @@ public class RemoveWatchesTest extends ClientBase {
                 "/node1" });
         zk2.getChildren("/node1", w2);
         stopServer();
-        removeWatches(zk2, "/node1", w2, WatcherType.Any, true, Code.OK);
+        removeWatches(zk2, "/node1", w2, WatcherType.Any, true, KeeperException.KECode.OK);
         Assert.assertTrue("Didn't remove child watcher", w2.matches());
         Assert.assertFalse("Shouldn't remove data watcher", w1.matches());
         try {
             removeWatches(zk2, "/node1", w1, WatcherType.Any, false,
-                    Code.CONNECTIONLOSS);
+                    KECode.CONNECTIONLOSS);
             Assert.fail("Should throw exception as last watch removal requires server connection");
         } catch (KeeperException.ConnectionLossException nwe) {
             // expected
@@ -542,7 +542,7 @@ public class RemoveWatchesTest extends ClientBase {
 
         // when local=true, here if connection not available, simply removes
         // from local session
-        removeWatches(zk2, "/node1", w1, WatcherType.Any, true, Code.OK);
+        removeWatches(zk2, "/node1", w1, WatcherType.Any, true, KECode.OK);
         Assert.assertTrue("Didn't remove data watcher", w1.matches());
     }
 
@@ -570,7 +570,7 @@ public class RemoveWatchesTest extends ClientBase {
         for (int i = 0; i < count; i++) {
             final MyWatcher watcher = wList.get(i);
             removeWatches(zk1, path + i, watcher, WatcherType.Data, false,
-                    Code.OK);
+                    KeeperException.KECode.OK);
             Assert.assertTrue("Didn't remove data watcher", watcher.matches());
         }
         Assert.assertEquals("Didn't remove watch references!", 0, zk1
@@ -609,7 +609,7 @@ public class RemoveWatchesTest extends ClientBase {
         for (int i = 0; i < count; i++) {
             final MyWatcher watcher = wList.get(i);
             removeWatches(zk1, path + i, watcher, WatcherType.Children, false,
-                    Code.OK);
+                    KeeperException.KECode.OK);
             Assert.assertTrue("Didn't remove child watcher", watcher.matches());
         }
         Assert.assertEquals("Didn't remove watch references!", 0, zk1
@@ -644,7 +644,7 @@ public class RemoveWatchesTest extends ClientBase {
         for (int i = 0; i < count; i++) {
             final MyWatcher watcher = wList.get(i);
             removeWatches(zk1, path + i, watcher, WatcherType.Data, false,
-                    Code.OK);
+                    KeeperException.KECode.OK);
             Assert.assertTrue("Didn't remove data watcher", watcher.matches());
         }
         Assert.assertEquals("Didn't remove watch references!", 0, zk1
@@ -696,7 +696,7 @@ public class RemoveWatchesTest extends ClientBase {
         for (int i = 0; i < count; i++) {
             final MyWatcher watcher = wList.get(i);
             removeWatches(zk1, path + i, watcher, WatcherType.Any, true,
-                    Code.OK);
+                    KeeperException.KECode.OK);
             Assert.assertTrue("Didn't remove watcher", watcher.matches());
         }
         Assert.assertEquals("Didn't remove watch references!", 0, zk1
@@ -738,11 +738,11 @@ public class RemoveWatchesTest extends ClientBase {
         LOG.info("Adding child watcher {} on path {}", new Object[] { w2,
                 "/node1" });
         zk2.getChildren("/node1", w1);
-        removeWatches(zk2, "/node1", w1, WatcherType.Any, false, Code.OK);
+        removeWatches(zk2, "/node1", w1, WatcherType.Any, false, KeeperException.KECode.OK);
         Assert.assertTrue("Didn't remove child watcher", w1.matches());
         Assert.assertEquals("Didn't find child watcher", 1, zk2
                 .getChildWatches().size());
-        removeWatches(zk2, "/node1", w2, WatcherType.Any, false, Code.OK);
+        removeWatches(zk2, "/node1", w2, WatcherType.Any, false, KECode.OK);
         Assert.assertTrue("Didn't remove child watcher", w2.matches());
     }
 
@@ -779,13 +779,13 @@ public class RemoveWatchesTest extends ClientBase {
         try {
             zk.removeWatches("/nowatchhere", watcher, WatcherType.Data, false);
         } catch (KeeperException nwe) {
-            if (nwe.code().intValue() == Code.NOWATCHER.intValue()) {
+            if (nwe.code().intValue() == KeeperException.KECode.NOWATCHER.intValue()) {
                 nw = true;
             }
         }
 
         Assert.assertTrue("Server didn't return NOWATCHER",
-                zk.getRemoveWatchesRC() == Code.NOWATCHER.intValue());
+                zk.getRemoveWatchesRC() == KECode.NOWATCHER.intValue());
         Assert.assertTrue("NoWatcherException didn't happen", nw);
     }
 
@@ -798,7 +798,7 @@ public class RemoveWatchesTest extends ClientBase {
         zk1.create("/node1", null, Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
         try {
             removeAllWatches(zk2, "/node1", WatcherType.Any, false,
-                    Code.NOWATCHER);
+                    KeeperException.KECode.NOWATCHER);
             Assert.fail("Should throw exception as given watcher doesn't exists");
         } catch (KeeperException.NoWatcherException nwe) {
             // expected
@@ -859,7 +859,7 @@ public class RemoveWatchesTest extends ClientBase {
         Assert.assertNotNull("Didn't set data watches",
                 zk2.exists("/node1", w2));
 
-        removeWatches(zk2, "/node1", w1, WatcherType.Data, false, Code.OK);
+        removeWatches(zk2, "/node1", w1, WatcherType.Data, false, KeeperException.KECode.OK);
         Assert.assertTrue("Didn't remove data watcher",
                 rmWatchCount.await(CONNECTION_TIMEOUT, TimeUnit.MILLISECONDS));
 
@@ -904,7 +904,7 @@ public class RemoveWatchesTest extends ClientBase {
         Assert.assertEquals("Didn't set child watches", 0,
                 zk2.getChildren("/node1", w2).size());
 
-        removeWatches(zk2, "/node1", w1, WatcherType.Children, false, Code.OK);
+        removeWatches(zk2, "/node1", w1, WatcherType.Children, false, KeeperException.KECode.OK);
         Assert.assertTrue("Didn't remove child watcher",
                 rmWatchCount.await(CONNECTION_TIMEOUT, TimeUnit.MILLISECONDS));
 
@@ -968,7 +968,7 @@ public class RemoveWatchesTest extends ClientBase {
         Assert.assertTrue("Server session is not a watcher",
                 isServerSessionWatcher(zk2.getSessionId(), "/node1",
                 WatcherType.Data));
-        removeAllWatches(zk2, "/node1", WatcherType.Data, false, Code.OK);
+        removeAllWatches(zk2, "/node1", WatcherType.Data, false, KECode.OK);
         Assert.assertTrue("Didn't remove data watcher",
                 rmWatchCount.await(CONNECTION_TIMEOUT, TimeUnit.MILLISECONDS));
 
@@ -1029,7 +1029,7 @@ public class RemoveWatchesTest extends ClientBase {
         Assert.assertTrue("Server session is not a watcher",
                 isServerSessionWatcher(zk2.getSessionId(), "/node1",
                 WatcherType.Children));
-        removeAllWatches(zk2, "/node1", WatcherType.Children, false, Code.OK);
+        removeAllWatches(zk2, "/node1", WatcherType.Children, false, KeeperException.KECode.OK);
         Assert.assertTrue("Didn't remove child watcher",
                 rmWatchCount.await(CONNECTION_TIMEOUT, TimeUnit.MILLISECONDS));
 
@@ -1104,7 +1104,7 @@ public class RemoveWatchesTest extends ClientBase {
         Assert.assertTrue("Server session is not a watcher",
                 isServerSessionWatcher(zk2.getSessionId(), "/node1",
                 WatcherType.Data));
-        removeAllWatches(zk2, "/node1", WatcherType.Any, false, Code.OK);
+        removeAllWatches(zk2, "/node1", WatcherType.Any, false, KeeperException.KECode.OK);
         Assert.assertTrue("Didn't remove data watcher",
                 rmWatchCount.await(CONNECTION_TIMEOUT, TimeUnit.MILLISECONDS));
         Assert.assertFalse("Server session is still a watcher after removal",

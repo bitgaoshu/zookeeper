@@ -26,7 +26,6 @@ import org.apache.zookeeper.clients.AsyncCallback.StringCallback;
 import org.apache.zookeeper.clients.AsyncCallback.VoidCallback;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.exception.KeeperException.Code;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.clients.client.ZooKeeper;
@@ -86,7 +85,7 @@ public class AsyncTest extends ZKTestCase
                 }
             }
             Assert.assertEquals(0, (int) results.get(0));
-            Assert.assertEquals(Code.NOAUTH, Code.get(results.get(1)));
+            Assert.assertEquals(KeeperException.KECode.NOAUTH, KeeperException.KECode.get(results.get(1)));
             Assert.assertEquals(0, (int) results.get(2));
             Assert.assertEquals(0, (int) results.get(3));
             Assert.assertEquals(0, (int) results.get(4));
@@ -101,7 +100,7 @@ public class AsyncTest extends ZKTestCase
                 zk.getData("/ben2", false, new Stat());
                 Assert.fail("Should have received a permission error");
             } catch (KeeperException e) {
-                Assert.assertEquals(Code.NOAUTH, e.code());
+                Assert.assertEquals(KeeperException.KECode.NOAUTH, e.code());
             }
         } finally {
             zk.close();

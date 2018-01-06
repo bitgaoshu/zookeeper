@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.common.AtomicFileOutputStream;
+import org.apache.zookeeper.server.common.AtomicFileOutputStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

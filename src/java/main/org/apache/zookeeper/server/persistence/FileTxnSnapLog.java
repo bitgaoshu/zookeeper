@@ -27,7 +27,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.jute.Record;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.exception.KeeperException.Code;
 import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.server.DataTree;
 import org.apache.zookeeper.server.DataTree.ProcessTxnResult;
@@ -315,7 +314,7 @@ public class FileTxnSnapLog {
          * snapshot. Then when the snapshot is restored, NONODE/NODEEXISTS
          * errors could occur. It should be safe to ignore these.
          */
-        if (rc.err != Code.OK.intValue()) {
+        if (rc.err != KeeperException.KECode.OK.intValue()) {
             LOG.debug(
                     "Ignoring processTxn failure hdr: {}, error: {}, path: {}",
                     hdr.getType(), rc.err, rc.path);

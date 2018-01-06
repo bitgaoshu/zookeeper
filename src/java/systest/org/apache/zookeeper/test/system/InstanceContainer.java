@@ -70,11 +70,11 @@ public class InstanceContainer implements Watcher, AsyncCallback.ChildrenCallbac
         }
         public void processResult(int rc, String path,
                 Object ctx, byte[] data, Stat stat) {
-            if (rc == KeeperException.Code.NONODE.intValue()) {
+            if (rc == KeeperException.KECode.NONODE.intValue()) {
                 // we can just ignore because the child watcher takes care of this
                 return;
             }
-            if (rc != KeeperException.Code.OK.intValue()) {
+            if (rc != KeeperException.KECode.OK.intValue()) {
                 zk.getData(myNode, (Watcher)ctx, this, ctx);
             }
             int currVer = stat.getVersion();
@@ -229,7 +229,7 @@ public class InstanceContainer implements Watcher, AsyncCallback.ChildrenCallbac
 
     @Override
     public void processResult(int rc, String path, Object ctx, List<String> children) {
-        if (rc != KeeperException.Code.OK.intValue()) {
+        if (rc != KeeperException.KECode.OK.intValue()) {
             // try it again
             zk.getChildren(assignmentsNode, true, this, null);
             return;

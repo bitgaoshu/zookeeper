@@ -33,7 +33,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.net.Socket;
 
-import org.apache.zookeeper.common.Time;
+import org.apache.zookeeper.server.common.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.PortAssignment;

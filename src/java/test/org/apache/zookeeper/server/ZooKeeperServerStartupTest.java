@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.common.X509Exception.SSLContextException;
+import org.apache.zookeeper.server.common.X509Exception.SSLContextException;
 import org.apache.zookeeper.server.cnxn.NettyCnxn.NettyServerCnxnFactory;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;

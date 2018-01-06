@@ -46,7 +46,7 @@ public interface AuthenticationProvider {
      *                the authentication data received.
      * @return TODO
      */
-    KeeperException.Code handleAuthentication(ServerCnxn cnxn, byte authData[]);
+    KeeperException.KECode handleAuthentication(ServerCnxn cnxn, byte authData[]);
 
     /**
      * This method is called to see if the given id matches the given id
