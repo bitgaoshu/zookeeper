@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -28,7 +28,7 @@ public class VerGen {
     private static final String PACKAGE_NAME = "org.apache.zookeeper.version";
     private static final String TYPE_NAME = "VersionInfo";
 
-    static void printUsage() {
+    private static void printUsage() {
         System.out.print("Usage:\tjava  -cp <classpath> org.apache.zookeeper."
                 + "version.util.VerGen maj.min.micro[-qualifier] rev buildDate");
         System.exit(1);
