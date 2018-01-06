@@ -31,7 +31,8 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.zookeeper.cli.AsyncCallback;
+import org.apache.zookeeper.clients.AsyncCallback;
+import org.apache.zookeeper.clients.client.common.ZKWatchManager;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.Code;
 import org.apache.zookeeper.exception.KeeperException.NoWatcherException;
@@ -1243,7 +1244,7 @@ public class RemoveWatchesTest extends ClientBase {
     /**
      * Checks if a session is registered with the server as a watcher.
      *
-     * @param long sessionId the session ID to check
+     * @param sessionId the session ID to check
      * @param path the path to check for watchers
      * @param type the type of watcher
      * @return true if the client session is a watcher on path for the type

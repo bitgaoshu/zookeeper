@@ -15,18 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper;
+package org.apache.zookeeper.clients.client.clientSocket;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.apache.zookeeper.clients.client.common.ZKClientConfig;
+import org.apache.zookeeper.common.ZKConfig;
+import org.junit.Test;
 
 import java.io.IOException;
 
-import org.apache.zookeeper.clients.client.common.ZKClientConfig;
-import org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNIO;
-import org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNetty;
-import org.apache.zookeeper.common.ZKConfig;
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class ClientCnxnSocketTest {
 

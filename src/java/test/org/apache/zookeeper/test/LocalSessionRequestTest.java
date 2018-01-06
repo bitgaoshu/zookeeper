@@ -20,7 +20,6 @@ package org.apache.zookeeper.test;
 
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.server.TraceFormatter;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.quorum.Leader.Proposal;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
@@ -84,7 +83,7 @@ public class LocalSessionRequestTest extends ZKTestCase {
         ZKDatabase db = peer.getActiveServer().getZKDatabase();
         for (Proposal p : db.getCommittedLog()) {
             Assert.assertFalse("Should not see " +
-                               TraceFormatter.op2String(p.request.type) +
+                                p.request.op.name() +
                                " request from local session 0x" + session +
                                " on the " + peerType,
                                p.request.sessionId == sessionId);

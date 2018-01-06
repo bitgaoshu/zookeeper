@@ -23,7 +23,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.zookeeper.TestableZooKeeper;
+import org.apache.zookeeper.clients.client.clientSocket.TestableZooKeeper;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.watcher.Event.KeeperState;

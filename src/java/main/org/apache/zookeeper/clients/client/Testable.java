@@ -15,12 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.server;
 
-import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
+package org.apache.zookeeper.clients.client;
 
-public class ServerCnxnFactoryAccessor {
-    public static ZooKeeperServer getZkServer(ServerCnxnFactory fac) {
-	return fac.zkServer;
-    }
+/**
+ * Abstraction that exposes various methods useful for testing ZooKeeper
+ */
+public interface Testable {
+    /**
+     * Cause the ZooKeeper instance to behave as if the session expired
+     */
+    void injectSessionExpiration();
 }

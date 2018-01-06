@@ -50,15 +50,15 @@ import org.junit.runners.Parameterized.Parameters;
 
 import org.apache.jute.InputArchive;
 import org.apache.jute.OutputArchive;
-import org.apache.zookeeper.MockPacket;
+import org.apache.zookeeper.clients.client.clientSocket.MockPacket;
 import org.apache.zookeeper.proto.ConnectRequest;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.proto.RequestHeader;
 import org.apache.zookeeper.proto.SetWatches;
-import org.apache.zookeeper.server.MockNIOServerCnxn;
+import org.apache.zookeeper.server.cnxn.NIOCnxn.MockNIOServerCnxn;
 import org.apache.zookeeper.server.cnxn.NIOCnxn.NIOServerCnxn;
 import org.apache.zookeeper.server.cnxn.NIOCnxn.NIOServerCnxnFactory;
-import org.apache.zookeeper.server.MockSelectorThread;
+import org.apache.zookeeper.server.cnxn.NIOCnxn.MockSelectorThread;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.ZKParameterized;
@@ -256,7 +256,7 @@ public class WatchLeakTest {
         SetWatches sw = new SetWatches(1L, dataWatches, existWatches,
                 childWatches);
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.setWatches);
+        h.setType(OpCode.setWatches.getValue());
         h.setXid(-8);
         MockPacket p = new MockPacket(h, new ReplyHeader(), sw, null, null);
         return p.createAndReturnBB();

@@ -23,7 +23,7 @@ import org.apache.zookeeper.Quotas;
 import org.apache.zookeeper.StatsTrack;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.ZooDefs.Ids;
-import org.apache.zookeeper.admin.ZooKeeperAdmin;
+import org.apache.zookeeper.clients.admin.ZooKeeperAdmin;
 import org.apache.zookeeper.clients.cliCmds.AddAuthCommand;
 import org.apache.zookeeper.clients.cliCmds.CliCommand;
 import org.apache.zookeeper.clients.cliCmds.CliException;

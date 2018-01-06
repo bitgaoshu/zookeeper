@@ -128,7 +128,7 @@ public class Follower extends Learner{
             }
             lastQueued = hdr.getZxid();
             
-            if (hdr.getType() == OpCode.reconfig){
+            if (hdr.getType() == OpCode.reconfig.getValue()){
                SetDataTxn setDataTxn = (SetDataTxn) txn;       
                QuorumVerifier qv = self.configFromString(new String(setDataTxn.getData()));
                self.setLastSeenQuorumVerifier(qv, true);                               

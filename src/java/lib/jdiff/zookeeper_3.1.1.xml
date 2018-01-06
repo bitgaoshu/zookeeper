@@ -343,7 +343,7 @@
     </doc>
   </class>
   <!-- end class org.apache.zookeeper.utils.CreateMode -->
-  <!-- start class org.apache.zookeeper.logEnv.LogEnv  <class name="Environment" extends="java.lang.Object"
+  <!-- start class org.apache.zookeeper.util.LogEnv  <class name="Environment" extends="java.lang.Object"
     abstract="false"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
@@ -367,7 +367,7 @@
     <![CDATA[Provide insight into the runtime environment.]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.logEnv.LogEnv  <!-- start class org.apache.zookeeper.logEnv.LogEnvy -->
+  <!-- end class org.apache.zookeeper.util.LogEnv  <!-- start class org.apache.zookeeper.logEnv.LogEnvy -->
   <class name="Environment.Entry" extends="java.lang.Object"
     abstract="false"
     static="true" final="false" visibility="public"

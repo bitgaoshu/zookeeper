@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.cnxn;
 
 import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -26,8 +26,7 @@ import java.util.Arrays;
 import javax.management.ObjectName;
 
 import org.apache.zookeeper.common.Time;
-import org.apache.zookeeper.server.cnxn.ServerCnxn;
-import org.apache.zookeeper.server.cnxn.Stats;
+import org.apache.zookeeper.server.ZooKeeperServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.jmx.MBeanRegistry;

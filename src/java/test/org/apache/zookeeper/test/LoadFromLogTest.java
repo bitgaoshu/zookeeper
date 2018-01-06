@@ -246,7 +246,7 @@ public class LoadFromLogTest extends ZKTestCase {
      * Does create/delete depending on the type and verifies
      * if cversion before the operation is 1 less than cversion afer.
      */
-    private void doOp(FileTxnSnapLog logFile, int type, String path,
+    private void doOp(FileTxnSnapLog logFile, OpCode type, String path,
             DataTree dt, DataNode parent, int cversion) throws Exception {
         int lastSlash = path.lastIndexOf('/');
         String parentName = path.substring(0, lastSlash);
@@ -266,26 +266,26 @@ public class LoadFromLogTest extends ZKTestCase {
         if (type == OpCode.delete) {
             txn = new DeleteTxn(path);
             txnHeader = new TxnHeader(0xabcd, 0x123, prevPzxid + 1,
-                Time.currentElapsedTime(), OpCode.delete);
+                Time.currentElapsedTime(), OpCode.delete.getValue());
         } else if (type == OpCode.create) {
             txnHeader = new TxnHeader(0xabcd, 0x123, prevPzxid + 1,
-                    Time.currentElapsedTime(), OpCode.create);
+                    Time.currentElapsedTime(), OpCode.create.getValue());
             txn = new CreateTxn(path, new byte[0], null, false, cversion);
         }
         else if (type == OpCode.multi) {
             txnHeader = new TxnHeader(0xabcd, 0x123, prevPzxid + 1,
-                    Time.currentElapsedTime(), OpCode.create);
+                    Time.currentElapsedTime(), OpCode.create.getValue());
             txn = new CreateTxn(path, new byte[0], null, false, cversion);
             List<Txn> txnList = new ArrayList<Txn>();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             BinaryOutputArchive boa = BinaryOutputArchive.getArchive(baos);
             txn.serialize(boa, "request") ;
             ByteBuffer bb = ByteBuffer.wrap(baos.toByteArray());
-            Txn txact = new Txn(OpCode.create,  bb.array());
+            Txn txact = new Txn(OpCode.create.getValue(),  bb.array());
             txnList.add(txact);
             txn = new MultiTxn(txnList);
             txnHeader = new TxnHeader(0xabcd, 0x123, prevPzxid + 1,
-                    Time.currentElapsedTime(), OpCode.multi);
+                    Time.currentElapsedTime(), OpCode.multi.getValue());
         }
         logFile.processTransaction(txnHeader, dt, null, txn);
 
@@ -312,7 +312,7 @@ public class LoadFromLogTest extends ZKTestCase {
         File tmpDir = ClientBase.createTmpDir();
         FileTxnLog txnLog = new FileTxnLog(tmpDir);
         TxnHeader txnHeader = new TxnHeader(0xabcd, 0x123, 0x123,
-              Time.currentElapsedTime(), OpCode.create);
+              Time.currentElapsedTime(), OpCode.create.getValue());
         Record txn = new CreateTxn("/Test", new byte[0], null, false, 1);
         txnLog.append(txnHeader, txn);
         FileInputStream in = new FileInputStream(tmpDir.getPath() + "/log." +

@@ -1,7 +1,6 @@
 package org.apache.zookeeper.clients.client;
 
-import org.apache.zookeeper.*;
-import org.apache.zookeeper.cli.AsyncCallback;
+import org.apache.zookeeper.clients.AsyncCallback;
 import org.apache.zookeeper.clients.client.common.*;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.data.ACL;
@@ -20,9 +19,9 @@ import java.net.SocketAddress;
 import java.util.List;
 
 
-public class ZKEmbedded extends ZooKeeper{
+public class ZooKeeperEmbd extends ZooKeeper{
 
-    private static final Logger log = LoggerFactory.getLogger(ZKEmbedded.class);
+    private static final Logger log = LoggerFactory.getLogger(ZooKeeperEmbd.class);
 
     @Override
     public void updateServerList(String connectString) throws IOException {
@@ -54,45 +53,40 @@ public class ZKEmbedded extends ZooKeeper{
         return super.getChildWatches();
     }
 
-    public ZKEmbedded(String connectString, int sessionTimeout, Watcher watcher) throws IOException {
+    public ZooKeeperEmbd(String connectString, int sessionTimeout, Watcher watcher) throws IOException {
         super(connectString, sessionTimeout, watcher);
     }
 
-    public ZKEmbedded(String connectString, int sessionTimeout, Watcher watcher, ZKClientConfig conf) throws IOException {
+    public ZooKeeperEmbd(String connectString, int sessionTimeout, Watcher watcher, ZKClientConfig conf) throws IOException {
         super(connectString, sessionTimeout, watcher, conf);
     }
 
-    public ZKEmbedded(String connectString, int sessionTimeout, Watcher watcher, boolean canBeReadOnly, HostProvider aHostProvider) throws IOException {
+    public ZooKeeperEmbd(String connectString, int sessionTimeout, Watcher watcher, boolean canBeReadOnly, HostProvider aHostProvider) throws IOException {
         super(connectString, sessionTimeout, watcher, canBeReadOnly, aHostProvider);
     }
 
-    public ZKEmbedded(String connectString, int sessionTimeout, Watcher watcher, boolean canBeReadOnly, HostProvider aHostProvider, ZKClientConfig clientConfig) throws IOException {
+    public ZooKeeperEmbd(String connectString, int sessionTimeout, Watcher watcher, boolean canBeReadOnly, HostProvider aHostProvider, ZKClientConfig clientConfig) throws IOException {
         super(connectString, sessionTimeout, watcher, canBeReadOnly, aHostProvider, clientConfig);
     }
 
-    public ZKEmbedded(String connectString, int sessionTimeout, Watcher watcher, boolean canBeReadOnly) throws IOException {
+    public ZooKeeperEmbd(String connectString, int sessionTimeout, Watcher watcher, boolean canBeReadOnly) throws IOException {
         super(connectString, sessionTimeout, watcher, canBeReadOnly);
     }
 
-    public ZKEmbedded(String connectString, int sessionTimeout, Watcher watcher, boolean canBeReadOnly, ZKClientConfig conf) throws IOException {
+    public ZooKeeperEmbd(String connectString, int sessionTimeout, Watcher watcher, boolean canBeReadOnly, ZKClientConfig conf) throws IOException {
         super(connectString, sessionTimeout, watcher, canBeReadOnly, conf);
     }
 
-    public ZKEmbedded(String connectString, int sessionTimeout, Watcher watcher, long sessionId, byte[] sessionPasswd) throws IOException {
+    public ZooKeeperEmbd(String connectString, int sessionTimeout, Watcher watcher, long sessionId, byte[] sessionPasswd) throws IOException {
         super(connectString, sessionTimeout, watcher, sessionId, sessionPasswd);
     }
 
-    public ZKEmbedded(String connectString, int sessionTimeout, Watcher watcher, long sessionId, byte[] sessionPasswd, boolean canBeReadOnly, HostProvider aHostProvider) throws IOException {
+    public ZooKeeperEmbd(String connectString, int sessionTimeout, Watcher watcher, long sessionId, byte[] sessionPasswd, boolean canBeReadOnly, HostProvider aHostProvider) throws IOException {
         super(connectString, sessionTimeout, watcher, sessionId, sessionPasswd, canBeReadOnly, aHostProvider);
     }
 
-    public ZKEmbedded(String connectString, int sessionTimeout, Watcher watcher, long sessionId, byte[] sessionPasswd, boolean canBeReadOnly) throws IOException {
+    public ZooKeeperEmbd(String connectString, int sessionTimeout, Watcher watcher, long sessionId, byte[] sessionPasswd, boolean canBeReadOnly) throws IOException {
         super(connectString, sessionTimeout, watcher, sessionId, sessionPasswd, canBeReadOnly);
-    }
-
-    @Override
-    public Testable getTestable() {
-        return super.getTestable();
     }
 
     @Override

@@ -16,13 +16,13 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper;
+package org.apache.zookeeper.clients.client.clientSocket;
 
-import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn;
-import org.apache.zookeeper.proto.RequestHeader;
-import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.jute.Record;
 import org.apache.zookeeper.clients.client.ZooKeeper.WatchRegistration;
+import org.apache.zookeeper.proto.ReplyHeader;
+import org.apache.zookeeper.proto.RequestHeader;
+
 import java.nio.ByteBuffer;
 
 public class MockPacket extends ClientCnxn.Packet {

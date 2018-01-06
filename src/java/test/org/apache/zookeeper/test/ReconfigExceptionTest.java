@@ -28,7 +28,7 @@ import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.PortAssignment;
-import org.apache.zookeeper.admin.ZooKeeperAdmin;
+import org.apache.zookeeper.clients.admin.ZooKeeperAdmin;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.data.Stat;

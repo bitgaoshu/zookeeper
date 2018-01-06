@@ -784,7 +784,7 @@ public class NIOServerCnxnFactory extends ServerCnxnFactory {
      * by the factory.
      */
     public boolean removeCnxn(NIOServerCnxn cnxn) {
-        // If the connection is not in the master list it's already been closed
+        // If the connection is not in the master map it's already been closed
         if (!cnxns.remove(cnxn)) {
             return false;
         }

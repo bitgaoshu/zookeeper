@@ -55,7 +55,7 @@ import org.slf4j.LoggerFactory;
  * 
  * For every peer, the manager maintains a queue of messages to send. If the
  * connection to any particular peer drops, then the sender thread puts the
- * message back on the list. As this implementation currently uses a queue
+ * message back on the map. As this implementation currently uses a queue
  * implementation to maintain messages to send to another peer, we add the
  * message to the tail of the queue, thus changing the order of messages.
  * Although this is not a problem for the leader election, it could be a problem

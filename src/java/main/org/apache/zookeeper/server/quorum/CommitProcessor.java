@@ -130,22 +130,22 @@ public class CommitProcessor extends ZooKeeperCriticalThread implements
     }
 
     protected boolean needCommit(Request request) {
-        switch (request.type) {
-            case OpCode.create:
-            case OpCode.create2:
-            case OpCode.createTTL:
-            case OpCode.createContainer:
-            case OpCode.delete:
-            case OpCode.deleteContainer:
-            case OpCode.setData:
-            case OpCode.reconfig:
-            case OpCode.multi:
-            case OpCode.setACL:
+        switch (request.op) {
+            case create:
+            case create2:
+            case createTTL:
+            case createContainer:
+            case delete:
+            case deleteContainer:
+            case setData:
+            case reconfig:
+            case multi:
+            case setACL:
                 return true;
-            case OpCode.sync:
+            case sync:
                 return matchSyncs;    
-            case OpCode.createSession:
-            case OpCode.closeSession:
+            case createSession:
+            case closeSession:
                 return !request.isLocalSession();
             default:
                 return false;

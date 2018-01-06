@@ -279,7 +279,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
      */
     void rollbackPendingChanges(long zxid, Map<String, ChangeRecord> pendingChangeRecords) {
         synchronized (zks.outstandingChanges) {
-            // Grab a list iterator starting at the END of the list so we can iterate in reverse
+            // Grab a map iterator starting at the END of the map so we can iterate in reverse
             ListIterator<ChangeRecord> iter = zks.outstandingChanges.listIterator(zks.outstandingChanges.size());
             while (iter.hasPrevious()) {
                 ChangeRecord c = iter.previous();

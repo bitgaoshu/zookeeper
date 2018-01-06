@@ -122,9 +122,9 @@ public class FileTxnSnapLogTest {
         FileTxnSnapLog fileTxnSnapLog = new FileTxnSnapLog(new File(tmpDir, "data"),
                 new File(tmpDir, "data_txnlog"));
 
-        TxnHeader hdr = new TxnHeader(1, 1, 1, 1, OpCode.setData);
+        TxnHeader hdr = new TxnHeader(1, 1, 1, 1, OpCode.setData.getValue());
         Record txn = new SetDataTxn("/foo", new byte[0], 1);
-        Request req = new Request(0, 0, 0, hdr, txn, 0);
+        Request req = new Request(0, 0, OpCode.notification, hdr, txn, 0);
 
         try {
             fileTxnSnapLog.append(req);

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper;
+package org.apache.zookeeper.clients.client.clientSocket;
 
 import java.io.IOException;
 import java.net.SocketAddress;
@@ -25,7 +25,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.jute.Record;
-import org.apache.zookeeper.admin.ZooKeeperAdmin;
+import org.apache.zookeeper.clients.admin.ZooKeeperAdmin;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.proto.RequestHeader;
 import org.apache.zookeeper.watcher.Watcher;
@@ -60,7 +60,7 @@ public class TestableZooKeeper extends ZooKeeperAdmin {
      */
     public void testableConnloss() throws IOException {
         synchronized(cnxn) {
-            cnxn.sendThread.testableCloseSocket();
+            cnxn.testableCloseSocket();
         }
     }
 
@@ -77,7 +77,7 @@ public class TestableZooKeeper extends ZooKeeperAdmin {
                 synchronized(cnxn) {
                     try {
                         try {
-                            cnxn.sendThread.testableCloseSocket();
+                            cnxn.testableCloseSocket();
                         } catch (IOException e) {
                             e.printStackTrace();
                         } finally {

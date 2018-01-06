@@ -27,7 +27,7 @@ import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.admin.ZooKeeperAdmin;
+import org.apache.zookeeper.clients.admin.ZooKeeperAdmin;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.test.ReconfigTest;
 import org.junit.Assert;

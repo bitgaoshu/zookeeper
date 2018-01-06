@@ -16,14 +16,17 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper;
+package org.apache.zookeeper.server.cnxn.NIOCnxn;
 
-/**
- * Abstraction that exposes various methods useful for testing ZooKeeper
- */
-public interface Testable {
-    /**
-     * Cause the ZooKeeper instance to behave as if the session expired
-     */
-    void injectSessionExpiration();
+import java.io.IOException;
+import java.nio.channels.SelectionKey;
+
+public class MockSelectorThread extends NIOServerCnxnFactory.SelectorThread {
+    public MockSelectorThread(NIOServerCnxnFactory fact) throws IOException {
+        fact.super(0);
+    }
+
+    public boolean addInterestOpsUpdateRequest(SelectionKey sk) {
+        return super.addInterestOpsUpdateRequest(sk);
+    }
 }

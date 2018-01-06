@@ -586,10 +586,10 @@ public class LearnerHandler extends ZooKeeperThread {
                     type = bb.getInt();
                     bb = bb.slice();
                     Request si;
-                    if(type == OpCode.sync){
-                        si = new LearnerSyncRequest(this, sessionId, cxid, type, bb, qp.getAuthinfo());
+                    if(type == OpCode.sync.getValue()){
+                        si = new LearnerSyncRequest(this, sessionId, cxid, OpCode.sync, bb, qp.getAuthinfo());
                     } else {
-                        si = new Request(null, sessionId, cxid, type, bb, qp.getAuthinfo());
+                        si = new Request(null, sessionId, cxid, OpCode.getOpCode(type), bb, qp.getAuthinfo());
                     }
                     si.setOwner(this);
                     leader.zk.submitLearnerRequest(si);

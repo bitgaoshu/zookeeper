@@ -21,7 +21,7 @@ package org.apache.zookeeper.server;
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
-import org.apache.zookeeper.logEnv.LogEnv;
+import org.apache.zookeeper.util.LogEnv;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.Code;
 import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;

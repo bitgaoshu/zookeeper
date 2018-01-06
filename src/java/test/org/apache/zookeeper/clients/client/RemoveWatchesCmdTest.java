@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper;
+package org.apache.zookeeper.clients.client;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,11 +24,10 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.watcher.Event;
 import org.apache.zookeeper.watcher.Event.EventType;
 import org.apache.zookeeper.ZooDefs.Ids;
-import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.clients.client.ZooKeeperMain;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.watcher.Watcher;

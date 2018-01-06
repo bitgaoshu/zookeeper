@@ -389,7 +389,7 @@ public class CommitProcessorTest extends ZKTestCase {
                 throws RequestProcessorException {
             if (stopped)
                 return;
-            if (request.type == OpCode.closeSession){
+            if (request.op == OpCode.closeSession){
                 LOG.debug("ValidateProcessor got closeSession request=" + request);
                 nextProcessor.processRequest(request);
                 return;

@@ -31,7 +31,7 @@ import java.util.List;
 
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.cli.AsyncCallback.DataCallback;
+import org.apache.zookeeper.clients.AsyncCallback.DataCallback;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.jmx.CommonNames;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
@@ -42,7 +42,7 @@ import org.apache.zookeeper.server.quorum.flexible.QuorumHierarchical;
 import org.apache.zookeeper.server.quorum.flexible.QuorumMaj;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.admin.ZooKeeperAdmin;
+import org.apache.zookeeper.clients.admin.ZooKeeperAdmin;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.ZooDefs;

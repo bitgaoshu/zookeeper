@@ -18,14 +18,17 @@
 package org.apache.zookeeper.operation;
 
 import org.apache.jute.Record;
-import org.apache.zookeeper.cli.AsyncCallback;
 import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.common.PathUtils;
 import org.apache.zookeeper.data.ACL;
-import org.apache.zookeeper.proto.*;
-import org.apache.zookeeper.nodeMode.EphemeralType;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.nodeMode.CreateMode;
+import org.apache.zookeeper.nodeMode.EphemeralType;
+import org.apache.zookeeper.proto.CheckVersionRequest;
+import org.apache.zookeeper.proto.CreateRequest;
+import org.apache.zookeeper.proto.CreateTTLRequest;
+import org.apache.zookeeper.proto.DeleteRequest;
+import org.apache.zookeeper.proto.SetDataRequest;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -39,7 +42,6 @@ import java.util.List;
  * the provided factory methods.
  *
  * @see ZooKeeper#create(String, byte[], java.util.List, CreateMode)
- * @see ZooKeeper#create(String, byte[], java.util.List, CreateMode, AsyncCallback.StringCallback, Object)
  * @see ZooKeeper#delete(String, int)
  * @see ZooKeeper#setData(String, byte[], int)
  */

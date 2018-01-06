@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
-Generic skip list for holding a rough index of a log file. When the log file is loaded, this 
+Generic skip map for holding a rough index of a log file. When the log file is loaded, this
 index is built by adding a mark every n entries. Then when a specific time position is requested
 from the file, a point at most n-1 entries before the time position can be jumped to.
 
@@ -57,7 +57,7 @@ public class LogSkipList {
 
     public LogSkipList() {
 	if (LOG.isTraceEnabled()) {
-	    LOG.trace("New skip list");
+	    LOG.trace("New skip map");
 	}
 	marks = new LinkedList<Mark>();
     }
@@ -70,7 +70,7 @@ public class LogSkipList {
     }
 
     /** 
-	Find the last mark in the skip list before time.
+	Find the last mark in the skip map before time.
      */
     public Mark findMarkBefore(long time) throws NoSuchElementException {
 	if (LOG.isTraceEnabled()) {

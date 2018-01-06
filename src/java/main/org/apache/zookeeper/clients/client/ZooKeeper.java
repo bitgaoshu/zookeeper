@@ -20,17 +20,18 @@ package org.apache.zookeeper.clients.client;
 
 import org.apache.jute.Record;
 import org.apache.yetus.audience.InterfaceAudience;
+import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.operation.multi.MultiResponse;
 import org.apache.zookeeper.operation.multi.MultiTransactionRecord;
 import org.apache.zookeeper.operation.Op;
 import org.apache.zookeeper.operation.OpResult;
 import org.apache.zookeeper.operation.OpResult.ErrorResult;
-import org.apache.zookeeper.Testable;
-import org.apache.zookeeper.logEnv.LogEnv;
+import org.apache.zookeeper.util.LogEnv;
+import org.apache.zookeeper.watcher.Event;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.watcher.WatcherType;
-import org.apache.zookeeper.cli.AsyncCallback.*;
+import org.apache.zookeeper.clients.AsyncCallback.*;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocket;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNIO;
@@ -843,22 +844,17 @@ public class ZooKeeper implements AutoCloseable {
                 canBeReadOnly, createDefaultHostProvider(connectString));
     }
 
-    // default hostprovider
+    /* default hostprovider */
     private static HostProvider createDefaultHostProvider(String connectString) {
         return new StaticHostProvider(
                 new ConnectStringParser(connectString).getServerAddresses());
     }
 
-    // VisibleForTesting
-    public Testable getTestable() {
-        return new ZooKeeperTestable(this, cnxn);
-    }
-
     /* Useful for testing watch handling behavior */
+
     protected ZKWatchManager defaultWatchManager() {
         return new ZKWatchManager(getClientConfig().getBoolean(ZKClientConfig.DISABLE_AUTO_WATCH_RESET));
     }
-
     /**
      * The session id for this ZooKeeper client instance. The value returned is
      * not valid until the client connects to a server and may change after a
@@ -2432,12 +2428,12 @@ public class ZooKeeper implements AutoCloseable {
                 + cnxn);
     }
 
+
     /*
      * Methods to aid in testing follow.
      *
      * THESE METHODS ARE EXPECTED TO BE USED FOR TESTING ONLY!!!
      */
-
     /**
      * Wait up to wait milliseconds for the underlying threads to shutdown.
      * THIS METHOD IS EXPECTED TO BE USED FOR TESTING ONLY!!!
@@ -2455,33 +2451,6 @@ public class ZooKeeper implements AutoCloseable {
         }
         t.join(wait);
         return !t.isAlive();
-    }
-
-    /**
-     * Returns the address to which the socket is connected. Useful for testing
-     * against an ensemble - test client may need to know which server
-     * to shutdown if interested in verifying that the code handles
-     * disconnection/reconnection correctly.
-     * THIS METHOD IS EXPECTED TO BE USED FOR TESTING ONLY!!!
-     *
-     * @return ip address of the remote side of the connection or null if
-     * not connected
-     * @since 3.3.0
-     */
-    protected SocketAddress testableRemoteSocketAddress() {
-        return cnxn.getSendThreadRemoteAddress();
-    }
-
-    /**
-     * Returns the local address to which the socket is bound.
-     * THIS METHOD IS EXPECTED TO BE USED FOR TESTING ONLY!!!
-     *
-     * @return ip address of the remote side of the connection or null if
-     * not connected
-     * @since 3.3.0
-     */
-    protected SocketAddress testableLocalSocketAddress() {
-        return cnxn.getSendThreadLocalAddress();
     }
 
     private ClientCnxnSocket getClientCnxnSocket() throws IOException {
@@ -2511,6 +2480,50 @@ public class ZooKeeper implements AutoCloseable {
     private void validateACL(List<ACL> acl) throws KeeperException.InvalidACLException {
         if (acl == null || acl.isEmpty() || acl.contains(null)) {
             throw new KeeperException.InvalidACLException();
+        }
+    }
+
+    /**
+     * Returns the address to which the socket is connected. Useful for testing
+     * against an ensemble - test client may need to know which server
+     * to shutdown if interested in verifying that the code handles
+     * disconnection/reconnection correctly.
+     * THIS METHOD IS EXPECTED TO BE USED FOR TESTING ONLY!!!
+     *
+     * @return ip address of the remote side of the connection or null if
+     * not connected
+     * @since 3.3.0
+     */
+    protected SocketAddress testableRemoteSocketAddress() {
+        return cnxn.getSendThreadRemoteAddress();
+    }
+
+    /**
+     * Returns the local address to which the socket is bound.
+     * THIS METHOD IS EXPECTED TO BE USED FOR TESTING ONLY!!!
+     *
+     * @return ip address of the remote side of the connection or null if
+     * not connected
+     * @since 3.3.0
+     */
+    protected SocketAddress testableLocalSocketAddress() {
+        return cnxn.getSendThreadLocalAddress();
+    }
+
+    /* VisibleForTesting */
+    void testableInjectSessionExpiration() {
+        LOG.info("injectSessionExpiration() called");
+
+        cnxn.queueEvent(new WatchedEvent(
+                Event.EventType.None,
+                Event.KeeperState.Expired,
+                null
+        ));
+        cnxn.queueEventOfDeath();
+        try {
+            cnxn.testableCloseSocket();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

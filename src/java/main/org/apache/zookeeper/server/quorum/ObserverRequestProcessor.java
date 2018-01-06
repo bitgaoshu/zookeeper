@@ -18,19 +18,18 @@
 
 package org.apache.zookeeper.server.quorum;
 
-import java.io.IOException;
-import java.util.concurrent.LinkedBlockingQueue;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.operation.OpCode;
-import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.server.ZooKeeperCriticalThread;
 import org.apache.zookeeper.server.ZooTrace;
 import org.apache.zookeeper.txn.ErrorTxn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * This RequestProcessor forwards any requests that modify the state of the
@@ -86,26 +85,26 @@ public class ObserverRequestProcessor extends ZooKeeperCriticalThread implements
                 // path, but different from others, we need to keep track
                 // of the sync operations this Observer has pending, so we
                 // add it to pendingSyncs.
-                switch (request.type) {
-                case OpCode.sync:
-                    zks.pendingSyncs.add(request);
-                    zks.getObserver().request(request);
-                    break;
-                case OpCode.create:
-                case OpCode.create2:
-                case OpCode.createTTL:
-                case OpCode.createContainer:
-                case OpCode.delete:
-                case OpCode.deleteContainer:
-                case OpCode.setData:
-                case OpCode.reconfig:
-                case OpCode.setACL:
-                case OpCode.multi:
-                case OpCode.check:
-                    zks.getObserver().request(request);
-                    break;
-                case OpCode.createSession:
-                case OpCode.closeSession:
+                switch (request.op) {
+                    case sync:
+                        zks.pendingSyncs.add(request);
+                        zks.getObserver().request(request);
+                        break;
+                    case create:
+                    case create2:
+                    case createTTL:
+                    case createContainer:
+                    case delete:
+                    case deleteContainer:
+                    case setData:
+                    case reconfig:
+                    case setACL:
+                    case multi:
+                    case check:
+                        zks.getObserver().request(request);
+                        break;
+                    case createSession:
+                    case closeSession:
                     // Don't forward local sessions to the leader.
                     if (!request.isLocalSession()) {
                         zks.getObserver().request(request);
@@ -129,7 +128,7 @@ public class ObserverRequestProcessor extends ZooKeeperCriticalThread implements
                 upgradeRequest = zks.checkUpgradeSession(request);
             } catch (KeeperException ke) {
                 if (request.getHdr() != null) {
-                    request.getHdr().setType(OpCode.error);
+                    request.getHdr().setType(OpCode.error.getValue());
                     request.setTxn(new ErrorTxn(ke.code().intValue()));
                 }
                 request.setException(ke);

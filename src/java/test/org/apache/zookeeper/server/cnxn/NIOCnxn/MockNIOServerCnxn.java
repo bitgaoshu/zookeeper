@@ -16,12 +16,13 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.cnxn.NIOCnxn;
 
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.io.IOException;
 
+import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.cnxn.NIOCnxn.NIOServerCnxn;
 import org.apache.zookeeper.server.cnxn.NIOCnxn.NIOServerCnxnFactory;
 import org.apache.zookeeper.server.cnxn.NIOCnxn.NIOServerCnxnFactory.SelectorThread;
@@ -29,8 +30,8 @@ import org.apache.zookeeper.server.cnxn.NIOCnxn.NIOServerCnxnFactory.SelectorThr
 public class MockNIOServerCnxn extends NIOServerCnxn {
 
     public MockNIOServerCnxn(ZooKeeperServer zk, SocketChannel sock,
-                         SelectionKey sk, NIOServerCnxnFactory factory,
-                         SelectorThread selectorThread) throws IOException {
+                             SelectionKey sk, NIOServerCnxnFactory factory,
+                             SelectorThread selectorThread) throws IOException {
         super(zk, sock, sk, factory, selectorThread);
     }
 

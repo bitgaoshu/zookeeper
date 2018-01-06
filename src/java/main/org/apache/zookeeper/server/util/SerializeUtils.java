@@ -57,39 +57,40 @@ public class SerializeUtils {
         hdr.deserialize(ia, "hdr");
         bais.mark(bais.available());
         Record txn = null;
-        switch (hdr.getType()) {
-        case OpCode.createSession:
+        OpCode op = OpCode.getOpCode(hdr.getType());
+        switch (op) {
+        case createSession:
             // This isn't really an error txn; it just has the same
             // format. The error represents the timeout
             txn = new CreateSessionTxn();
             break;
-        case OpCode.closeSession:
+        case closeSession:
             return null;
-        case OpCode.create:
-        case OpCode.create2:
+        case create:
+        case create2:
             txn = new CreateTxn();
             break;
-        case OpCode.createTTL:
+        case createTTL:
             txn = new CreateTTLTxn();
             break;
-        case OpCode.createContainer:
+        case createContainer:
             txn = new CreateContainerTxn();
             break;
-        case OpCode.delete:
-        case OpCode.deleteContainer:
+        case delete:
+        case deleteContainer:
             txn = new DeleteTxn();
             break;
-        case OpCode.reconfig:
-        case OpCode.setData:
+        case reconfig:
+        case setData:
             txn = new SetDataTxn();
             break;
-        case OpCode.setACL:
+        case setACL:
             txn = new SetACLTxn();
             break;
-        case OpCode.error:
+        case error:
             txn = new ErrorTxn();
             break;
-        case OpCode.multi:
+        case multi:
             txn = new MultiTxn();
             break;
         default:
@@ -100,7 +101,7 @@ public class SerializeUtils {
                 txn.deserialize(ia, "txn");
             } catch(EOFException e) {
                 // perhaps this is a V0 Create
-                if (hdr.getType() == OpCode.create) {
+                if ( op == OpCode.create) {
                     CreateTxn create = (CreateTxn)txn;
                     bais.reset();
                     CreateTxnV0 createv0 = new CreateTxnV0();

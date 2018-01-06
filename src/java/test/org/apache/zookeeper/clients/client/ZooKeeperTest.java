@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper;
+package org.apache.zookeeper.clients.client;
 
 import static org.junit.Assert.*;
 
@@ -24,11 +24,15 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.zookeeper.cli.AsyncCallback.VoidCallback;
+import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.clients.AsyncCallback.VoidCallback;
 import org.apache.zookeeper.ZooDefs.Ids;
-import org.apache.zookeeper.cli.*;
+import org.apache.zookeeper.clients.cliCmds.*;
+import org.apache.zookeeper.clients.cliCmds.ZKUtil;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.clients.client.ZooKeeperMain;
 import org.apache.zookeeper.exception.KeeperException;
@@ -36,6 +40,8 @@ import org.apache.zookeeper.common.StringUtils;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.nodeMode.CreateMode;
+import org.apache.zookeeper.watcher.Event;
+import org.apache.zookeeper.watcher.Watcher;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -569,5 +575,35 @@ public class ZooKeeperTest extends ClientBase {
         } catch (CliWrapperException e) {
             Assert.assertEquals(KeeperException.Code.NONODE, ((KeeperException)e.getCause()).code());
         }
+    }
+
+    @Test
+    public void testSessionExpiration() throws IOException, InterruptedException,
+            KeeperException {
+        ZooKeeper zk = createClient();
+
+        final CountDownLatch expirationLatch = new CountDownLatch(1);
+        Watcher watcher = new Watcher() {
+            @Override
+            public void process(WatchedEvent event) {
+                if ( event.getState() == Event.KeeperState.Expired ) {
+                    expirationLatch.countDown();
+                }
+            }
+        };
+        zk.exists("/foo", watcher);
+
+        zk.testableInjectSessionExpiration();
+        Assert.assertTrue(expirationLatch.await(5, TimeUnit.SECONDS));
+
+        boolean gotException = false;
+        try {
+            zk.exists("/foo", false);
+            Assert.fail("Should have thrown a SessionExpiredException");
+        } catch (KeeperException.SessionExpiredException e) {
+            // correct
+            gotException = true;
+        }
+        Assert.assertTrue(gotException);
     }
 }

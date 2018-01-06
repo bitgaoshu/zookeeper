@@ -67,7 +67,7 @@ public class ReadOnlyRequestProcessor extends ZooKeeperCriticalThread implements
 
                 // log request
                 long traceMask = ZooTrace.CLIENT_REQUEST_TRACE_MASK;
-                if (request.type == OpCode.ping) {
+                if (request.op == OpCode.ping) {
                     traceMask = ZooTrace.CLIENT_PING_TRACE_MASK;
                 }
                 if (LOG.isTraceEnabled()) {
@@ -78,19 +78,19 @@ public class ReadOnlyRequestProcessor extends ZooKeeperCriticalThread implements
                 }
 
                 // filter read requests
-                switch (request.type) {
-                case OpCode.sync:
-                case OpCode.create:
-                case OpCode.create2:
-                case OpCode.createTTL:
-                case OpCode.createContainer:
-                case OpCode.delete:
-                case OpCode.deleteContainer:
-                case OpCode.setData:
-                case OpCode.reconfig:
-                case OpCode.setACL:
-                case OpCode.multi:
-                case OpCode.check:
+                switch (request.op) {
+                case sync:
+                case create:
+                case create2:
+                case createTTL:
+                case createContainer:
+                case delete:
+                case deleteContainer:
+                case setData:
+                case reconfig:
+                case setACL:
+                case multi:
+                case check:
                     ReplyHeader hdr = new ReplyHeader(request.cxid, zks.getZKDatabase()
                             .getDataTreeLastProcessedZxid(), Code.NOTREADONLY.intValue());
                     try {

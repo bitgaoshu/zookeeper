@@ -21,16 +21,17 @@ package org.apache.zookeeper.clients.client.clientSocket;
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
-import org.apache.zookeeper.operation.multi.MultiResponse;
-import org.apache.zookeeper.operation.OpResult;
-import org.apache.zookeeper.operation.OpResult.ErrorResult;
 import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.watcher.Watcher;
-import org.apache.zookeeper.watcher.Event;
-import org.apache.zookeeper.watcher.Event.EventType;
-import org.apache.zookeeper.watcher.Event.KeeperState;
-import org.apache.zookeeper.cli.AsyncCallback;
-import org.apache.zookeeper.cli.AsyncCallback.*;
+import org.apache.zookeeper.clients.AsyncCallback;
+import org.apache.zookeeper.clients.AsyncCallback.ACLCallback;
+import org.apache.zookeeper.clients.AsyncCallback.Children2Callback;
+import org.apache.zookeeper.clients.AsyncCallback.ChildrenCallback;
+import org.apache.zookeeper.clients.AsyncCallback.Create2Callback;
+import org.apache.zookeeper.clients.AsyncCallback.DataCallback;
+import org.apache.zookeeper.clients.AsyncCallback.MultiCallback;
+import org.apache.zookeeper.clients.AsyncCallback.StatCallback;
+import org.apache.zookeeper.clients.AsyncCallback.StringCallback;
+import org.apache.zookeeper.clients.AsyncCallback.VoidCallback;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.clients.client.ZooKeeper.States;
 import org.apache.zookeeper.clients.client.ZooKeeper.WatchRegistration;
@@ -39,14 +40,36 @@ import org.apache.zookeeper.clients.client.common.ClientWatchManager;
 import org.apache.zookeeper.clients.client.common.HostProvider;
 import org.apache.zookeeper.clients.client.common.WatchDeregistration;
 import org.apache.zookeeper.clients.client.common.ZKClientConfig;
+import org.apache.zookeeper.common.Time;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.Code;
 import org.apache.zookeeper.operation.OpCode;
-import org.apache.zookeeper.common.Time;
-import org.apache.zookeeper.proto.*;
+import org.apache.zookeeper.operation.OpResult;
+import org.apache.zookeeper.operation.OpResult.ErrorResult;
+import org.apache.zookeeper.operation.multi.MultiResponse;
+import org.apache.zookeeper.proto.AuthPacket;
+import org.apache.zookeeper.proto.ConnectRequest;
+import org.apache.zookeeper.proto.Create2Response;
+import org.apache.zookeeper.proto.CreateResponse;
+import org.apache.zookeeper.proto.ExistsResponse;
+import org.apache.zookeeper.proto.GetACLResponse;
+import org.apache.zookeeper.proto.GetChildren2Response;
+import org.apache.zookeeper.proto.GetChildrenResponse;
+import org.apache.zookeeper.proto.GetDataResponse;
+import org.apache.zookeeper.proto.GetSASLRequest;
+import org.apache.zookeeper.proto.ReplyHeader;
+import org.apache.zookeeper.proto.RequestHeader;
+import org.apache.zookeeper.proto.SetACLResponse;
+import org.apache.zookeeper.proto.SetDataResponse;
+import org.apache.zookeeper.proto.SetWatches;
+import org.apache.zookeeper.proto.WatcherEvent;
 import org.apache.zookeeper.server.ByteBufferInputStream;
 import org.apache.zookeeper.server.ZooKeeperThread;
 import org.apache.zookeeper.server.ZooTrace;
+import org.apache.zookeeper.watcher.Event;
+import org.apache.zookeeper.watcher.Event.EventType;
+import org.apache.zookeeper.watcher.Event.KeeperState;
+import org.apache.zookeeper.watcher.Watcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -62,8 +85,15 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -72,7 +102,6 @@ import java.util.concurrent.LinkedBlockingQueue;
  * This class manages the socket i/o for the client. ClientCnxn maintains a list
  * of available servers to connect to and "transparently" switches servers it is
  * connected to as needed.
- *
  */
 public class ClientCnxn {
     private static final Logger LOG = LoggerFactory.getLogger(ClientCnxn.class);
@@ -157,19 +186,14 @@ public class ClientCnxn {
      * established until needed. The start() instance method must be called
      * subsequent to construction.
      *
-     * @param chrootPath - the chroot of this client. Should be removed from this Class in ZOOKEEPER-838
-     * @param hostProvider
-     *                the list of ZooKeeper servers to connect to
-     * @param sessionTimeout
-     *                the timeout for connections.
-     * @param zooKeeper
-     *                the zookeeper object that this connection is related to.
-     * @param watcher watcher for this connection
-     * @param clientCnxnSocket
-     *                the socket implementation used (e.g. NIO/Netty)
-     * @param canBeReadOnly
-     *                whether the connection is allowed to go to read-only
-     *                mode in case of partitioning
+     * @param chrootPath       - the chroot of this client. Should be removed from this Class in ZOOKEEPER-838
+     * @param hostProvider     the list of ZooKeeper servers to connect to
+     * @param sessionTimeout   the timeout for connections.
+     * @param zooKeeper        the zookeeper object that this connection is related to.
+     * @param watcher          watcher for this connection
+     * @param clientCnxnSocket the socket implementation used (e.g. NIO/Netty)
+     * @param canBeReadOnly    whether the connection is allowed to go to read-only
+     *                         mode in case of partitioning
      * @throws IOException
      */
     public ClientCnxn(String chrootPath, HostProvider hostProvider, int sessionTimeout, ZooKeeper zooKeeper,
@@ -184,21 +208,16 @@ public class ClientCnxn {
      * established until needed. The start() instance method must be called
      * subsequent to construction.
      *
-     * @param chrootPath - the chroot of this client. Should be removed from this Class in ZOOKEEPER-838
-     * @param hostProvider
-     *                the list of ZooKeeper servers to connect to
-     * @param sessionTimeout
-     *                the timeout for connections.
-     * @param zooKeeper
-     *                the zookeeper object that this connection is related to.
-     * @param watcher watcher for this connection
-     * @param clientCnxnSocket
-     *                the socket implementation used (e.g. NIO/Netty)
-     * @param sessionId session id if re-establishing session
-     * @param sessionPasswd session passwd if re-establishing session
-     * @param canBeReadOnly
-     *                whether the connection is allowed to go to read-only
-     *                mode in case of partitioning
+     * @param chrootPath       - the chroot of this client. Should be removed from this Class in ZOOKEEPER-838
+     * @param hostProvider     the list of ZooKeeper servers to connect to
+     * @param sessionTimeout   the timeout for connections.
+     * @param zooKeeper        the zookeeper object that this connection is related to.
+     * @param watcher          watcher for this connection
+     * @param clientCnxnSocket the socket implementation used (e.g. NIO/Netty)
+     * @param sessionId        session id if re-establishing session
+     * @param sessionPasswd    session passwd if re-establishing session
+     * @param canBeReadOnly    whether the connection is allowed to go to read-only
+     *                         mode in case of partitioning
      * @throws IOException
      */
     public ClientCnxn(String chrootPath, HostProvider hostProvider, int sessionTimeout, ZooKeeper zooKeeper,
@@ -423,14 +442,14 @@ public class ClientCnxn {
         sendThread.getClientCnxnSocket().saslCompleted();
     }
 
-    public void sendPacket(Record request, Record response, AsyncCallback cb, int opCode)
+    public void sendPacket(Record request, Record response, AsyncCallback cb, OpCode opCode)
             throws IOException {
         // Generate Xid now because it will be sent immediately,
         // by call to sendThread.sendPacket() below.
         int xid = getXid();
         RequestHeader h = new RequestHeader();
         h.setXid(xid);
-        h.setType(opCode);
+        h.setType(opCode.getValue());
 
         ReplyHeader r = new ReplyHeader();
         r.setXid(xid);
@@ -508,10 +527,6 @@ public class ClientCnxn {
         return sendThread.getClientCnxnSocket().getLocalSocketAddress();
     }
 
-    public void testableCloseSocket() throws IOException {
-        sendThread.getClientCnxnSocket().testableCloseSocket();
-    }
-
     public String getChrootPath() {
         return this.chrootPath;
     }
@@ -520,7 +535,20 @@ public class ClientCnxn {
         this.seenRwServerBefore = seenRwServerBefore;
     }
 
+
+    public void queueEvent(WatchedEvent watchedEvent) {
+        eventThread.queueEvent(watchedEvent);
+    }
+
+    public void queueEventOfDeath() {
+        eventThread.queueEventOfDeath();
+    }
+    public void testableCloseSocket() throws IOException {
+        sendThread.getClientCnxnSocket().testableCloseSocket();
+    }
+
     static class AuthData {
+
         String scheme;
         byte data[];
 
@@ -528,21 +556,27 @@ public class ClientCnxn {
             this.scheme = scheme;
             this.data = data;
         }
+
     }
 
     /**
      * This class allows us to pass the headers and the relevant records around.
      */
     public static class Packet {
+
         public boolean readOnly;
         RequestHeader requestHeader;
         ReplyHeader replyHeader;
         Record request;
         Record response;
         ByteBuffer bb;
-        /** Client's view of the path (may differ due to chroot) **/
+        /**
+         * Client's view of the path (may differ due to chroot)
+         **/
         String clientPath;
-        /** Servers's view of the path (may differ due to chroot) **/
+        /**
+         * Servers's view of the path (may differ due to chroot)
+         **/
         String serverPath;
         boolean finished;
         AsyncCallback cb;
@@ -550,7 +584,9 @@ public class ClientCnxn {
         WatchRegistration watchRegistration;
         WatchDeregistration watchDeregistration;
 
-        /** Convenience ctor */
+        /**
+         * Convenience ctor
+         */
         Packet(RequestHeader requestHeader, ReplyHeader replyHeader,
                Record request, Record response,
                WatchRegistration watchRegistration) {
@@ -610,9 +646,11 @@ public class ClientCnxn {
             // jute toString is horrible, remove unnecessary newlines
             return sb.toString().replaceAll("\r*\n+", " ");
         }
+
     }
 
     private static class WatcherSetEventPair {
+
         private final Set<Watcher> watchers;
         private final WatchedEvent event;
 
@@ -620,9 +658,11 @@ public class ClientCnxn {
             this.watchers = watchers;
             this.event = event;
         }
+
     }
 
     static class EndOfStreamException extends IOException {
+
         private static final long serialVersionUID = -5438877188796231422L;
 
         public EndOfStreamException(String msg) {
@@ -633,33 +673,41 @@ public class ClientCnxn {
         public String toString() {
             return "EndOfStreamException: " + getMessage();
         }
+
     }
 
     private static class SessionTimeoutException extends IOException {
+
         private static final long serialVersionUID = 824482094072071178L;
 
         public SessionTimeoutException(String msg) {
             super(msg);
         }
+
     }
 
     private static class SessionExpiredException extends IOException {
+
         private static final long serialVersionUID = -1388816932076193249L;
 
         public SessionExpiredException(String msg) {
             super(msg);
         }
+
     }
 
     private static class RWServerFoundException extends IOException {
+
         private static final long serialVersionUID = 90431199887158758L;
 
         public RWServerFoundException(String msg) {
             super(msg);
         }
+
     }
 
     private static class LocalCallback {
+
         private final AsyncCallback cb;
         private final int rc;
         private final String path;
@@ -671,19 +719,22 @@ public class ClientCnxn {
             this.path = path;
             this.ctx = ctx;
         }
+
     }
 
     class EventThread extends ZooKeeperThread {
+
         private final LinkedBlockingQueue<Object> waitingEvents =
                 new LinkedBlockingQueue<Object>();
-
-        /** This is really the queued session state until the event
+        /**
+         * This is really the queued session state until the event
          * thread actually processes the event and hands it to the watcher.
          * But for all intents and purposes this is the state.
          */
         private volatile KeeperState sessionState = KeeperState.Disconnected;
 
         private volatile boolean wasKilled = false;
+
         private volatile boolean isRunning = false;
 
         EventThread() {
@@ -917,6 +968,7 @@ public class ClientCnxn {
                 LOG.error("Caught unexpected throwable", t);
             }
         }
+
     }
 
     /**
@@ -924,6 +976,7 @@ public class ClientCnxn {
      * beats. It also spawns the ReadThread.
      */
     public class SendThread extends ZooKeeperThread {
+
         private final static int minPingRwTimeout = 100;
         private final static int maxPingRwTimeout = 60000;
         private static final String RETRY_CONN_MSG =
@@ -931,18 +984,18 @@ public class ClientCnxn {
         private final ClientCnxnSocket clientCnxnSocket;
         private long lastPingSentNs;
         private Random r = new Random(System.nanoTime());
-
         // TODO: can not name this method getState since Thread.getState()
+
         // already exists
-        // It would be cleaner to make class SendThread an implementation of
-        // Runnable
         private boolean isFirstConnect = true;
+        // Runnable
         private InetSocketAddress rwServerAddress = null;
+        // It would be cleaner to make class SendThread an implementation of
         private int pingRwTimeout = minPingRwTimeout;
         // Set to true if and only if constructor of ZooKeeperSaslClient
-        // throws a LoginException: see startConnect() below.
         private boolean saslLoginFailed = false;
 
+        // throws a LoginException: see startConnect() below.
         SendThread(ClientCnxnSocket clientCnxnSocket) {
             super(makeThreadName("-SendThread()"));
             state = States.CONNECTING;
@@ -1552,5 +1605,6 @@ public class ClientCnxn {
         public void sendPacket(Packet p) throws IOException {
             clientCnxnSocket.sendPacket(p);
         }
+
     }
 }

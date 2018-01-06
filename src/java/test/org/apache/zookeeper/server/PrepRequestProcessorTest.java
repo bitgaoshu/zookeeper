@@ -102,7 +102,7 @@ public class PrepRequestProcessorTest extends ClientBase {
         Assert.assertTrue("request hasn't been processed in chain", pLatch.await(5, TimeUnit.SECONDS));
     }
 
-    private Request createRequest(Record record, int opCode) throws IOException {
+    private Request createRequest(Record record, OpCode opCode) throws IOException {
         // encoding
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         BinaryOutputArchive boa = BinaryOutputArchive.getArchive(baos);

@@ -281,8 +281,9 @@ public class FileTxnSnapLog {
             Map<Long, Integer> sessions, Record txn)
         throws KeeperException.NoNodeException {
         ProcessTxnResult rc;
-        switch (hdr.getType()) {
-        case OpCode.createSession:
+        OpCode op = OpCode.getOpCode(hdr.getType());
+        switch (op) {
+        case createSession:
             sessions.put(hdr.getClientId(),
                     ((CreateSessionTxn) txn).getTimeOut());
             if (LOG.isTraceEnabled()) {
@@ -295,7 +296,7 @@ public class FileTxnSnapLog {
             // give dataTree a chance to sync its lastProcessedZxid
             rc = dt.processTxn(hdr, txn);
             break;
-        case OpCode.closeSession:
+        case closeSession:
             sessions.remove(hdr.getClientId());
             if (LOG.isTraceEnabled()) {
                 ZooTrace.logTraceMessage(LOG,ZooTrace.SESSION_TRACE_MASK,
@@ -391,7 +392,7 @@ public class FileTxnSnapLog {
     /**
      * the n most recent snapshots
      * @param n the number of recent snapshots
-     * @return the list of n most recent snapshots, with
+     * @return the map of n most recent snapshots, with
      * the most recent in front
      * @throws IOException
      */

@@ -15,12 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper;
+package org.apache.zookeeper.clients.client.clientSocket;
 
 
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.apache.zookeeper.ZKTestCase;
+import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.clients.client.common.ClientWatchManager;
+import org.apache.zookeeper.clients.client.common.HostProvider;
+import org.apache.zookeeper.clients.client.common.ZKClientConfig;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -28,14 +32,9 @@ import java.nio.channels.SocketChannel;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.zookeeper.clients.client.common.ZKClientConfig;
-import org.apache.zookeeper.clients.client.common.HostProvider;
-import org.apache.zookeeper.clients.client.common.ClientWatchManager;
-import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn;
-import org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNIO;
-import org.junit.Assert;
-import org.junit.Test;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ClientReconnectTest extends ZKTestCase {
     private SocketChannel sc;

@@ -58,12 +58,12 @@ public class SessionInvalidationTest extends ClientBase {
 
             // close connection
             boa.writeInt(8, "len");
-            RequestHeader h = new RequestHeader(1, OpCode.closeSession);
+            RequestHeader h = new RequestHeader(1, OpCode.closeSession.getValue());
             h.serialize(boa, "header");
 
             // create ephemeral znode
             boa.writeInt(52, "len"); // We'll fill this in later
-            RequestHeader header = new RequestHeader(2, OpCode.create);
+            RequestHeader header = new RequestHeader(2, OpCode.create.getValue());
             header.serialize(boa, "header");
             CreateRequest createReq = new CreateRequest("/foo" + i, new byte[0],
                     Ids.OPEN_ACL_UNSAFE, 1);

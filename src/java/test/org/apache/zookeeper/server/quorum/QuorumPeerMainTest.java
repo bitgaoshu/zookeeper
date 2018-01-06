@@ -198,7 +198,7 @@ public class QuorumPeerMainTest extends QuorumPeerTestBase {
         // just make sure that we actually did get it in process at the
         // leader
         Assert.assertTrue(outstanding.size() == 1);
-        Assert.assertTrue(((Proposal) outstanding.values().iterator().next()).request.getHdr().getType() == OpCode.create);
+        Assert.assertTrue(((Proposal) outstanding.values().iterator().next()).request.getHdr().getType() == OpCode.create.getValue());
         // make sure it has a chance to write it to disk
         Thread.sleep(1000);
         mt[leader].shutdown();
@@ -481,7 +481,7 @@ public class QuorumPeerMainTest extends QuorumPeerTestBase {
         qlogger.addAppender(appender);
 
         // test the most likely situation only: server is stated as observer in
-        // servers list, but there's no "peerType=observer" token in config
+        // servers map, but there's no "peerType=observer" token in config
         try {
             final int CLIENT_PORT_QP1 = PortAssignment.unique();
             final int CLIENT_PORT_QP2 = PortAssignment.unique();

@@ -15,20 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.zookeeper.server.cnxn;
 
-package org.apache.zookeeper.server;
+import org.apache.zookeeper.server.ZooKeeperServer;
 
-import org.apache.zookeeper.server.cnxn.NIOCnxn.NIOServerCnxnFactory;
-
-import java.io.IOException;
-import java.nio.channels.SelectionKey;
-
-public class MockSelectorThread extends NIOServerCnxnFactory.SelectorThread {
-    public MockSelectorThread(NIOServerCnxnFactory fact) throws IOException {
-        fact.super(0);
-    }
-
-    public boolean addInterestOpsUpdateRequest(SelectionKey sk) {
-        return super.addInterestOpsUpdateRequest(sk);
+public class ServerCnxnFactoryAccessor {
+    public static ZooKeeperServer getZkServer(ServerCnxnFactory fac) {
+	return fac.zkServer;
     }
 }

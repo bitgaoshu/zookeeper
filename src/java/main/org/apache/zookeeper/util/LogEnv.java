@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.logEnv;
+package org.apache.zookeeper.util;
 
 import org.apache.zookeeper.Version;
 import org.slf4j.Logger;
@@ -38,7 +38,7 @@ public class LogEnv {
         map.put(k,v);
     }
 
-    public static Map<String, String> list() {
+    public static Map<String, String> map() {
         Map<String, String> map = new HashMap<>();
         put(map, "zookeeper.version", Version.getFullVersion());
 
@@ -90,7 +90,7 @@ public class LogEnv {
     }
     
     public static void logEnv(String msg, Logger log) {
-        for (Map.Entry<String, String> entry : LogEnv.list().entrySet()) {
+        for (Map.Entry<String, String> entry : LogEnv.map().entrySet()) {
             log.info(msg + entry.toString());
         }
 

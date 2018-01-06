@@ -38,6 +38,7 @@ import org.apache.jute.OutputArchive;
 import org.apache.jute.Record;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.NoNodeException;
+import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.watcher.WatcherType;
 import org.apache.zookeeper.ZooDefs;
@@ -236,7 +237,7 @@ public class ZKDatabase {
     public long loadDataBase() throws IOException {
         PlayBackListener listener=new PlayBackListener(){
             public void onTxnLoaded(TxnHeader hdr,Record txn){
-                Request r = new Request(0, hdr.getCxid(),hdr.getType(), hdr, txn, hdr.getZxid());
+                Request r = new Request(0, hdr.getCxid(), OpCode.getOpCode(hdr.getType()), hdr, txn, hdr.getZxid());
                 addCommittedProposal(r);
             }
         };
@@ -247,7 +248,7 @@ public class ZKDatabase {
     }
 
     /**
-     * maintains a list of last <i>committedLog</i>
+     * maintains a map of last <i>committedLog</i>
      *  or so committed requests. This is used for
      * fast follower synchronization.
      * @param request committed request
@@ -315,7 +316,7 @@ public class ZKDatabase {
      * @param startZxid the starting zxid of the proposal
      * @param sizeLimit maximum on-disk size of txnlog to fetch
      *                  0 is unlimited, negative value means disable.
-     * @return list of proposal (request part of each proposal is null)
+     * @return map of proposal (request part of each proposal is null)
      */
     public Iterator<Proposal> getProposalsFromTxnLog(long startZxid,
                                                      long sizeLimit) {
@@ -480,7 +481,7 @@ public class ZKDatabase {
      * get acl for a path
      * @param path the path to query for acl
      * @param stat the stat for the node
-     * @return the acl list for this path
+     * @return the acl map for this path
      * @throws NoNodeException
      */
     public List<ACL> getACL(String path, Stat stat) throws NoNodeException {
@@ -488,11 +489,11 @@ public class ZKDatabase {
     }
 
     /**
-     * get children list for this path
+     * get children map for this path
      * @param path the path of the node
      * @param stat the stat of the node
      * @param watcher the watcher function for this path
-     * @return the list of children for this path
+     * @return the map of children for this path
      * @throws KeeperException.NoNodeException
      */
     public List<String> getChildren(String path, Stat stat, Watcher watcher)

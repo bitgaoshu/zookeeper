@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper;
+package org.apache.zookeeper.clients.cliCmds;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,8 +23,8 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.zookeeper.cli.AsyncCallback.StringCallback;
-import org.apache.zookeeper.cli.AsyncCallback.VoidCallback;
+import org.apache.zookeeper.clients.AsyncCallback.StringCallback;
+import org.apache.zookeeper.clients.AsyncCallback.VoidCallback;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.Code;
 import org.apache.zookeeper.clients.client.ZooKeeper;
@@ -42,7 +42,6 @@ public class ZKUtil {
      * If there is an error with deleting one of the sub-nodes in the tree,
      * this operation would abort and would be the responsibility of the app to handle the same.
      *
-     * See {@link #delete(String, int)} for more details.
      *
      * @throws IllegalArgumentException if an invalid path is specified
      */

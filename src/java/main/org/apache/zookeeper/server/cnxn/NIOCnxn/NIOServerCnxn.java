@@ -584,7 +584,7 @@ public class NIOServerCnxn extends ServerCnxn {
     }
 
     /**
-     * Used by "dump" 4-letter command to list all connection in
+     * Used by "dump" 4-letter command to map all connection in
      * cnxnExpiryMap
      */
     @Override
@@ -594,7 +594,7 @@ public class NIOServerCnxn extends ServerCnxn {
     }
 
     /**
-     * Close the cnxn and remove it from the factory cnxns list.
+     * Close the cnxn and remove it from the factory cnxns map.
      */
     @Override
     public void close() {

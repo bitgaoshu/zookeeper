@@ -19,9 +19,8 @@ package org.apache.zookeeper.clients.cliCmds;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.cli.*;
-import org.apache.zookeeper.cli.AsyncCallback.StringCallback;
+import org.apache.zookeeper.clients.AsyncCallback.StringCallback;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.ZKUtil;
 import org.apache.zookeeper.data.Stat;
 
 /**

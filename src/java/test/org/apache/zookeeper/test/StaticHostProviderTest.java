@@ -185,13 +185,13 @@ public class StaticHostProviderTest extends ZKTestCase {
             newList.add(new InetSocketAddress(InetAddress.getByAddress(new byte[]{10, 10, 10, i}), 1234 + i));
         }
 
-        // servers from the old list that appear in the new list
+        // servers from the old map that appear in the new map
         Collection<InetSocketAddress> oldStaying = new ArrayList<InetSocketAddress>(2);
         for (byte i = 4; i > 2; i--) { // 1238, 1237
             oldStaying.add(new InetSocketAddress(InetAddress.getByAddress(new byte[]{10, 10, 10, i}), 1234 + i));
         }
 
-        // servers in the new list that are not in the old list
+        // servers in the new map that are not in the old map
         Collection<InetSocketAddress> newComing = new ArrayList<InetSocketAddress>(10);
         for (byte i = 12; i > 4; i--) {// 1246, 1245, 1244, 1243, 1242, 1241, 1240, 1139
             newComing.add(new InetSocketAddress(InetAddress.getByAddress(new byte[]{10, 10, 10, i}), 1234 + i));

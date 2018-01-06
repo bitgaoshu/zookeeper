@@ -77,26 +77,26 @@ public class FollowerRequestProcessor extends ZooKeeperCriticalThread implements
                 // path, but different from others, we need to keep track
                 // of the sync operations this follower has pending, so we
                 // add it to pendingSyncs.
-                switch (request.type) {
-                case OpCode.sync:
+                switch (request.op) {
+                case sync:
                     zks.pendingSyncs.add(request);
                     zks.getFollower().request(request);
                     break;
-                case OpCode.create:
-                case OpCode.create2:
-                case OpCode.createTTL:
-                case OpCode.createContainer:
-                case OpCode.delete:
-                case OpCode.deleteContainer:
-                case OpCode.setData:
-                case OpCode.reconfig:
-                case OpCode.setACL:
-                case OpCode.multi:
-                case OpCode.check:
+                case create:
+                case create2:
+                case createTTL:
+                case createContainer:
+                case delete:
+                case deleteContainer:
+                case setData:
+                case reconfig:
+                case setACL:
+                case multi:
+                case check:
                     zks.getFollower().request(request);
                     break;
-                case OpCode.createSession:
-                case OpCode.closeSession:
+                case createSession:
+                case closeSession:
                     // Don't forward local sessions to the leader.
                     if (!request.isLocalSession()) {
                         zks.getFollower().request(request);
@@ -120,7 +120,7 @@ public class FollowerRequestProcessor extends ZooKeeperCriticalThread implements
                 upgradeRequest = zks.checkUpgradeSession(request);
             } catch (KeeperException ke) {
                 if (request.getHdr() != null) {
-                    request.getHdr().setType(OpCode.error);
+                    request.getHdr().setType(OpCode.error.getValue());
                     request.setTxn(new ErrorTxn(ke.code().intValue()));
                 }
                 request.setException(ke);

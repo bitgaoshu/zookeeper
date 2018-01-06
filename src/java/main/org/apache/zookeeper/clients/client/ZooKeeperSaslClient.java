@@ -18,10 +18,24 @@
 
 package org.apache.zookeeper.clients.client;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
+import org.apache.zookeeper.Login;
+import org.apache.zookeeper.clients.AsyncCallback;
+import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn;
+import org.apache.zookeeper.clients.client.common.ZKClientConfig;
+import org.apache.zookeeper.common.ZKConfig;
+import org.apache.zookeeper.data.Stat;
+import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.proto.GetSASLRequest;
+import org.apache.zookeeper.proto.SetSASLResponse;
+import org.apache.zookeeper.server.auth.KerberosName;
+import org.apache.zookeeper.watcher.Event.KeeperState;
+import org.ietf.jgss.GSSContext;
+import org.ietf.jgss.GSSCredential;
+import org.ietf.jgss.GSSException;
+import org.ietf.jgss.GSSManager;
+import org.ietf.jgss.Oid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.Callback;
@@ -37,25 +51,10 @@ import javax.security.sasl.RealmCallback;
 import javax.security.sasl.Sasl;
 import javax.security.sasl.SaslClient;
 import javax.security.sasl.SaslException;
-
-import org.apache.zookeeper.cli.AsyncCallback;
-import org.apache.zookeeper.Login;
-import org.apache.zookeeper.watcher.Event.KeeperState;
-import org.apache.zookeeper.clients.client.common.ZKClientConfig;
-import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn;
-import org.apache.zookeeper.operation.OpCode;
-import org.apache.zookeeper.common.ZKConfig;
-import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.proto.GetSASLRequest;
-import org.apache.zookeeper.proto.SetSASLResponse;
-import org.apache.zookeeper.server.auth.KerberosName;
-import org.ietf.jgss.GSSContext;
-import org.ietf.jgss.GSSCredential;
-import org.ietf.jgss.GSSException;
-import org.ietf.jgss.GSSManager;
-import org.ietf.jgss.Oid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.IOException;
+import java.security.Principal;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 
 /**
  * This class manages SASL authentication for the client. It

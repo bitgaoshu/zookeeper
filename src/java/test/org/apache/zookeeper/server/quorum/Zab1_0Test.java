@@ -206,7 +206,7 @@ public class Zab1_0Test extends ZKTestCase {
      * follower with lastAcceptedEpoch = 6 doesn't change the value
      * of epoch, and the test fails. It passes with the fix to predicate.
      * 
-     * {@link https://issues.apache.org/jira/browse/ZOOKEEPER-1343}
+     * @link {https://issues.apache.org/jira/browse/ZOOKEEPER-1343}
      * 
      * 
      * @throws Exception
@@ -428,7 +428,7 @@ public class Zab1_0Test extends ZKTestCase {
             for(int i = 1; i <= ops; i++){
                 zxid = ZxidUtils.makeZxid(1, i);
                 String path = "/foo-"+ i;
-                zkDb.processTxn(new TxnHeader(13,1000+i,zxid,30+i, OpCode.create),
+                zkDb.processTxn(new TxnHeader(13,1000+i,zxid,30+i, OpCode.create.getValue()),
                                                 new CreateTxn(path, "fpjwasalsohere".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, false, 1));
                 Stat stat = new Stat();
                 Assert.assertEquals("fpjwasalsohere", new String(zkDb.getData(path, stat, null)));
@@ -665,7 +665,7 @@ public class Zab1_0Test extends ZKTestCase {
                     // Setup a database with a single /foo node
                     ZKDatabase zkDb = new ZKDatabase(new FileTxnSnapLog(tmpDir, tmpDir));
                     final long firstZxid = ZxidUtils.makeZxid(1, 1);
-                    zkDb.processTxn(new TxnHeader(13, 1313, firstZxid, 33, OpCode.create), new CreateTxn("/foo", "data1".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, false, 1));
+                    zkDb.processTxn(new TxnHeader(13, 1313, firstZxid, 33, OpCode.create.getValue()), new CreateTxn("/foo", "data1".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, false, 1));
                     Stat stat = new Stat();
                     Assert.assertEquals("data1", new String(zkDb.getData("/foo", stat, null)));
 
@@ -769,7 +769,7 @@ public class Zab1_0Test extends ZKTestCase {
             private void proposeSetData(QuorumPacket qp, long zxid, String data, int version) throws IOException {
                 qp.setType(Leader.PROPOSAL);
                 qp.setZxid(zxid);
-                TxnHeader hdr = new TxnHeader(4, 1414, qp.getZxid(), 55, OpCode.setData);
+                TxnHeader hdr = new TxnHeader(4, 1414, qp.getZxid(), 55, OpCode.setData.getValue());
                 SetDataTxn sdt = new SetDataTxn("/foo", data.getBytes(), version);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 OutputArchive boa = BinaryOutputArchive.getArchive(baos);
@@ -800,7 +800,7 @@ public class Zab1_0Test extends ZKTestCase {
                     // Setup a database with a single /foo node
                     ZKDatabase zkDb = new ZKDatabase(new FileTxnSnapLog(tmpDir, tmpDir));
                     final long firstZxid = ZxidUtils.makeZxid(1, 1);
-                    zkDb.processTxn(new TxnHeader(13, 1313, firstZxid, 33, OpCode.create), new CreateTxn("/foo", "data1".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, false, 1));
+                    zkDb.processTxn(new TxnHeader(13, 1313, firstZxid, 33, OpCode.create.getValue()), new CreateTxn("/foo", "data1".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, false, 1));
                     Stat stat = new Stat();
                     Assert.assertEquals("data1", new String(zkDb.getData("/foo", stat, null)));
 
@@ -891,7 +891,7 @@ public class Zab1_0Test extends ZKTestCase {
             private void proposeNewSession(QuorumPacket qp, long zxid, long sessionId) throws IOException {
                 qp.setType(Leader.PROPOSAL);
                 qp.setZxid(zxid);
-                TxnHeader hdr = new TxnHeader(4, 1414, qp.getZxid(), 55, OpCode.createSession);
+                TxnHeader hdr = new TxnHeader(4, 1414, qp.getZxid(), 55, OpCode.createSession.getValue());
                 CreateSessionTxn cst = new CreateSessionTxn(30000);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 OutputArchive boa = BinaryOutputArchive.getArchive(baos);
@@ -992,7 +992,7 @@ public class Zab1_0Test extends ZKTestCase {
 
                 long zxid = l.zk.getZxid();
                 l.propose(new Request(1, 1, OpCode.create,
-                            new TxnHeader(1, 1, zxid, 1, OpCode.create),
+                            new TxnHeader(1, 1, zxid, 1, OpCode.create.getValue()),
                             new CreateTxn("/test", "hola".getBytes(), null, true, 0), zxid));
 
                 readPacketSkippingPing(ia, qp);
@@ -1043,11 +1043,11 @@ public class Zab1_0Test extends ZKTestCase {
                     final long foo1Zxid = ZxidUtils.makeZxid(1, 1);
                     final long foo2Zxid = ZxidUtils.makeZxid(1, 2);
                     zkDb.processTxn(new TxnHeader(13, 1313, foo1Zxid, 33,
-                            OpCode.create), new CreateTxn("/foo1",
+                            OpCode.create.getValue()), new CreateTxn("/foo1",
                             "data1".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE,
                             false, 1));
                     zkDb.processTxn(new TxnHeader(13, 1313, foo2Zxid, 33,
-                            OpCode.create), new CreateTxn("/foo2",
+                            OpCode.create.getValue()), new CreateTxn("/foo2",
                             "data1".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE,
                             false, 1));
                     Stat stat = new Stat();
@@ -1167,7 +1167,7 @@ public class Zab1_0Test extends ZKTestCase {
                 qp.setType(Leader.PROPOSAL);
                 qp.setZxid(zxid);
                 TxnHeader hdr = new TxnHeader(4, 1414, qp.getZxid(), 55,
-                        OpCode.setData);
+                        OpCode.setData.getValue());
                 SetDataTxn sdt = new SetDataTxn(path, data.getBytes(), version);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 OutputArchive boa = BinaryOutputArchive.getArchive(baos);
@@ -1371,7 +1371,7 @@ public class Zab1_0Test extends ZKTestCase {
             logFactory.save(new DataTree(), new ConcurrentHashMap<Long, Integer>(), false);
             long zxid = ZxidUtils.makeZxid(3, 3);
             logFactory.append(new Request(1, 1, OpCode.error,
-                    new TxnHeader(1, 1, zxid, 1, OpCode.error),
+                    new TxnHeader(1, 1, zxid, 1, OpCode.error.getValue()),
                     new ErrorTxn(1), zxid));
             logFactory.commit();
             ZKDatabase zkDb = new ZKDatabase(logFactory);

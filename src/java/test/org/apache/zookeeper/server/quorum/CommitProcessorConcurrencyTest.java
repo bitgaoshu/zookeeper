@@ -117,7 +117,7 @@ public class CommitProcessorConcurrencyTest extends ZKTestCase {
         }
     }
 
-    private Request newRequest(Record rec, int type, int sessionId, int xid)
+    private Request newRequest(Record rec, OpCode type, int sessionId, int xid)
             throws IOException {
         ByteArrayOutputStream boas = new ByteArrayOutputStream();
         BinaryOutputArchive boa = BinaryOutputArchive.getArchive(boas);

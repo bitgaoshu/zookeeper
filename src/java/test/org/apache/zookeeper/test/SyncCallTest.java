@@ -27,11 +27,11 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.cli.AsyncCallback.Children2Callback;
-import org.apache.zookeeper.cli.AsyncCallback.ChildrenCallback;
-import org.apache.zookeeper.cli.AsyncCallback.Create2Callback;
-import org.apache.zookeeper.cli.AsyncCallback.StringCallback;
-import org.apache.zookeeper.cli.AsyncCallback.VoidCallback;
+import org.apache.zookeeper.clients.AsyncCallback.Children2Callback;
+import org.apache.zookeeper.clients.AsyncCallback.ChildrenCallback;
+import org.apache.zookeeper.clients.AsyncCallback.Create2Callback;
+import org.apache.zookeeper.clients.AsyncCallback.StringCallback;
+import org.apache.zookeeper.clients.AsyncCallback.VoidCallback;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.data.Stat;
 import org.junit.Assert;

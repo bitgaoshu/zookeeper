@@ -42,7 +42,7 @@ import javax.security.auth.x500.X500Principal;
 
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.server.MockServerCnxn;
+import org.apache.zookeeper.server.cnxn.MockServerCnxn;
 import org.apache.zookeeper.server.auth.X509AuthenticationProvider;
 import org.junit.Assert;
 import org.junit.Before;

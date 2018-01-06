@@ -15,28 +15,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.cnxn;
+
+import org.apache.jute.Record;
+import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.proto.ReplyHeader;
+import org.apache.zookeeper.server.ServerStats;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.security.cert.Certificate;
-import org.apache.jute.Record;
-import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.proto.ReplyHeader;
-import org.apache.zookeeper.server.cnxn.ServerCnxn;
 
 public class MockServerCnxn extends ServerCnxn {
     public Certificate[] clientChain;
     public boolean secure;
 
     @Override
-    int getSessionTimeout() {
+    public int getSessionTimeout() {
         return 0;
     }
 
     @Override
-    void close() {
+    public void close() {
     }
 
     @Override
@@ -45,7 +46,7 @@ public class MockServerCnxn extends ServerCnxn {
     }
 
     @Override
-    void sendCloseSession() {
+    public void sendCloseSession() {
     }
 
     @Override
@@ -58,7 +59,7 @@ public class MockServerCnxn extends ServerCnxn {
     }
 
     @Override
-    void setSessionId(long sessionId) {
+    public void setSessionId(long sessionId) {
     }
 
     @Override
@@ -77,19 +78,19 @@ public class MockServerCnxn extends ServerCnxn {
     }
 
     @Override
-    void sendBuffer(ByteBuffer closeConn) {
+    public void sendBuffer(ByteBuffer closeConn) {
     }
 
     @Override
-    void enableRecv() {
+    public void enableRecv() {
     }
 
     @Override
-    void disableRecv() {
+    public void disableRecv() {
     }
 
     @Override
-    void setSessionTimeout(int sessionTimeout) {
+    public void setSessionTimeout(int sessionTimeout) {
     }
 
     @Override

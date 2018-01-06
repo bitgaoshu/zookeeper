@@ -18,12 +18,12 @@
 
 package org.apache.zookeeper.server;
 
-import org.apache.zookeeper.cli.AsyncCallback;
+import org.apache.zookeeper.clients.AsyncCallback;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.operation.Op;
 import org.apache.zookeeper.operation.OpResult;
-import org.apache.zookeeper.TestableZooKeeper;
+import org.apache.zookeeper.clients.client.clientSocket.TestableZooKeeper;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.exception.KeeperException.Code;
 import org.apache.zookeeper.operation.OpCode;

@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.regex.Pattern;
 
-import org.apache.zookeeper.TestableZooKeeper;
+import org.apache.zookeeper.clients.client.clientSocket.TestableZooKeeper;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.common.IOUtils;
 import org.apache.zookeeper.common.X509Exception.SSLContextException;

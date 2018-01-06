@@ -22,7 +22,7 @@ import java.util.Properties;
 
 import org.apache.commons.cli.*;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.admin.ZooKeeperAdmin;
+import org.apache.zookeeper.clients.admin.ZooKeeperAdmin;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
 
@@ -33,18 +33,18 @@ public class ReconfigCommand extends CliCommand {
 
     private static Options options = new Options();
 
-    /* joining - comma separated list of server config strings for servers to be added to the ensemble.
+    /* joining - comma separated map of server config strings for servers to be added to the ensemble.
      * Each entry is identical in syntax as it would appear in a configuration file. Only used for 
      * incremental reconfigurations.
      */
     private String joining;
 
-    /* leaving - comma separated list of server IDs to be removed from the ensemble. Only used for
+    /* leaving - comma separated map of server IDs to be removed from the ensemble. Only used for
      * incremental reconfigurations.
      */
     private String leaving;
 
-    /* members - comma separated list of new membership information (e.g., contents of a membership
+    /* members - comma separated map of new membership information (e.g., contents of a membership
      * configuration file) - for use only with a non-incremental reconfiguration. This may be specified
      * manually via the -members flag or it will automatically be filled in by reading the contents
      * of an actual configuration file using the -file flag.
@@ -61,11 +61,11 @@ public class ReconfigCommand extends CliCommand {
         options.addOption("s", false, "stats");
         options.addOption("v", true, "required current config version");
         options.addOption("file", true, "path of config file to parse for membership");
-        options.addOption("members", true, "comma-separated list of config strings for " +
+        options.addOption("members", true, "comma-separated map of config strings for " +
         		"non-incremental reconfig");
-        options.addOption("add", true, "comma-separated list of config strings for " +
+        options.addOption("add", true, "comma-separated map of config strings for " +
         		"new servers");
-        options.addOption("remove", true, "comma-separated list of server IDs to remove");
+        options.addOption("remove", true, "comma-separated map of server IDs to remove");
     }
 
     public ReconfigCommand() {

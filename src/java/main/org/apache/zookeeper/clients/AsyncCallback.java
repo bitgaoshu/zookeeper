@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.clients.cliCmds;
+package org.apache.zookeeper.clients;
 
 import java.util.List;
 

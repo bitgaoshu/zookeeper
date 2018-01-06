@@ -162,7 +162,7 @@ public class LearnerTest extends ZKTestCase {
             oa.writeRecord(qp, null);
             sl.zk.getZKDatabase().serializeSnapshot(oa);
             oa.writeString("BenWasHere", "signature");
-            TxnHeader hdr = new TxnHeader(0, 0, 0, 0, OpCode.create);
+            TxnHeader hdr = new TxnHeader(0, 0, 0, 0, OpCode.create.getValue());
             CreateTxn txn = new CreateTxn("/foo", new byte[0], new ArrayList<ACL>(), false, sl.zk.getZKDatabase().getNode("/").stat.getCversion());
             ByteArrayOutputStream tbaos = new ByteArrayOutputStream();
             BinaryOutputArchive boa = BinaryOutputArchive.getArchive(tbaos);

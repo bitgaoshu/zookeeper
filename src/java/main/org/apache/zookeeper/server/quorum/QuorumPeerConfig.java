@@ -654,9 +654,9 @@ public class QuorumPeerConfig {
         LearnerType roleByServersList = quorumVerifier.getObservingMembers().containsKey(serverId) ? LearnerType.OBSERVER
                 : LearnerType.PARTICIPANT;
         if (roleByServersList != peerType) {
-            LOG.warn("Peer type from servers list (" + roleByServersList
+            LOG.warn("Peer type from servers map (" + roleByServersList
                     + ") doesn't match peerType (" + peerType
-                    + "). Defaulting to servers list.");
+                    + "). Defaulting to servers map.");
 
             peerType = roleByServersList;
         }

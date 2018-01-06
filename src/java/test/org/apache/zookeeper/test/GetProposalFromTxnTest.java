@@ -110,7 +110,7 @@ public class GetProposalFromTxnTest extends ZKTestCase{
             TxnHeader hdr = new TxnHeader();
             Record rec = SerializeUtils.deserializeTxn(
                     proposal.packet.getData(), hdr);
-            if (hdr.getType() == OpCode.create) {
+            if (hdr.getType() == OpCode.create.getValue()) {
                 retrievedZxids.add(hdr.getZxid());
                 createCount++;
             }

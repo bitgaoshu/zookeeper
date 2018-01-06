@@ -40,8 +40,8 @@ import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.cli.AsyncCallback.DataCallback;
-import org.apache.zookeeper.cli.AsyncCallback.StatCallback;
+import org.apache.zookeeper.clients.AsyncCallback.DataCallback;
+import org.apache.zookeeper.clients.AsyncCallback.StatCallback;
 import org.apache.zookeeper.data.Stat;
 
 public class IntegrityCheck implements StatCallback, DataCallback {

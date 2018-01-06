@@ -18,15 +18,6 @@
 
 package org.apache.zookeeper.server.admin;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.zookeeper.logEnv.LogEnv;
-import org.apache.zookeeper.logEnv.LogEnv.Entry;
 import org.apache.zookeeper.Version;
 import org.apache.zookeeper.server.DataTree;
 import org.apache.zookeeper.server.ServerStats;
@@ -38,8 +29,16 @@ import org.apache.zookeeper.server.quorum.Leader;
 import org.apache.zookeeper.server.quorum.LeaderZooKeeperServer;
 import org.apache.zookeeper.server.quorum.ReadOnlyZooKeeperServer;
 import org.apache.zookeeper.server.util.OSMXBean;
+import org.apache.zookeeper.util.LogEnv;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Class containing static methods for registering and running Commands, as well
@@ -164,7 +163,7 @@ public class Commands {
 
     /**
      * Information on client connections to server. Returned Map contains:
-     *   - "connections": list of connection info objects
+     *   - "connections": map of connection info objects
      * @see ServerCnxn#getConnectionInfo(boolean)
      */
     public static class ConsCommand extends CommandBase {
@@ -231,7 +230,7 @@ public class Commands {
         @Override
         public CommandResponse run(ZooKeeperServer zkServer, Map<String, String> kwargs) {
             CommandResponse response = initializeResponse();
-            for (Entry e : LogEnv.list()) {
+            for (Map.Entry<String, String> e : LogEnv.map().entrySet()) {
                 response.put(e.getKey(), e.getValue());
             }
             return response;

@@ -278,7 +278,7 @@ public class ZooKeeperTestClient extends ZKTestCase implements Watcher {
     firstGen2 = zk_1.getChildren(parentName, true, null);
 
     if (!firstGen1.equals(firstGen2)) {
-        Assert.fail("children list from getChildren()/getChildren2() does not match");
+        Assert.fail("children map from getChildren()/getChildren2() does not match");
     }
 
     stat_node = zk_1.exists(nodeName, true);

@@ -20,7 +20,7 @@ package org.apache.zookeeper.test;
 
 import java.io.IOException;
 
-import org.apache.zookeeper.TestableZooKeeper;
+import org.apache.zookeeper.clients.client.clientSocket.TestableZooKeeper;
 import org.apache.zookeeper.common.X509Exception.SSLContextException;
 
 import static org.apache.zookeeper.clients.client.common.FourLetterWordMain.send4LetterWord;
@@ -36,8 +36,8 @@ public class FourLetterWordsWhiteListTest extends ClientBase {
         LoggerFactory.getLogger(FourLetterWordsWhiteListTest.class);
 
     /*
-     * ZOOKEEPER-2693: test white list of four letter words.
-     * For 3.5.x default white list is empty. Verify that is
+     * ZOOKEEPER-2693: test white map of four letter words.
+     * For 3.5.x default white map is empty. Verify that is
      * the case (except 'stat' command which is enabled in ClientBase
      * which other tests depend on.).
      */

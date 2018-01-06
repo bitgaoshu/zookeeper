@@ -197,7 +197,7 @@ public class FourLetterCommands {
      * In ZOOKEEPER-2693 we introduce a configuration option to only
      * allow a specific set of white listed cliCmds to execute.
      * A command will only be executed if it is also configured
-     * in the white list.
+     * in the white map.
      *
      * @param command The command string.
      * @return true if the specified command is enabled
@@ -231,8 +231,8 @@ public class FourLetterCommands {
         // zkServer.sh depends on "srvr".
         whiteListedCommands.add("srvr");
         whiteListInitialized = true;
-        LOG.info("The list of known four letter word cliCmds is : {}", Arrays.asList(cmd2String));
-        LOG.info("The list of enabled four letter word cliCmds is : {}", Arrays.asList(whiteListedCommands));
+        LOG.info("The map of known four letter word cliCmds is : {}", Arrays.asList(cmd2String));
+        LOG.info("The map of enabled four letter word cliCmds is : {}", Arrays.asList(whiteListedCommands));
         return whiteListedCommands.contains(command);
     }
 
