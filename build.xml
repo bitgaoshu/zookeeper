@@ -334,8 +334,8 @@ xmlns:cs="antlib:com.puppycrawl.tools.checkstyle.ant">
     
     <target name="version-info" depends="ver-gen,git-revision">
         <mkdir dir="${src_generated.dir}" />
-        <java classname="org.apache.zookeeper.version.util.VerGen" fork="true" 
-                dir="${src_generated.dir}">
+        <java classname="org.apache.zookeeper.util.VerGen" fork="true"
+              dir="${src_generated.dir}">
             <arg value="${version}" />
             <arg value="${lastRevision}" />
             <arg value="${build.time}" />

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.version.util;
+package org.apache.zookeeper.util;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 
 public class VerGen {
     private static final String PACKAGE_NAME = "org.apache.zookeeper.version";
-    private static final String TYPE_NAME = "Info";
+    private static final String TYPE_NAME = "VersionInfo";
 
     static void printUsage() {
         System.out.print("Usage:\tjava  -cp <classpath> org.apache.zookeeper."
@@ -119,7 +119,7 @@ public class VerGen {
      * Emits a org.apache.zookeeper.version.Info interface file with version and
      * revision information constants set to the values passed in as command
      * line parameters. The file is created in the current directory. <br>
-     * Usage: java org.apache.zookeeper.version.util.VerGen maj.min.micro[-qualifier]
+     * Usage: java org.apache.zookeeper.util.VerGen maj.min.micro[-qualifier]
      * rev buildDate
      *
      * @param args

@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.apache.zookeeper.test.ClientBase;
-import org.apache.zookeeper.version.util.VerGen;
+import org.apache.zookeeper.util.VerGen;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
