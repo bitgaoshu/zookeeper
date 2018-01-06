@@ -20,6 +20,7 @@ package org.apache.zookeeper.clients.client;
 
 import org.apache.jute.Record;
 import org.apache.yetus.audience.InterfaceAudience;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.operation.multi.MultiResponse;
@@ -38,7 +39,6 @@ import org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNIO;
 import org.apache.zookeeper.clients.client.common.*;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.KECode;
-import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.server.common.PathUtils;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
@@ -1053,7 +1053,7 @@ public class ZooKeeper implements AutoCloseable {
         final String serverPath = prependChroot(clientPath);
 
         RequestHeader h = new RequestHeader();
-        h.setType(createMode.isContainer() ? OpCode.createContainer.getValue() : OpCode.create.getValue());
+        h.setType(createMode.isContainer() ? OpType.createContainer.getValue() : OpType.create.getValue());
         CreateRequest request = new CreateRequest();
         CreateResponse response = new CreateResponse();
         request.setData(data);
@@ -1169,9 +1169,9 @@ public class ZooKeeper implements AutoCloseable {
 
     private void setCreateHeader(CreateMode createMode, RequestHeader h) {
         if (createMode.isTTL()) {
-            h.setType(OpCode.createTTL.getValue());
+            h.setType(OpType.createTTL.getValue());
         } else {
-            h.setType(createMode.isContainer() ? OpCode.createContainer.getValue() : OpCode.create2.getValue());
+            h.setType(createMode.isContainer() ? OpType.createContainer.getValue() : OpType.create2.getValue());
         }
     }
 
@@ -1210,7 +1210,7 @@ public class ZooKeeper implements AutoCloseable {
         final String serverPath = prependChroot(clientPath);
 
         RequestHeader h = new RequestHeader();
-        h.setType(createMode.isContainer() ? OpCode.createContainer.getValue() : OpCode.create.getValue());
+        h.setType(createMode.isContainer() ? OpType.createContainer.getValue() : OpType.create.getValue());
         CreateRequest request = new CreateRequest();
         CreateResponse response = new CreateResponse();
         ReplyHeader r = new ReplyHeader();
@@ -1298,7 +1298,7 @@ public class ZooKeeper implements AutoCloseable {
         }
 
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.delete.getValue());
+        h.setType(OpType.delete.getValue());
         DeleteRequest request = new DeleteRequest();
         request.setPath(serverPath);
         request.setVersion(version);
@@ -1409,7 +1409,7 @@ public class ZooKeeper implements AutoCloseable {
 
     protected void multiInternal(MultiTransactionRecord request, MultiCallback cb, Object ctx) {
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.multi.getValue());
+        h.setType(OpType.multi.getValue());
         MultiResponse response = new MultiResponse();
         cnxn.queuePacket(h, new ReplyHeader(), request, response, cb, null, null, ctx, null);
     }
@@ -1417,7 +1417,7 @@ public class ZooKeeper implements AutoCloseable {
     protected List<OpResult> multiInternal(MultiTransactionRecord request)
             throws InterruptedException, KeeperException {
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.multi.getValue());
+        h.setType(OpType.multi.getValue());
         MultiResponse response = new MultiResponse();
         ReplyHeader r = cnxn.submitRequest(h, request, response, null);
         if (r.getErr() != 0) {
@@ -1479,7 +1479,7 @@ public class ZooKeeper implements AutoCloseable {
         }
 
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.delete.getValue());
+        h.setType(OpType.delete.getValue());
         DeleteRequest request = new DeleteRequest();
         request.setPath(serverPath);
         request.setVersion(version);
@@ -1518,7 +1518,7 @@ public class ZooKeeper implements AutoCloseable {
         final String serverPath = prependChroot(clientPath);
 
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.exists.getValue());
+        h.setType(OpType.exists.getValue());
         ExistsRequest request;
         request = new ExistsRequest();
         request.setPath(serverPath);
@@ -1576,7 +1576,7 @@ public class ZooKeeper implements AutoCloseable {
         final String serverPath = prependChroot(clientPath);
 
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.exists.getValue());
+        h.setType(OpType.exists.getValue());
         ExistsRequest request = new ExistsRequest();
         request.setPath(serverPath);
         request.setWatch(watcher != null);
@@ -1627,7 +1627,7 @@ public class ZooKeeper implements AutoCloseable {
         final String serverPath = prependChroot(clientPath);
 
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.getData.getValue());
+        h.setType(OpType.getData.getValue());
         GetDataRequest request = new GetDataRequest();
         request.setPath(serverPath);
         request.setWatch(watcher != null);
@@ -1685,7 +1685,7 @@ public class ZooKeeper implements AutoCloseable {
         final String serverPath = prependChroot(clientPath);
 
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.getData.getValue());
+        h.setType(OpType.getData.getValue());
         GetDataRequest request = new GetDataRequest();
         request.setPath(serverPath);
         request.setWatch(watcher != null);
@@ -1731,7 +1731,7 @@ public class ZooKeeper implements AutoCloseable {
         }
 
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.getData.getValue());
+        h.setType(OpType.getData.getValue());
         GetDataRequest request = new GetDataRequest();
         request.setPath(configZnode);
         request.setWatch(watcher != null);
@@ -1763,7 +1763,7 @@ public class ZooKeeper implements AutoCloseable {
         }
 
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.getData.getValue());
+        h.setType(OpType.getData.getValue());
         GetDataRequest request = new GetDataRequest();
         request.setPath(configZnode);
         request.setWatch(watcher != null);
@@ -1837,7 +1837,7 @@ public class ZooKeeper implements AutoCloseable {
         final String serverPath = prependChroot(clientPath);
 
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.setData.getValue());
+        h.setType(OpType.setData.getValue());
         SetDataRequest request = new SetDataRequest();
         request.setPath(serverPath);
         request.setData(data);
@@ -1864,7 +1864,7 @@ public class ZooKeeper implements AutoCloseable {
         final String serverPath = prependChroot(clientPath);
 
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.setData.getValue());
+        h.setType(OpType.setData.getValue());
         SetDataRequest request = new SetDataRequest();
         request.setPath(serverPath);
         request.setData(data);
@@ -1896,7 +1896,7 @@ public class ZooKeeper implements AutoCloseable {
         final String serverPath = prependChroot(clientPath);
 
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.getACL.getValue());
+        h.setType(OpType.getACL.getValue());
         GetACLRequest request = new GetACLRequest();
         request.setPath(serverPath);
         GetACLResponse response = new GetACLResponse();
@@ -1924,7 +1924,7 @@ public class ZooKeeper implements AutoCloseable {
         final String serverPath = prependChroot(clientPath);
 
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.getACL.getValue());
+        h.setType(OpType.getACL.getValue());
         GetACLRequest request = new GetACLRequest();
         request.setPath(serverPath);
         GetACLResponse response = new GetACLResponse();
@@ -1961,7 +1961,7 @@ public class ZooKeeper implements AutoCloseable {
         final String serverPath = prependChroot(clientPath);
 
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.setACL.getValue());
+        h.setType(OpType.setACL.getValue());
         SetACLRequest request = new SetACLRequest();
         request.setPath(serverPath);
         request.setAcl(acl);
@@ -1988,7 +1988,7 @@ public class ZooKeeper implements AutoCloseable {
         final String serverPath = prependChroot(clientPath);
 
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.setACL.getValue());
+        h.setType(OpType.setACL.getValue());
         SetACLRequest request = new SetACLRequest();
         request.setPath(serverPath);
         request.setAcl(acl);
@@ -2033,7 +2033,7 @@ public class ZooKeeper implements AutoCloseable {
         final String serverPath = prependChroot(clientPath);
 
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.getChildren.getValue());
+        h.setType(OpType.getChildren.getValue());
         GetChildrenRequest request = new GetChildrenRequest();
         request.setPath(serverPath);
         request.setWatch(watcher != null);
@@ -2090,7 +2090,7 @@ public class ZooKeeper implements AutoCloseable {
         final String serverPath = prependChroot(clientPath);
 
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.getChildren.getValue());
+        h.setType(OpType.getChildren.getValue());
         GetChildrenRequest request = new GetChildrenRequest();
         request.setPath(serverPath);
         request.setWatch(watcher != null);
@@ -2147,7 +2147,7 @@ public class ZooKeeper implements AutoCloseable {
         final String serverPath = prependChroot(clientPath);
 
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.getChildren2.getValue());
+        h.setType(OpType.getChildren2.getValue());
         GetChildren2Request request = new GetChildren2Request();
         request.setPath(serverPath);
         request.setWatch(watcher != null);
@@ -2212,7 +2212,7 @@ public class ZooKeeper implements AutoCloseable {
         final String serverPath = prependChroot(clientPath);
 
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.getChildren2.getValue());
+        h.setType(OpType.getChildren2.getValue());
         GetChildren2Request request = new GetChildren2Request();
         request.setPath(serverPath);
         request.setWatch(watcher != null);
@@ -2247,7 +2247,7 @@ public class ZooKeeper implements AutoCloseable {
         final String serverPath = prependChroot(clientPath);
 
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.sync.getValue());
+        h.setType(OpType.sync.getValue());
         SyncRequest request = new SyncRequest();
         SyncResponse response = new SyncResponse();
         request.setPath(serverPath);
@@ -2283,7 +2283,7 @@ public class ZooKeeper implements AutoCloseable {
                               WatcherType watcherType, boolean local)
             throws InterruptedException, KeeperException {
         validateWatcher(watcher);
-        removeWatches(OpCode.checkWatches.getValue(), path, watcher,
+        removeWatches(OpType.checkWatches.getValue(), path, watcher,
                 watcherType, local);
     }
 
@@ -2295,7 +2295,7 @@ public class ZooKeeper implements AutoCloseable {
     public void removeWatches(String path, Watcher watcher,
                               WatcherType watcherType, boolean local, VoidCallback cb, Object ctx) {
         validateWatcher(watcher);
-        removeWatches(OpCode.checkWatches.getValue(), path, watcher,
+        removeWatches(OpType.checkWatches.getValue(), path, watcher,
                 watcherType, local, cb, ctx);
     }
 
@@ -2321,7 +2321,7 @@ public class ZooKeeper implements AutoCloseable {
     public void removeAllWatches(String path, WatcherType watcherType,
                                  boolean local) throws InterruptedException, KeeperException {
 
-        removeWatches(OpCode.removeWatches.getValue(), path, null, watcherType,
+        removeWatches(OpType.removeWatches.getValue(), path, null, watcherType,
                 local);
     }
 
@@ -2333,7 +2333,7 @@ public class ZooKeeper implements AutoCloseable {
     public void removeAllWatches(String path, WatcherType watcherType,
                                  boolean local, VoidCallback cb, Object ctx) {
 
-        removeWatches(OpCode.removeWatches.getValue(), path, null,
+        removeWatches(OpType.removeWatches.getValue(), path, null,
                 watcherType, local, cb, ctx);
     }
 
@@ -2385,7 +2385,7 @@ public class ZooKeeper implements AutoCloseable {
     private Record getRemoveWatchesRequest(int opCode, WatcherType watcherType,
                                            final String serverPath) {
         Record request = null;
-        OpCode op = OpCode.getOpCode(opCode);
+        OpType op = OpType.getOpCode(opCode);
         switch (op) {
             case checkWatches:
                 CheckWatchesRequest chkReq = new CheckWatchesRequest();

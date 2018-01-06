@@ -22,7 +22,7 @@ import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.InputArchive;
 import org.apache.jute.OutputArchive;
 import org.apache.jute.Record;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.DataTree;
 import org.apache.zookeeper.server.ZooTrace;
 import org.apache.zookeeper.txn.CreateContainerTxn;
@@ -57,7 +57,7 @@ public class SerializeUtils {
         hdr.deserialize(ia, "hdr");
         bais.mark(bais.available());
         Record txn = null;
-        OpCode op = OpCode.getOpCode(hdr.getType());
+        OpType op = OpType.getOpCode(hdr.getType());
         switch (op) {
         case createSession:
             // This isn't really an error txn; it just has the same
@@ -101,7 +101,7 @@ public class SerializeUtils {
                 txn.deserialize(ia, "txn");
             } catch(EOFException e) {
                 // perhaps this is a V0 Create
-                if ( op == OpCode.create) {
+                if ( op == OpType.create) {
                     CreateTxn create = (CreateTxn)txn;
                     bais.reset();
                     CreateTxnV0 createv0 = new CreateTxnV0();

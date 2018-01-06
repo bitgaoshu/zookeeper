@@ -28,9 +28,9 @@ import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.ZKTestCase;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
@@ -138,9 +138,9 @@ public class TruncateTest extends ZKTestCase {
     }
 
     private void append(ZKDatabase zkdb, int i) throws IOException {
-        TxnHeader hdr = new TxnHeader(1, 1, i, 1, OpCode.setData.getValue());
+        TxnHeader hdr = new TxnHeader(1, 1, i, 1, OpType.setData.getValue());
         Record txn = new SetDataTxn("/foo" + i, new byte[0], 1);
-        Request req = new Request(0, 0, OpCode.getOpCode(0), hdr, txn, 0);
+        Request req = new Request(0, 0, OpType.getOpCode(0), hdr, txn, 0);
 
         zkdb.append(req);
         zkdb.commit();

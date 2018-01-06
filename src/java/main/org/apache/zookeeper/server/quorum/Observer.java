@@ -23,7 +23,7 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 
 import org.apache.jute.Record;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.ObserverBean;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
@@ -122,7 +122,7 @@ public class Observer extends Learner{
         case Leader.INFORM:
             TxnHeader hdr = new TxnHeader();
             Record txn = SerializeUtils.deserializeTxn(qp.getData(), hdr);
-            Request request = new Request (hdr.getClientId(),  hdr.getCxid(), OpCode.getOpCode(hdr.getType()), hdr, txn, 0);
+            Request request = new Request (hdr.getClientId(),  hdr.getCxid(), OpType.getOpCode(hdr.getType()), hdr, txn, 0);
             ObserverZooKeeperServer obs = (ObserverZooKeeperServer)zk;
             obs.commitRequest(request);
             break;
@@ -138,7 +138,7 @@ public class Observer extends Learner{
             txn = SerializeUtils.deserializeTxn(remainingdata, hdr);
             QuorumVerifier qv = self.configFromString(new String(((SetDataTxn)txn).getData()));
             
-            request = new Request (hdr.getClientId(),  hdr.getCxid(), OpCode.getOpCode(hdr.getType()), hdr, txn, 0);
+            request = new Request (hdr.getClientId(),  hdr.getCxid(), OpType.getOpCode(hdr.getType()), hdr, txn, 0);
             obs = (ObserverZooKeeperServer)zk;
                         
             boolean majorChange = 

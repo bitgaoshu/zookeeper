@@ -31,8 +31,8 @@ import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.ZKTestCase;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.util.ZooDefs.Ids;
-import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.proto.CreateRequest;
 import org.apache.zookeeper.proto.GetDataRequest;
@@ -78,7 +78,7 @@ public class CommitProcessorConcurrencyTest extends ZKTestCase {
             readReqId++;
             try {
                 return newRequest(new GetDataRequest("/", false),
-                        OpCode.getData, readReqId % 50, readReqId);
+                        OpType.getData, readReqId % 50, readReqId);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -117,7 +117,7 @@ public class CommitProcessorConcurrencyTest extends ZKTestCase {
         }
     }
 
-    private Request newRequest(Record rec, OpCode type, int sessionId, int xid)
+    private Request newRequest(Record rec, OpType type, int sessionId, int xid)
             throws IOException {
         ByteArrayOutputStream boas = new ByteArrayOutputStream();
         BinaryOutputArchive boa = BinaryOutputArchive.getArchive(boas);
@@ -137,9 +137,9 @@ public class CommitProcessorConcurrencyTest extends ZKTestCase {
         final String path = "/testCvsUCRace";
 
         Request readReq = newRequest(new GetDataRequest(path, false),
-                OpCode.getData, 0x0, 0);
+                OpType.getData, 0x0, 0);
         Request writeReq = newRequest(
-                new SetDataRequest(path, new byte[16], -1), OpCode.setData, 0x0,
+                new SetDataRequest(path, new byte[16], -1), OpType.setData, 0x0,
                 1);
 
         processor.committedRequests.add(writeReq);
@@ -180,16 +180,16 @@ public class CommitProcessorConcurrencyTest extends ZKTestCase {
         for (int sessionId = 1; sessionId <= 5; ++sessionId) {
             for (int readReqId = 1; readReqId <= sessionId; ++readReqId) {
                 Request readReq = newRequest(new GetDataRequest(path, false),
-                        OpCode.getData, sessionId, readReqId);
+                        OpType.getData, sessionId, readReqId);
                 shouldBeProcessed.add(readReq);
                 processor.queuedRequests.add(readReq);
             }
             Request writeReq = newRequest(
                     new CreateRequest(path, new byte[0], Ids.OPEN_ACL_UNSAFE,
                             CreateMode.PERSISTENT_SEQUENTIAL.toFlag()),
-                    OpCode.create, sessionId, sessionId + 1);
+                    OpType.create, sessionId, sessionId + 1);
             Request readReq = newRequest(new GetDataRequest(path, false),
-                    OpCode.getData, sessionId, sessionId + 2);
+                    OpType.getData, sessionId, sessionId + 2);
             processor.queuedRequests.add(writeReq);
             processor.queuedRequests.add(readReq);
             shouldNotBeProcessed.add(writeReq);
@@ -227,13 +227,13 @@ public class CommitProcessorConcurrencyTest extends ZKTestCase {
         Request writeReq = newRequest(
                 new CreateRequest(path, new byte[0], Ids.OPEN_ACL_UNSAFE,
                         CreateMode.PERSISTENT_SEQUENTIAL.toFlag()),
-                OpCode.create, 0x1, 1);
+                OpType.create, 0x1, 1);
         processor.queuedRequests.add(writeReq);
         shouldBeInPending.add(writeReq);
 
         for (int readReqId = 2; readReqId <= 5; ++readReqId) {
             Request readReq = newRequest(new GetDataRequest(path, false),
-                    OpCode.getData, 0x1, readReqId);
+                    OpType.getData, 0x1, readReqId);
             processor.queuedRequests.add(readReq);
             shouldBeInPending.add(readReq);
             shouldBeProcessedAfterPending.add(readReq);
@@ -287,7 +287,7 @@ public class CommitProcessorConcurrencyTest extends ZKTestCase {
             Request nonLocalCommitReq = newRequest(
                     new CreateRequest(path, new byte[0], Ids.OPEN_ACL_UNSAFE,
                             CreateMode.PERSISTENT_SEQUENTIAL.toFlag()),
-                    OpCode.create, 51, i + 1);
+                    OpType.create, 51, i + 1);
             processor.committedRequests.add(nonLocalCommitReq);
             nonLocalCommits.add(nonLocalCommitReq);
         }
@@ -317,14 +317,14 @@ public class CommitProcessorConcurrencyTest extends ZKTestCase {
         Request firstCommittedReq = newRequest(
                 new CreateRequest(path, new byte[0], Ids.OPEN_ACL_UNSAFE,
                         CreateMode.PERSISTENT_SEQUENTIAL.toFlag()),
-                OpCode.create, 0x3, 1);
+                OpType.create, 0x3, 1);
         processor.queuedRequests.add(firstCommittedReq);
         processor.committedRequests.add(firstCommittedReq);
         HashSet<Request> allReads = new HashSet<Request>();
 
         // +1 read request to queuedRequests
         Request firstRead = newRequest(new GetDataRequest(path, false),
-                OpCode.getData, 0x1, 0);
+                OpType.getData, 0x1, 0);
         allReads.add(firstRead);
         processor.queuedRequests.add(firstRead);
 
@@ -332,7 +332,7 @@ public class CommitProcessorConcurrencyTest extends ZKTestCase {
         Request secondCommittedReq = newRequest(
                 new CreateRequest(path, new byte[0], Ids.OPEN_ACL_UNSAFE,
                         CreateMode.PERSISTENT_SEQUENTIAL.toFlag()),
-                OpCode.create, 0x99, 2);
+                OpType.create, 0x99, 2);
         processor.committedRequests.add(secondCommittedReq);
 
         HashSet<Request> waitingCommittedRequests = new HashSet<Request>();
@@ -341,7 +341,7 @@ public class CommitProcessorConcurrencyTest extends ZKTestCase {
             Request writeReq = newRequest(
                     new CreateRequest(path, new byte[0], Ids.OPEN_ACL_UNSAFE,
                             CreateMode.PERSISTENT_SEQUENTIAL.toFlag()),
-                    OpCode.create, 0x8, writeReqId);
+                    OpType.create, 0x8, writeReqId);
             processor.committedRequests.add(writeReq);
             waitingCommittedRequests.add(writeReq);
         }
@@ -349,7 +349,7 @@ public class CommitProcessorConcurrencyTest extends ZKTestCase {
         // +50 read requests to queuedRequests
         for (int readReqId = 1; readReqId <= 50; ++readReqId) {
             Request readReq = newRequest(new GetDataRequest(path, false),
-                    OpCode.getData, 0x5, readReqId);
+                    OpType.getData, 0x5, readReqId);
             allReads.add(readReq);
             processor.queuedRequests.add(readReq);
         }

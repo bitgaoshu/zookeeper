@@ -47,10 +47,10 @@ import java.util.List;
  */
 public abstract class Op {
     private String path;
-    private OpCode opCode;
+    private OpType opType;
 
-    private Op(OpCode opCode, String path) {
-        this.opCode = opCode;
+    private Op(OpType opCode, String path) {
+        this.opType = opCode;
         this.path = path;
     }
 
@@ -160,18 +160,18 @@ public abstract class Op {
         return new Check(path, version);
     }
 
-    public OpCode getOpCode() {
-        return opCode;
+    public OpType getOpType() {
+        return opType;
     }
 
     /**
-     * Gets the integer type code for an Op.  This code should be as from ZooDefs.OpCode
+     * Gets the integer type code for an Op.  This code should be as from ZooDefs.OpType
      *
      * @return The type code.
-     * @see OpCode
+     * @see OpType
      */
     public int getType() {
-        return opCode.getValue();
+        return opType.getValue();
     }
 
     /**
@@ -229,11 +229,11 @@ public abstract class Op {
             this.flags = createMode.toFlag();
         }
 
-        private static OpCode getOpcode(CreateMode createMode) {
+        private static OpType getOpcode(CreateMode createMode) {
             if (createMode.isTTL()) {
-                return OpCode.createTTL;
+                return OpType.createTTL;
             }
-            return createMode.isContainer() ? OpCode.createContainer : OpCode.create;
+            return createMode.isContainer() ? OpType.createContainer : OpType.create;
         }
 
         @Override
@@ -328,7 +328,7 @@ public abstract class Op {
         private int version;
 
         private Delete(String path, int version) {
-            super(OpCode.delete, path);
+            super(OpType.delete, path);
             this.version = version;
         }
 
@@ -364,7 +364,7 @@ public abstract class Op {
         private int version;
 
         private SetData(String path, byte[] data, int version) {
-            super(OpCode.setData, path);
+            super(OpType.setData, path);
             this.data = data;
             this.version = version;
         }
@@ -400,7 +400,7 @@ public abstract class Op {
         private int version;
 
         private Check(String path, int version) {
-            super(OpCode.check, path);
+            super(OpType.check, path);
             this.version = version;
         }
 

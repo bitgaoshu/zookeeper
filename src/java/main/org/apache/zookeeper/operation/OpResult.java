@@ -25,20 +25,20 @@ import org.apache.zookeeper.data.Stat;
  * Encodes the result of a single part of a multiple operation commit.
  */
 public abstract class OpResult {
-    private OpCode type;
+    private OpType type;
 
-    private OpResult(OpCode type) {
+    private OpResult(OpType type) {
         this.type = type;
     }
 
     /**
-     * Encodes the return type as from ZooDefs.OpCode.  Can be used
+     * Encodes the return type as from ZooDefs.OpType.  Can be used
      * to dispatch to the correct cast needed for getting the desired
      * additional result data.
-     * @see OpCode
+     * @see OpType
      * @return an integer identifying what kind of operation this result came from.
      */
-    public OpCode getType() {
+    public OpType getType() {
         return type;
     }
 
@@ -52,14 +52,14 @@ public abstract class OpResult {
         private Stat stat;
 
         public CreateResult(String path) {
-        	this(OpCode.create, path, null);
+        	this(OpType.create, path, null);
         }
 
         public CreateResult(String path, Stat stat) {
-            this(OpCode.create2, path, stat);
+            this(OpType.create2, path, stat);
         }
 
-        private CreateResult(OpCode opcode, String path, Stat stat) {
+        private CreateResult(OpType opcode, String path, Stat stat) {
         	super(opcode);
             this.path = path;
             this.stat = stat;
@@ -99,7 +99,7 @@ public abstract class OpResult {
      */
     public static class DeleteResult extends OpResult {
         public DeleteResult() {
-            super(OpCode.delete);
+            super(OpType.delete);
         }
 
         @Override
@@ -125,7 +125,7 @@ public abstract class OpResult {
         private Stat stat;
 
         public SetDataResult(Stat stat) {
-            super(OpCode.setData);
+            super(OpType.setData);
             this.stat = stat;
         }
 
@@ -153,7 +153,7 @@ public abstract class OpResult {
      */
     public static class CheckResult extends OpResult {
         public CheckResult() {
-            super(OpCode.check);
+            super(OpType.check);
         }
 
         @Override
@@ -181,7 +181,7 @@ public abstract class OpResult {
         private int err;
 
         public ErrorResult(int err) {
-            super(OpCode.error);
+            super(OpType.error);
             this.err = err;
         }
 

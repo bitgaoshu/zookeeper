@@ -23,7 +23,7 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 
 import org.apache.jute.Record;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
@@ -128,7 +128,7 @@ public class Follower extends Learner{
             }
             lastQueued = hdr.getZxid();
             
-            if (hdr.getType() == OpCode.reconfig.getValue()){
+            if (hdr.getType() == OpType.reconfig.getValue()){
                SetDataTxn setDataTxn = (SetDataTxn) txn;       
                QuorumVerifier qv = self.configFromString(new String(setDataTxn.getData()));
                self.setLastSeenQuorumVerifier(qv, true);                               

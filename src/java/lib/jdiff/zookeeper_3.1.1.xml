@@ -1744,7 +1744,7 @@
     </field>
   </interface>
   <!-- end interface org.apache.zookeeper.util.ZooDefs.Ids -->
-  <!-- start interface org.apache.zookeeper.util.ZooDefs.OpCode -->
+  <!-- start interface org.apache.zookeeper.util.ZooDefs.OpType -->
   <interface name="ZooDefs.OpCode"    abstract="true"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -1829,7 +1829,7 @@
       deprecated="not deprecated">
     </field>
   </interface>
-  <!-- end interface org.apache.zookeeper.util.ZooDefs.OpCode -->
+  <!-- end interface org.apache.zookeeper.util.ZooDefs.OpType -->
   <!-- start interface org.apache.zookeeper.util.ZooDefs.Perms -->
   <interface name="ZooDefs.Perms"    abstract="true"
     static="true" final="false" visibility="public"

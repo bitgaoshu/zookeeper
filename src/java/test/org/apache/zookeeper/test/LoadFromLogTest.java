@@ -26,6 +26,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.common.Time;
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
@@ -35,7 +36,6 @@ import org.apache.zookeeper.exception.KeeperException.NoNodeException;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.util.ZooDefs.Ids;
-import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.server.DataNode;
@@ -223,31 +223,31 @@ public class LoadFromLogTest extends ZKTestCase {
 
         // Make create to fail, then verify cversion.
         LOG.info("Attempting to create " + "/test/" + (count - 1));
-        doOp(logFile, OpCode.create, "/test/" + (count - 1), dt, zk, -1);
+        doOp(logFile, OpType.create, "/test/" + (count - 1), dt, zk, -1);
 
         LOG.info("Attempting to create " + "/test/" + (count - 1));
-        doOp(logFile, OpCode.create, "/test/" + (count - 1), dt, zk,
+        doOp(logFile, OpType.create, "/test/" + (count - 1), dt, zk,
                 zk.stat.getCversion() + 1);
 
         LOG.info("Attempting to create " + "/test/" + (count - 1));
-        doOp(logFile, OpCode.multi, "/test/" + (count - 1), dt, zk,
+        doOp(logFile, OpType.multi, "/test/" + (count - 1), dt, zk,
                 zk.stat.getCversion() + 1);
 
         LOG.info("Attempting to create " + "/test/" + (count - 1));
-        doOp(logFile, OpCode.multi, "/test/" + (count - 1), dt, zk,
+        doOp(logFile, OpType.multi, "/test/" + (count - 1), dt, zk,
                 -1);
 
         // Make delete fo fail, then verify cversion.
         // this doesn't happen anymore, we only set the cversion on create
         // LOG.info("Attempting to delete " + "/test/" + (count + 1));
-        // doOp(logFile, OpCode.delete, "/test/" + (count + 1), dt, zk);
+        // doOp(logFile, OpType.delete, "/test/" + (count + 1), dt, zk);
     }
     /*
      * Does create/delete depending on the type and verifies
      * if cversion before the operation is 1 less than cversion afer.
      */
-    private void doOp(FileTxnSnapLog logFile, OpCode type, String path,
-            DataTree dt, DataNode parent, int cversion) throws Exception {
+    private void doOp(FileTxnSnapLog logFile, OpType type, String path,
+                      DataTree dt, DataNode parent, int cversion) throws Exception {
         int lastSlash = path.lastIndexOf('/');
         String parentName = path.substring(0, lastSlash);
 
@@ -263,29 +263,29 @@ public class LoadFromLogTest extends ZKTestCase {
 
         Record txn = null;
         TxnHeader txnHeader = null;
-        if (type == OpCode.delete) {
+        if (type == OpType.delete) {
             txn = new DeleteTxn(path);
             txnHeader = new TxnHeader(0xabcd, 0x123, prevPzxid + 1,
-                Time.currentElapsedTime(), OpCode.delete.getValue());
-        } else if (type == OpCode.create) {
+                Time.currentElapsedTime(), OpType.delete.getValue());
+        } else if (type == OpType.create) {
             txnHeader = new TxnHeader(0xabcd, 0x123, prevPzxid + 1,
-                    Time.currentElapsedTime(), OpCode.create.getValue());
+                    Time.currentElapsedTime(), OpType.create.getValue());
             txn = new CreateTxn(path, new byte[0], null, false, cversion);
         }
-        else if (type == OpCode.multi) {
+        else if (type == OpType.multi) {
             txnHeader = new TxnHeader(0xabcd, 0x123, prevPzxid + 1,
-                    Time.currentElapsedTime(), OpCode.create.getValue());
+                    Time.currentElapsedTime(), OpType.create.getValue());
             txn = new CreateTxn(path, new byte[0], null, false, cversion);
             List<Txn> txnList = new ArrayList<Txn>();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             BinaryOutputArchive boa = BinaryOutputArchive.getArchive(baos);
             txn.serialize(boa, "request") ;
             ByteBuffer bb = ByteBuffer.wrap(baos.toByteArray());
-            Txn txact = new Txn(OpCode.create.getValue(),  bb.array());
+            Txn txact = new Txn(OpType.create.getValue(),  bb.array());
             txnList.add(txact);
             txn = new MultiTxn(txnList);
             txnHeader = new TxnHeader(0xabcd, 0x123, prevPzxid + 1,
-                    Time.currentElapsedTime(), OpCode.multi.getValue());
+                    Time.currentElapsedTime(), OpType.multi.getValue());
         }
         logFile.processTransaction(txnHeader, dt, null, txn);
 
@@ -312,7 +312,7 @@ public class LoadFromLogTest extends ZKTestCase {
         File tmpDir = ClientBase.createTmpDir();
         FileTxnLog txnLog = new FileTxnLog(tmpDir);
         TxnHeader txnHeader = new TxnHeader(0xabcd, 0x123, 0x123,
-              Time.currentElapsedTime(), OpCode.create.getValue());
+              Time.currentElapsedTime(), OpType.create.getValue());
         Record txn = new CreateTxn("/Test", new byte[0], null, false, 1);
         txnLog.append(txnHeader, txn);
         FileInputStream in = new FileInputStream(tmpDir.getPath() + "/log." +

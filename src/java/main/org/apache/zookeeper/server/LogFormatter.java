@@ -29,7 +29,7 @@ import java.util.zip.Checksum;
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.Record;
 import org.apache.yetus.audience.InterfaceAudience;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.server.persistence.FileHeader;
@@ -96,7 +96,7 @@ public class LogFormatter {
                     + Long.toHexString(hdr.getCxid())
                     + " zxid 0x"
                     + Long.toHexString(hdr.getZxid())
-                    + " " + OpCode.getOpCode(hdr.getType()).name() + " " + txn);
+                    + " " + OpType.getOpCode(hdr.getType()).name() + " " + txn);
             if (logStream.readByte("EOR") != 'B') {
                 LOG.error("Last transaction was partial.");
                 throw new EOFException("Last transaction was partial.");

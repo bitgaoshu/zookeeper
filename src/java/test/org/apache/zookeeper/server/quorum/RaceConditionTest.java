@@ -26,7 +26,7 @@ import java.net.SocketException;
 import java.nio.ByteBuffer;
 
 import org.apache.zookeeper.PortAssignment;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.FinalRequestProcessor;
 import org.apache.zookeeper.server.PrepRequestProcessor;
 import org.apache.zookeeper.server.Request;
@@ -216,7 +216,7 @@ public class RaceConditionTest extends QuorumPeerTestBase {
              * Add a request so that something is there for SyncRequestProcessor
              * to process, while we are in shutdown flow
              */
-            Request request = new Request(null, 0, 0, OpCode.delete,
+            Request request = new Request(null, 0, 0, OpType.delete,
                     ByteBuffer.wrap("/deadLockIssue".getBytes()), null);
             processRequest(request);
             super.shutdown();

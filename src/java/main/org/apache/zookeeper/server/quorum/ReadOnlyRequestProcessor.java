@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.zookeeper.exception.KeeperException.KECode;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.RequestProcessor;
@@ -36,8 +36,8 @@ import org.slf4j.LoggerFactory;
 /**
  * This processor is at the beginning of the ReadOnlyZooKeeperServer's
  * processors chain. All it does is, it passes read-only operations (e.g.
- * OpCode.getData, OpCode.exists) through to the next processor, but drops
- * state-changing operations (e.g. OpCode.create, OpCode.setData).
+ * OpType.getData, OpType.exists) through to the next processor, but drops
+ * state-changing operations (e.g. OpType.create, OpType.setData).
  */
 public class ReadOnlyRequestProcessor extends ZooKeeperCriticalThread implements
         RequestProcessor {
@@ -67,7 +67,7 @@ public class ReadOnlyRequestProcessor extends ZooKeeperCriticalThread implements
 
                 // log request
                 long traceMask = ZooTrace.CLIENT_REQUEST_TRACE_MASK;
-                if (request.op == OpCode.ping) {
+                if (request.op == OpType.ping) {
                     traceMask = ZooTrace.CLIENT_PING_TRACE_MASK;
                 }
                 if (LOG.isTraceEnabled()) {

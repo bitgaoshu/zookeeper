@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.SessionTrackerImpl.SessionImpl;
 import org.apache.zookeeper.test.ClientBase;
 import org.junit.Assert;
@@ -108,7 +108,7 @@ public class SessionTrackerTest extends ZKTestCase {
         latch.await(sessionTimeout * 2, TimeUnit.MILLISECONDS);
 
         // Simulating close session request: removeSession() will be executed
-        // while OpCode.closeSession
+        // while OpType.closeSession
         sessionTrackerImpl.removeSession(sessionId);
         SessionImpl actualSession = sessionTrackerImpl.sessionsById
                 .get(sessionId);
@@ -142,7 +142,7 @@ public class SessionTrackerTest extends ZKTestCase {
         @Override
         public void processRequest(Request request) {
             // check session close request
-            if (request.op == OpCode.closeSession) {
+            if (request.op == OpType.closeSession) {
                 countOfCloseSessionReq++;
                 latch.countDown();
             }

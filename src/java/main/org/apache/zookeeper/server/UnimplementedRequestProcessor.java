@@ -24,7 +24,7 @@ import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.proto.ReplyHeader;
 
 /**
- * Manages the unknown requests (i.e. unknown OpCode), by:
+ * Manages the unknown requests (i.e. unknown OpType), by:
  * - sending back the KeeperException.UnimplementedException() error code to the client
  * - closing the connection.
  */

@@ -27,7 +27,7 @@ import org.apache.jute.BinaryOutputArchive;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.util.ZooDefs.Ids;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.data.Stat;
@@ -104,7 +104,7 @@ public class LeaderSessionTrackerTest extends ZKTestCase {
 
         LOG.info("Fake session Id: " + Long.toHexString(fakeSessionId));
 
-        Request request = new Request(null, fakeSessionId, 0, OpCode.create,
+        Request request = new Request(null, fakeSessionId, 0, OpType.create,
                 bb, new ArrayList<Id>());
 
         // Submit request directly to leader
@@ -146,7 +146,7 @@ public class LeaderSessionTrackerTest extends ZKTestCase {
 
         LOG.info("Local session Id: " + Long.toHexString(locallSession));
 
-        Request request = new Request(null, locallSession, 0, OpCode.create,
+        Request request = new Request(null, locallSession, 0, OpType.create,
                 bb, new ArrayList<Id>());
 
         // Submit request directly to leader

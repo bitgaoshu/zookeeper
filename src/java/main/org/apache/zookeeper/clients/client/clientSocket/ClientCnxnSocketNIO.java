@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.clients.client.clientSocket;
 
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn.EndOfStreamException;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn.Packet;
 import org.apache.zookeeper.clients.client.common.ZKClientConfig;
@@ -114,8 +114,8 @@ public class ClientCnxnSocketNIO extends ClientCnxnSocket {
                 // If we already started writing p, p.bb will already exist
                 if (p.bb == null) {
                     if ((p.requestHeader != null) &&
-                            (p.requestHeader.getType() != OpCode.ping.getValue()) &&
-                            (p.requestHeader.getType() != OpCode.auth.getValue())) {
+                            (p.requestHeader.getType() != OpType.ping.getValue()) &&
+                            (p.requestHeader.getType() != OpType.auth.getValue())) {
                         p.requestHeader.setXid(cnxn.getXid());
                     }
                     p.createBB();
@@ -125,8 +125,8 @@ public class ClientCnxnSocketNIO extends ClientCnxnSocket {
                     sentCount++;
                     outgoingQueue.removeFirstOccurrence(p);
                     if (p.requestHeader != null
-                            && p.requestHeader.getType() != OpCode.ping.getValue()
-                            && p.requestHeader.getType() != OpCode.auth.getValue()) {
+                            && p.requestHeader.getType() != OpType.ping.getValue()
+                            && p.requestHeader.getType() != OpType.auth.getValue()) {
                         synchronized (pendingQueue) {
                             pendingQueue.add(p);
                         }

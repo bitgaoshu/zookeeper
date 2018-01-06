@@ -22,9 +22,9 @@ import org.apache.zookeeper.Login;
 import org.apache.zookeeper.clients.AsyncCallback;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn;
 import org.apache.zookeeper.clients.client.common.ZKClientConfig;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.common.ZKConfig;
 import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.proto.GetSASLRequest;
 import org.apache.zookeeper.proto.SetSASLResponse;
 import org.apache.zookeeper.server.auth.KerberosName;
@@ -445,7 +445,7 @@ public class ZooKeeperSaslClient {
         ServerSaslResponseCallback cb = new ServerSaslResponseCallback();
 
         try {
-            cnxn.sendPacket(request,response,cb, OpCode.sasl);
+            cnxn.sendPacket(request,response,cb, OpType.sasl);
         } catch (IOException e) {
             throw new SaslException("Failed to send SASL packet to server.",
                 e);
@@ -461,7 +461,7 @@ public class ZooKeeperSaslClient {
         SetSASLResponse response = new SetSASLResponse();
         ServerSaslResponseCallback cb = new ServerSaslResponseCallback();
         try {
-            cnxn.sendPacket(request,response,cb, OpCode.sasl);
+            cnxn.sendPacket(request,response,cb, OpType.sasl);
         } catch (IOException e) {
             throw new SaslException("Failed to send SASL packet to server due " +
               "to IOException:", e);

@@ -21,13 +21,13 @@ package org.apache.zookeeper.server.quorum;
 import java.nio.ByteBuffer;
 import java.util.List;
 
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.server.Request;
 
 public class LearnerSyncRequest extends Request {
 	LearnerHandler fh;
-	public LearnerSyncRequest(LearnerHandler fh, long sessionId, int xid, OpCode op,
+	public LearnerSyncRequest(LearnerHandler fh, long sessionId, int xid, OpType op,
 			ByteBuffer bb, List<Id> authInfo) {
 		super(null, sessionId, xid, op, bb, authInfo);
 		this.fh = fh;

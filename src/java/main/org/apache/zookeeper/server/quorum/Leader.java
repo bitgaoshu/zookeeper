@@ -39,7 +39,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 
 import org.apache.jute.BinaryOutputArchive;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.server.FinalRequestProcessor;
 import org.apache.zookeeper.server.Request;
@@ -747,7 +747,7 @@ public class Leader {
 
         if (p.request == null) {
             LOG.warn("Going to commmit null: " + p);
-        } else if (p.request.getHdr().getType() == OpCode.reconfig.getValue()) {
+        } else if (p.request.getHdr().getType() == OpType.reconfig.getValue()) {
             LOG.debug("Committing a reconfiguration! " + outstandingProposals.size()); 
                  
             //if this server is voter in new config with the same quorum address, 
@@ -854,7 +854,7 @@ public class Leader {
        // concurrent reconfigs are allowed, this can happen and then we need to check whether some pending
         // ops may already have enough acks and can be committed, which is what this code does.
 
-        if (hasCommitted && p.request!=null && p.request.getHdr().getType() == OpCode.reconfig.getValue()){
+        if (hasCommitted && p.request!=null && p.request.getHdr().getType() == OpType.reconfig.getValue()){
                long curZxid = zxid;
            while (allowedToCommit && hasCommitted && p!=null){
                curZxid++;
@@ -1065,7 +1065,7 @@ public class Leader {
         synchronized(this) {
            p.addQuorumVerifier(self.getQuorumVerifier());
                    
-           if (request.getHdr().getType() == OpCode.reconfig.getValue()){
+           if (request.getHdr().getType() == OpType.reconfig.getValue()){
                self.setLastSeenQuorumVerifier(request.qv, true);                       
            }
            

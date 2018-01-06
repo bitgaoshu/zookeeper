@@ -43,7 +43,7 @@ import java.nio.channels.SocketChannel;
 import java.util.Collections;
 import java.util.Random;
 
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
@@ -256,7 +256,7 @@ public class WatchLeakTest {
         SetWatches sw = new SetWatches(1L, dataWatches, existWatches,
                 childWatches);
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.setWatches.getValue());
+        h.setType(OpType.setWatches.getValue());
         h.setXid(-8);
         MockPacket p = new MockPacket(h, new ReplyHeader(), sw, null, null);
         return p.createAndReturnBB();

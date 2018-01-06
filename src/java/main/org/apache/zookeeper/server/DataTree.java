@@ -25,6 +25,7 @@ import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.exception.KeeperException.NoNodeException;
 import org.apache.zookeeper.exception.KeeperException.NodeExistsException;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.util.StatsTrack;
 import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.watcher.Watcher;
@@ -33,7 +34,6 @@ import org.apache.zookeeper.watcher.Event.EventType;
 import org.apache.zookeeper.watcher.Event.KeeperState;
 import org.apache.zookeeper.watcher.WatcherType;
 import org.apache.zookeeper.util.ZooDefs;
-import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.server.common.PathTrie;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
@@ -766,7 +766,7 @@ public class DataTree {
             rc.type = header.getType();
             rc.err = 0;
             rc.multiResult = null;
-            OpCode op = OpCode.getOpCode(header.getType());
+            OpType op = OpType.getOpCode(header.getType());
             switch (op) {
                 case create:
                     CreateTxn createTxn = (CreateTxn) txn;
@@ -855,7 +855,7 @@ public class DataTree {
                     rc.multiResult = new ArrayList<ProcessTxnResult>();
                     boolean failed = false;
                     for (Txn subtxn : txns) {
-                        if (subtxn.getType() == OpCode.error.getValue()) {
+                        if (subtxn.getType() == OpType.error.getValue()) {
                             failed = true;
                             break;
                         }
@@ -865,7 +865,7 @@ public class DataTree {
                     for (Txn subtxn : txns) {
                         ByteBuffer bb = ByteBuffer.wrap(subtxn.getData());
                         Record record = null;
-                        OpCode subTxnOp = OpCode.getOpCode(subtxn.getType());
+                        OpType subTxnOp = OpType.getOpCode(subtxn.getType());
                         switch (subTxnOp) {
                             case create:
                                 record = new CreateTxn();
@@ -897,16 +897,16 @@ public class DataTree {
 
                         ByteBufferInputStream.byteBuffer2Record(bb, record);
 
-                        if (failed && subTxnOp != OpCode.error){
+                        if (failed && subTxnOp != OpType.error){
                             int ec = post_failed ? KeeperException.KECode.RUNTIMEINCONSISTENCY.intValue()
                                                  : KECode.OK.intValue();
 
-                            subtxn.setType(OpCode.error.getValue());
+                            subtxn.setType(OpType.error.getValue());
                             record = new ErrorTxn(ec);
                         }
 
                         if (failed) {
-                            assert(subtxn.getType() == OpCode.error.getValue()) ;
+                            assert(subtxn.getType() == OpType.error.getValue()) ;
                         }
 
                         TxnHeader subHdr = new TxnHeader(header.getClientId(), header.getCxid(),
@@ -962,7 +962,7 @@ public class DataTree {
          * Note, such failures on DT should be seen only during
          * restore.
          */
-        if (header.getType() == OpCode.create.getValue() &&
+        if (header.getType() == OpType.create.getValue() &&
                 rc.err == KECode.NODEEXISTS.intValue()) {
             LOG.debug("Adjusting parent cversion for Txn: " + header.getType() +
                     " path:" + rc.path + " err: " + rc.err);

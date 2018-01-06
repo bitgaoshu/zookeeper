@@ -37,7 +37,7 @@ import org.apache.log4j.WriterAppender;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.PortAssignment;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.clients.client.ZooKeeper.States;
@@ -198,7 +198,7 @@ public class QuorumPeerMainTest extends QuorumPeerTestBase {
         // just make sure that we actually did get it in process at the
         // leader
         Assert.assertTrue(outstanding.size() == 1);
-        Assert.assertTrue(((Proposal) outstanding.values().iterator().next()).request.getHdr().getType() == OpCode.create.getValue());
+        Assert.assertTrue(((Proposal) outstanding.values().iterator().next()).request.getHdr().getType() == OpType.create.getValue());
         // make sure it has a chance to write it to disk
         Thread.sleep(1000);
         mt[leader].shutdown();

@@ -23,12 +23,12 @@ import java.util.List;
 
 import org.apache.yetus.audience.InterfaceAudience;
 import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.clients.AsyncCallback.DataCallback;
 import org.apache.zookeeper.clients.client.common.ZKClientConfig;
-import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.server.common.StringUtils;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.proto.GetDataResponse;
@@ -179,7 +179,7 @@ public class ZooKeeperAdmin extends ZooKeeper {
     public byte[] reconfigure(String joiningServers, String leavingServers,
                               String newMembers, long fromConfig, Stat stat) throws KeeperException, InterruptedException {
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.reconfig.getValue());
+        h.setType(OpType.reconfig.getValue());
         ReconfigRequest request = new ReconfigRequest(joiningServers, leavingServers, newMembers, fromConfig);
         GetDataResponse response = new GetDataResponse();
         ReplyHeader r = cnxn.submitRequest(h, request, response, null);
@@ -216,7 +216,7 @@ public class ZooKeeperAdmin extends ZooKeeper {
     public void reconfigure(String joiningServers, String leavingServers,
                             String newMembers, long fromConfig, DataCallback cb, Object ctx) {
         RequestHeader h = new RequestHeader();
-        h.setType(OpCode.reconfig.getValue());
+        h.setType(OpType.reconfig.getValue());
         ReconfigRequest request = new ReconfigRequest(joiningServers, leavingServers, newMembers, fromConfig);
         GetDataResponse response = new GetDataResponse();
         cnxn.queuePacket(h, new ReplyHeader(), request, response, cb,

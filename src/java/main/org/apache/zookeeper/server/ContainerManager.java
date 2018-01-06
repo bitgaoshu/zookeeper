@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.server;
 
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.nodeMode.EphemeralType;
 import org.slf4j.Logger;
@@ -115,7 +115,7 @@ public class ContainerManager {
 
             ByteBuffer path = ByteBuffer.wrap(containerPath.getBytes());
             Request request = new Request(null, 0, 0,
-                    OpCode.deleteContainer, path, null);
+                    OpType.deleteContainer, path, null);
             try {
                 LOG.info("Attempting to delete candidate container: %s",
                         containerPath);

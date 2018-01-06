@@ -36,7 +36,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.TxnLogProposalIterator;
 import org.apache.zookeeper.server.ZKDatabase;
@@ -586,10 +586,10 @@ public class LearnerHandler extends ZooKeeperThread {
                     type = bb.getInt();
                     bb = bb.slice();
                     Request si;
-                    if(type == OpCode.sync.getValue()){
-                        si = new LearnerSyncRequest(this, sessionId, cxid, OpCode.sync, bb, qp.getAuthinfo());
+                    if(type == OpType.sync.getValue()){
+                        si = new LearnerSyncRequest(this, sessionId, cxid, OpType.sync, bb, qp.getAuthinfo());
                     } else {
-                        si = new Request(null, sessionId, cxid, OpCode.getOpCode(type), bb, qp.getAuthinfo());
+                        si = new Request(null, sessionId, cxid, OpType.getOpCode(type), bb, qp.getAuthinfo());
                     }
                     si.setOwner(this);
                     leader.zk.submitLearnerRequest(si);

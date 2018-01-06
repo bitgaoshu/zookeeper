@@ -19,7 +19,7 @@
 package org.apache.zookeeper.server.quorum;
 
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.server.ZooKeeperCriticalThread;
@@ -128,7 +128,7 @@ public class ObserverRequestProcessor extends ZooKeeperCriticalThread implements
                 upgradeRequest = zks.checkUpgradeSession(request);
             } catch (KeeperException ke) {
                 if (request.getHdr() != null) {
-                    request.getHdr().setType(OpCode.error.getValue());
+                    request.getHdr().setType(OpType.error.getValue());
                     request.setTxn(new ErrorTxn(ke.code().intValue()));
                 }
                 request.setException(ke);

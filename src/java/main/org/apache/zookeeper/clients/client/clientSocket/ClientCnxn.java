@@ -21,6 +21,7 @@ package org.apache.zookeeper.clients.client.clientSocket;
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.clients.AsyncCallback;
 import org.apache.zookeeper.clients.AsyncCallback.ACLCallback;
@@ -43,7 +44,6 @@ import org.apache.zookeeper.clients.client.common.ZKClientConfig;
 import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.KECode;
-import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.operation.OpResult;
 import org.apache.zookeeper.operation.OpResult.ErrorResult;
 import org.apache.zookeeper.operation.multi.MultiResponse;
@@ -399,7 +399,7 @@ public class ClientCnxn {
 
         try {
             RequestHeader h = new RequestHeader();
-            h.setType(OpCode.closeSession.getValue());
+            h.setType(OpType.closeSession.getValue());
 
             submitRequest(h, null, null, null);
         } catch (InterruptedException e) {
@@ -442,7 +442,7 @@ public class ClientCnxn {
         sendThread.getClientCnxnSocket().saslCompleted();
     }
 
-    public void sendPacket(Record request, Record response, AsyncCallback cb, OpCode opCode)
+    public void sendPacket(Record request, Record response, AsyncCallback cb, OpType opCode)
             throws IOException {
         // Generate Xid now because it will be sent immediately,
         // by call to sendThread.sendPacket() below.
@@ -491,7 +491,7 @@ public class ClientCnxn {
             } else {
                 // If the client is asking to close the session then
                 // mark as closing
-                if (h.getType() == OpCode.closeSession.getValue()) {
+                if (h.getType() == OpType.closeSession.getValue()) {
                     closing = true;
                 }
                 outgoingQueue.add(packet);
@@ -506,7 +506,7 @@ public class ClientCnxn {
             return;
         }
         authInfo.add(new AuthData(scheme, auth));
-        queuePacket(new RequestHeader(-4, OpCode.auth.getValue()), null,
+        queuePacket(new RequestHeader(-4, OpType.auth.getValue()), null,
                 new AuthPacket(0, scheme, auth), null, null, null, null,
                 null, null);
     }
@@ -1191,7 +1191,7 @@ public class ClientCnxn {
                                 dataWatchesBatch,
                                 existWatchesBatch,
                                 childWatchesBatch);
-                        RequestHeader header = new RequestHeader(-8, OpCode.setWatches.getValue());
+                        RequestHeader header = new RequestHeader(-8, OpType.setWatches.getValue());
                         Packet packet = new Packet(header, new ReplyHeader(), sw, null, null);
                         outgoingQueue.addFirst(packet);
                     }
@@ -1200,7 +1200,7 @@ public class ClientCnxn {
 
             for (AuthData id : authInfo) {
                 outgoingQueue.addFirst(new Packet(new RequestHeader(-4,
-                        OpCode.auth.getValue()), null, new AuthPacket(0, id.scheme,
+                        OpType.auth.getValue()), null, new AuthPacket(0, id.scheme,
                         id.data), null, null));
             }
             outgoingQueue.addFirst(new Packet(null, null, conReq,
@@ -1231,7 +1231,7 @@ public class ClientCnxn {
 
         private void sendPing() {
             lastPingSentNs = System.nanoTime();
-            RequestHeader h = new RequestHeader(-2, OpCode.ping.getValue());
+            RequestHeader h = new RequestHeader(-2, OpType.ping.getValue());
             queuePacket(h, null, null, null, null, null, null, null, null);
         }
 

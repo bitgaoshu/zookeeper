@@ -20,7 +20,7 @@ package org.apache.zookeeper.operation.multi;
 import org.apache.jute.InputArchive;
 import org.apache.jute.OutputArchive;
 import org.apache.jute.Record;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.operation.OpResult;
 import org.apache.zookeeper.proto.Create2Response;
 import org.apache.zookeeper.proto.CreateResponse;
@@ -61,7 +61,7 @@ public class MultiResponse implements Record, Iterable<OpResult> {
         archive.startRecord(this, tag);
 
         for (OpResult result : results) {
-            int err = result.getType() == OpCode.error ? ((OpResult.ErrorResult)result).getErr() : 0;
+            int err = result.getType() == OpType.error ? ((OpResult.ErrorResult)result).getErr() : 0;
 
             new MultiHeader(result.getType().getValue(), false, err).serialize(archive, tag);
 
@@ -99,7 +99,7 @@ public class MultiResponse implements Record, Iterable<OpResult> {
         MultiHeader h = new MultiHeader();
         h.deserialize(archive, tag);
         while (!h.getDone()) {
-            OpCode op = OpCode.getOpCode(h.getType());
+            OpType op = OpType.getOpCode(h.getType());
             switch (op) {
                 case create:
                     CreateResponse cr = new CreateResponse();

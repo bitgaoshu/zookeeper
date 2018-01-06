@@ -38,9 +38,9 @@ import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.InputArchive;
 import org.apache.jute.OutputArchive;
 import org.apache.jute.Record;
+import org.apache.zookeeper.operation.OpType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.ZooTrace;
@@ -440,7 +440,7 @@ public class Learner {
                     }
                     lastQueued = pif.hdr.getZxid();
                     
-                    if (pif.hdr.getType() == OpCode.reconfig.getValue()){
+                    if (pif.hdr.getType() == OpType.reconfig.getValue()){
                         SetDataTxn setDataTxn = (SetDataTxn) pif.rec;       
                        QuorumVerifier qv = self.configFromString(new String(setDataTxn.getData()));
                        self.setLastSeenQuorumVerifier(qv, true);                               
@@ -587,7 +587,7 @@ public class Learner {
                 packetsCommitted.remove();
                 int opValue = p.hdr.getType();
                 Request request = new Request(null, p.hdr.getClientId(),
-                        p.hdr.getCxid(), OpCode.getOpCode(opValue), null, null);
+                        p.hdr.getCxid(), OpType.getOpCode(opValue), null, null);
                 request.setTxn(p.rec);
                 request.setHdr(p.hdr);
                 ozk.commitRequest(request);

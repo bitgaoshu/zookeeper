@@ -21,11 +21,11 @@ package org.apache.zookeeper.server;
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.util.LogEnv;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
-import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.data.StatPersisted;
@@ -351,7 +351,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     }
 
     private void close(long sessionId) {
-        Request si = new Request(null, sessionId, 0, OpCode.closeSession, null, null);
+        Request si = new Request(null, sessionId, 0, OpType.closeSession, null, null);
         setLocalSessionFlag(si);
         submitRequest(si);
     }
@@ -573,7 +573,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         ByteBuffer to = ByteBuffer.allocate(4);
         to.putInt(timeout);
         cnxn.setSessionId(sessionId);
-        Request si = new Request(cnxn, sessionId, 0, OpCode.createSession, to, null);
+        Request si = new Request(cnxn, sessionId, 0, OpType.createSession, to, null);
         setLocalSessionFlag(si);
         submitRequest(si);
         return sessionId;
@@ -706,7 +706,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         }
         try {
             touch(si.cnxn);
-            boolean validpacket = OpCode.isValid(si.op);
+            boolean validpacket = OpType.isValid(si.op);
             if (validpacket) {
                 firstProcessor.processRequest(si);
                 if (si.cnxn != null) {
@@ -994,8 +994,8 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         // pointing
         // to the start of the txn
         incomingBuffer = incomingBuffer.slice();
-        OpCode opCode = OpCode.getOpCode(h.getType());
-        if (opCode == OpCode.auth) {
+        OpType opCode = OpType.getOpCode(h.getType());
+        if (opCode == OpType.auth) {
             LOG.info("got auth packet " + cnxn.getRemoteSocketAddress());
             AuthPacket authPacket = new AuthPacket();
             ByteBufferInputStream.byteBuffer2Record(incomingBuffer, authPacket);
@@ -1036,7 +1036,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
             }
             return;
         } else {
-            if (opCode == OpCode.sasl) {
+            if (opCode == OpType.sasl) {
                 LOG.debug("Responding to client SASL token.");
                 GetSASLRequest clientTokenRecord = new GetSASLRequest();
                 ByteBufferInputStream.byteBuffer2Record(incomingBuffer, clientTokenRecord);
@@ -1111,14 +1111,14 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     private ProcessTxnResult processTxn(Request request, TxnHeader hdr,
                                         Record txn) {
         ProcessTxnResult rc;
-        OpCode opCode = request != null ? request.op : hdr.getOp();
+        OpType opCode = request != null ? request.op : hdr.getOp();
         long sessionId = request != null ? request.sessionId : hdr.getClientId();
         if (hdr != null) {
             rc = getZKDatabase().processTxn(hdr, txn);
         } else {
             rc = new ProcessTxnResult();
         }
-        if (opCode == OpCode.createSession) {
+        if (opCode == OpType.createSession) {
             if (hdr != null && txn instanceof CreateSessionTxn) {
                 CreateSessionTxn cst = (CreateSessionTxn) txn;
                 sessionTracker.addGlobalSession(sessionId, cst.getTimeOut());
@@ -1132,7 +1132,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
                         + txn.getClass() + " "
                         + txn.toString());
             }
-        } else if (opCode == OpCode.closeSession) {
+        } else if (opCode == OpType.closeSession) {
             sessionTracker.removeSession(sessionId);
         }
         return rc;

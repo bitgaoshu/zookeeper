@@ -19,7 +19,7 @@
 package org.apache.zookeeper.server.persistence;
 
 import org.apache.jute.Record;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.DataTree;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.test.ClientBase;
@@ -122,9 +122,9 @@ public class FileTxnSnapLogTest {
         FileTxnSnapLog fileTxnSnapLog = new FileTxnSnapLog(new File(tmpDir, "data"),
                 new File(tmpDir, "data_txnlog"));
 
-        TxnHeader hdr = new TxnHeader(1, 1, 1, 1, OpCode.setData.getValue());
+        TxnHeader hdr = new TxnHeader(1, 1, 1, 1, OpType.setData.getValue());
         Record txn = new SetDataTxn("/foo", new byte[0], 1);
-        Request req = new Request(0, 0, OpCode.notification, hdr, txn, 0);
+        Request req = new Request(0, 0, OpType.notification, hdr, txn, 0);
 
         try {
             fileTxnSnapLog.append(req);

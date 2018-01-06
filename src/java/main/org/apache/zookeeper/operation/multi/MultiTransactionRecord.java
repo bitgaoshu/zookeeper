@@ -21,7 +21,7 @@ import org.apache.jute.InputArchive;
 import org.apache.jute.OutputArchive;
 import org.apache.jute.Record;
 import org.apache.zookeeper.operation.Op;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.proto.*;
 
 import java.io.IOException;
@@ -67,7 +67,7 @@ public class MultiTransactionRecord implements Record, Iterable<Op> {
         for (Op op : ops) {
             MultiHeader h = new MultiHeader(op.getType(), false, -1);
             h.serialize(archive, tag);
-            switch (op.getOpCode()) {
+            switch (op.getOpType()) {
                 case create:
                 case create2:
                 case createTTL:
@@ -92,7 +92,7 @@ public class MultiTransactionRecord implements Record, Iterable<Op> {
         h.deserialize(archive, tag);
 
         while (!h.getDone()) {
-            OpCode op = OpCode.getOpCode(h.getType());
+            OpType op = OpType.getOpCode(h.getType());
             switch (op) {
                 case create:
                 case create2:

@@ -38,7 +38,7 @@ import org.apache.jute.OutputArchive;
 import org.apache.jute.Record;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.NoNodeException;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.watcher.WatcherType;
 import org.apache.zookeeper.util.ZooDefs;
@@ -237,7 +237,7 @@ public class ZKDatabase {
     public long loadDataBase() throws IOException {
         PlayBackListener listener=new PlayBackListener(){
             public void onTxnLoaded(TxnHeader hdr,Record txn){
-                Request r = new Request(0, hdr.getCxid(), OpCode.getOpCode(hdr.getType()), hdr, txn, hdr.getZxid());
+                Request r = new Request(0, hdr.getCxid(), OpType.getOpCode(hdr.getType()), hdr, txn, hdr.getZxid());
                 addCommittedProposal(r);
             }
         };

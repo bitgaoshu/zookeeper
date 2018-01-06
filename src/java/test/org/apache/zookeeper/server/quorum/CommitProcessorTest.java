@@ -31,8 +31,8 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.zookeeper.ZKTestCase;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.util.ZooDefs.Ids;
-import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.proto.CreateRequest;
 import org.apache.zookeeper.proto.GetDataRequest;
@@ -161,7 +161,7 @@ public class CommitProcessorTest extends ZKTestCase {
                 new byte[0], Ids.OPEN_ACL_UNSAFE, 1);
             createReq.serialize(boa, "request");
             ByteBuffer bb = ByteBuffer.wrap(boas.toByteArray());
-            Request req = new Request(null, sessionId, ++cxid, OpCode.create,
+            Request req = new Request(null, sessionId, ++cxid, OpType.create,
                                       bb, new ArrayList<Id>());
             zks.getFirstProcessor().processRequest(req);
 
@@ -174,7 +174,7 @@ public class CommitProcessorTest extends ZKTestCase {
                 "/session" + Long.toHexString(sessionId) + "-" + nodeId, false);
             getDataRequest.serialize(boa, "request");
             ByteBuffer bb = ByteBuffer.wrap(boas.toByteArray());
-            Request req = new Request(null, sessionId, ++cxid, OpCode.getData,
+            Request req = new Request(null, sessionId, ++cxid, OpType.getData,
                                       bb, new ArrayList<Id>());
             zks.getFirstProcessor().processRequest(req);
         }
@@ -389,7 +389,7 @@ public class CommitProcessorTest extends ZKTestCase {
                 throws RequestProcessorException {
             if (stopped)
                 return;
-            if (request.op == OpCode.closeSession){
+            if (request.op == OpType.closeSession){
                 LOG.debug("ValidateProcessor got closeSession request=" + request);
                 nextProcessor.processRequest(request);
                 return;

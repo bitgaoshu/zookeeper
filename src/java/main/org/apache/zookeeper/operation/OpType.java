@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @InterfaceAudience.Public
-public enum OpCode {
+public enum OpType {
 
     notification(0),
     create(1),
@@ -38,13 +38,13 @@ public enum OpCode {
     noDefine(-2);
     private int value;
 
-    OpCode(int val) {
+    OpType(int val) {
         this.value = val;
     }
 
-    private static Map<Integer, OpCode> codes = new HashMap<>();
+    private static Map<Integer, OpType> codes = new HashMap<>();
     static {
-        for (OpCode opCode : OpCode.values()) {
+        for (OpType opCode : OpType.values()) {
             codes.put(opCode.getValue(), opCode);
         }
     }
@@ -54,7 +54,7 @@ public enum OpCode {
         return value;
     }
 
-    public static OpCode getOpCode(int val) {
+    public static OpType getOpCode(int val) {
         return codes.getOrDefault(val, noDefine);
     }
 
@@ -65,7 +65,7 @@ public enum OpCode {
      *                the op of the packet
      * @return true if a valid packet, false if not
      */
-    public static boolean isValid(OpCode op) {
+    public static boolean isValid(OpType op) {
         // make sure this is always synchronized with Zoodefs!!
         switch (op) {
             case notification:
@@ -99,7 +99,7 @@ public enum OpCode {
         }
     }
 
-    public static boolean isQuorum(OpCode op, boolean isLocalSession) {
+    public static boolean isQuorum(OpType op, boolean isLocalSession) {
         switch (op) {
             case exists:
             case getACL:
@@ -130,7 +130,7 @@ public enum OpCode {
 
     @Override
     public String toString() {
-        return "OpCode{" +
+        return "OpType{" +
                 "value=" + value + "\n" +
                 "name=" + name() + "\n" +
                 '}';

@@ -21,7 +21,7 @@ package org.apache.zookeeper.clients.client.clientSocket;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn.EndOfStreamException;
 import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn.Packet;
 import org.apache.zookeeper.clients.client.common.ZKClientConfig;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.common.X509Util;
 import org.jboss.netty.bootstrap.ClientBootstrap;
 import org.jboss.netty.buffer.ChannelBuffer;
@@ -272,8 +272,8 @@ public class ClientCnxnSocketNetty extends ClientCnxnSocket {
         while (true) {
             if (p != WakeupPacket.getInstance()) {
                 if ((p.requestHeader != null) &&
-                        (p.requestHeader.getType() != OpCode.ping.getValue()) &&
-                        (p.requestHeader.getType() != OpCode.auth.getValue())) {
+                        (p.requestHeader.getType() != OpType.ping.getValue()) &&
+                        (p.requestHeader.getType() != OpType.auth.getValue())) {
                     p.requestHeader.setXid(cnxn.getXid());
                     synchronized (pendingQueue) {
                         pendingQueue.add(p);

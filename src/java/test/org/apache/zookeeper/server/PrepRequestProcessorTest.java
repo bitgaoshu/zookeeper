@@ -23,11 +23,11 @@ import org.apache.jute.Record;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
 import org.apache.zookeeper.exception.KeeperException.SessionMovedException;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.operation.multi.MultiTransactionRecord;
 import org.apache.zookeeper.operation.Op;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.util.ZooDefs.Ids;
-import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.proto.SetDataRequest;
 import org.apache.zookeeper.server.ZooKeeperServer.ChangeRecord;
@@ -94,7 +94,7 @@ public class PrepRequestProcessorTest extends ClientBase {
     public void testPRequest() throws Exception {
         pLatch = new CountDownLatch(1);
         processor = new PrepRequestProcessor(zks, new MyRequestProcessor());
-        Request foo = new Request(null, 1l, 1, OpCode.create, ByteBuffer.allocate(3), null);
+        Request foo = new Request(null, 1l, 1, OpType.create, ByteBuffer.allocate(3), null);
         processor.pRequest(foo);
 
         Assert.assertEquals("Request should have marshalling error", new ErrorTxn(KeeperException.KECode.MARSHALLINGERROR.intValue()),
@@ -102,7 +102,7 @@ public class PrepRequestProcessorTest extends ClientBase {
         Assert.assertTrue("request hasn't been processed in chain", pLatch.await(5, TimeUnit.SECONDS));
     }
 
-    private Request createRequest(Record record, OpCode opCode) throws IOException {
+    private Request createRequest(Record record, OpType opCode) throws IOException {
         // encoding
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         BinaryOutputArchive boa = BinaryOutputArchive.getArchive(baos);
@@ -118,7 +118,7 @@ public class PrepRequestProcessorTest extends ClientBase {
         processor = new PrepRequestProcessor(zks, new MyRequestProcessor());
 
         Record record = new MultiTransactionRecord(ops);
-        Request req = createRequest(record, OpCode.multi);
+        Request req = createRequest(record, OpType.multi);
 
         processor.pRequest(req);
         Assert.assertTrue("request hasn't been processed in chain", pLatch.await(5, TimeUnit.SECONDS));
@@ -192,10 +192,10 @@ public class PrepRequestProcessorTest extends ClientBase {
         processor = new PrepRequestProcessor(zks, new MyRequestProcessor());
 
         SetDataRequest record = new SetDataRequest("", new byte[0], -1);
-        Request req = createRequest(record, OpCode.setData);
+        Request req = createRequest(record, OpType.setData);
         processor.pRequest(req);
         pLatch.await();
-        Assert.assertEquals(outcome.getHdr().getType(), OpCode.error);
+        Assert.assertEquals(outcome.getHdr().getType(), OpType.error);
         Assert.assertEquals(outcome.getException().code(), KeeperException.KECode.BADARGUMENTS);
     }
 

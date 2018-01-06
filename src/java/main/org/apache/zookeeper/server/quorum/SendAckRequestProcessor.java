@@ -24,7 +24,7 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.RequestProcessor;
 
@@ -38,7 +38,7 @@ public class SendAckRequestProcessor implements RequestProcessor, Flushable {
     }
 
     public void processRequest(Request si) {
-        if(si.op != OpCode.sync){
+        if(si.op != OpType.sync){
             QuorumPacket qp = new QuorumPacket(Leader.ACK, si.getHdr().getZxid(), null,
                 null);
             try {

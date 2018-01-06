@@ -19,12 +19,12 @@
 package org.apache.zookeeper.server;
 
 import org.apache.jute.Record;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.operation.multi.MultiResponse;
 import org.apache.zookeeper.operation.OpResult;
 import org.apache.zookeeper.operation.OpResult.*;
 import org.apache.zookeeper.watcher.WatcherType;
 import org.apache.zookeeper.util.ZooDefs;
-import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.exception.KeeperException.SessionMovedException;
@@ -71,7 +71,7 @@ public class FinalRequestProcessor implements RequestProcessor {
         }
         // request.addRQRec(">final");
         long traceMask = ZooTrace.CLIENT_REQUEST_TRACE_MASK;
-        if (request.op == OpCode.ping) {
+        if (request.op == OpType.ping) {
             traceMask = ZooTrace.SERVER_PING_TRACE_MASK;
         }
         if (LOG.isTraceEnabled()) {
@@ -112,7 +112,7 @@ public class FinalRequestProcessor implements RequestProcessor {
         // was not being queued — ZOOKEEPER-558) properly. This happens, for example,
         // when the client closes the connection. The server should still close the session, though.
         // Calling closeSession() after losing the cnxn, results in the client close session response being dropped.
-        if (request.op == OpCode.closeSession && connClosedByClient(request)) {
+        if (request.op == OpType.closeSession && connClosedByClient(request)) {
             // We need to check if we can close the session id.
             // Sometimes the corresponding ServerCnxnFactory could be null because
             // we are just playing diffs from the leader.
@@ -132,7 +132,7 @@ public class FinalRequestProcessor implements RequestProcessor {
         KECode err = KeeperException.KECode.OK;
         Record rsp = null;
         try {
-            if (request.getHdr() != null && request.getHdr().getOp() == OpCode.error) {
+            if (request.getHdr() != null && request.getHdr().getOp() == OpType.error) {
                 /*
                  * When local session upgrading is disabled, leader will
                  * reject the ephemeral node creation due to session expire.
@@ -149,7 +149,7 @@ public class FinalRequestProcessor implements RequestProcessor {
             }
 
             KeeperException ke = request.getException();
-            if (ke != null && request.op != OpCode.multi) {
+            if (ke != null && request.op != OpType.multi) {
                 throw ke;
             }
 
@@ -184,7 +184,7 @@ public class FinalRequestProcessor implements RequestProcessor {
 
                     for (ProcessTxnResult subTxnResult : rc.multiResult) {
                         OpResult subResult;
-                        OpCode op = OpCode.getOpCode(subTxnResult.type);
+                        OpType op = OpType.getOpCode(subTxnResult.type);
                         switch (op) {
                             case check:
                                 subResult = new CheckResult();
@@ -435,7 +435,7 @@ public class FinalRequestProcessor implements RequestProcessor {
 
         try {
             cnxn.sendResponse(hdr, rsp, "response");
-            if (request.op == OpCode.closeSession) {
+            if (request.op == OpType.closeSession) {
                 cnxn.sendCloseSession();
             }
         } catch (IOException e) {

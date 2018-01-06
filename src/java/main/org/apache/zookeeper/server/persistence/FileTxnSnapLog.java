@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.jute.Record;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.DataTree;
 import org.apache.zookeeper.server.DataTree.ProcessTxnResult;
 import org.apache.zookeeper.server.Request;
@@ -280,7 +280,7 @@ public class FileTxnSnapLog {
             Map<Long, Integer> sessions, Record txn)
         throws KeeperException.NoNodeException {
         ProcessTxnResult rc;
-        OpCode op = OpCode.getOpCode(hdr.getType());
+        OpType op = OpType.getOpCode(hdr.getType());
         switch (op) {
         case createSession:
             sessions.put(hdr.getClientId(),

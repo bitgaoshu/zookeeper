@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 
 import org.apache.jute.Record;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.test.ClientBase;
@@ -62,9 +62,9 @@ public class ZooKeeperServerBeanTest {
         long elapsedTime = serverBean.getTxnLogElapsedSyncTime();
         assertEquals(-1, elapsedTime);
 
-        TxnHeader hdr = new TxnHeader(1, 1, 1, 1, OpCode.setData.getValue());
+        TxnHeader hdr = new TxnHeader(1, 1, 1, 1, OpType.setData.getValue());
         Record txn = new SetDataTxn("/foo", new byte[0], 1);
-        Request req = new Request(0, 0, OpCode.notification, hdr, txn, 0);
+        Request req = new Request(0, 0, OpType.notification, hdr, txn, 0);
 
         try {
 

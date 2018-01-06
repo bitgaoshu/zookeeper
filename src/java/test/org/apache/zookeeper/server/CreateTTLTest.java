@@ -26,7 +26,7 @@ import org.apache.zookeeper.operation.OpResult;
 import org.apache.zookeeper.clients.client.clientSocket.TestableZooKeeper;
 import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.exception.KeeperException.KECode;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.proto.CreateResponse;
 import org.apache.zookeeper.proto.CreateTTLRequest;
@@ -76,7 +76,7 @@ public class CreateTTLTest extends ClientBase {
 
     @Test
     public void testBadTTLs() throws InterruptedException, KeeperException {
-        RequestHeader h = new RequestHeader(1, OpCode.createTTL.getValue());
+        RequestHeader h = new RequestHeader(1, OpType.createTTL.getValue());
 
         String path = "/bad_ttl";
         CreateTTLRequest request = new CreateTTLRequest(path, new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE,

@@ -22,6 +22,7 @@ import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.nodeMode.CreateMode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.operation.multi.MultiTransactionRecord;
 import org.apache.zookeeper.operation.Op;
 import org.apache.zookeeper.util.ZooDefs;
@@ -31,7 +32,6 @@ import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.data.StatPersisted;
-import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.proto.*;
 import org.apache.zookeeper.server.ZooKeeperServer.ChangeRecord;
 import org.apache.zookeeper.server.auth.ProviderRegistry;
@@ -166,7 +166,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
             while (true) {
                 Request request = submittedRequests.take();
                 long traceMask = ZooTrace.CLIENT_REQUEST_TRACE_MASK;
-                if (request.op == OpCode.ping) {
+                if (request.op == OpType.ping) {
                     traceMask = ZooTrace.CLIENT_PING_TRACE_MASK;
                 }
                 if (LOG.isTraceEnabled()) {
@@ -334,12 +334,12 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
      * This method will be called inside the ProcessRequestThread, which is a
      * singleton, so there will be a single thread calling this code.
      *
-     * @param op OpCode
+     * @param op OpType
      * @param zxid
      * @param request
      * @param record
      */
-    protected void pRequest2Txn(OpCode op, long zxid, Request request,
+    protected void pRequest2Txn(OpType op, long zxid, Request request,
                                 Record record, boolean deserialize)
             throws KeeperException, IOException, RequestProcessorException {
         request.setHdr(new TxnHeader(request.sessionId, request.cxid, zxid,
@@ -606,12 +606,12 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                         checkVersionRequest.getVersion(), path)));
                 break;
             default:
-                LOG.warn("unknown OpCode " + op);
+                LOG.warn("unknown OpType " + op);
                 break;
         }
     }
 
-    private void pRequest2TxnCreate(OpCode op, Request request, Record record, boolean deserialize) throws IOException, KeeperException {
+    private void pRequest2TxnCreate(OpType op, Request request, Record record, boolean deserialize) throws IOException, KeeperException {
         if (deserialize) {
             ByteBufferInputStream.byteBuffer2Record(request.request, record);
         }
@@ -621,7 +621,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
         List<ACL> acl;
         byte[] data;
         long ttl;
-        if (op == OpCode.createTTL) {
+        if (op == OpType.createTTL) {
             CreateTTLRequest createTtlRequest = (CreateTTLRequest) record;
             flags = createTtlRequest.getFlags();
             path = createTtlRequest.getPath();
@@ -661,9 +661,9 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
             throw new KeeperException.NoChildrenForEphemeralsException(path);
         }
         int newCversion = parentRecord.stat.getCversion() + 1;
-        if (op == OpCode.createContainer) {
+        if (op == OpType.createContainer) {
             request.setTxn(new CreateContainerTxn(path, data, listACL, newCversion));
-        } else if (op == OpCode.createTTL) {
+        } else if (op == OpType.createTTL) {
             request.setTxn(new CreateTTLTxn(path, data, listACL, newCversion, ttl));
         } else {
             request.setTxn(new CreateTxn(path, data, listACL, createMode.isEphemeral(),
@@ -752,7 +752,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                         ByteBufferInputStream.byteBuffer2Record(request.request, multiRequest);
                     } catch (IOException e) {
                         request.setHdr(new TxnHeader(request.sessionId, request.cxid, zks.getNextZxid(),
-                                Time.currentWallTime(), OpCode.multi.getValue()));
+                                Time.currentWallTime(), OpType.multi.getValue()));
                         throw e;
                     }
                     List<Txn> txns = new ArrayList<Txn>();
@@ -765,7 +765,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
 
                     for (Op op : multiRequest) {
                         Record subrequest = op.toRequestRecord();
-                        OpCode opCode;
+                        OpType opCode;
                         Record txn;
 
                         /* If we've already failed one of the ops, don't bother
@@ -773,19 +773,19 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                          * would be confusing in the logfiles.
                          */
                         if (ke != null) {
-                            opCode = OpCode.error;
+                            opCode = OpType.error;
                             txn = new ErrorTxn(KECode.RUNTIMEINCONSISTENCY.intValue());
                         }
 
                         /* Prep the request and convert to a Txn */
                         else {
                             try {
-                                pRequest2Txn(op.getOpCode(), zxid, request, subrequest, false);
-                                opCode = OpCode.getOpCode(request.getHdr().getType());
+                                pRequest2Txn(op.getOpType(), zxid, request, subrequest, false);
+                                opCode = OpType.getOpCode(request.getHdr().getType());
                                 txn = request.getTxn();
                             } catch (KeeperException e) {
                                 ke = e;
-                                opCode = OpCode.error;
+                                opCode = OpType.error;
                                 txn = new ErrorTxn(e.code().intValue());
 
                                 LOG.info("Got user-level KeeperException when processing "
@@ -846,7 +846,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
             }
         } catch (KeeperException e) {
             if (request.getHdr() != null) {
-                request.getHdr().setType(OpCode.error.getValue());
+                request.getHdr().setType(OpType.error.getValue());
                 request.setTxn(new ErrorTxn(e.code().intValue()));
             }
             LOG.info("Got user-level KeeperException when processing "
@@ -872,7 +872,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
 
             LOG.error("Dumping request buffer: 0x" + sb.toString());
             if (request.getHdr() != null) {
-                request.getHdr().setType(OpCode.error.getValue());
+                request.getHdr().setType(OpType.error.getValue());
                 request.setTxn(new ErrorTxn(KeeperException.KECode.MARSHALLINGERROR.intValue()));
             }
         }

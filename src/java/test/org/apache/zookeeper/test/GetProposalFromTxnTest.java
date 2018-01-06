@@ -28,7 +28,7 @@ import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.util.ZooDefs.Ids;
-import org.apache.zookeeper.operation.OpCode;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
@@ -110,7 +110,7 @@ public class GetProposalFromTxnTest extends ZKTestCase{
             TxnHeader hdr = new TxnHeader();
             Record rec = SerializeUtils.deserializeTxn(
                     proposal.packet.getData(), hdr);
-            if (hdr.getType() == OpCode.create.getValue()) {
+            if (hdr.getType() == OpType.create.getValue()) {
                 retrievedZxids.add(hdr.getZxid());
                 createCount++;
             }

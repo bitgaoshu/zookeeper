@@ -25,8 +25,8 @@ import java.net.Socket;
 
 
 import org.apache.jute.BinaryOutputArchive;
+import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.util.ZooDefs.Ids;
-import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.proto.ConnectRequest;
 import org.apache.zookeeper.proto.CreateRequest;
@@ -58,12 +58,12 @@ public class SessionInvalidationTest extends ClientBase {
 
             // close connection
             boa.writeInt(8, "len");
-            RequestHeader h = new RequestHeader(1, OpCode.closeSession.getValue());
+            RequestHeader h = new RequestHeader(1, OpType.closeSession.getValue());
             h.serialize(boa, "header");
 
             // create ephemeral znode
             boa.writeInt(52, "len"); // We'll fill this in later
-            RequestHeader header = new RequestHeader(2, OpCode.create.getValue());
+            RequestHeader header = new RequestHeader(2, OpType.create.getValue());
             header.serialize(boa, "header");
             CreateRequest createReq = new CreateRequest("/foo" + i, new byte[0],
                     Ids.OPEN_ACL_UNSAFE, 1);
