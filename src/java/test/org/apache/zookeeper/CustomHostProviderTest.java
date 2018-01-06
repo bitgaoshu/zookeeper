@@ -17,8 +17,8 @@
  */
 package org.apache.zookeeper;
 
-import org.apache.zookeeper.clients.client.common.HostProvider;
-import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.client.util.HostProvider;
+import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.watcher.Watcher;

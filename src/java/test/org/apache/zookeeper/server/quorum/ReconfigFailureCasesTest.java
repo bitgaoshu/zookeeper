@@ -26,8 +26,8 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.clients.admin.ZooKeeperAdmin;
+import org.apache.zookeeper.client.ZooKeeper;
+import org.apache.zookeeper.client.admin.ZooKeeperAdmin;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.test.QuorumUtil;

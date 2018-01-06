@@ -150,7 +150,7 @@
         <module name="RightCurly"/>
 
 
-        <!-- Checks for common coding problems               -->
+        <!-- Checks for util coding problems               -->
         <!-- See http://checkstyle.sf.net/config_coding.html -->
         <!-- module name="AvoidInlineConditionals"/-->
         <module name="EmptyStatement"/>

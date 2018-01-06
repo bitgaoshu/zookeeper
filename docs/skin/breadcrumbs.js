@@ -92,7 +92,7 @@ var CSS_CLASS_TRAIL = "breadcrumbTrail";
 var CSS_CLASS_SEPARATOR = "crumbSeparator";
 
 /**
- * Array of strings containing common file extensions. We use this to
+ * Array of strings containing util file extensions. We use this to
  * determine what part of the url to ignore (if it contains one of the
  * string specified here, we ignore it).
  */

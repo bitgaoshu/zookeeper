@@ -39,7 +39,7 @@ import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.test.QuorumBase;
 
 /**
- * Has some common functionality for tests that work with QuorumPeers. Override
+ * Has some util functionality for tests that work with QuorumPeers. Override
  * process(WatchedEvent) to implement the Watcher interface
  */
 public class QuorumPeerTestBase extends ZKTestCase implements Watcher {

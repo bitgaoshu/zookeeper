@@ -30,7 +30,7 @@ import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.util.ZooDefs;
-import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;

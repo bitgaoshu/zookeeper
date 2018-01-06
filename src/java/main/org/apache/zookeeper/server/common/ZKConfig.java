@@ -63,7 +63,7 @@ public class ZKConfig {
     private final Map<String, String> properties = new HashMap<String, String>();
 
     /**
-     * properties, which are common to both client and server, are initialized
+     * properties, which are util to both client and server, are initialized
      * from system properties
      */
     public ZKConfig() {

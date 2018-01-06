@@ -824,7 +824,7 @@ public class NIOServerCnxnFactory extends ServerCnxnFactory {
         if (set == null) {
             // in general we will see 1 connection from each
             // host, setting the initial cap to 2 allows us
-            // to minimize mem usage in the common case
+            // to minimize mem usage in the util case
             // of 1 entry --  we need to set the initial cap
             // to 2 to avoid rehash when the first entry is added
             // Construct a ConcurrentHashSet using a ConcurrentHashMap

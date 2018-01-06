@@ -21,14 +21,14 @@ package org.apache.zookeeper.test;
 
 import java.util.LinkedList;
 
-import org.apache.zookeeper.clients.AsyncCallback.DataCallback;
-import org.apache.zookeeper.clients.AsyncCallback.StringCallback;
-import org.apache.zookeeper.clients.AsyncCallback.VoidCallback;
+import org.apache.zookeeper.client.AsyncCallback.DataCallback;
+import org.apache.zookeeper.client.AsyncCallback.StringCallback;
+import org.apache.zookeeper.client.AsyncCallback.VoidCallback;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.util.ZooDefs.Ids;
-import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 import org.junit.After;
 import org.junit.Assert;

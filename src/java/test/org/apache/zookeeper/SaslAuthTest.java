@@ -28,12 +28,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.zookeeper.clients.client.clientSocket.TestableZooKeeper;
-import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn;
-import org.apache.zookeeper.clients.client.clientSocket.ClientCnxn.SendThread;
+import org.apache.zookeeper.client.clientSocket.TestableZooKeeper;
+import org.apache.zookeeper.client.clientSocket.ClientCnxn;
+import org.apache.zookeeper.client.clientSocket.ClientCnxn.SendThread;
 import org.apache.zookeeper.watcher.Event.KeeperState;
 import org.apache.zookeeper.util.ZooDefs.Ids;
-import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;

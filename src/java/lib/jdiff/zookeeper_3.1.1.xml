@@ -131,17 +131,17 @@
     </method>
   </interface>
   <!-- end interface org.apache.zookeeper.clients.cli.AsyncCallback.VoidCallback -->
-  <!-- start class org.apache.zookeeper.clients.client.clientSocket.ClientCnxn -->
+  <!-- start class ClientCnxn -->
   <class name="ClientCnxn" extends="java.lang.Object"
     abstract="false"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <constructor name="ClientCnxn" type="java.lang.String, int, org.apache.zookeeper.clients.client.ZooKeeper, org.apache.zookeeper.clients.client.common.ClientWatchManager"
+    <constructor name="ClientCnxn" type="java.lang.String, int, org.apache.zookeeper.client.ZooKeeper, org.apache.zookeeper.client.clientSocket.watchManager.ClientWatchManager"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <exception name="IOException" type="java.io.IOException"/>
     </constructor>
-    <constructor name="ClientCnxn" type="java.lang.String, int, org.apache.zookeeper.clients.client.ZooKeeper, org.apache.zookeeper.clients.client.common.ClientWatchManager, long, byte[]"
+    <constructor name="ClientCnxn" type="java.lang.String, int, org.apache.zookeeper.client.ZooKeeper, org.apache.zookeeper.client.clientSocket.watchManager.ClientWatchManager, long, byte[]"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <exception name="IOException" type="java.io.IOException"/>
@@ -204,7 +204,7 @@
       <param name="h" type="org.apache.zookeeper.proto.RequestHeader"/>
       <param name="request" type="org.apache.jute.Record"/>
       <param name="response" type="org.apache.jute.Record"/>
-      <param name="watchRegistration" type="org.apache.zookeeper.clients.client.ZooKeeper.WatchRegistration"/>
+      <param name="watchRegistration" type="org.apache.zookeeper.client.ZooKeeper.WatchRegistration"/>
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
     </method>
     <method name="addAuthInfo"
@@ -236,7 +236,7 @@
  connected to as needed.]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.clients.client.clientSocket.ClientCnxn -->
+  <!-- end class ClientCnxn -->
   <!-- start interface org.apache.zookeeper.clients.client.commons.ClientWatchManager -->
   <interface name="ClientWatchManager"    abstract="true"
     static="false" final="false" visibility="public"
@@ -1266,7 +1266,7 @@
     </doc>
   </class>
   <!-- end class org.apache.zookeeper.Quotas -->
-  <!-- start class org.apache.zookeeper.clients.admin.ServerAdminClient -->
+  <!-- start class ServerAdminClient -->
   <class name="ServerAdminClient" extends="java.lang.Object"
     abstract="false"
     static="false" final="false" visibility="public"
@@ -1325,7 +1325,7 @@
       <param name="args" type="java.lang.String[]"/>
     </method>
   </class>
-  <!-- end class org.apache.zookeeper.clients.admin.ServerAdminClient -->
+  <!-- end class ServerAdminClient -->
   <!-- start class org.apache.zookeeper.util.StatsTrack -->
   <class name="StatsTrack" extends="java.lang.Object"
     abstract="false"
@@ -1866,7 +1866,7 @@
     </field>
   </interface>
   <!-- end interface org.apache.zookeeper.util.ZooDefs.Perms -->
-  <!-- start class org.apache.zookeeper.clients.client.ZooKeeper -->
+  <!-- start class ZooKeeper -->
   <class name="ZooKeeper" extends="java.lang.Object"
     abstract="false"
     static="false" final="false" visibility="public"
@@ -2542,12 +2542,12 @@
  @throws IllegalArgumentException if an invalid path is specified]]>
       </doc>
     </method>
-    <method name="getState" return="org.apache.zookeeper.clients.client.ZooKeeper.States"
+    <method name="getState" return="org.apache.zookeeper.client.ZooKeeper.States"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <field name="cnxn" type="org.apache.zookeeper.clients.client.clientSocket.ClientCnxn"
+    <field name="cnxn" type="org.apache.zookeeper.client.clientSocket.ClientCnxn"
       transient="false" volatile="false"
       static="false" final="true" visibility="protected"
       deprecated="not deprecated">
@@ -2592,18 +2592,18 @@
  EventNone and state sKeeperStateDisconnected.]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.clients.client.ZooKeeper -->
-  <!-- start class org.apache.zookeeper.clients.client.ZooKeeper.States -->
+  <!-- end class ZooKeeper -->
+  <!-- start class ZooKeeper.States -->
   <class name="ZooKeeper.States" extends="java.lang.Enum"
     abstract="false"
     static="true" final="true" visibility="public"
     deprecated="not deprecated">
-    <method name="values" return="org.apache.zookeeper.clients.client.ZooKeeper.States[]"
+    <method name="values" return="org.apache.zookeeper.client.ZooKeeper.States[]"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="valueOf" return="org.apache.zookeeper.clients.client.ZooKeeper.States"
+    <method name="valueOf" return="org.apache.zookeeper.client.ZooKeeper.States"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -2614,34 +2614,34 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <field name="CONNECTING" type="org.apache.zookeeper.clients.client.ZooKeeper.States"
+    <field name="CONNECTING" type="org.apache.zookeeper.client.ZooKeeper.States"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
     </field>
-    <field name="ASSOCIATING" type="org.apache.zookeeper.clients.client.ZooKeeper.States"
+    <field name="ASSOCIATING" type="org.apache.zookeeper.client.ZooKeeper.States"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
     </field>
-    <field name="CONNECTED" type="org.apache.zookeeper.clients.client.ZooKeeper.States"
+    <field name="CONNECTED" type="org.apache.zookeeper.client.ZooKeeper.States"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
     </field>
-    <field name="CLOSED" type="org.apache.zookeeper.clients.client.ZooKeeper.States"
+    <field name="CLOSED" type="org.apache.zookeeper.client.ZooKeeper.States"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
     </field>
-    <field name="AUTH_FAILED" type="org.apache.zookeeper.clients.client.ZooKeeper.States"
+    <field name="AUTH_FAILED" type="org.apache.zookeeper.client.ZooKeeper.States"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
     </field>
   </class>
-  <!-- end class org.apache.zookeeper.clients.client.ZooKeeper.States -->
-  <!-- start class org.apache.zookeeper.clients.client.ZooKeeperMain -->
+  <!-- end class ZooKeeper.States -->
+  <!-- start class ZooKeeperMain -->
   <class name="ZooKeeperMain" extends="java.lang.Object"
     abstract="false"
     static="false" final="false" visibility="public"
@@ -2664,7 +2664,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="zk" type="org.apache.zookeeper.clients.client.ZooKeeper"/>
+      <param name="zk" type="org.apache.zookeeper.client.ZooKeeper"/>
       <param name="path" type="java.lang.String"/>
       <param name="bytes" type="boolean"/>
       <param name="numNodes" type="boolean"/>
@@ -2689,7 +2689,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="zk" type="org.apache.zookeeper.clients.client.ZooKeeper"/>
+      <param name="zk" type="org.apache.zookeeper.client.ZooKeeper"/>
       <param name="path" type="java.lang.String"/>
       <param name="bytes" type="long"/>
       <param name="numNodes" type="int"/>
@@ -2709,7 +2709,7 @@
     <![CDATA[The command line client to ZooKeeper.]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.clients.client.ZooKeeperMain -->
+  <!-- end class ZooKeeperMain -->
 </package>
 
 </api>

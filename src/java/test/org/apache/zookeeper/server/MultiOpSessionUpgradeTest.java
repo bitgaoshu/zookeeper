@@ -25,7 +25,7 @@ import org.apache.zookeeper.operation.Op;
 import org.apache.zookeeper.operation.OpResult;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.util.ZooDefs;
-import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.proto.CreateRequest;
 import org.apache.zookeeper.proto.GetDataRequest;

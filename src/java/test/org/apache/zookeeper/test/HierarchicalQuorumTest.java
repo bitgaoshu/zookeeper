@@ -29,7 +29,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.PortAssignment;
-import org.apache.zookeeper.clients.client.clientSocket.TestableZooKeeper;
+import org.apache.zookeeper.client.clientSocket.TestableZooKeeper;
 import org.apache.zookeeper.server.jmx.CommonNames;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;

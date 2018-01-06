@@ -22,10 +22,10 @@ import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.zookeeper.clients.client.clientSocket.TestableZooKeeper;
+import org.apache.zookeeper.client.clientSocket.TestableZooKeeper;
 import org.apache.zookeeper.server.common.X509Exception.SSLContextException;
 
-import static org.apache.zookeeper.clients.client.common.FourLetterWordMain.send4LetterWord;
+import static org.apache.zookeeper.client.FourLetterWordMain.send4LetterWord;
 
 import org.junit.Assert;
 import org.junit.Test;

@@ -21,7 +21,7 @@ package org.apache.zookeeper.test;
 import java.io.IOException;
 
 import org.apache.zookeeper.watcher.Watcher;
-import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.client.ZooKeeper;
 
 public class DisconnectableZooKeeper extends ZooKeeper {
     public DisconnectableZooKeeper(String host, int sessionTimeout, Watcher watcher)

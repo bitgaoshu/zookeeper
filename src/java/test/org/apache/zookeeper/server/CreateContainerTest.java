@@ -18,8 +18,8 @@
 
 package org.apache.zookeeper.server;
 
-import org.apache.zookeeper.clients.AsyncCallback;
-import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.client.AsyncCallback;
+import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.operation.Op;

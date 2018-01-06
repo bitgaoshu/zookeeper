@@ -653,7 +653,7 @@ public class NIOServerCnxn extends ServerCnxn {
              */
             sock.socket().shutdownOutput();
         } catch (IOException e) {
-            // This is a relatively common exception that we can't avoid
+            // This is a relatively util exception that we can't avoid
             if (LOG.isDebugEnabled()) {
                 LOG.debug("ignoring exception during output shutdown", e);
             }
@@ -661,7 +661,7 @@ public class NIOServerCnxn extends ServerCnxn {
         try {
             sock.socket().shutdownInput();
         } catch (IOException e) {
-            // This is a relatively common exception that we can't avoid
+            // This is a relatively util exception that we can't avoid
             if (LOG.isDebugEnabled()) {
                 LOG.debug("ignoring exception during input shutdown", e);
             }

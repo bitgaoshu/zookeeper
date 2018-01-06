@@ -18,7 +18,7 @@
 package org.apache.zookeeper.operation;
 
 import org.apache.jute.Record;
-import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.server.common.PathUtils;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.exception.KeeperException;

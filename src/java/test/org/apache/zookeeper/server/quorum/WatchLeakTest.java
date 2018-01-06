@@ -50,7 +50,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import org.apache.jute.InputArchive;
 import org.apache.jute.OutputArchive;
-import org.apache.zookeeper.clients.client.clientSocket.MockPacket;
+import org.apache.zookeeper.client.clientSocket.MockPacket;
 import org.apache.zookeeper.proto.ConnectRequest;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.proto.RequestHeader;

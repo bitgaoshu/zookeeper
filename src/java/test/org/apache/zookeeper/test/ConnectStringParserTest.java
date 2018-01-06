@@ -19,7 +19,7 @@
 package org.apache.zookeeper.test;
 
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.clients.client.common.ConnectStringParser;
+import org.apache.zookeeper.client.util.ConnectStringParser;
 import org.junit.Assert;
 import org.junit.Test;
 

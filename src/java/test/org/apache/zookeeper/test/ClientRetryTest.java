@@ -20,8 +20,8 @@ package org.apache.zookeeper.test;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.clients.client.ZooKeeper.States;
+import org.apache.zookeeper.client.ZooKeeper;
+import org.apache.zookeeper.client.ZooKeeper.States;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -443,7 +443,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                 if (newMembers != null) { //non-incremental membership change
                     LOG.info("Non-incremental reconfig");
 
-                    // Input may be delimited by either commas or newlines so convert to common newline separated format
+                    // Input may be delimited by either commas or newlines so convert to util newline separated format
                     newMembers = newMembers.replaceAll(",", "\n");
 
                     try {

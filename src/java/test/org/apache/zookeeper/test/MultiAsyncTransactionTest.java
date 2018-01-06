@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.zookeeper.clients.AsyncCallback.MultiCallback;
+import org.apache.zookeeper.client.AsyncCallback.MultiCallback;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.operation.Op;
@@ -33,7 +33,7 @@ import org.apache.zookeeper.operation.OpResult;
 import org.apache.zookeeper.operation.OpResult.CreateResult;
 import org.apache.zookeeper.operation.OpResult.ErrorResult;
 import org.apache.zookeeper.util.ZooDefs.Ids;
-import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.client.ZooKeeper;
 import org.junit.Before;
 import org.junit.Test;
 

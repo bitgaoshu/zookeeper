@@ -23,9 +23,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.zookeeper.clients.client.clientSocket.TestableZooKeeper;
+import org.apache.zookeeper.client.clientSocket.TestableZooKeeper;
 import org.apache.zookeeper.watcher.WatchedEvent;
-import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.watcher.Event.KeeperState;
 import org.junit.Test;
 import org.junit.Assert;

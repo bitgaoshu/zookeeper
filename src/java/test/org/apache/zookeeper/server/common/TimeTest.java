@@ -22,7 +22,7 @@ import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.util.ZooDefs;
-import org.apache.zookeeper.clients.client.ZooKeeper;
+import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.test.ClientBase;
 import org.junit.Assert;
 import org.junit.Test;
@@ -38,7 +38,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * How to run:
  * ant clean compile-test
  * echo build/test/lib/*.jar build/lib/*.jar build/classes build/test/classes | sed -e 's/ /:/g' > cp
- * java -cp $(cat cp) org.apache.zookeeper.server.common.TimeTest | tee log-without-patch
+ * java -cp $(cat cp) org.apache.zookeeper.server.util.TimeTest | tee log-without-patch
  * <p/>
  * After test program starts, in another window, do commands:
  * date -s '+1hour'

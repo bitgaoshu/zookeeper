@@ -144,7 +144,7 @@
   <!-- ================================================================== -->
 
   <target name="checkMainIsAvailable">
-    <available classname="org.apache.zookeeper.clients.client.ZooKeeperMain"
+    <available classname="org.apache.zookeeper.client.ZooKeeperMain"
                property="mainIsCompiled">
       <!-- we can't use id=classpath, because available fails if fileset directory
            doesn't exist -->

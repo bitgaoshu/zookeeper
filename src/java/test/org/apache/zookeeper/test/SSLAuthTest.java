@@ -21,8 +21,8 @@ import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.zookeeper.PortAssignment;
-import org.apache.zookeeper.clients.client.clientSocket.TestableZooKeeper;
-import org.apache.zookeeper.clients.client.common.ZKClientConfig;
+import org.apache.zookeeper.client.clientSocket.TestableZooKeeper;
+import org.apache.zookeeper.client.util.ZKClientConfig;
 import org.apache.zookeeper.server.common.ZKConfig;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.junit.After;
@@ -35,7 +35,7 @@ public class SSLAuthTest extends ClientBase {
     public void setUp() throws Exception {
         String testDataPath = System.getProperty("test.data.dir", "build/test/data");
         System.setProperty(ServerCnxnFactory.ZOOKEEPER_SERVER_CNXN_FACTORY, "org.apache.zookeeper.server.cnxn.NettyCnxn.NettyServerCnxnFactory");
-        System.setProperty(ZKClientConfig.ZOOKEEPER_CLIENT_CNXN_SOCKET, "org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNetty");
+        System.setProperty(ZKClientConfig.ZOOKEEPER_CLIENT_CNXN_SOCKET, "ClientCnxnSocketNetty");
         System.setProperty(ZKClientConfig.SECURE_CLIENT, "true");
         System.setProperty(ZKConfig.SSL_AUTHPROVIDER, "x509");
         System.setProperty(ZKConfig.SSL_KEYSTORE_LOCATION, testDataPath + "/ssl/testKeyStore.jks");

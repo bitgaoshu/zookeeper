@@ -25,9 +25,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.clients.client.clientSocket.TestableZooKeeper;
+import org.apache.zookeeper.client.clientSocket.TestableZooKeeper;
 import org.apache.zookeeper.util.ZooDefs.Ids;
-import org.apache.zookeeper.clients.client.common.ZKClientConfig;
+import org.apache.zookeeper.client.util.ZKClientConfig;
 import org.junit.Assert;
 import org.junit.Test;
 

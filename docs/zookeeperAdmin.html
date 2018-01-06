@@ -1930,7 +1930,7 @@ server.3=zoo3:2888:3888</pre>
             variable <strong>zookeeper.serverCnxnFactory</strong>
             to <strong>org.apache.zookeeper.server.cnxn.NettyCnxn.NettyServerCnxnFactory</strong>;
             for the client, set <strong>zookeeper.clientCnxnSocket</strong>
-            to <strong>org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNetty</strong>.
+            to <strong>org.apache.zookeeper.client.clientSocket.ClientCnxnSocketNetty</strong>.
         </p>
 <p>
           TBD - tuning options for netty - currently there are none that are netty specific but we should add some. Esp around max bound on the number of reader worker threads netty creates.

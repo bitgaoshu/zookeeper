@@ -1618,7 +1618,7 @@ server.3=zoo3:2888:3888</programlisting>
             variable <emphasis role="bold">zookeeper.serverCnxnFactory</emphasis>
             to <emphasis role="bold">org.apache.zookeeper.server.cnxn.NettyCnxn.NettyServerCnxnFactory</emphasis>;
             for the client, set <emphasis role="bold">zookeeper.clientCnxnSocket</emphasis>
-            to <emphasis role="bold">org.apache.zookeeper.clients.client.clientSocket.ClientCnxnSocketNetty</emphasis>.
+            to <emphasis role="bold">org.apache.zookeeper.client.clientSocket.ClientCnxnSocketNetty</emphasis>.
         </para>
 
         <para>

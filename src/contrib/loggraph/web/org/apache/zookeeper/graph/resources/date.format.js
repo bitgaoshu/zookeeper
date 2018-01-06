@@ -91,7 +91,7 @@ var dateFormat = function () {
 	};
 }();
 
-// Some common format strings
+// Some util format strings
 dateFormat.masks = {
 	"default":      "ddd mmm dd yyyy HH:MM:ss",
 	shortDate:      "m/d/yy",

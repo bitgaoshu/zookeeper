@@ -39,9 +39,9 @@ import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.util.ZooDefs;
-import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.clients.AsyncCallback.DataCallback;
-import org.apache.zookeeper.clients.AsyncCallback.StatCallback;
+import org.apache.zookeeper.client.ZooKeeper;
+import org.apache.zookeeper.client.AsyncCallback.DataCallback;
+import org.apache.zookeeper.client.AsyncCallback.StatCallback;
 import org.apache.zookeeper.data.Stat;
 
 public class IntegrityCheck implements StatCallback, DataCallback {
