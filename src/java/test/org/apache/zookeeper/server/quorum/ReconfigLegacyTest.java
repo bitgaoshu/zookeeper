@@ -31,7 +31,7 @@ import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.client.ZooKeeper;
-import org.apache.zookeeper.client.admin.ZooKeeperAdmin;
+import org.apache.zookeeper.client.ZooKeeperAdmin;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.test.ReconfigTest;
 import org.junit.Assert;

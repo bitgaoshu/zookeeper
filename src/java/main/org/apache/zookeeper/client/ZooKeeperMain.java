@@ -28,7 +28,6 @@ import org.apache.zookeeper.util.StatsTrack;
 import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.util.ZooDefs.Ids;
-import org.apache.zookeeper.client.admin.ZooKeeperAdmin;
 import org.apache.zookeeper.client.cliCmds.AddAuthCommand;
 import org.apache.zookeeper.client.cliCmds.CliCommand;
 import org.apache.zookeeper.client.cliCmds.CliException;
@@ -317,7 +316,7 @@ public class ZooKeeperMain {
             try {
                 Class<?> consoleC = Class.forName("jline.console.ConsoleReader");
                 Class<?> completorC =
-                    Class.forName("org.apache.zookeeper.client.JLineZNodeCompleter");
+                    Class.forName("org.apache.zookeeper.client.util.JLineZNodeCompleter");
 
                 System.out.println("JLine support is enabled");
 

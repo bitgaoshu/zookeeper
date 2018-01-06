@@ -26,7 +26,7 @@ import java.util.concurrent.TimeoutException;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.PortAssignment;
-import org.apache.zookeeper.client.admin.ZooKeeperAdmin;
+import org.apache.zookeeper.client.ZooKeeperAdmin;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
 import org.junit.After;

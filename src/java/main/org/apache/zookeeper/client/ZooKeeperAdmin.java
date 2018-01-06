@@ -16,13 +16,12 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.client.admin;
+package org.apache.zookeeper.client;
 
 import java.io.IOException;
 import java.util.List;
 
 import org.apache.yetus.audience.InterfaceAudience;
-import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.client.util.ZKClientConfig;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.util.ZooDefs;

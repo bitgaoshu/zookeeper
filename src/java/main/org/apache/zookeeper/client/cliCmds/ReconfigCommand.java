@@ -22,7 +22,7 @@ import java.util.Properties;
 
 import org.apache.commons.cli.*;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.client.admin.ZooKeeperAdmin;
+import org.apache.zookeeper.client.ZooKeeperAdmin;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
 

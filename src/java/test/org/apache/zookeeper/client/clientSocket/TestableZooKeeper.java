@@ -25,7 +25,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.jute.Record;
-import org.apache.zookeeper.client.admin.ZooKeeperAdmin;
+import org.apache.zookeeper.client.ZooKeeperAdmin;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.proto.RequestHeader;
 import org.apache.zookeeper.watcher.Watcher;

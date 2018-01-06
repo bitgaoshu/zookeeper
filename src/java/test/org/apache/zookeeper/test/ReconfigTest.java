@@ -42,7 +42,7 @@ import org.apache.zookeeper.server.quorum.flexible.QuorumHierarchical;
 import org.apache.zookeeper.server.quorum.flexible.QuorumMaj;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 import org.apache.zookeeper.client.ZooKeeper;
-import org.apache.zookeeper.client.admin.ZooKeeperAdmin;
+import org.apache.zookeeper.client.ZooKeeperAdmin;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.util.ZooDefs;

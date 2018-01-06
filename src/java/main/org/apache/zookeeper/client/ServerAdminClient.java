@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.client.admin;
+package org.apache.zookeeper.client;
 
 import java.io.IOException;
 import java.io.InputStream;

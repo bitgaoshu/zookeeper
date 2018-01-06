@@ -16,15 +16,17 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.client;
+package org.apache.zookeeper.client.util;
 
 import jline.console.completer.Completer;
+import org.apache.zookeeper.client.ZooKeeper;
+import org.apache.zookeeper.client.ZooKeeperMain;
 import org.apache.zookeeper.exception.KeeperException;
 
 import java.util.Collections;
 import java.util.List;
 
-class JLineZNodeCompleter implements Completer {
+public class JLineZNodeCompleter implements Completer {
     private ZooKeeper zk;
 
     public JLineZNodeCompleter(ZooKeeper zk) {
