@@ -21,6 +21,7 @@ package org.apache.zookeeper.clients.client;
 import org.apache.jute.Record;
 import org.apache.yetus.audience.InterfaceAudience;
 import org.apache.zookeeper.operation.OpType;
+import org.apache.zookeeper.operation.multi.Transaction;
 import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.operation.multi.MultiResponse;

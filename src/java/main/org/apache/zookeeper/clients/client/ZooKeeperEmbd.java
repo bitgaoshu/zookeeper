@@ -9,6 +9,7 @@ import org.apache.zookeeper.operation.multi.MultiTransactionRecord;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.operation.Op;
 import org.apache.zookeeper.operation.OpResult;
+import org.apache.zookeeper.operation.multi.Transaction;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.watcher.WatcherType;
 import org.slf4j.Logger;

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.clients.client.common;
+package org.apache.zookeeper.operation.multi;
 
 import org.apache.yetus.audience.InterfaceAudience;
 import org.apache.zookeeper.nodeMode.CreateMode;

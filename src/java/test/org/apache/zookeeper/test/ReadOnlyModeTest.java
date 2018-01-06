@@ -31,7 +31,7 @@ import org.apache.log4j.WriterAppender;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.NotReadOnlyException;
-import org.apache.zookeeper.clients.client.common.Transaction;
+import org.apache.zookeeper.operation.multi.Transaction;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.clients.client.ZooKeeper;
