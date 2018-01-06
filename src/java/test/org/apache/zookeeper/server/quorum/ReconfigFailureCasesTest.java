@@ -26,7 +26,6 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.exception.KeeperException.NewConfigNoQuorum;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.clients.admin.ZooKeeperAdmin;
 import org.apache.zookeeper.data.Stat;
@@ -203,11 +202,11 @@ public class ReconfigFailureCasesTest extends QuorumPeerTestBase {
 
     /*
      * Converting an observer into a participant may sometimes fail with a
-     * NewConfigNoQuorum exception. This test-case demonstrates the scenario.
+     * NewConfigNoQuorumException exception. This test-case demonstrates the scenario.
      * Current configuration is (A, B, C, D), where A, B and C are participant
      * and D is an observer. Suppose that B has crashed (or never booted). If a
      * reconfiguration is submitted where D is said to become a participant, it
-     * will fail with NewConfigNoQuorum since in this configuration, a majority
+     * will fail with NewConfigNoQuorumException since in this configuration, a majority
      * of voters in the new configuration (any 3 voters), must be connected and
      * up-to-date with the leader. An observer cannot acknowledge the history
      * prefix sent during reconfiguration, and therefore it does not count towards
@@ -256,12 +255,12 @@ public class ReconfigFailureCasesTest extends QuorumPeerTestBase {
 
         try {
             zkAdmin[1].reconfigure("", "", nextQuorumCfgSection, -1, new Stat());
-            Assert.fail("Reconfig should have failed with NewConfigNoQuorum");
-        } catch (NewConfigNoQuorum e) {
+            Assert.fail("Reconfig should have failed with NewConfigNoQuorumException");
+        } catch (KeeperException.NewConfigNoQuorumException e) {
             // This is expected case since server 0 is down and 3 can't vote
             // (observer in current role) and we need 3 votes from 0, 1, 2, 3,
         } catch (Exception e) {
-            Assert.fail("Reconfig should have failed with NewConfigNoQuorum");
+            Assert.fail("Reconfig should have failed with NewConfigNoQuorumException");
         }
         // In this scenario to change 3's role to participant we need to remove it first
         ArrayList<String> leavingServers = new ArrayList<String>();

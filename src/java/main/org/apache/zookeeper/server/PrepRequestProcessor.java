@@ -428,7 +428,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                 QuorumVerifier lastSeenQV = lzks.self.getLastSeenQuorumVerifier();
                 // check that there's no reconfig in progress
                 if (lastSeenQV.getVersion() != lzks.self.getQuorumVerifier().getVersion()) {
-                    throw new KeeperException.ReconfigInProgress();
+                    throw new KeeperException.ReconfigInProgressException();
                 }
                 long configId = reconfigRequest.getCurConfigId();
 
@@ -527,7 +527,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                 if (!lzks.getLeader().isQuorumSynced(request.qv)) {
                     String msg2 = "Reconfig failed - there must be a connected and synced quorum in new configuration";
                     LOG.warn(msg2);
-                    throw new KeeperException.NewConfigNoQuorum();
+                    throw new KeeperException.NewConfigNoQuorumException();
                 }
 
                 nodeRecord = getRecordForPath(ZooDefs.CONFIG_NODE);

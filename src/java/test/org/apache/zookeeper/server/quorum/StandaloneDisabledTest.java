@@ -79,7 +79,7 @@ public class StandaloneDisabledTest extends QuorumPeerTestBase {
         try {
             ReconfigTest.reconfig(zkAdminHandles[follower1], null, reconfigServers, null, -1);
             Assert.fail("reconfig completed successfully even though there is no quorum up in new config!");
-        } catch (KeeperException.NewConfigNoQuorum e) { }
+        } catch (KeeperException.NewConfigNoQuorumException e) { }
 
         //reconfigure out leader and follower 1. Remaining follower
         //2 should elect itself as leader and run by itself

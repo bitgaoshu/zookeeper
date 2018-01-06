@@ -404,7 +404,7 @@ public class ReconfigTest extends ZKTestCase implements DataCallback{
         try {
             reconfig(zkAdminArr[stayingIndex1], joiningServers, null, null, -1);
             Assert.fail("reconfig completed successfully even though there is no quorum up in new config!");
-        } catch (KeeperException.NewConfigNoQuorum e) {
+        } catch (KeeperException.NewConfigNoQuorumException e) {
 
         }
         

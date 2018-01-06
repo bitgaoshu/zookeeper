@@ -46,10 +46,10 @@ public class CliWrapperException extends CliException {
                 return "Arguments are not valid : " + keeperException.getPath();
             } else if (keeperException instanceof KeeperException.BadVersionException) {
                 return "version No is not valid : " + keeperException.getPath();
-            } else if (keeperException instanceof KeeperException.ReconfigInProgress) {
+            } else if (keeperException instanceof KeeperException.ReconfigInProgressException) {
                 return "Another reconfiguration is in progress -- concurrent " +
                         "reconfigs not supported (yet)";
-            } else if (keeperException instanceof KeeperException.NewConfigNoQuorum) {
+            } else if (keeperException instanceof KeeperException.NewConfigNoQuorumException) {
                 return "No quorum of new config is connected and " +
                         "up-to-date with the leader of last commmitted config - try invoking reconfiguration after " +
                         "new servers are connected and synced";
