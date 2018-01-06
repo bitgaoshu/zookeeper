@@ -24,7 +24,7 @@ import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.operation.multi.MultiTransactionRecord;
 import org.apache.zookeeper.operation.Op;
-import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.server.common.*;
 import org.apache.zookeeper.exception.KeeperException.BadArgumentsException;
 import org.apache.zookeeper.exception.KeeperException.KECode;

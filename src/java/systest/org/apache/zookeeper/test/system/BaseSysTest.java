@@ -25,7 +25,7 @@ import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 
-import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.server.quorum.QuorumPeer;

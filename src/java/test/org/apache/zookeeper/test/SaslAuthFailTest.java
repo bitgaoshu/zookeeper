@@ -24,7 +24,7 @@ import java.io.IOException;
 
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.ZooDefs.Ids;
+import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.junit.Test;
 import org.junit.Assert;
 

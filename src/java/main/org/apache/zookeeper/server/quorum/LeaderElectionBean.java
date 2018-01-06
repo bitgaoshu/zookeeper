@@ -20,7 +20,7 @@ package org.apache.zookeeper.server.quorum;
 
 import java.util.Date;
 
-import org.apache.zookeeper.jmx.ZKMBeanInfo;
+import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
 
 /**
  * Leader election MBean interface implementation

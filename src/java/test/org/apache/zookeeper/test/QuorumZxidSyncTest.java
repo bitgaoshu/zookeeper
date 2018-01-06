@@ -22,10 +22,10 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.junit.After;
 import org.junit.Assert;

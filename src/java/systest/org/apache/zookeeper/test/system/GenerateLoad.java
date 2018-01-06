@@ -50,10 +50,10 @@ import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.watcher.Event.EventType;
 import org.apache.zookeeper.watcher.Event.KeeperState;
 import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.ZooDefs.Ids;
+import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.server.common.Time;
 
 

@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper;
+package org.apache.zookeeper.watcher;
 
 import org.apache.yetus.audience.InterfaceAudience;
 import org.apache.zookeeper.proto.WatcherEvent;

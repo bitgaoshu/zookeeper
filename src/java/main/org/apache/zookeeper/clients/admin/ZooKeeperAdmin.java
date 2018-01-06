@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.apache.yetus.audience.InterfaceAudience;
 import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.clients.AsyncCallback.DataCallback;

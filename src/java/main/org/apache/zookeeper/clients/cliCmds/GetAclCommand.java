@@ -23,7 +23,7 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.Parser;
 import org.apache.commons.cli.PosixParser;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
 

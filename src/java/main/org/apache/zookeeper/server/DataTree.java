@@ -25,15 +25,14 @@ import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.exception.KeeperException.NoNodeException;
 import org.apache.zookeeper.exception.KeeperException.NodeExistsException;
-import org.apache.zookeeper.Quotas;
-import org.apache.zookeeper.StatsTrack;
-import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.util.StatsTrack;
+import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.watcher.Event;
 import org.apache.zookeeper.watcher.Event.EventType;
 import org.apache.zookeeper.watcher.Event.KeeperState;
 import org.apache.zookeeper.watcher.WatcherType;
-import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.server.common.PathTrie;
 import org.apache.zookeeper.data.ACL;
@@ -95,7 +94,7 @@ public class DataTree {
     private static final String rootZookeeper = "/";
 
     /** the zookeeper nodes that acts as the management and status node **/
-    private static final String procZookeeper = Quotas.procZookeeper;
+    private static final String procZookeeper = ZooDefs.procZookeeper;
 
     /** this will be the string thats stored as a child of root */
     private static final String procChildZookeeper = procZookeeper.substring(1);
@@ -104,7 +103,7 @@ public class DataTree {
      * the zookeeper quota node that acts as the quota management node for
      * zookeeper
      */
-    private static final String quotaZookeeper = Quotas.quotaZookeeper;
+    private static final String quotaZookeeper = ZooDefs.quotaZookeeper;
 
     /** this will be the string thats stored as a child of /zookeeper */
     private static final String quotaChildZookeeper = quotaZookeeper
@@ -298,7 +297,7 @@ public class DataTree {
      *            the diff to be added to the count
      */
     public void updateCount(String lastPrefix, int diff) {
-        String statNode = Quotas.statPath(lastPrefix);
+        String statNode = ZooDefs.statPath(lastPrefix);
         DataNode node = nodes.get(statNode);
         StatsTrack updatedStat = null;
         if (node == null) {
@@ -312,7 +311,7 @@ public class DataTree {
             node.data = updatedStat.toString().getBytes();
         }
         // now check if the counts match the quota
-        String quotaNode = Quotas.quotaPath(lastPrefix);
+        String quotaNode = ZooDefs.quotaPath(lastPrefix);
         node = nodes.get(quotaNode);
         StatsTrack thisStats = null;
         if (node == null) {
@@ -342,7 +341,7 @@ public class DataTree {
      *             if path is not found
      */
     public void updateBytes(String lastPrefix, long diff) {
-        String statNode = Quotas.statPath(lastPrefix);
+        String statNode = ZooDefs.statPath(lastPrefix);
         DataNode node = nodes.get(statNode);
         if (node == null) {
             // should never be null but just to make
@@ -357,7 +356,7 @@ public class DataTree {
             node.data = updatedStat.toString().getBytes();
         }
         // now check if the bytes match the quota
-        String quotaNode = Quotas.quotaPath(lastPrefix);
+        String quotaNode = ZooDefs.quotaPath(lastPrefix);
         node = nodes.get(quotaNode);
         if (node == null) {
             // should never be null but just to make
@@ -479,12 +478,12 @@ public class DataTree {
         // now check if its one of the zookeeper node child
         if (parentName.startsWith(quotaZookeeper)) {
             // now check if its the limit node
-            if (Quotas.limitNode.equals(childName)) {
+            if (ZooDefs.limitNode.equals(childName)) {
                 // this is the limit node
                 // get the parent and add it to the trie
                 pTrie.addPath(parentName.substring(quotaZookeeper.length()));
             }
-            if (Quotas.statNode.equals(childName)) {
+            if (ZooDefs.statNode.equals(childName)) {
                 updateQuotaForPath(parentName
                         .substring(quotaZookeeper.length()));
             }
@@ -545,7 +544,7 @@ public class DataTree {
                 }
             }
         }
-        if (parentName.startsWith(procZookeeper) && Quotas.limitNode.equals(childName)) {
+        if (parentName.startsWith(procZookeeper) && ZooDefs.limitNode.equals(childName)) {
             // delete the node in the trie.
             // we need to update the trie as well
             pTrie.deletePath(parentName.substring(quotaZookeeper.length()));
@@ -1060,7 +1059,7 @@ public class DataTree {
         StatsTrack strack = new StatsTrack();
         strack.setBytes(c.bytes);
         strack.setCount(c.count);
-        String statPath = Quotas.quotaZookeeper + path + "/" + Quotas.statNode;
+        String statPath = ZooDefs.quotaZookeeper + path + "/" + ZooDefs.statNode;
         DataNode node = getNode(statPath);
         // it should exist
         if (node == null) {
@@ -1088,12 +1087,12 @@ public class DataTree {
             // this node does not have a child
             // is the leaf node
             // check if its the leaf node
-            String endString = "/" + Quotas.limitNode;
+            String endString = "/" + ZooDefs.limitNode;
             if (path.endsWith(endString)) {
                 // ok this is the limit node
                 // get the real node and update
                 // the count and the bytes
-                String realPath = path.substring(Quotas.quotaZookeeper
+                String realPath = path.substring(ZooDefs.quotaZookeeper
                         .length(), path.indexOf(endString));
                 updateQuotaForPath(realPath);
                 this.pTrie.addPath(realPath);
@@ -1109,7 +1108,7 @@ public class DataTree {
      * this method sets up the path trie and sets up stats for quota nodes
      */
     private void setupQuota() {
-        String quotaPath = Quotas.quotaZookeeper;
+        String quotaPath = ZooDefs.quotaZookeeper;
         DataNode node = getNode(quotaPath);
         if (node == null) {
             return;

@@ -19,9 +19,9 @@
 package org.apache.zookeeper.server.common;
 
 import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.watcher.Watcher;
-import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.test.ClientBase;
 import org.junit.Assert;

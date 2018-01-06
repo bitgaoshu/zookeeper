@@ -20,13 +20,13 @@ package org.apache.zookeeper.test;
 
 import java.io.IOException;
 
+import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.Quotas;
-import org.apache.zookeeper.StatsTrack;
+import org.apache.zookeeper.util.StatsTrack;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.clients.client.ZooKeeperMain;
-import org.apache.zookeeper.ZooDefs.Ids;
+import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.junit.Assert;
@@ -55,13 +55,13 @@ public class ZooKeeperQuotaTest extends ClientBase {
         ZooKeeperMain.createQuota(zk, path, 5L, 10);
 
         // see if its set
-        String absolutePath = Quotas.quotaZookeeper + path + "/" + Quotas.limitNode;
+        String absolutePath = ZooDefs.quotaZookeeper + path + "/" + ZooDefs.limitNode;
         byte[] data = zk.getData(absolutePath, false, new Stat());
         StatsTrack st = new StatsTrack(new String(data));
         Assert.assertTrue("bytes are set", st.getBytes() == 5L);
         Assert.assertTrue("num count is set", st.getCount() == 10);
 
-        String statPath = Quotas.quotaZookeeper + path + "/" + Quotas.statNode;
+        String statPath = ZooDefs.quotaZookeeper + path + "/" + ZooDefs.statNode;
         byte[] qdata = zk.getData(statPath, false, new Stat());
         StatsTrack qst = new StatsTrack(new String(qdata));
         Assert.assertTrue("bytes are set", qst.getBytes() == 8L);

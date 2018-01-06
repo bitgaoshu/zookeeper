@@ -16,21 +16,14 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.jmx;
+package org.apache.zookeeper.server.jmx;
 
 /**
- * Zookeeper MBean info interface. MBeanRegistry uses the interface to generate
- * JMX object name.
+ * A bunch of constants.
+ * TODO: will get rid of it eventually.
  */
-public interface ZKMBeanInfo {
-    /**
-     * @return a string identifying the MBean 
-     */
-    public String getName();
-    /**
-     * If isHidden returns true, the MBean won't be registered with MBean server,
-     * and thus won't be available for management tools. Used for grouping MBeans.
-     * @return true if the MBean is hidden.
-     */
-    public boolean isHidden();
+public class CommonNames {
+    public static final String DOMAIN="org.apache.ZooKeeperService";
+    public static final String DATA_TREE_KEY="DataTree";
+    public static final String STANDALONE_SERVER_KEY="StandaloneServer";
 }

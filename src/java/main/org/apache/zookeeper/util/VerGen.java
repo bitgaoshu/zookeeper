@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 
 public class VerGen {
     private static final String PACKAGE_NAME = "org.apache.zookeeper.version";
-    private static final String TYPE_NAME = "VersionInfo";
+    private static final String TYPE_NAME = "Info";
 
     private static void printUsage() {
         System.out.print("Usage:\tjava  -cp <classpath> org.apache.zookeeper."

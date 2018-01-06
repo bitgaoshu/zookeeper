@@ -25,6 +25,7 @@ import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
+import org.apache.zookeeper.util.ZooDefs;
 
 /**
  * Interface definitions of asynchronous callbacks.
@@ -129,7 +130,7 @@ public interface AsyncCallback {
          * @param ctx  Whatever context object that we passed to
          *             asynchronous calls.
          * @param acl  ACL Id in
-         *             {@link org.apache.zookeeper.ZooDefs.Ids}.
+         *             {@link ZooDefs.Ids}.
          * @param stat {@link org.apache.zookeeper.data.Stat} object of
          *             the node on given path.
          */

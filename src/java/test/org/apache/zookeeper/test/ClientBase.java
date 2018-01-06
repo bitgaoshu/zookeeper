@@ -46,7 +46,7 @@ import org.apache.zookeeper.server.common.X509Exception.SSLContextException;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.clients.client.clientSocket.TestableZooKeeper;
-import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.watcher.Event.KeeperState;
 import org.apache.zookeeper.ZKTestCase;

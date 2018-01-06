@@ -29,7 +29,7 @@ import java.util.Properties;
 
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.PortAssignment;
-import org.apache.zookeeper.ZooDefs.Ids;
+import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.clients.admin.ZooKeeperAdmin;
 import org.apache.zookeeper.test.ClientBase;

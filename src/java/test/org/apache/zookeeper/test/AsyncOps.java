@@ -40,7 +40,7 @@ import org.apache.zookeeper.clients.AsyncCallback.StatCallback;
 import org.apache.zookeeper.clients.AsyncCallback.StringCallback;
 import org.apache.zookeeper.clients.AsyncCallback.VoidCallback;
 import org.apache.zookeeper.clients.AsyncCallback.MultiCallback;
-import org.apache.zookeeper.ZooDefs.Ids;
+import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
 import org.junit.Assert;

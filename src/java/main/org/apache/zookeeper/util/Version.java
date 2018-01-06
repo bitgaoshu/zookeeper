@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper;
+package org.apache.zookeeper.util;
 
 public class Version implements org.apache.zookeeper.version.Info {
 
@@ -54,7 +54,7 @@ public class Version implements org.apache.zookeeper.version.Info {
 
     public static void printUsage() {
         System.out
-                .print("Usage:\tjava -cp ... org.apache.zookeeper.Version "
+                .print("Usage:\tjava -cp ... org.apache.zookeeper.util.Version "
                         + "[--full | --short | --revision],\n\tPrints --full version "
                         + "info if no arg specified.");
         System.exit(1);

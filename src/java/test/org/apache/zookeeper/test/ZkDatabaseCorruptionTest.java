@@ -26,7 +26,7 @@ import java.util.Arrays;
 import org.apache.zookeeper.clients.AsyncCallback;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.server.SyncRequestProcessor;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;

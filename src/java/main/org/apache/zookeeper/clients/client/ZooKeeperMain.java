@@ -19,10 +19,10 @@
 package org.apache.zookeeper.clients.client;
 
 import org.apache.yetus.audience.InterfaceAudience;
-import org.apache.zookeeper.Quotas;
-import org.apache.zookeeper.StatsTrack;
-import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.ZooDefs.Ids;
+import org.apache.zookeeper.util.StatsTrack;
+import org.apache.zookeeper.util.ZooDefs;
+import org.apache.zookeeper.watcher.WatchedEvent;
+import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.clients.admin.ZooKeeperAdmin;
 import org.apache.zookeeper.clients.cliCmds.AddAuthCommand;
 import org.apache.zookeeper.clients.cliCmds.CliCommand;
@@ -392,7 +392,7 @@ public class ZooKeeperMain {
     private static boolean trimProcQuotas(ZooKeeper zk, String path)
         throws KeeperException, IOException, InterruptedException
     {
-        if (Quotas.quotaZookeeper.equals(path)) {
+        if (ZooDefs.quotaZookeeper.equals(path)) {
             return true;
         }
         List<String> children = zk.getChildren(path, false);
@@ -422,8 +422,8 @@ public class ZooKeeperMain {
             boolean bytes, boolean numNodes)
         throws KeeperException, IOException, InterruptedException
     {
-        String parentPath = Quotas.quotaZookeeper + path;
-        String quotaPath = Quotas.quotaZookeeper + path + "/" + Quotas.limitNode;
+        String parentPath = ZooDefs.quotaZookeeper + path;
+        String quotaPath = ZooDefs.quotaZookeeper + path + "/" + ZooDefs.limitNode;
         if (zk.exists(quotaPath, false) == null) {
             System.out.println("Quota does not exist for " + path);
             return true;
@@ -460,7 +460,7 @@ public class ZooKeeperMain {
         throws InterruptedException, KeeperException
     {
         final String[] splits = path.split("/");
-        String quotaPath = Quotas.quotaZookeeper;
+        String quotaPath = ZooDefs.quotaZookeeper;
         for (String str: splits) {
             if (str.length() == 0) {
                 // this should only be for the beginning of the path
@@ -479,7 +479,7 @@ public class ZooKeeperMain {
                 return;
             }
             for (String child: children) {
-                if (Quotas.limitNode.equals(child)) {
+                if (ZooDefs.limitNode.equals(child)) {
                     throw new IllegalArgumentException(path + " has a parent "
                             + quotaPath + " which has a quota");
                 }
@@ -509,13 +509,13 @@ public class ZooKeeperMain {
         // now check if their is already existing
         // parent or child that has quota
 
-        String quotaPath = Quotas.quotaZookeeper;
+        String quotaPath = ZooDefs.quotaZookeeper;
         // check for more than 2 children --
         // if zookeeper_stats and zookeeper_qutoas
         // are not the children then this path
         // is an ancestor of some path that
         // already has quota
-        String realPath = Quotas.quotaZookeeper + path;
+        String realPath = ZooDefs.quotaZookeeper + path;
         try {
             List<String> children = zk.getChildren(realPath, false);
             for (String child: children) {
@@ -535,9 +535,9 @@ public class ZooKeeperMain {
         // start creating all the parents
         if (zk.exists(quotaPath, false) == null) {
             try {
-                zk.create(Quotas.procZookeeper, null, Ids.OPEN_ACL_UNSAFE,
+                zk.create(ZooDefs.procZookeeper, null, Ids.OPEN_ACL_UNSAFE,
                         CreateMode.PERSISTENT);
-                zk.create(Quotas.quotaZookeeper, null, Ids.OPEN_ACL_UNSAFE,
+                zk.create(ZooDefs.quotaZookeeper, null, Ids.OPEN_ACL_UNSAFE,
                         CreateMode.PERSISTENT);
             } catch(KeeperException.NodeExistsException ne) {
                 // do nothing
@@ -559,8 +559,8 @@ public class ZooKeeperMain {
                 //do nothing
             }
         }
-        String statPath = quotaPath + "/" + Quotas.statNode;
-        quotaPath = quotaPath + "/" + Quotas.limitNode;
+        String statPath = quotaPath + "/" + ZooDefs.statNode;
+        quotaPath = quotaPath + "/" + ZooDefs.limitNode;
         StatsTrack strack = new StatsTrack(null);
         strack.setBytes(bytes);
         strack.setCount(numNodes);

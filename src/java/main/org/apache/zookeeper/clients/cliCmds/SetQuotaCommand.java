@@ -20,11 +20,12 @@ package org.apache.zookeeper.clients.cliCmds;
 import java.io.IOException;
 import java.util.List;
 import org.apache.commons.cli.*;
-import org.apache.zookeeper.*;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.nodeMode.CreateMode;
+import org.apache.zookeeper.util.StatsTrack;
+import org.apache.zookeeper.util.ZooDefs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -110,13 +111,13 @@ public class SetQuotaCommand extends CliCommand {
         // now check if their is already existing
         // parent or child that has quota
 
-        String quotaPath = Quotas.quotaZookeeper;
+        String quotaPath = ZooDefs.quotaZookeeper;
         // check for more than 2 children --
         // if zookeeper_stats and zookeeper_qutoas
         // are not the children then this path
         // is an ancestor of some path that
         // already has quota
-        String realPath = Quotas.quotaZookeeper + path;
+        String realPath = ZooDefs.quotaZookeeper + path;
         try {
             List<String> children = zk.getChildren(realPath, false);
             for (String child : children) {
@@ -136,9 +137,9 @@ public class SetQuotaCommand extends CliCommand {
         // start creating all the parents
         if (zk.exists(quotaPath, false) == null) {
             try {
-                zk.create(Quotas.procZookeeper, null, ZooDefs.Ids.OPEN_ACL_UNSAFE,
+                zk.create(ZooDefs.procZookeeper, null, ZooDefs.Ids.OPEN_ACL_UNSAFE,
                         CreateMode.PERSISTENT);
-                zk.create(Quotas.quotaZookeeper, null, ZooDefs.Ids.OPEN_ACL_UNSAFE,
+                zk.create(ZooDefs.quotaZookeeper, null, ZooDefs.Ids.OPEN_ACL_UNSAFE,
                         CreateMode.PERSISTENT);
             } catch (KeeperException.NodeExistsException ne) {
                 // do nothing
@@ -160,8 +161,8 @@ public class SetQuotaCommand extends CliCommand {
                 //do nothing
             }
         }
-        String statPath = quotaPath + "/" + Quotas.statNode;
-        quotaPath = quotaPath + "/" + Quotas.limitNode;
+        String statPath = quotaPath + "/" + ZooDefs.statNode;
+        quotaPath = quotaPath + "/" + ZooDefs.limitNode;
         StatsTrack strack = new StatsTrack(null);
         strack.setBytes(bytes);
         strack.setCount(numNodes);
@@ -190,7 +191,7 @@ public class SetQuotaCommand extends CliCommand {
     private static void checkIfParentQuota(ZooKeeper zk, String path)
             throws InterruptedException, KeeperException {
         final String[] splits = path.split("/");
-        String quotaPath = Quotas.quotaZookeeper;
+        String quotaPath = ZooDefs.quotaZookeeper;
         for (String str : splits) {
             if (str.length() == 0) {
                 // this should only be for the beginning of the path
@@ -209,7 +210,7 @@ public class SetQuotaCommand extends CliCommand {
                 return;
             }
             for (String child : children) {
-                if (Quotas.limitNode.equals(child)) {
+                if (ZooDefs.limitNode.equals(child)) {
                     throw new IllegalArgumentException(path + " has a parent "
                             + quotaPath + " which has a quota");
                 }

@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.server.admin;
 
-import org.apache.zookeeper.Version;
+import org.apache.zookeeper.util.Version;
 import org.apache.zookeeper.server.DataTree;
 import org.apache.zookeeper.server.ServerStats;
 import org.apache.zookeeper.server.ZKDatabase;

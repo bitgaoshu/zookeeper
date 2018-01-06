@@ -20,8 +20,8 @@ package org.apache.zookeeper.server;
 
 import java.util.Date;
 
-import org.apache.zookeeper.Version;
-import org.apache.zookeeper.jmx.ZKMBeanInfo;
+import org.apache.zookeeper.util.Version;
+import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
 
 /**
  * This class implements the ZooKeeper server MBean interface.

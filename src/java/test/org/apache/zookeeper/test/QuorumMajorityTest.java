@@ -19,7 +19,7 @@
 package org.apache.zookeeper.test;
 import java.util.ArrayList;
 
-import org.apache.zookeeper.jmx.CommonNames;
+import org.apache.zookeeper.server.jmx.CommonNames;
 import org.apache.zookeeper.server.quorum.Leader.Proposal;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.ServerState;

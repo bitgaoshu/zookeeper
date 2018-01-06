@@ -20,7 +20,7 @@ package org.apache.zookeeper.server.command;
 
 import java.io.PrintWriter;
 
-import org.apache.zookeeper.Version;
+import org.apache.zookeeper.util.Version;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.ServerStats;
 import org.apache.zookeeper.server.ZKDatabase;

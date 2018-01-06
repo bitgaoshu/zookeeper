@@ -20,7 +20,7 @@ package org.apache.zookeeper.test;
 
 import java.util.EnumSet;
 
-import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.watcher.Event.EventType;
 import org.apache.zookeeper.watcher.Event.KeeperState;

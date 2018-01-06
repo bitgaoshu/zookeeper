@@ -33,7 +33,7 @@ import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.NotReadOnlyException;
 import org.apache.zookeeper.clients.client.common.Transaction;
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.clients.client.ZooKeeper.States;
 import org.apache.zookeeper.server.common.Time;

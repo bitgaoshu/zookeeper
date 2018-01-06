@@ -29,7 +29,7 @@ import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.data.StatPersisted;
-import org.apache.zookeeper.jmx.MBeanRegistry;
+import org.apache.zookeeper.server.jmx.MBeanRegistry;
 import org.apache.zookeeper.proto.*;
 import org.apache.zookeeper.server.DataTree.ProcessTxnResult;
 import org.apache.zookeeper.server.RequestProcessor.RequestProcessorException;

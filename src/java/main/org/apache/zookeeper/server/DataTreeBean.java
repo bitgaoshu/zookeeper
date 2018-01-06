@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.server;
 
-import org.apache.zookeeper.jmx.ZKMBeanInfo;
+import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
 
 /**
  * This class implements the data tree MBean.

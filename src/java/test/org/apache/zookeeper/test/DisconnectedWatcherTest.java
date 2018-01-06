@@ -24,11 +24,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.watcher.Event;
 import org.apache.zookeeper.watcher.Event.EventType;
-import org.apache.zookeeper.ZooDefs.Ids;
+import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;

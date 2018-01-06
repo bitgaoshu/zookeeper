@@ -20,8 +20,8 @@ package org.apache.zookeeper.clients.client;
 
 import org.apache.jute.Record;
 import org.apache.yetus.audience.InterfaceAudience;
-import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.watcher.WatchedEvent;
+import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.operation.multi.MultiResponse;
 import org.apache.zookeeper.operation.multi.MultiTransactionRecord;
 import org.apache.zookeeper.operation.Op;

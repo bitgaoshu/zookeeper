@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 
-import org.apache.zookeeper.jmx.MBeanRegistry;
+import org.apache.zookeeper.server.jmx.MBeanRegistry;
 import org.apache.zookeeper.server.DataTreeBean;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.SyncRequestProcessor;

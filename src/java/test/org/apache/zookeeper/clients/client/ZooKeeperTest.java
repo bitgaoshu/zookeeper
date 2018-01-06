@@ -28,9 +28,9 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.clients.AsyncCallback.VoidCallback;
-import org.apache.zookeeper.ZooDefs.Ids;
+import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.clients.cliCmds.*;
 import org.apache.zookeeper.clients.cliCmds.ZKUtil;
 import org.apache.zookeeper.exception.KeeperException;

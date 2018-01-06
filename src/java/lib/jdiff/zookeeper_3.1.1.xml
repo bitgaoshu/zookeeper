@@ -1266,7 +1266,7 @@
     </doc>
   </class>
   <!-- end class org.apache.zookeeper.Quotas -->
-  <!-- start class org.apache.zookeeper.ServerAdminClient -->
+  <!-- start class org.apache.zookeeper.clients.admin.ServerAdminClient -->
   <class name="ServerAdminClient" extends="java.lang.Object"
     abstract="false"
     static="false" final="false" visibility="public"
@@ -1325,8 +1325,8 @@
       <param name="args" type="java.lang.String[]"/>
     </method>
   </class>
-  <!-- end class org.apache.zookeeper.ServerAdminClient -->
-  <!-- start class org.apache.zookeeper.StatsTrack -->
+  <!-- end class org.apache.zookeeper.clients.admin.ServerAdminClient -->
+  <!-- start class org.apache.zookeeper.util.StatsTrack -->
   <class name="StatsTrack" extends="java.lang.Object"
     abstract="false"
     static="false" final="false" visibility="public"
@@ -1402,8 +1402,8 @@
     <![CDATA[a class that represents the stats associated with quotas]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.StatsTrack -->
-  <!-- start class org.apache.zookeeper.Version -->
+  <!-- end class org.apache.zookeeper.util.StatsTrack -->
+  <!-- start class org.apache.zookeeper.util.Version -->
   <class name="Version" extends="java.lang.Object"
     abstract="false"
     static="false" final="false" visibility="public"
@@ -1461,8 +1461,8 @@
       </doc>
     </method>
   </class>
-  <!-- end class org.apache.zookeeper.Version -->
-  <!-- start class org.apache.zookeeper.WatchedEvent -->
+  <!-- end class org.apache.zookeeper.util.Version -->
+  <!-- start class org.apache.zookeeper.watcher.WatchedEvent -->
   <class name="WatchedEvent" extends="java.lang.Object"
     abstract="false"
     static="false" final="false" visibility="public"
@@ -1516,7 +1516,7 @@
   was involved in the event.]]>
     </doc>
   </class>
-  <!-- end class org.apache.zookeeper.WatchedEvent -->
+  <!-- end class org.apache.zookeeper.watcher.WatchedEvent -->
   <!-- start interface org.apache.zookeeper.watcher.Watcher -->
   <interface name="Watcher"    abstract="true"
     static="false" final="false" visibility="public"
@@ -1525,7 +1525,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="event" type="org.apache.zookeeper.WatchedEvent"/>
+      <param name="event" type="org.apache.zookeeper.watcher.WatchedEvent"/>
     </method>
     <doc>
     <![CDATA[This interface specifies the public interface an event handler class must
@@ -1681,7 +1681,7 @@
     </doc>
   </class>
   <!-- end class org.apache.zookeeper.watcher.Watcher.Event.KeeperState -->
-  <!-- start class org.apache.zookeeper.ZooDefs -->
+  <!-- start class org.apache.zookeeper.util.ZooDefs -->
   <class name="ZooDefs" extends="java.lang.Object"
     abstract="false"
     static="false" final="false" visibility="public"
@@ -1696,8 +1696,8 @@
       deprecated="not deprecated">
     </field>
   </class>
-  <!-- end class org.apache.zookeeper.ZooDefs -->
-  <!-- start interface org.apache.zookeeper.ZooDefs.Ids -->
+  <!-- end class org.apache.zookeeper.util.ZooDefs -->
+  <!-- start interface org.apache.zookeeper.util.ZooDefs.Ids -->
   <interface name="ZooDefs.Ids"    abstract="true"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -1743,8 +1743,8 @@
       </doc>
     </field>
   </interface>
-  <!-- end interface org.apache.zookeeper.ZooDefs.Ids -->
-  <!-- start interface org.apache.zookeeper.ZooDefs.OpCode -->
+  <!-- end interface org.apache.zookeeper.util.ZooDefs.Ids -->
+  <!-- start interface org.apache.zookeeper.util.ZooDefs.OpCode -->
   <interface name="ZooDefs.OpCode"    abstract="true"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -1829,8 +1829,8 @@
       deprecated="not deprecated">
     </field>
   </interface>
-  <!-- end interface org.apache.zookeeper.ZooDefs.OpCode -->
-  <!-- start interface org.apache.zookeeper.ZooDefs.Perms -->
+  <!-- end interface org.apache.zookeeper.util.ZooDefs.OpCode -->
+  <!-- start interface org.apache.zookeeper.util.ZooDefs.Perms -->
   <interface name="ZooDefs.Perms"    abstract="true"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
@@ -1865,7 +1865,7 @@
       deprecated="not deprecated">
     </field>
   </interface>
-  <!-- end interface org.apache.zookeeper.ZooDefs.Perms -->
+  <!-- end interface org.apache.zookeeper.util.ZooDefs.Perms -->
   <!-- start class org.apache.zookeeper.clients.client.ZooKeeper -->
   <class name="ZooKeeper" extends="java.lang.Object"
     abstract="false"

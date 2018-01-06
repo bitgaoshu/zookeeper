@@ -21,8 +21,8 @@ import java.io.IOException;
 import java.util.Set;
 
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.jmx.MBeanRegistry;
-import org.apache.zookeeper.jmx.ZKMBeanInfo;
+import org.apache.zookeeper.server.jmx.MBeanRegistry;
+import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.junit.Assert;
 import org.junit.Test;

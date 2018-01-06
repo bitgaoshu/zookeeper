@@ -24,7 +24,7 @@ import java.io.File;
 import java.io.RandomAccessFile;
 
 import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.ZooDefs.Ids;
+import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.server.SyncRequestProcessor;
 import org.apache.zookeeper.server.cnxn.NIOCnxn.NIOServerCnxnFactory;

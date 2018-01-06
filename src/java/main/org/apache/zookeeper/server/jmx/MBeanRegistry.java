@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.jmx;
+package org.apache.zookeeper.server.jmx;
 
 import java.lang.management.ManagementFactory;
 import java.util.Collection;

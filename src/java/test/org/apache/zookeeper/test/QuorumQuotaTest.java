@@ -18,12 +18,12 @@
 
 package org.apache.zookeeper.test;
 
+import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.Quotas;
-import org.apache.zookeeper.StatsTrack;
+import org.apache.zookeeper.util.StatsTrack;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.clients.client.ZooKeeperMain;
-import org.apache.zookeeper.ZooDefs.Ids;
+import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.data.Stat;
 import org.junit.Assert;
 import org.junit.Test;
@@ -42,7 +42,7 @@ public class QuorumQuotaTest extends QuorumBase {
                     CreateMode.PERSISTENT);
         }
         ZooKeeperMain.createQuota(zk, "/a", 1000L, 5000);
-        String statPath = Quotas.quotaZookeeper + "/a"+ "/" + Quotas.statNode;
+        String statPath = ZooDefs.quotaZookeeper + "/a"+ "/" + ZooDefs.statNode;
         byte[] data = zk.getData(statPath, false, new Stat());
         StatsTrack st = new StatsTrack(new String(data));
         Assert.assertTrue("bytes are set", st.getBytes() == 1204L);

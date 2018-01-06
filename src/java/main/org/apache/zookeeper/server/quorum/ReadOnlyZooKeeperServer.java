@@ -20,7 +20,7 @@ package org.apache.zookeeper.server.quorum;
 
 import java.io.PrintWriter;
 
-import org.apache.zookeeper.jmx.MBeanRegistry;
+import org.apache.zookeeper.server.jmx.MBeanRegistry;
 import org.apache.zookeeper.server.DataTreeBean;
 import org.apache.zookeeper.server.FinalRequestProcessor;
 import org.apache.zookeeper.server.PrepRequestProcessor;

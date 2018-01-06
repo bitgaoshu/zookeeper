@@ -21,7 +21,7 @@ package org.apache.zookeeper.clients.client.clientSocket;
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
-import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.clients.AsyncCallback;
 import org.apache.zookeeper.clients.AsyncCallback.ACLCallback;
 import org.apache.zookeeper.clients.AsyncCallback.Children2Callback;

@@ -22,7 +22,7 @@ package org.apache.zookeeper.test;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.clients.AsyncCallback.VoidCallback;
-import org.apache.zookeeper.ZooDefs.Ids;
+import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.server.common.Time;
 
 public class TestHammer implements VoidCallback {

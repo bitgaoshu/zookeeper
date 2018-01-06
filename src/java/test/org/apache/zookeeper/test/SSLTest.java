@@ -24,7 +24,7 @@ package org.apache.zookeeper.test;
 
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.PortAssignment;
-import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.clients.client.common.ZKClientConfig;
 import org.apache.zookeeper.server.common.ZKConfig;

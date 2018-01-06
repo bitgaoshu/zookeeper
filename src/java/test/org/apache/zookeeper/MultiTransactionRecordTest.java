@@ -23,6 +23,7 @@ import org.apache.jute.BinaryOutputArchive;
 import org.apache.zookeeper.operation.multi.MultiTransactionRecord;
 import org.apache.zookeeper.operation.Op;
 import org.apache.zookeeper.server.ByteBufferInputStream;
+import org.apache.zookeeper.util.ZooDefs;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper;
+package org.apache.zookeeper.clients.admin;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -248,7 +248,7 @@ public class ServerAdminClient {
 
     private static void usage() {
         System.out
-                .println("usage: java [-cp CLASSPATH] org.apache.zookeeper.ServerAdminClient "
+                .println("usage: java [-cp CLASSPATH] org.apache.zookeeper.clients.admin.ServerAdminClient "
                         + "host port op (ruok|stat|dump|kill|gettracemask|settracemask) [arguments]");
 
     }

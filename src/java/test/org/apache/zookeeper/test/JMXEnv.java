@@ -34,8 +34,8 @@ import javax.management.remote.JMXConnectorServerFactory;
 import javax.management.remote.JMXServiceURL;
 
 
-import org.apache.zookeeper.jmx.CommonNames;
-import org.apache.zookeeper.jmx.MBeanRegistry;
+import org.apache.zookeeper.server.jmx.CommonNames;
+import org.apache.zookeeper.server.jmx.MBeanRegistry;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

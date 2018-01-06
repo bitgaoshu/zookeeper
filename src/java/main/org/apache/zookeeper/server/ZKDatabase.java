@@ -41,7 +41,7 @@ import org.apache.zookeeper.exception.KeeperException.NoNodeException;
 import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.watcher.WatcherType;
-import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;

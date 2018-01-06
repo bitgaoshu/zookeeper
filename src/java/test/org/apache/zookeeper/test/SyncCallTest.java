@@ -32,7 +32,7 @@ import org.apache.zookeeper.clients.AsyncCallback.ChildrenCallback;
 import org.apache.zookeeper.clients.AsyncCallback.Create2Callback;
 import org.apache.zookeeper.clients.AsyncCallback.StringCallback;
 import org.apache.zookeeper.clients.AsyncCallback.VoidCallback;
-import org.apache.zookeeper.ZooDefs.Ids;
+import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.data.Stat;
 import org.junit.Assert;
 import org.junit.Test;

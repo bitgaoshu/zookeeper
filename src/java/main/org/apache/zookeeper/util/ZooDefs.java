@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper;
+package org.apache.zookeeper.util;
 
 import org.apache.yetus.audience.InterfaceAudience;
 import org.apache.zookeeper.data.ACL;
@@ -28,7 +28,50 @@ import java.util.Collections;
 @InterfaceAudience.Public
 public interface ZooDefs {
 
-     String CONFIG_NODE = "/zookeeper/config";
+    String CONFIG_NODE = "/zookeeper/config";
+    /**
+     * the zookeeper nodes that acts as the management and status node
+     **/
+    String procZookeeper = "/zookeeper";
+    /**
+     * the zookeeper quota node that acts as the quota
+     * management node for zookeeper
+     */
+    String quotaZookeeper = "/zookeeper/quota";
+    /**
+     * the limit node that has the limit of
+     * a subtree
+     */
+    String limitNode = "zookeeper_limits";
+    /**
+     * the stat node that monitors the limit of
+     * a subtree.
+     */
+    String statNode = "zookeeper_stats";
+
+    /**
+     * return the quota path associated with this
+     * prefix
+     *
+     * @param path the actual path in zookeeper.
+     * @return the limit quota path
+     */
+    static String quotaPath(String path) {
+        return quotaZookeeper + path +
+                "/" + limitNode;
+    }
+
+    /**
+     * return the stat quota path associated with this
+     * prefix.
+     *
+     * @param path the actual path in zookeeper
+     * @return the stat quota path
+     */
+    static String statPath(String path) {
+        return quotaZookeeper + path + "/" +
+                statNode;
+    }
 
     @InterfaceAudience.Public
     interface Perms {
@@ -50,30 +93,30 @@ public interface ZooDefs {
         /**
          * This Id represents anyone.
          */
-         Id ANYONE_ID_UNSAFE = new Id("world", "anyone");
+        Id ANYONE_ID_UNSAFE = new Id("world", "anyone");
 
         /**
          * This Id is only usable to set ACLs. It will get substituted with the
          * Id's the client authenticated with.
          */
-         Id AUTH_IDS = new Id("auth", "");
+        Id AUTH_IDS = new Id("auth", "");
 
         /**
          * This is a completely open ACL .
          */
-         ArrayList<ACL> OPEN_ACL_UNSAFE = new ArrayList<ACL>(
+        ArrayList<ACL> OPEN_ACL_UNSAFE = new ArrayList<ACL>(
                 Collections.singletonList(new ACL(Perms.ALL, ANYONE_ID_UNSAFE)));
 
         /**
          * This ACL gives the creators authentication id's all permissions.
          */
-         ArrayList<ACL> CREATOR_ALL_ACL = new ArrayList<ACL>(
+        ArrayList<ACL> CREATOR_ALL_ACL = new ArrayList<ACL>(
                 Collections.singletonList(new ACL(Perms.ALL, AUTH_IDS)));
 
         /**
          * This ACL gives the world the ability to read.
          */
-         ArrayList<ACL> READ_ACL_UNSAFE = new ArrayList<ACL>(
+        ArrayList<ACL> READ_ACL_UNSAFE = new ArrayList<ACL>(
                 Collections
                         .singletonList(new ACL(Perms.READ, ANYONE_ID_UNSAFE)));
     }

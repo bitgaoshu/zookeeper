@@ -39,7 +39,7 @@ import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.clients.client.ZooKeeper;
-import org.apache.zookeeper.ZooDefs.Ids;
+import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.clients.client.ZooKeeper.States;
 import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.server.quorum.Leader.Proposal;

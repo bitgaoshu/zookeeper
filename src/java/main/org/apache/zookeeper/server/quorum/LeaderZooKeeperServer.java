@@ -19,7 +19,7 @@
 package org.apache.zookeeper.server.quorum;
 
 import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
-import org.apache.zookeeper.jmx.MBeanRegistry;
+import org.apache.zookeeper.server.jmx.MBeanRegistry;
 import org.apache.zookeeper.server.ContainerManager;
 import org.apache.zookeeper.server.DataTreeBean;
 import org.apache.zookeeper.server.FinalRequestProcessor;

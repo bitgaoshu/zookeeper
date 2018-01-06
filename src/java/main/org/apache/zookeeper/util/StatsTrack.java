@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper;
+package org.apache.zookeeper.util;
 
 /**
  * a class that represents the stats associated with quotas

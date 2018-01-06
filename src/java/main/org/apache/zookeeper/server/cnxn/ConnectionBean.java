@@ -29,8 +29,8 @@ import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.zookeeper.jmx.MBeanRegistry;
-import org.apache.zookeeper.jmx.ZKMBeanInfo;
+import org.apache.zookeeper.server.jmx.MBeanRegistry;
+import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
 
 /**
  * Implementation of connection MBean interface.

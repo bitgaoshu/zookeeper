@@ -19,7 +19,6 @@
 package org.apache.zookeeper.watcher;
 
 import org.apache.yetus.audience.InterfaceAudience;
-import org.apache.zookeeper.WatchedEvent;
 
 /**
  * This interface specifies the public interface an event handler class must

@@ -18,7 +18,6 @@
 
 package org.apache.zookeeper.server;
 
-import org.apache.zookeeper.*;
 import org.apache.zookeeper.clients.AsyncCallback;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.exception.KeeperException;
@@ -26,6 +25,7 @@ import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.operation.Op;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.nodeMode.CreateMode;
+import org.apache.zookeeper.util.ZooDefs;
 import org.junit.Assert;
 import org.junit.Test;
 

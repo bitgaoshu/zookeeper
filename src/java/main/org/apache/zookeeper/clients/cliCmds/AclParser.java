@@ -19,7 +19,7 @@ package org.apache.zookeeper.clients.cliCmds;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
 

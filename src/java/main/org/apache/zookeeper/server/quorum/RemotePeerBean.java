@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.server.quorum;
 
-import org.apache.zookeeper.jmx.ZKMBeanInfo;
+import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
 
 /**
  * A remote peer bean only provides limited information about the remote peer,

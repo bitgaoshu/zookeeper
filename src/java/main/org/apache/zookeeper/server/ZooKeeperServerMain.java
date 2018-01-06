@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 import javax.management.JMException;
 
 import org.apache.yetus.audience.InterfaceAudience;
-import org.apache.zookeeper.jmx.ManagedUtil;
+import org.apache.zookeeper.server.jmx.ManagedUtil;
 import org.apache.zookeeper.server.admin.AdminServer;
 import org.apache.zookeeper.server.admin.AdminServer.AdminServerException;
 import org.apache.zookeeper.server.admin.AdminServerFactory;

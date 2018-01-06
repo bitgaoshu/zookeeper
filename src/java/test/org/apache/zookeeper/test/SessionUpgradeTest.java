@@ -21,7 +21,7 @@ package org.apache.zookeeper.test;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.test.ClientBase.CountdownWatcher;
 import org.junit.After;
 import org.junit.Assert;

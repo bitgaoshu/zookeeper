@@ -22,10 +22,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.exception.KeeperException.NoNodeException;
 import org.apache.zookeeper.exception.KeeperException.NodeExistsException;
-import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.data.Stat;
 import org.junit.After;
 import org.junit.Assert;
@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import org.apache.zookeeper.Quotas;
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
@@ -157,9 +156,9 @@ public class DataTreeTest extends ZKTestCase {
         DataTree dserTree = new DataTree();
 
         dserTree.createNode("/bug", new byte[20], null, -1, 1, 1, 1);
-        dserTree.createNode(Quotas.quotaZookeeper+"/bug", null, null, -1, 1, 1, 1);
-        dserTree.createNode(Quotas.quotaPath("/bug"), new byte[20], null, -1, 1, 1, 1);
-        dserTree.createNode(Quotas.statPath("/bug"), new byte[20], null, -1, 1, 1, 1);
+        dserTree.createNode(ZooDefs.quotaZookeeper+"/bug", null, null, -1, 1, 1, 1);
+        dserTree.createNode(ZooDefs.quotaPath("/bug"), new byte[20], null, -1, 1, 1, 1);
+        dserTree.createNode(ZooDefs.statPath("/bug"), new byte[20], null, -1, 1, 1, 1);
 
         //deserialize a DataTree; this should clear the old /bug nodes and pathTrie
         DataTree tree = new DataTree();

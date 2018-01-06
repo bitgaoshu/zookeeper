@@ -23,7 +23,7 @@ import org.apache.zookeeper.operation.multi.MultiResponse;
 import org.apache.zookeeper.operation.OpResult;
 import org.apache.zookeeper.operation.OpResult.*;
 import org.apache.zookeeper.watcher.WatcherType;
-import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.KECode;

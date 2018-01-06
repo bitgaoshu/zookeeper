@@ -24,8 +24,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.watcher.WatchedEvent;
+import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.watcher.Event;
 import org.apache.zookeeper.watcher.Event.EventType;

@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.ZooDefs.Ids;
+import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.operation.OpCode;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.data.Id;

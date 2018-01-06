@@ -18,9 +18,9 @@
 package org.apache.zookeeper.clients.cliCmds;
 
 import org.apache.commons.cli.*;
+import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.Quotas;
-import org.apache.zookeeper.StatsTrack;
+import org.apache.zookeeper.util.StatsTrack;
 import org.apache.zookeeper.data.Stat;
 
 /**
@@ -55,8 +55,8 @@ public class ListQuotaCommand extends CliCommand {
     @Override
     public boolean exec() throws CliException {
         String path = args[1];
-        String absolutePath = Quotas.quotaZookeeper + path + "/"
-                + Quotas.limitNode;
+        String absolutePath = ZooDefs.quotaZookeeper + path + "/"
+                + ZooDefs.limitNode;
         try {
             err.println("absolute path is " + absolutePath);
             Stat stat = new Stat();
@@ -65,8 +65,8 @@ public class ListQuotaCommand extends CliCommand {
             out.println("Output quota for " + path + " "
                     + st.toString());
 
-            data = zk.getData(Quotas.quotaZookeeper + path + "/"
-                    + Quotas.statNode, false, stat);
+            data = zk.getData(ZooDefs.quotaZookeeper + path + "/"
+                    + ZooDefs.statNode, false, stat);
             out.println("Output stat for " + path + " "
                     + new StatsTrack(new String(data)).toString());
         } catch (IllegalArgumentException ex) {

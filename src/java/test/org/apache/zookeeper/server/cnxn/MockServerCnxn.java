@@ -18,7 +18,7 @@
 package org.apache.zookeeper.server.cnxn;
 
 import org.apache.jute.Record;
-import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.server.ServerStats;
 

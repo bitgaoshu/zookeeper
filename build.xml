@@ -563,7 +563,7 @@ xmlns:cs="antlib:com.puppycrawl.tools.checkstyle.ant">
     <!-- Make zookeeper.jar                                     -->
     <!-- ====================================================== -->
     <target name="jar" depends="compile">
-        <java classname="org.apache.zookeeper.Version" fork="true"
+        <java classname="org.apache.zookeeper.util.Version" fork="true"
               outputproperty="revision" errorproperty="revision.error" failonerror="true">
             <arg value="--revision" />
             <classpath>
@@ -606,7 +606,7 @@ xmlns:cs="antlib:com.puppycrawl.tools.checkstyle.ant">
     <!-- Make zookeeper-bin.jar                                 -->
     <!-- ====================================================== -->
     <target name="bin-jar" depends="compile">
-        <java classname="org.apache.zookeeper.Version" fork="true"
+        <java classname="org.apache.zookeeper.util.Version" fork="true"
               outputproperty="revision" failonerror="true">
             <arg value="--revision" />
             <classpath>

@@ -18,7 +18,6 @@
 
 package org.apache.zookeeper.util;
 
-import org.apache.zookeeper.Version;
 import org.slf4j.Logger;
 
 import java.net.InetAddress;

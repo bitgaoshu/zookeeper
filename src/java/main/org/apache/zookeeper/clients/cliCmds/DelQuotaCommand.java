@@ -20,9 +20,9 @@ package org.apache.zookeeper.clients.cliCmds;
 import java.io.IOException;
 import java.util.List;
 import org.apache.commons.cli.*;
+import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.Quotas;
-import org.apache.zookeeper.StatsTrack;
+import org.apache.zookeeper.util.StatsTrack;
 import org.apache.zookeeper.clients.client.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 
@@ -96,9 +96,9 @@ public class DelQuotaCommand extends CliCommand {
     public static boolean delQuota(ZooKeeper zk, String path,
             boolean bytes, boolean numNodes)
             throws KeeperException, IOException, InterruptedException, MalformedPathException {
-        String parentPath = Quotas.quotaZookeeper + path;
-        String quotaPath = Quotas.quotaZookeeper + path + "/" + 
-                Quotas.limitNode;
+        String parentPath = ZooDefs.quotaZookeeper + path;
+        String quotaPath = ZooDefs.quotaZookeeper + path + "/" +
+                ZooDefs.limitNode;
         if (zk.exists(quotaPath, false) == null) {
             System.out.println("Quota does not exist for " + path);
             return true;
@@ -146,7 +146,7 @@ public class DelQuotaCommand extends CliCommand {
      */
     private static boolean trimProcQuotas(ZooKeeper zk, String path)
             throws KeeperException, IOException, InterruptedException {
-        if (Quotas.quotaZookeeper.equals(path)) {
+        if (ZooDefs.quotaZookeeper.equals(path)) {
             return true;
         }
         List<String> children = zk.getChildren(path, false);
