@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,55 +18,55 @@
 
 package org.apache.zookeeper.server.quorum.roles.server;
 
-import java.io.IOException;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
 import org.apache.jute.Record;
 import org.apache.zookeeper.operation.OpType;
-import org.apache.zookeeper.server.quorum.CommitProcessor;
-import org.apache.zookeeper.server.quorum.FollowerRequestProcessor;
-import org.apache.zookeeper.server.quorum.QuorumPeer;
-import org.apache.zookeeper.server.quorum.SendAckRequestProcessor;
-import org.apache.zookeeper.server.quorum.roles.Follower;
-import org.apache.zookeeper.server.quorum.roles.Learner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.server.FinalRequestProcessor;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.server.SyncRequestProcessor;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
+import org.apache.zookeeper.server.quorum.CommitProcessor;
+import org.apache.zookeeper.server.quorum.FollowerRequestProcessor;
+import org.apache.zookeeper.server.quorum.QuorumPeer;
+import org.apache.zookeeper.server.quorum.SendAckRequestProcessor;
+import org.apache.zookeeper.server.quorum.roles.Follower;
+import org.apache.zookeeper.server.quorum.roles.Learner;
 import org.apache.zookeeper.txn.TxnHeader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Just like the standard ZooKeeperServer. We just replace the request
  * processors: FollowerRequestProcessor -> CommitProcessor ->
  * FinalRequestProcessor
- *
+ * <p>
  * A SyncRequestProcessor is also spawned off to log proposals from the leader.
  */
 public class FollowerZooKeeperServer extends LearnerZooKeeperServer {
     private static final Logger LOG =
-        LoggerFactory.getLogger(FollowerZooKeeperServer.class);
+            LoggerFactory.getLogger(FollowerZooKeeperServer.class);
 
     /*
      * Pending sync requests
      */
     ConcurrentLinkedQueue<Request> pendingSyncs;
+    LinkedBlockingQueue<Request> pendingTxns = new LinkedBlockingQueue<Request>();
 
     /**
      * @throws IOException
      */
-    public FollowerZooKeeperServer(FileTxnSnapLog logFactory,QuorumPeer self,
-            ZKDatabase zkDb) throws IOException {
-        super(logFactory, self.tickTime, self.minSessionTimeout,
-                self.maxSessionTimeout, zkDb, self);
+    public FollowerZooKeeperServer(FileTxnSnapLog logFactory, QuorumPeer self,
+                                   ZKDatabase zkDb) {
+        super(logFactory, zkDb, self);
         this.pendingSyncs = new ConcurrentLinkedQueue<Request>();
     }
 
-    public Follower getFollower(){
+    public Follower getFollower() {
         return self.follower;
     }
 
@@ -79,11 +79,9 @@ public class FollowerZooKeeperServer extends LearnerZooKeeperServer {
         firstProcessor = new FollowerRequestProcessor(this, commitProcessor);
         ((FollowerRequestProcessor) firstProcessor).start();
         syncProcessor = new SyncRequestProcessor(this,
-                new SendAckRequestProcessor((Learner)getFollower()));
+                new SendAckRequestProcessor((Learner) getFollower()));
         syncProcessor.start();
     }
-
-    LinkedBlockingQueue<Request> pendingTxns = new LinkedBlockingQueue<Request>();
 
     public void logRequest(TxnHeader hdr, Record txn) {
         Request request = new Request(hdr.getClientId(), hdr.getCxid(), OpType.getOpCode(hdr.getType()), hdr, txn, hdr.getZxid());
@@ -97,6 +95,7 @@ public class FollowerZooKeeperServer extends LearnerZooKeeperServer {
      * When a COMMIT message is received, eventually this method is called,
      * which matches up the zxid from the COMMIT with (hopefully) the head of
      * the pendingTxns queue and hands it to the commitProcessor to commit.
+     *
      * @param zxid - must correspond to the head of pendingTxns if it exists
      */
     public void commit(long zxid) {
@@ -116,14 +115,14 @@ public class FollowerZooKeeperServer extends LearnerZooKeeperServer {
         commitProcessor.commit(request);
     }
 
-    synchronized public void sync(){
-        if(pendingSyncs.size() ==0){
+    synchronized public void sync() {
+        if (pendingSyncs.size() == 0) {
             LOG.warn("Not expecting a sync.");
             return;
         }
 
         Request r = pendingSyncs.remove();
-		commitProcessor.commit(r);
+        commitProcessor.commit(r);
     }
 
     @Override

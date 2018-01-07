@@ -17,12 +17,12 @@
  */
 package org.apache.zookeeper.server.quorum.roles.server;
 
-import org.apache.zookeeper.server.jmx.impl.DataTreeBean;
 import org.apache.zookeeper.server.SyncRequestProcessor;
 import org.apache.zookeeper.server.ZKDatabase;
-import org.apache.zookeeper.server.jmx.impl.ZooKeeperServerBean;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.jmx.MBeanRegistry;
+import org.apache.zookeeper.server.jmx.impl.DataTreeBean;
+import org.apache.zookeeper.server.jmx.impl.ZooKeeperServerBean;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.quorum.CommitProcessor;
 import org.apache.zookeeper.server.quorum.LearnerSessionTracker;
@@ -45,11 +45,9 @@ public abstract class LearnerZooKeeperServer extends QuorumZooKeeperServer {
     protected CommitProcessor commitProcessor;
     protected SyncRequestProcessor syncProcessor;
 
-    public LearnerZooKeeperServer(FileTxnSnapLog logFactory, int tickTime,
-                                  int minSessionTimeout, int maxSessionTimeout,
-                                  ZKDatabase zkDb, QuorumPeer self)
-            throws IOException {
-        super(logFactory, tickTime, minSessionTimeout, maxSessionTimeout, zkDb, self);
+    public LearnerZooKeeperServer(FileTxnSnapLog logFactory,
+                                  ZKDatabase zkDb, QuorumPeer self) {
+        super(logFactory, zkDb, self);
     }
 
     /**
@@ -63,7 +61,6 @@ public abstract class LearnerZooKeeperServer extends QuorumZooKeeperServer {
     /**
      * Returns the current state of the session tracker. This is only currently
      * used by a Learner to build a ping response packet.
-     *
      */
     protected Map<Long, Integer> getTouchSnapshot() {
         if (sessionTracker != null) {
