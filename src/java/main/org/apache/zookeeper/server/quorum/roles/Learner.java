@@ -65,7 +65,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * ensemble: Followers and Observers. Both Followers and Observers share 
  * a good deal of code which is moved into Peer to avoid duplication. 
  */
-public class Learner {
+public class Learner  implements Role{
     protected static final Logger LOG = LoggerFactory.getLogger(Learner.class);
     static final private boolean nodelay = System.getProperty("follower.nodelay", "true").equals("true");
 
@@ -648,6 +648,11 @@ public class Learner {
 
     boolean isRunning() {
         return self.isRunning() && zk.isRunning();
+    }
+
+    @Override
+    public QuorumPeer getQuorumPeer() {
+        return self;
     }
 
     static class PacketInFlight {

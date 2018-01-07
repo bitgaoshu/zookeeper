@@ -20,9 +20,7 @@ package org.apache.zookeeper.server.quorum.roles;
 
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.zookeeper.operation.OpType;
-import org.apache.zookeeper.server.FinalRequestProcessor;
 import org.apache.zookeeper.server.Request;
-import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.server.ZooKeeperCriticalThread;
 import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.server.quorum.LearnerSnapshotThrottler;
@@ -65,7 +63,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * This class has the control logic for the leader.
  */
-public class Leader {
+public class Leader implements Role{
 
     private static final Logger LOG;
     private static final boolean nodelay;
@@ -1131,6 +1129,12 @@ public class Leader {
         LOG.error("Committed request not found on toBeApplied: "
                 + request);
     }
+
+    @Override
+    public QuorumPeer getQuorumPeer() {
+        return self;
+    }
+
     static public class Proposal extends SyncedLearnerTracker {
         public QuorumPacket packet;
         public Request request;

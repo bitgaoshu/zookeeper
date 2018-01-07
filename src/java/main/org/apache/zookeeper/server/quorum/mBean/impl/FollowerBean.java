@@ -52,6 +52,6 @@ public class FollowerBean extends ZooKeeperServerBean implements FollowerMXBean 
 
     @Override
     public long getElectionTimeTaken() {
-        return follower.self.getElectionTimeTaken();
+        return follower.getQuorumPeer().getElectionTimeTaken();
     }
 }
