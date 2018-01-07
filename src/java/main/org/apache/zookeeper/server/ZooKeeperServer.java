@@ -22,6 +22,8 @@ import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
 import org.apache.zookeeper.operation.OpType;
+import org.apache.zookeeper.server.jmx.impl.DataTreeBean;
+import org.apache.zookeeper.server.jmx.impl.ZooKeeperServerBean;
 import org.apache.zookeeper.util.LogEnv;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.KECode;

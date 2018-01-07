@@ -16,8 +16,9 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.jmx.impl;
 
+import org.apache.zookeeper.server.DataTree;
 import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
 
 /**

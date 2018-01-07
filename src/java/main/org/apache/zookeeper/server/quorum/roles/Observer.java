@@ -20,7 +20,7 @@ package org.apache.zookeeper.server.quorum.roles;
 
 import org.apache.jute.Record;
 import org.apache.zookeeper.operation.OpType;
-import org.apache.zookeeper.server.ObserverBean;
+import org.apache.zookeeper.server.quorum.mBean.impl.ObserverBean;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.quorum.QuorumPacket;
 import org.apache.zookeeper.server.quorum.QuorumPeer;

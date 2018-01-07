@@ -21,7 +21,7 @@ package org.apache.zookeeper.server.quorum.roles.server;
 import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
 import org.apache.zookeeper.server.jmx.MBeanRegistry;
 import org.apache.zookeeper.server.ContainerManager;
-import org.apache.zookeeper.server.DataTreeBean;
+import org.apache.zookeeper.server.jmx.impl.DataTreeBean;
 import org.apache.zookeeper.server.FinalRequestProcessor;
 import org.apache.zookeeper.server.PrepRequestProcessor;
 import org.apache.zookeeper.server.Request;

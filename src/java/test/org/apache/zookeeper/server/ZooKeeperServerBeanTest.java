@@ -28,6 +28,7 @@ import java.net.InetSocketAddress;
 import org.apache.jute.Record;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
+import org.apache.zookeeper.server.jmx.impl.ZooKeeperServerBean;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.txn.SetDataTxn;

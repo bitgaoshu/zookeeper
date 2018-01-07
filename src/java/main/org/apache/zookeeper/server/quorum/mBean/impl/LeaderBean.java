@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.server.quorum.mBean.impl;
 
-import org.apache.zookeeper.server.ZooKeeperServerBean;
+import org.apache.zookeeper.server.jmx.impl.ZooKeeperServerBean;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.quorum.roles.Leader;
 import org.apache.zookeeper.server.quorum.roles.server.LearnerHandler;

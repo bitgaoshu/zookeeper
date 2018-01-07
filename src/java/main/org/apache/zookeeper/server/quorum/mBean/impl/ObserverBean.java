@@ -16,10 +16,12 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.quorum.mBean.impl;
 
-import org.apache.zookeeper.server.quorum.roles.Observer;
+import org.apache.zookeeper.server.ZooKeeperServer;
+import org.apache.zookeeper.server.jmx.impl.ZooKeeperServerBean;
 import org.apache.zookeeper.server.quorum.mBean.ObserverMXBean;
+import org.apache.zookeeper.server.quorum.roles.Observer;
 
 /**
  * ObserverBean

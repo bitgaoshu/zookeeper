@@ -17,10 +17,10 @@
  */
 package org.apache.zookeeper.server.quorum.roles.server;
 
-import org.apache.zookeeper.server.DataTreeBean;
+import org.apache.zookeeper.server.jmx.impl.DataTreeBean;
 import org.apache.zookeeper.server.SyncRequestProcessor;
 import org.apache.zookeeper.server.ZKDatabase;
-import org.apache.zookeeper.server.ZooKeeperServerBean;
+import org.apache.zookeeper.server.jmx.impl.ZooKeeperServerBean;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.jmx.MBeanRegistry;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
