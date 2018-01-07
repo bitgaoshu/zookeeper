@@ -18,6 +18,7 @@
 
 package org.apache.zookeeper.server.quorum;
 
+import org.apache.zookeeper.server.quorum.roles.Leader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

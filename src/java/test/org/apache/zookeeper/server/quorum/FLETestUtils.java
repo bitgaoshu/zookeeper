@@ -22,11 +22,10 @@ import java.nio.ByteBuffer;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.server.quorum.election.FastLeaderElection;
 
+import org.apache.zookeeper.server.quorum.election.Vote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.junit.Assert;
-
-import org.apache.zookeeper.server.quorum.QuorumPeer.ServerState;
 
 public class FLETestUtils extends ZKTestCase {
     protected static final Logger LOG = LoggerFactory.getLogger(FLETestUtils.class);

@@ -42,7 +42,7 @@ import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.client.ZooKeeper.States;
 import org.apache.zookeeper.server.common.Time;
-import org.apache.zookeeper.server.quorum.Leader.Proposal;
+import org.apache.zookeeper.server.quorum.roles.Leader.Proposal;
 import org.apache.zookeeper.test.ClientBase;
 import org.junit.After;
 import org.junit.Assert;
@@ -223,9 +223,9 @@ public class QuorumPeerMainTest extends QuorumPeerTestBase {
         for (int i = 0; i < SERVER_COUNT; i++) {
             for (int j = 0; j < SERVER_COUNT; j++) {
                 if (i == leader) {
-                    Assert.assertTrue((j == leader ? ("Leader (" + leader + ")") : ("Follower " + j)) + " should not have /zk" + i, zk[j].exists("/zk" + i, false) == null);
+                    Assert.assertTrue((j == leader ? ("leader (" + leader + ")") : ("Follower " + j)) + " should not have /zk" + i, zk[j].exists("/zk" + i, false) == null);
                 } else {
-                    Assert.assertTrue((j == leader ? ("Leader (" + leader + ")") : ("Follower " + j)) + " does not have /zk" + i, zk[j].exists("/zk" + i, false) != null);
+                    Assert.assertTrue((j == leader ? ("leader (" + leader + ")") : ("Follower " + j)) + " does not have /zk" + i, zk[j].exists("/zk" + i, false) != null);
                 }
             }
         }

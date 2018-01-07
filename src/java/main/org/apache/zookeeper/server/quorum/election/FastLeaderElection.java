@@ -32,10 +32,9 @@ import org.apache.zookeeper.server.ZooKeeperThread;
 import org.apache.zookeeper.server.quorum.election.QuorumCnxManager.Message;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.LearnerType;
-import org.apache.zookeeper.server.quorum.QuorumPeer.ServerState;
+import org.apache.zookeeper.server.quorum.ServerState;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig.ConfigException;
 import org.apache.zookeeper.server.quorum.SyncedLearnerTracker;
-import org.apache.zookeeper.server.quorum.Vote;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 import org.apache.zookeeper.server.util.ZxidUtils;
 import org.slf4j.Logger;
@@ -195,7 +194,7 @@ public class FastLeaderElection implements Election {
         byte[] configData = dummyData;
 
         /*
-         * Leader epoch
+         * leader epoch
          */
         long peerEpoch;
     }
@@ -344,19 +343,19 @@ public class FastLeaderElection implements Election {
                             }
 
                             // State of peer that sent this message
-                            ServerState ackstate = QuorumPeer.ServerState.LOOKING;
+                            ServerState ackstate = ServerState.LOOKING;
                             switch (rstate) {
                             case 0:
-                                ackstate = QuorumPeer.ServerState.LOOKING;
+                                ackstate = ServerState.LOOKING;
                                 break;
                             case 1:
-                                ackstate = QuorumPeer.ServerState.FOLLOWING;
+                                ackstate = ServerState.FOLLOWING;
                                 break;
                             case 2:
-                                ackstate = QuorumPeer.ServerState.LEADING;
+                                ackstate = ServerState.LEADING;
                                 break;
                             case 3:
-                                ackstate = QuorumPeer.ServerState.OBSERVING;
+                                ackstate = ServerState.OBSERVING;
                                 break;
                             default:
                                 continue;
@@ -381,7 +380,7 @@ public class FastLeaderElection implements Election {
                              * If this server is looking, then send proposed leader
                              */
 
-                            if(self.getPeerState() == QuorumPeer.ServerState.LOOKING){
+                            if(self.getPeerState() == ServerState.LOOKING){
                                 recvqueue.offer(n);
 
                                 /*
@@ -389,7 +388,7 @@ public class FastLeaderElection implements Election {
                                  * message is also looking and its logical clock is
                                  * lagging behind.
                                  */
-                                if((ackstate == QuorumPeer.ServerState.LOOKING)
+                                if((ackstate == ServerState.LOOKING)
                                         && (n.electionEpoch < logicalclock.get())){
                                     Vote v = getVote();
                                     QuorumVerifier qv = self.getQuorumVerifier();
@@ -409,7 +408,7 @@ public class FastLeaderElection implements Election {
                                  * is looking, then send back what it believes to be the leader.
                                  */
                                 Vote current = self.getCurrentVote();
-                                if(ackstate == QuorumPeer.ServerState.LOOKING){
+                                if(ackstate == ServerState.LOOKING){
                                     if(LOG.isDebugEnabled()){
                                         LOG.debug("Sending new notification. My id ={} recipient={} zxid=0x{} leader={} config version = {}",
                                                 self.getId(),
@@ -672,7 +671,7 @@ public class FastLeaderElection implements Election {
                     proposedLeader,
                     proposedZxid,
                     logicalclock.get(),
-                    QuorumPeer.ServerState.LOOKING,
+                    ServerState.LOOKING,
                     sid,
                     proposedEpoch, qv.toString().getBytes());
             if(LOG.isDebugEnabled()){

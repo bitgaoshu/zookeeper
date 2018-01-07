@@ -35,9 +35,10 @@ import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.server.TxnLogProposalIterator;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
-import org.apache.zookeeper.server.quorum.Leader.Proposal;
+import org.apache.zookeeper.server.quorum.roles.Leader;
+import org.apache.zookeeper.server.quorum.roles.Leader.Proposal;
+import org.apache.zookeeper.server.quorum.roles.server.LearnerHandler;
 import org.apache.zookeeper.server.util.ZxidUtils;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
@@ -116,7 +117,7 @@ public class LearnerHandlerTest extends ZKTestCase {
     private MockLearnerHandler learnerHandler;
     private Socket sock;
 
-    // Member variables for mocking Leader
+    // Member variables for mocking leader
     private Leader leader;
     private long currentZxid;
 

@@ -36,7 +36,6 @@ import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.client.clientSocket.TestableZooKeeper;
 import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.server.quorum.QuorumPeer.ServerState;
 import org.apache.zookeeper.test.QuorumBase;
 import org.apache.zookeeper.ZKParameterized;
 

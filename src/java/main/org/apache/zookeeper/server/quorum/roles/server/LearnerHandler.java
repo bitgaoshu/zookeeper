@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.roles.server;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -42,7 +42,13 @@ import org.apache.zookeeper.server.TxnLogProposalIterator;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperThread;
 import org.apache.zookeeper.server.ZooTrace;
-import org.apache.zookeeper.server.quorum.Leader.Proposal;
+import org.apache.zookeeper.server.quorum.LearnerSnapshot;
+import org.apache.zookeeper.server.quorum.LearnerSyncRequest;
+import org.apache.zookeeper.server.quorum.QuorumPacket;
+import org.apache.zookeeper.server.quorum.SnapshotThrottleException;
+import org.apache.zookeeper.server.quorum.StateSummary;
+import org.apache.zookeeper.server.quorum.roles.Leader;
+import org.apache.zookeeper.server.quorum.roles.Leader.Proposal;
 import org.apache.zookeeper.server.quorum.QuorumPeer.LearnerType;
 import org.apache.zookeeper.server.util.SerializeUtils;
 import org.apache.zookeeper.server.util.ZxidUtils;
@@ -51,7 +57,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * There will be an instance of this class created by the Leader for each
+ * There will be an instance of this class created by the leader for each
  * learner. All communication with a learner is handled by this
  * class.
  */
@@ -64,7 +70,7 @@ public class LearnerHandler extends ZooKeeperThread {
         return sock;
     }
 
-    final Leader leader;
+    private final Leader leader;
 
     /** Deadline for receiving the next ack. If we are bootstrapping then
      * it's based on the initLimit, if we are done bootstrapping it's based
@@ -94,7 +100,7 @@ public class LearnerHandler extends ZooKeeperThread {
         new LinkedBlockingQueue<QuorumPacket>();
 
     /**
-     * This class controls the time that the Leader has been
+     * This class controls the time that the leader has been
      * waiting for acknowledgement of a proposal from this Learner.
      * If the time is above syncLimit, the connection will be closed.
      * It keeps track of only one proposal at a time, when the ACK for
@@ -423,7 +429,7 @@ public class LearnerHandler extends ZooKeeperThread {
            
             // Take any necessary action if we need to send TRUNC or DIFF
             // startForwarding() will be called in all cases
-            boolean needSnap = syncFollower(peerLastZxid, leader.zk.getZKDatabase(), leader);
+            boolean needSnap = syncFollower(peerLastZxid, leader.getZk().getZKDatabase(), leader);
             
             LOG.debug("Sending NEWLEADER message to " + sid);
             // the version of this quorumVerifier will be set by leader.lead() in case
@@ -444,10 +450,10 @@ public class LearnerHandler extends ZooKeeperThread {
             /* if we are not truncating or sending a diff just send a snapshot */
             if (needSnap) {
                 boolean exemptFromThrottle = getLearnerType() != LearnerType.OBSERVER;
-                LearnerSnapshot snapshot = 
+                LearnerSnapshot snapshot =
                         leader.getLearnerSnapshotThrottler().beginSnapshot(exemptFromThrottle);
                 try {
-                    long zxidToSend = leader.zk.getZKDatabase().getDataTreeLastProcessedZxid();
+                    long zxidToSend = leader.getZk().getZKDatabase().getDataTreeLastProcessedZxid();
                     oa.writeRecord(new QuorumPacket(Leader.SNAP, zxidToSend, null, null), "packet");
                     bufferedOutput.flush();
 
@@ -460,7 +466,7 @@ public class LearnerHandler extends ZooKeeperThread {
                             snapshot.getConcurrentSnapshotNumber(),
                             snapshot.isEssential() ? "exempt" : "not exempt");
                     // Dump data to peer
-                    leader.zk.getZKDatabase().serializeSnapshot(oa);
+                    leader.getZk().getZKDatabase().serializeSnapshot(oa);
                     oa.writeString("BenWasHere", "signature");
                     bufferedOutput.flush();
                 } finally {
@@ -497,9 +503,9 @@ public class LearnerHandler extends ZooKeeperThread {
             /*
              * Wait until leader starts up
              */
-            synchronized(leader.zk){
-                while(!leader.zk.isRunning() && !this.isInterrupted()){
-                    leader.zk.wait(20);
+            synchronized(leader.getZk()){
+                while(!leader.getZk().isRunning() && !this.isInterrupted()){
+                    leader.getZk().wait(20);
                 }
             }
             // Mutation packets will be queued during the serialize,
@@ -546,7 +552,7 @@ public class LearnerHandler extends ZooKeeperThread {
                     while (dis.available() > 0) {
                         long sess = dis.readLong();
                         int to = dis.readInt();
-                        leader.zk.touch(sess, to);
+                        leader.getZk().touch(sess, to);
                     }
                     break;
                 case Leader.REVALIDATE:
@@ -557,13 +563,13 @@ public class LearnerHandler extends ZooKeeperThread {
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
                     DataOutputStream dos = new DataOutputStream(bos);
                     dos.writeLong(id);
-                    boolean valid = leader.zk.checkIfValidGlobalSession(id, to);
+                    boolean valid = leader.getZk().checkIfValidGlobalSession(id, to);
                     if (valid) {
                         try {
                             //set the session owner
                             // as the follower that
                             // owns the session
-                            leader.zk.setOwner(id, this);
+                            leader.getZk().setOwner(id, this);
                         } catch (SessionExpiredException e) {
                             LOG.error("Somehow session " + Long.toHexString(id) +
                                     " expired right after being renewed! (impossible)", e);
@@ -592,7 +598,7 @@ public class LearnerHandler extends ZooKeeperThread {
                         si = new Request(null, sessionId, cxid, OpType.getOpCode(type), bb, qp.getAuthinfo());
                     }
                     si.setOwner(this);
-                    leader.zk.submitLearnerRequest(si);
+                    leader.getZk().submitLearnerRequest(si);
                     break;
                 default:
                     LOG.warn("unexpected quorum packet, type: {}", packetToString(qp));

@@ -24,8 +24,8 @@ import org.apache.zookeeper.util.Version;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.ServerStats;
 import org.apache.zookeeper.server.ZKDatabase;
-import org.apache.zookeeper.server.quorum.Leader;
-import org.apache.zookeeper.server.quorum.LeaderZooKeeperServer;
+import org.apache.zookeeper.server.quorum.roles.Leader;
+import org.apache.zookeeper.server.quorum.roles.server.LeaderZooKeeperServer;
 import org.apache.zookeeper.server.util.OSMXBean;
 
 public class MonitorCommand extends AbstractFourLetterCommand {

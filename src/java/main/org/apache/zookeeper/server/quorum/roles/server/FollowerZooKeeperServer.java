@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.roles.server;
 
 import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -24,6 +24,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.jute.Record;
 import org.apache.zookeeper.operation.OpType;
+import org.apache.zookeeper.server.quorum.CommitProcessor;
+import org.apache.zookeeper.server.quorum.FollowerRequestProcessor;
+import org.apache.zookeeper.server.quorum.QuorumPeer;
+import org.apache.zookeeper.server.quorum.SendAckRequestProcessor;
+import org.apache.zookeeper.server.quorum.roles.Follower;
+import org.apache.zookeeper.server.quorum.roles.Learner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.server.FinalRequestProcessor;
@@ -53,7 +59,7 @@ public class FollowerZooKeeperServer extends LearnerZooKeeperServer {
     /**
      * @throws IOException
      */
-    FollowerZooKeeperServer(FileTxnSnapLog logFactory,QuorumPeer self,
+    public FollowerZooKeeperServer(FileTxnSnapLog logFactory,QuorumPeer self,
             ZKDatabase zkDb) throws IOException {
         super(logFactory, self.tickTime, self.minSessionTimeout,
                 self.maxSessionTimeout, zkDb, self);

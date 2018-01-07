@@ -33,9 +33,9 @@ import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.server.quorum.election.FastLeaderElection;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
-import org.apache.zookeeper.server.quorum.Vote;
+import org.apache.zookeeper.server.quorum.election.Vote;
 import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
-import org.apache.zookeeper.server.quorum.QuorumPeer.ServerState;
+import org.apache.zookeeper.server.quorum.ServerState;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -161,13 +161,13 @@ public class FLETest extends ZKTestCase {
                     if (v.getId() == i) {
                         LOG.info("I'm the leader: " + i);
                         if (lc < this.totalRounds) {
-                            LOG.info("Leader " + i + " dying");
+                            LOG.info("leader " + i + " dying");
                             FastLeaderElection election =
                                 (FastLeaderElection) peer.getElectionAlg();
                             election.shutdown();
                             // Make sure the vote is reset to -1 after shutdown.
                             Assert.assertEquals(-1, election.getVote().getId());
-                            LOG.info("Leader " + i + " dead");
+                            LOG.info("leader " + i + " dead");
                             
                             break;
                         } 
@@ -365,7 +365,7 @@ public class FLETest extends ZKTestCase {
         * I'm done so joining.
         */
        if(!joinedThreads.contains(leader)){
-           Assert.fail("Leader hasn't joined: " + leader);
+           Assert.fail("leader hasn't joined: " + leader);
        }
     }
     

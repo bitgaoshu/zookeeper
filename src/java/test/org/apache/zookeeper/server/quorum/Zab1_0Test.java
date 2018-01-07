@@ -46,6 +46,13 @@ import org.apache.jute.InputArchive;
 import org.apache.jute.OutputArchive;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.operation.OpType;
+import org.apache.zookeeper.server.quorum.roles.Follower;
+import org.apache.zookeeper.server.quorum.roles.Leader;
+import org.apache.zookeeper.server.quorum.roles.server.LearnerHandler;
+import org.apache.zookeeper.server.quorum.roles.Observer;
+import org.apache.zookeeper.server.quorum.roles.server.FollowerZooKeeperServer;
+import org.apache.zookeeper.server.quorum.roles.server.LeaderZooKeeperServer;
+import org.apache.zookeeper.server.quorum.roles.server.ObserverZooKeeperServer;
 import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.watcher.Event.EventType;
@@ -101,7 +108,7 @@ public class Zab1_0Test extends ZKTestCase {
             try {
                 leader.lead();
             } catch (InterruptedException e) {
-                LOG.info("Leader thread interrupted", e);
+                LOG.info("leader thread interrupted", e);
             } catch (Exception e) {
                 LOG.warn("Unexpected exception in leader thread", e);
             } finally {
@@ -952,7 +959,7 @@ public class Zab1_0Test extends ZKTestCase {
     public void testTxnTimeout() throws Exception {
         testLeaderConversation(new LeaderConversation() {
             public void converseWithLeader(InputArchive ia, OutputArchive oa, Leader l)
-                    throws IOException, InterruptedException, org.apache.zookeeper.server.quorum.Leader.XidRolloverException {
+                    throws IOException, InterruptedException, Leader.XidRolloverException {
                 Assert.assertEquals(0, l.self.getAcceptedEpoch());
                 Assert.assertEquals(0, l.self.getCurrentEpoch());
                 

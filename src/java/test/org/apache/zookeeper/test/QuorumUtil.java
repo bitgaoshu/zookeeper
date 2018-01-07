@@ -116,7 +116,7 @@ public class QuorumUtil {
                 LOG.info("Creating QuorumPeer " + i + "; public port " + ps.clientPort);
                 ps.peer = new QuorumPeer(peersView, ps.dataDir, ps.dataDir, ps.clientPort,
                         electionAlg, ps.id, tickTime, initLimit, syncLimit);
-                Assert.assertEquals(ps.clientPort, ps.peer.getClientPort());
+                Assert.assertEquals(ps.clientPort, ps.peer.getClientAddress());
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -206,7 +206,7 @@ public class QuorumUtil {
         if (localSessionEnabled) {
             ps.peer.enableLocalSessions(true);
         }
-        Assert.assertEquals(ps.clientPort, ps.peer.getClientPort());
+        Assert.assertEquals(ps.clientPort, ps.peer.getClientAddress());
 
         ps.peer.start();
     }
@@ -225,7 +225,7 @@ public class QuorumUtil {
         if (localSessionEnabled) {
             ps.peer.enableLocalSessions(true);
         }
-        Assert.assertEquals(ps.clientPort, ps.peer.getClientPort());
+        Assert.assertEquals(ps.clientPort, ps.peer.getClientAddress());
 
         ps.peer.start();
         Assert.assertTrue("Waiting for server up", ClientBase.waitForServerUp("127.0.0.1:"
@@ -271,7 +271,7 @@ public class QuorumUtil {
     }
 
     public String getConnectString(QuorumPeer peer) {
-        return "127.0.0.1:" + peer.getClientPort();
+        return "127.0.0.1:" + peer.getClientAddress();
     }
 
     public QuorumPeer getLeaderQuorumPeer() {
@@ -316,7 +316,7 @@ public class QuorumUtil {
             }
         }
 
-        Assert.assertTrue("Leader server not found.", index > 0);
+        Assert.assertTrue("leader server not found.", index > 0);
         return index;
     }
 

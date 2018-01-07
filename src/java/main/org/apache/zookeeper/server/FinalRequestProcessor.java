@@ -36,7 +36,7 @@ import org.apache.zookeeper.server.DataTree.ProcessTxnResult;
 import org.apache.zookeeper.server.ZooKeeperServer.ChangeRecord;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
-import org.apache.zookeeper.server.quorum.QuorumZooKeeperServer;
+import org.apache.zookeeper.server.quorum.roles.server.QuorumZooKeeperServer;
 import org.apache.zookeeper.txn.ErrorTxn;
 import org.apache.zookeeper.txn.TxnHeader;
 import org.slf4j.Logger;

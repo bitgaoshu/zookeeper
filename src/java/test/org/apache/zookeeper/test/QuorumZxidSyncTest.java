@@ -87,7 +87,7 @@ public class QuorumZxidSyncTest extends ZKTestCase {
         qb.s4.start();
         Assert.assertTrue("Servers didn't come up", ClientBase.waitForServerUp(qb.hostPort, 10000));
         qb.s5.start();
-        String hostPort = "127.0.0.1:" + qb.s5.getClientPort();
+        String hostPort = "127.0.0.1:" + qb.s5.getClientAddress();
         Assert.assertFalse("Servers came up, but shouldn't have since it's ahead of leader",
                 ClientBase.waitForServerUp(hostPort, 10000));
     }

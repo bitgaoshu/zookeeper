@@ -34,7 +34,10 @@ import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.server.SyncRequestProcessor;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
-import org.apache.zookeeper.server.quorum.QuorumPeer.ServerState;
+import org.apache.zookeeper.server.quorum.roles.Follower;
+import org.apache.zookeeper.server.quorum.roles.Leader;
+import org.apache.zookeeper.server.quorum.roles.server.FollowerZooKeeperServer;
+import org.apache.zookeeper.server.quorum.roles.server.LeaderZooKeeperServer;
 import org.apache.zookeeper.test.ClientBase;
 import org.junit.After;
 import org.junit.Assert;
@@ -62,7 +65,7 @@ public class RaceConditionTest extends QuorumPeerTestBase {
         // get leader
         QuorumPeer leader = getLeader(mt);
         long oldLeaderCurrentEpoch = leader.getCurrentEpoch();
-        assertNotNull("Leader should not be null", leader);
+        assertNotNull("leader should not be null", leader);
         // shutdown 2 followers so that leader does not have majority and goes
         // into looking state or following/leading state.
         shutdownFollowers(mt);
@@ -78,9 +81,9 @@ public class RaceConditionTest extends QuorumPeerTestBase {
                 QuorumStats.Provider.LOOKING_STATE, QuorumStats.Provider.FOLLOWING_STATE);
         // Wait for the old leader to start completely
         Assert.assertTrue("Failed to bring up the old leader server", ClientBase
-                .waitForServerUp("127.0.0.1:" + leader.getClientPort(), CONNECTION_TIMEOUT));
+                .waitForServerUp("127.0.0.1:" + leader.getClientAddress(), CONNECTION_TIMEOUT));
         assertTrue(
-                "Leader failed to transition to new state. Current state is "
+                "leader failed to transition to new state. Current state is "
                         + leader.getServerState(),
                 leaderStateChanged || (leader.getCurrentEpoch() > oldLeaderCurrentEpoch));
     }

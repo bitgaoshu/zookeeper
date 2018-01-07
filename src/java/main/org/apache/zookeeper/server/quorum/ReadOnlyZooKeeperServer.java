@@ -30,6 +30,7 @@ import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.ZooKeeperServerBean;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.quorum.mBean.impl.LocalPeerBean;
+import org.apache.zookeeper.server.quorum.mBean.impl.ReadOnlyBean;
 
 /**
  * A ZooKeeperServer which comes into play when peer is partitioned from the
@@ -67,7 +68,7 @@ public class ReadOnlyZooKeeperServer extends ZooKeeperServer {
             LOG.warn("Not starting Read-only server as startup follows shutdown!");
             return;
         }
-        registerJMX(new ReadOnlyBean(this), self.jmxLocalPeerBean);
+        registerJMX(new ReadOnlyBean(this), self.getJmxLocalPeerBean());
         super.startup();
         self.setZooKeeperServer(this);
         self.adminServer.setZooKeeperServer(this);

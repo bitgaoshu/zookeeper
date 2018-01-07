@@ -24,6 +24,7 @@ import java.util.List;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.quorum.roles.server.LearnerHandler;
 
 public class LearnerSyncRequest extends Request {
 	LearnerHandler fh;

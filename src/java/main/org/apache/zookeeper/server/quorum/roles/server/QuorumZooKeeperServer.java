@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.roles.server;
 
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.operation.OpType;
@@ -28,6 +28,8 @@ import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
+import org.apache.zookeeper.server.quorum.QuorumPeer;
+import org.apache.zookeeper.server.quorum.UpgradeableSessionTracker;
 
 import java.io.IOException;
 import java.io.PrintWriter;

@@ -20,12 +20,12 @@ package org.apache.zookeeper.server.quorum.mBean.impl;
 
 import org.apache.zookeeper.server.ZooKeeperServerBean;
 import org.apache.zookeeper.server.ZooKeeperServer;
-import org.apache.zookeeper.server.quorum.Leader;
-import org.apache.zookeeper.server.quorum.LearnerHandler;
+import org.apache.zookeeper.server.quorum.roles.Leader;
+import org.apache.zookeeper.server.quorum.roles.server.LearnerHandler;
 import org.apache.zookeeper.server.quorum.mBean.LeaderMXBean;
 
 /**
- * Leader MBean interface implementation.
+ * leader MBean interface implementation.
  */
 public class LeaderBean extends ZooKeeperServerBean implements LeaderMXBean {
     private final Leader leader;
@@ -36,7 +36,7 @@ public class LeaderBean extends ZooKeeperServerBean implements LeaderMXBean {
     }
     
     public String getName() {
-        return "Leader";
+        return "leader";
     }
 
     public String getCurrentZxid() {

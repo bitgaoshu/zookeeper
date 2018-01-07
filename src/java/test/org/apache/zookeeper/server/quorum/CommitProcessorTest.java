@@ -296,7 +296,7 @@ public class CommitProcessorTest extends ZKTestCase {
             return (PrepRequestProcessor) firstProcessor;
         }
 
-        // Leader mock: Prep -> MockProposal -> Commit -> validate -> Final
+        // leader mock: Prep -> MockProposal -> Commit -> validate -> Final
         // Have side thread call commitProc.commit()
         @Override
         protected void setupRequestProcessors() {

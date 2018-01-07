@@ -36,8 +36,8 @@ import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.server.quorum.Leader;
-import org.apache.zookeeper.server.quorum.LearnerHandler;
+import org.apache.zookeeper.server.quorum.roles.Leader;
+import org.apache.zookeeper.server.quorum.roles.server.LearnerHandler;
 import org.apache.zookeeper.test.ClientBase.CountdownWatcher;
 import org.junit.After;
 import org.junit.Assert;
@@ -317,7 +317,7 @@ public class QuorumTest extends ZKTestCase {
         // Connect the client after services are restarted (otherwise we would get
         // SessionExpiredException as the previous local session was not persisted).
         ZooKeeper zk = new ZooKeeper(
-                "127.0.0.1:" + qu.getPeer((index == 1)?2:1).peer.getClientPort(),
+                "127.0.0.1:" + qu.getPeer((index == 1)?2:1).peer.getClientAddress(),
                 ClientBase.CONNECTION_TIMEOUT, watcher);
 
         try{
@@ -344,7 +344,7 @@ public class QuorumTest extends ZKTestCase {
      * leader to close the session and write it to the log in the buggy code (before 
      * ZOOKEEPER-790). Once f drops leadership and finds the current leader, its epoch
      * is higher, and it rejects the leader. Now, if we prevent the leader from closing
-     * the session by only starting up (see Leader.lead()) once it obtains a quorum of 
+     * the session by only starting up (see leader.lead()) once it obtains a quorum of
      * supporters, then f will find the current leader and support it because it won't
      * have a highe epoch.
      * 
@@ -370,7 +370,7 @@ public class QuorumTest extends ZKTestCase {
         index = (index == 1) ? 2 : 1;
 
         ZooKeeper zk = new DisconnectableZooKeeper(
-                "127.0.0.1:" + qu.getPeer(index).peer.getClientPort(),
+                "127.0.0.1:" + qu.getPeer(index).peer.getClientAddress(),
                 ClientBase.CONNECTION_TIMEOUT, new Watcher() {
             public void process(WatchedEvent event) { }
           });
@@ -439,7 +439,7 @@ public class QuorumTest extends ZKTestCase {
             index++;
 
         ZooKeeper zk = new ZooKeeper(
-                "127.0.0.1:" + qu.getPeer((index == 1)?2:1).peer.getClientPort(),
+                "127.0.0.1:" + qu.getPeer((index == 1)?2:1).peer.getClientAddress(),
                 ClientBase.CONNECTION_TIMEOUT, watcher);
         watcher.waitForConnected(CONNECTION_TIMEOUT);
 

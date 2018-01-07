@@ -43,7 +43,7 @@ public class SessionTrackerTest extends ZKTestCase {
     private CountDownLatch latch;
 
     /**
-     * Verify the create session call in the Leader.FinalRequestProcessor after
+     * Verify the create session call in the leader.FinalRequestProcessor after
      * the session expiration.
      */
     @Test(timeout = 20000)

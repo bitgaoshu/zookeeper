@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.roles;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -26,6 +26,10 @@ import org.apache.jute.Record;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.quorum.roles.server.LearnerHandler;
+import org.apache.zookeeper.server.quorum.roles.server.FollowerZooKeeperServer;
+import org.apache.zookeeper.server.quorum.QuorumPacket;
+import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 import org.apache.zookeeper.server.quorum.mBean.impl.FollowerBean;
 import org.apache.zookeeper.server.util.SerializeUtils;
@@ -35,13 +39,13 @@ import org.apache.zookeeper.txn.TxnHeader;
 /**
  * This class has the control logic for the Follower.
  */
-public class Follower extends Learner{
+public class Follower extends Learner {
 
     private long lastQueued;
     // This is the same object as this.zk, but we cache the downcast op
     final FollowerZooKeeperServer fzk;
     
-    Follower(QuorumPeer self,FollowerZooKeeperServer zk) {
+    public Follower(QuorumPeer self, FollowerZooKeeperServer zk) {
         this.self = self;
         this.zk=zk;
         this.fzk = zk;
@@ -62,7 +66,7 @@ public class Follower extends Learner{
      *
      * @throws InterruptedException
      */
-    void followLeader() throws InterruptedException {
+    public void followLeader() throws InterruptedException {
         self.end_fle = Time.currentElapsedTime();
         long electionTimeTaken = self.end_fle - self.start_fle;
         self.setElectionTimeTaken(electionTimeTaken);
@@ -115,10 +119,10 @@ public class Follower extends Learner{
      */
     protected void processPacket(QuorumPacket qp) throws Exception{
         switch (qp.getType()) {
-        case Leader.PING:            
+        case Leader.PING:
             ping(qp);            
             break;
-        case Leader.PROPOSAL:           
+        case Leader.PROPOSAL:
             TxnHeader hdr = new TxnHeader();
             Record txn = SerializeUtils.deserializeTxn(qp.getData(), hdr);
             if (hdr.getZxid() != lastQueued + 1) {

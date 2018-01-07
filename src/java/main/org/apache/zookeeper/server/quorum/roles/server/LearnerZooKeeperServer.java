@@ -6,29 +6,33 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.roles.server;
+
+import org.apache.zookeeper.server.DataTreeBean;
+import org.apache.zookeeper.server.SyncRequestProcessor;
+import org.apache.zookeeper.server.ZKDatabase;
+import org.apache.zookeeper.server.ZooKeeperServerBean;
+import org.apache.zookeeper.server.cnxn.ServerCnxn;
+import org.apache.zookeeper.server.jmx.MBeanRegistry;
+import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
+import org.apache.zookeeper.server.quorum.CommitProcessor;
+import org.apache.zookeeper.server.quorum.LearnerSessionTracker;
+import org.apache.zookeeper.server.quorum.QuorumPeer;
+import org.apache.zookeeper.server.quorum.mBean.impl.LocalPeerBean;
+import org.apache.zookeeper.server.quorum.roles.Learner;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
-
-import org.apache.zookeeper.server.jmx.MBeanRegistry;
-import org.apache.zookeeper.server.DataTreeBean;
-import org.apache.zookeeper.server.cnxn.ServerCnxn;
-import org.apache.zookeeper.server.SyncRequestProcessor;
-import org.apache.zookeeper.server.ZKDatabase;
-import org.apache.zookeeper.server.ZooKeeperServerBean;
-import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
-import org.apache.zookeeper.server.quorum.mBean.impl.LocalPeerBean;
 
 /**
  * Parent class for all ZooKeeperServers for Learners
@@ -42,10 +46,9 @@ public abstract class LearnerZooKeeperServer extends QuorumZooKeeperServer {
     protected SyncRequestProcessor syncProcessor;
 
     public LearnerZooKeeperServer(FileTxnSnapLog logFactory, int tickTime,
-            int minSessionTimeout, int maxSessionTimeout,
-            ZKDatabase zkDb, QuorumPeer self)
-        throws IOException
-    {
+                                  int minSessionTimeout, int maxSessionTimeout,
+                                  ZKDatabase zkDb, QuorumPeer self)
+            throws IOException {
         super(logFactory, tickTime, minSessionTimeout, maxSessionTimeout, zkDb, self);
     }
 
@@ -66,8 +69,7 @@ public abstract class LearnerZooKeeperServer extends QuorumZooKeeperServer {
         if (sessionTracker != null) {
             return ((LearnerSessionTracker) sessionTracker).snapshot();
         }
-        Map<Long, Integer> map = Collections.emptyMap();
-        return map;
+        return Collections.emptyMap();
     }
 
     /**
@@ -89,7 +91,7 @@ public abstract class LearnerZooKeeperServer extends QuorumZooKeeperServer {
 
     @Override
     protected void revalidateSession(ServerCnxn cnxn, long sessionId,
-            int sessionTimeout) throws IOException {
+                                     int sessionTimeout) throws IOException {
         if (upgradeableSessionTracker.isLocalSession(sessionId)) {
             super.revalidateSession(cnxn, sessionId, sessionTimeout);
         } else {
@@ -98,7 +100,7 @@ public abstract class LearnerZooKeeperServer extends QuorumZooKeeperServer {
     }
 
     @Override
-    protected void registerJMX() {
+    public void registerJMX() {
         // register with JMX
         try {
             jmxDataTreeBean = new DataTreeBean(getZKDatabase().getDataTree());
@@ -110,18 +112,9 @@ public abstract class LearnerZooKeeperServer extends QuorumZooKeeperServer {
     }
 
     public void registerJMX(ZooKeeperServerBean serverBean,
-            LocalPeerBean localPeerBean)
-    {
-        // register with JMX
-        if (self.jmxLeaderElectionBean != null) {
-            try {
-                MBeanRegistry.getInstance().unregister(self.jmxLeaderElectionBean);
-            } catch (Exception e) {
-                LOG.warn("Failed to register with JMX", e);
-            }
-            self.jmxLeaderElectionBean = null;
-        }
-
+                            LocalPeerBean localPeerBean) {
+        /* register with JMX */
+        self.registerLEMBean();
         try {
             jmxServerBean = serverBean;
             MBeanRegistry.getInstance().register(serverBean, localPeerBean);
@@ -144,7 +137,7 @@ public abstract class LearnerZooKeeperServer extends QuorumZooKeeperServer {
         jmxDataTreeBean = null;
     }
 
-    protected void unregisterJMX(Learner peer) {
+    public void unregisterJMX(Learner peer) {
         // unregister from JMX
         try {
             if (jmxServerBean != null) {

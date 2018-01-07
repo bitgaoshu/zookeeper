@@ -246,7 +246,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
      */
     public void loadData() throws IOException, InterruptedException {
         /*
-         * When a new leader starts executing Leader#lead, it
+         * When a new leader starts executing leader#lead, it
          * invokes this method. The database, however, has been
          * initialized before running leader election so that
          * the server could pick its zxid for its initial vote.

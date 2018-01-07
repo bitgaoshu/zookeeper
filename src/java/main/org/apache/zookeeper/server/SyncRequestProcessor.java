@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  * until its log has been synced to disk.
  *
  * SyncRequestProcessor is used in 3 different cases
- * 1. Leader - Sync request to disk and forward it to AckRequestProcessor which
+ * 1. leader - Sync request to disk and forward it to AckRequestProcessor which
  *             send ack back to itself.
  * 2. Follower - Sync request to disk and forward request to
  *             SendAckRequestProcessor which send the packets to leader.

@@ -30,7 +30,7 @@ import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.proto.CreateRequest;
 import org.apache.zookeeper.proto.GetDataRequest;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
-import org.apache.zookeeper.server.quorum.QuorumZooKeeperServer;
+import org.apache.zookeeper.server.quorum.roles.server.QuorumZooKeeperServer;
 import org.apache.zookeeper.server.quorum.UpgradeableSessionTracker;
 import org.apache.zookeeper.test.QuorumBase;
 import org.junit.Assert;

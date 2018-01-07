@@ -28,7 +28,6 @@ import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.server.quorum.election.QuorumCnxManager;
 import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
-import org.apache.zookeeper.server.quorum.QuorumPeer.ServerState;
 import org.apache.zookeeper.test.ClientBase;
 import org.junit.After;
 import org.junit.Assert;

@@ -61,14 +61,14 @@ public class ObserverLETest extends ZKTestCase {
                 server.shutdown();
                 assertTrue("Waiting for server down", ClientBase
                         .waitForServerDown("127.0.0.1:"
-                                + server.getClientPort(),
+                                + server.getClientAddress(),
                                 ClientBase.CONNECTION_TIMEOUT));
             } else {
                 assertNull("More than one leader found", leader);
                 leader = server;
             }
         }
-        assertTrue("Leader is not in Looking state", ClientBase
+        assertTrue("leader is not in Looking state", ClientBase
                 .waitForServerState(leader, ClientBase.CONNECTION_TIMEOUT,
                         QuorumStats.Provider.LOOKING_STATE));
     }

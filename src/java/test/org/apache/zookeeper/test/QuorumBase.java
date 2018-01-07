@@ -34,7 +34,7 @@ import org.apache.zookeeper.server.quorum.election.Election;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.LearnerType;
 import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
-import org.apache.zookeeper.server.quorum.QuorumPeer.ServerState;
+import org.apache.zookeeper.server.quorum.ServerState;
 import org.apache.zookeeper.server.util.OSMXBean;
 import org.junit.Assert;
 import org.junit.Test;
@@ -170,19 +170,19 @@ public class QuorumBase extends ClientBase {
 
         LOG.info("creating QuorumPeer 1 port " + portClient1);
         s1 = new QuorumPeer(peers, s1dir, s1dir, portClient1, 3, 1, tickTime, initLimit, syncLimit);
-        Assert.assertEquals(portClient1, s1.getClientPort());
+        Assert.assertEquals(portClient1, s1.getClientAddress());
         LOG.info("creating QuorumPeer 2 port " + portClient2);
         s2 = new QuorumPeer(peers, s2dir, s2dir, portClient2, 3, 2, tickTime, initLimit, syncLimit);
-        Assert.assertEquals(portClient2, s2.getClientPort());
+        Assert.assertEquals(portClient2, s2.getClientAddress());
         LOG.info("creating QuorumPeer 3 port " + portClient3);
         s3 = new QuorumPeer(peers, s3dir, s3dir, portClient3, 3, 3, tickTime, initLimit, syncLimit);
-        Assert.assertEquals(portClient3, s3.getClientPort());
+        Assert.assertEquals(portClient3, s3.getClientAddress());
         LOG.info("creating QuorumPeer 4 port " + portClient4);
         s4 = new QuorumPeer(peers, s4dir, s4dir, portClient4, 3, 4, tickTime, initLimit, syncLimit);
-        Assert.assertEquals(portClient4, s4.getClientPort());
+        Assert.assertEquals(portClient4, s4.getClientAddress());
         LOG.info("creating QuorumPeer 5 port " + portClient5);
         s5 = new QuorumPeer(peers, s5dir, s5dir, portClient5, 3, 5, tickTime, initLimit, syncLimit);
-        Assert.assertEquals(portClient5, s5.getClientPort());
+        Assert.assertEquals(portClient5, s5.getClientAddress());
         
         if (withObservers) {
             s4.setLearnerType(LearnerType.OBSERVER);
@@ -333,27 +333,27 @@ public class QuorumBase extends ClientBase {
         case 1:
             LOG.info("creating QuorumPeer 1 port " + portClient1);
             s1 = new QuorumPeer(peers, s1dir, s1dir, portClient1, 3, 1, tickTime, initLimit, syncLimit);
-            Assert.assertEquals(portClient1, s1.getClientPort());
+            Assert.assertEquals(portClient1, s1.getClientAddress());
             break;
         case 2:
             LOG.info("creating QuorumPeer 2 port " + portClient2);
             s2 = new QuorumPeer(peers, s2dir, s2dir, portClient2, 3, 2, tickTime, initLimit, syncLimit);
-            Assert.assertEquals(portClient2, s2.getClientPort());
+            Assert.assertEquals(portClient2, s2.getClientAddress());
             break;
         case 3:  
             LOG.info("creating QuorumPeer 3 port " + portClient3);
             s3 = new QuorumPeer(peers, s3dir, s3dir, portClient3, 3, 3, tickTime, initLimit, syncLimit);
-            Assert.assertEquals(portClient3, s3.getClientPort());
+            Assert.assertEquals(portClient3, s3.getClientAddress());
             break;
         case 4:
             LOG.info("creating QuorumPeer 4 port " + portClient4);
             s4 = new QuorumPeer(peers, s4dir, s4dir, portClient4, 3, 4, tickTime, initLimit, syncLimit);
-            Assert.assertEquals(portClient4, s4.getClientPort());
+            Assert.assertEquals(portClient4, s4.getClientAddress());
             break;
         case 5:
             LOG.info("creating QuorumPeer 5 port " + portClient5);
             s5 = new QuorumPeer(peers, s5dir, s5dir, portClient5, 3, 5, tickTime, initLimit, syncLimit);
-            Assert.assertEquals(portClient5, s5.getClientPort());
+            Assert.assertEquals(portClient5, s5.getClientAddress());
         }
     }
 

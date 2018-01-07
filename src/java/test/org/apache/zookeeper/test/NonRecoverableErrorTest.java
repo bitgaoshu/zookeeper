@@ -32,7 +32,7 @@ import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
-import org.apache.zookeeper.server.quorum.QuorumPeer.ServerState;
+import org.apache.zookeeper.server.quorum.ServerState;
 import org.apache.zookeeper.server.quorum.QuorumPeerTestBase;
 import org.apache.zookeeper.test.ClientBase.CountdownWatcher;
 import org.junit.Assert;
@@ -90,7 +90,7 @@ public class NonRecoverableErrorTest extends QuorumPeerTestBase {
 
         // get information of current leader
         QuorumPeer leader = getLeaderQuorumPeer(mt);
-        assertNotNull("Leader must have been elected by now", leader);
+        assertNotNull("leader must have been elected by now", leader);
 
         // inject problem in leader
         FileTxnSnapLog snapLog = leader.getActiveServer().getTxnLogFactory();

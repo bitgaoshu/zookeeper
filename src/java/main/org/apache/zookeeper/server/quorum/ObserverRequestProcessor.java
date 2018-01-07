@@ -24,6 +24,7 @@ import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.server.ZooKeeperCriticalThread;
 import org.apache.zookeeper.server.ZooTrace;
+import org.apache.zookeeper.server.quorum.roles.server.ObserverZooKeeperServer;
 import org.apache.zookeeper.txn.ErrorTxn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +34,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * This RequestProcessor forwards any requests that modify the state of the
- * system to the Leader.
+ * system to the leader.
  */
 public class ObserverRequestProcessor extends ZooKeeperCriticalThread implements
         RequestProcessor {

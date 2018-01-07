@@ -179,17 +179,17 @@ public class HierarchicalQuorumTest extends ClientBase {
         }
         QuorumHierarchical hq1 = new QuorumHierarchical(qp); 
         s1 = new QuorumPeer(peers, s1dir, s1dir, clientport1, 3, 1, tickTime, initLimit, syncLimit, hq1);
-        Assert.assertEquals(clientport1, s1.getClientPort());
+        Assert.assertEquals(clientport1, s1.getClientAddress());
         
         LOG.info("creating QuorumPeer 2 port " + clientport2);
         QuorumHierarchical hq2 = new QuorumHierarchical(qp); 
         s2 = new QuorumPeer(peers, s2dir, s2dir, clientport2, 3, 2, tickTime, initLimit, syncLimit, hq2);
-        Assert.assertEquals(clientport2, s2.getClientPort());
+        Assert.assertEquals(clientport2, s2.getClientAddress());
         
         LOG.info("creating QuorumPeer 3 port " + clientport3);
         QuorumHierarchical hq3 = new QuorumHierarchical(qp); 
         s3 = new QuorumPeer(peers, s3dir, s3dir, clientport3, 3, 3, tickTime, initLimit, syncLimit, hq3);
-        Assert.assertEquals(clientport3, s3.getClientPort());
+        Assert.assertEquals(clientport3, s3.getClientAddress());
         
         LOG.info("creating QuorumPeer 4 port " + clientport4);
         QuorumHierarchical hq4 = new QuorumHierarchical(qp); 
@@ -197,7 +197,7 @@ public class HierarchicalQuorumTest extends ClientBase {
         if (withObservers) {
             s4.setLearnerType(QuorumPeer.LearnerType.OBSERVER);
         }
-        Assert.assertEquals(clientport4, s4.getClientPort());
+        Assert.assertEquals(clientport4, s4.getClientAddress());
                        
         LOG.info("creating QuorumPeer 5 port " + clientport5);
         QuorumHierarchical hq5 = new QuorumHierarchical(qp); 
@@ -205,7 +205,7 @@ public class HierarchicalQuorumTest extends ClientBase {
         if (withObservers) {
             s5.setLearnerType(QuorumPeer.LearnerType.OBSERVER);
         }
-        Assert.assertEquals(clientport5, s5.getClientPort());
+        Assert.assertEquals(clientport5, s5.getClientAddress());
 
         LOG.info("start QuorumPeer 1");
         s1.start();

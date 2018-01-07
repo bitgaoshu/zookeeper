@@ -179,7 +179,7 @@ public class ReconfigExceptionTest extends ZKTestCase {
         String cnxString;
         ClientBase.CountdownWatcher watcher = new ClientBase.CountdownWatcher();
         try {
-            cnxString = "127.0.0.1:" + qu.getPeer(1).peer.getClientPort();
+            cnxString = "127.0.0.1:" + qu.getPeer(1).peer.getClientAddress();
             if (zkAdmin != null) {
                 zkAdmin.close();
             }

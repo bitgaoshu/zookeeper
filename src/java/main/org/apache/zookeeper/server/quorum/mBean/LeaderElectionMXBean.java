@@ -20,7 +20,7 @@ package org.apache.zookeeper.server.quorum.mBean;
 
 
 /**
- * Leader election protocol MBean. 
+ * leader election protocol MBean.
  */
 public interface LeaderElectionMXBean {
     /**

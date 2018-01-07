@@ -26,7 +26,7 @@ import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.util.ZooDefs.Ids;
-import org.apache.zookeeper.server.quorum.Leader.Proposal;
+import org.apache.zookeeper.server.quorum.roles.Leader.Proposal;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.SyncRequestProcessor;
 import org.apache.zookeeper.server.ZooKeeperServer;

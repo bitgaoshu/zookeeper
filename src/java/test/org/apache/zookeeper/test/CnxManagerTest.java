@@ -44,7 +44,7 @@ import org.apache.zookeeper.server.quorum.election.QuorumCnxManager.InitialMessa
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.LearnerType;
 import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
-import org.apache.zookeeper.server.quorum.QuorumPeer.ServerState;
+import org.apache.zookeeper.server.quorum.ServerState;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

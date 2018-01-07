@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.roles.server;
 
 import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
 import org.apache.zookeeper.server.jmx.MBeanRegistry;
@@ -29,8 +29,14 @@ import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
+import org.apache.zookeeper.server.quorum.CommitProcessor;
+import org.apache.zookeeper.server.quorum.LeaderRequestProcessor;
+import org.apache.zookeeper.server.quorum.LeaderSessionTracker;
+import org.apache.zookeeper.server.quorum.ProposalRequestProcessor;
+import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.mBean.impl.LeaderBean;
 import org.apache.zookeeper.server.quorum.mBean.impl.LocalPeerBean;
+import org.apache.zookeeper.server.quorum.roles.Leader;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -39,7 +45,7 @@ import java.util.concurrent.TimeUnit;
  *
  * Just like the standard ZooKeeperServer. We just replace the request
  * processors: PrepRequestProcessor -> ProposalRequestProcessor ->
- * CommitProcessor -> Leader.ToBeAppliedRequestProcessor ->
+ * CommitProcessor -> leader.ToBeAppliedRequestProcessor ->
  * FinalRequestProcessor
  */
 public class LeaderZooKeeperServer extends QuorumZooKeeperServer {
@@ -48,7 +54,7 @@ public class LeaderZooKeeperServer extends QuorumZooKeeperServer {
     CommitProcessor commitProcessor;
     PrepRequestProcessor prepRequestProcessor;
 
-    LeaderZooKeeperServer(FileTxnSnapLog logFactory, QuorumPeer self, ZKDatabase zkDb) throws IOException {
+    public LeaderZooKeeperServer(FileTxnSnapLog logFactory, QuorumPeer self, ZKDatabase zkDb) throws IOException {
         super(logFactory, self.tickTime, self.minSessionTimeout, self.maxSessionTimeout, zkDb, self);
     }
 
@@ -160,16 +166,8 @@ public class LeaderZooKeeperServer extends QuorumZooKeeperServer {
     public void registerJMX(LeaderBean leaderBean,
             LocalPeerBean localPeerBean)
     {
-        // register with JMX
-        if (self.jmxLeaderElectionBean != null) {
-            try {
-                MBeanRegistry.getInstance().unregister(self.jmxLeaderElectionBean);
-            } catch (Exception e) {
-                LOG.warn("Failed to register with JMX", e);
-            }
-            self.jmxLeaderElectionBean = null;
-        }
-
+        /* register with JMX */
+        self.registerLEMBean();
         try {
             jmxServerBean = leaderBean;
             MBeanRegistry.getInstance().register(leaderBean, localPeerBean);
@@ -192,8 +190,8 @@ public class LeaderZooKeeperServer extends QuorumZooKeeperServer {
         jmxDataTreeBean = null;
     }
 
-    protected void unregisterJMX(Leader leader) {
-        // unregister from JMX
+    public void unregisterJMX(Leader leader) {
+        /* unregister from JMX */
         try {
             if (jmxServerBean != null) {
                 MBeanRegistry.getInstance().unregister(jmxServerBean);

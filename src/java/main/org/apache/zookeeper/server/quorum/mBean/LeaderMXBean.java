@@ -18,10 +18,10 @@
 
 package org.apache.zookeeper.server.quorum.mBean;
 
-import org.apache.zookeeper.server.ZooKeeperServerMXBean;
+import org.apache.zookeeper.server.jmx.ZooKeeperServerMXBean;
 
 /**
- * Leader MBean.
+ * leader MBean.
  */
 public interface LeaderMXBean extends ZooKeeperServerMXBean {
     /**

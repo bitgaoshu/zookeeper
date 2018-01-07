@@ -31,7 +31,7 @@ import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.server.SyncRequestProcessor;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
-import org.apache.zookeeper.server.quorum.QuorumPeer.ServerState;
+import org.apache.zookeeper.server.quorum.ServerState;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

@@ -35,14 +35,14 @@
     <!-- Committing out of order is an unrecoverable error, so we should
               really exit  -->
    <Match>
-     <Class name="org.apache.zookeeper.server.quorum.FollowerZooKeeperServer" />
+     <Class name="org.apache.zookeeper.server.quorum.roles.server.FollowerZooKeeperServer" />
        <Method name="commit" />
        <Bug pattern="DM_EXIT" />
      </Match>
 
    <!-- Two unrecoverable errors while following the leader  -->
    <Match>
-     <Class name="org.apache.zookeeper.server.quorum.Learner" />
+     <Class name="org.apache.zookeeper.server.quorum.roles.Learner" />
        <Method name="syncWithLeader" />
        <Bug pattern="DM_EXIT" />
    </Match>
@@ -77,7 +77,7 @@
       <Bug code="IS"/>
   </Match>
  <Match>
-   <Class name="org.apache.zookeeper.server.quorum.Leader"/>
+   <Class name="org.apache.zookeeper.server.quorum.roles.Leader"/>
      <Field name="lastProposed"/>
      <Bug code="IS"/>
   </Match>

@@ -20,9 +20,9 @@ package org.apache.zookeeper.test;
 import java.util.ArrayList;
 
 import org.apache.zookeeper.server.jmx.CommonNames;
-import org.apache.zookeeper.server.quorum.Leader.Proposal;
+import org.apache.zookeeper.server.quorum.roles.Leader.Proposal;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
-import org.apache.zookeeper.server.quorum.QuorumPeer.ServerState;
+import org.apache.zookeeper.server.quorum.ServerState;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -51,7 +51,7 @@ public class QuorumMajorityTest extends QuorumBase {
                         CommonNames.DOMAIN, i, i);
             } else if (qp.getPeerState() == ServerState.LEADING) {
                 bean = String.format(
-                        "%s:name0=ReplicatedServer_id%d,name1=replica.%d,name2=Leader",
+                        "%s:name0=ReplicatedServer_id%d,name1=replica.%d,name2=leader",
                         CommonNames.DOMAIN, i, i);
             }
             electionTimeTaken = (Long) JMXEnv.ensureBeanAttribute(bean,

@@ -15,11 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.roles.server;
 
 import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import org.apache.zookeeper.server.quorum.CommitProcessor;
+import org.apache.zookeeper.server.quorum.ObserverRequestProcessor;
+import org.apache.zookeeper.server.quorum.QuorumPeer;
+import org.apache.zookeeper.server.quorum.roles.Observer;
+import org.apache.zookeeper.server.quorum.roles.Learner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.server.FinalRequestProcessor;
@@ -51,7 +56,7 @@ public class ObserverZooKeeperServer extends LearnerZooKeeperServer {
     ConcurrentLinkedQueue<Request> pendingSyncs = 
         new ConcurrentLinkedQueue<Request>();
 
-    ObserverZooKeeperServer(FileTxnSnapLog logFactory, QuorumPeer self, ZKDatabase zkDb) throws IOException {
+    public ObserverZooKeeperServer(FileTxnSnapLog logFactory, QuorumPeer self, ZKDatabase zkDb) throws IOException {
         super(logFactory, self.tickTime, self.minSessionTimeout, self.maxSessionTimeout, zkDb, self);
         LOG.info("syncEnabled =" + syncRequestProcessorEnabled);
     }
@@ -69,7 +74,7 @@ public class ObserverZooKeeperServer extends LearnerZooKeeperServer {
      * Unlike a Follower, which sees a full request only during the PROPOSAL
      * phase, Observers get all the data required with the INFORM packet. 
      * This method commits a request that has been unpacked by from an INFORM
-     * received from the Leader. 
+     * received from the leader.
      *      
      * @param request
      */

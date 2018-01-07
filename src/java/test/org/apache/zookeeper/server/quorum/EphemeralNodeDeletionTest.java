@@ -27,11 +27,14 @@ import java.net.SocketTimeoutException;
 
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.PortAssignment;
+import org.apache.zookeeper.server.quorum.roles.Follower;
+import org.apache.zookeeper.server.quorum.roles.Leader;
+import org.apache.zookeeper.server.quorum.roles.server.LearnerHandler;
+import org.apache.zookeeper.server.quorum.roles.server.FollowerZooKeeperServer;
 import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
-import org.apache.zookeeper.server.quorum.QuorumPeer.ServerState;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.test.ClientBase.CountdownWatcher;
 import org.junit.After;
@@ -112,16 +115,16 @@ public class EphemeralNodeDeletionTest extends QuorumPeerTestBase {
 
         Assert.assertTrue("Faulted Follower should have joined quorum by now",
                 ClientBase.waitForServerUp(
-                        "127.0.0.1:" + follower.getClientPort(),
+                        "127.0.0.1:" + follower.getClientAddress(),
                         CONNECTION_TIMEOUT));
 
         QuorumPeer leader = getByServerState(mt, ServerState.LEADING);
-        assertNotNull("Leader should not be null", leader);
-        Assert.assertTrue("Leader must be running", ClientBase.waitForServerUp(
-                "127.0.0.1:" + leader.getClientPort(), CONNECTION_TIMEOUT));
+        assertNotNull("leader should not be null", leader);
+        Assert.assertTrue("leader must be running", ClientBase.waitForServerUp(
+                "127.0.0.1:" + leader.getClientAddress(), CONNECTION_TIMEOUT));
 
         watch = new CountdownWatcher();
-        zk = new ZooKeeper("127.0.0.1:" + leader.getClientPort(),
+        zk = new ZooKeeper("127.0.0.1:" + leader.getClientAddress(),
                 ClientBase.CONNECTION_TIMEOUT, watch);
         watch.waitForConnected(ClientBase.CONNECTION_TIMEOUT);
 
@@ -130,7 +133,7 @@ public class EphemeralNodeDeletionTest extends QuorumPeerTestBase {
 
         CountdownWatcher followerWatch = new CountdownWatcher();
         ZooKeeper followerZK = new ZooKeeper(
-                "127.0.0.1:" + follower.getClientPort(),
+                "127.0.0.1:" + follower.getClientAddress(),
                 ClientBase.CONNECTION_TIMEOUT, followerWatch);
         followerWatch.waitForConnected(ClientBase.CONNECTION_TIMEOUT);
         Stat nodeAtFollower = followerZK.exists(nodePath, false);

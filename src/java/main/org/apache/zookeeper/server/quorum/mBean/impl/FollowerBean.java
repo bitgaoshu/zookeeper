@@ -20,7 +20,7 @@ package org.apache.zookeeper.server.quorum.mBean.impl;
 
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.ZooKeeperServerBean;
-import org.apache.zookeeper.server.quorum.Follower;
+import org.apache.zookeeper.server.quorum.roles.Follower;
 import org.apache.zookeeper.server.quorum.mBean.FollowerMXBean;
 
 /**

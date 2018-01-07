@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
  * application can follow all state transitions via the listener callback.
  * </p>
  * <p>
- * Leader election algorithm
+ * leader election algorithm
  * </p>
  * <p>
  * The library starts in a START state. Through each state transition, a state
