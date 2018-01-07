@@ -34,6 +34,7 @@ import org.apache.zookeeper.server.quorum.LeaderRequestProcessor;
 import org.apache.zookeeper.server.quorum.LeaderSessionTracker;
 import org.apache.zookeeper.server.quorum.ProposalRequestProcessor;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
+import org.apache.zookeeper.server.quorum.ToBeAppliedRequestProcessor;
 import org.apache.zookeeper.server.quorum.mBean.impl.LeaderBean;
 import org.apache.zookeeper.server.quorum.mBean.impl.LocalPeerBean;
 import org.apache.zookeeper.server.quorum.roles.Leader;
@@ -65,7 +66,7 @@ public class LeaderZooKeeperServer extends QuorumZooKeeperServer {
     @Override
     protected void setupRequestProcessors() {
         RequestProcessor finalProcessor = new FinalRequestProcessor(this);
-        RequestProcessor toBeAppliedProcessor = new Leader.ToBeAppliedRequestProcessor(finalProcessor, getLeader());
+        RequestProcessor toBeAppliedProcessor = new ToBeAppliedRequestProcessor(finalProcessor, getLeader());
         commitProcessor = new CommitProcessor(toBeAppliedProcessor,
                 Long.toString(getServerId()), false,
                 getZooKeeperServerListener());
