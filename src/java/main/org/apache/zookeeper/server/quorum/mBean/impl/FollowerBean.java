@@ -39,7 +39,7 @@ public class FollowerBean extends ZooKeeperServerBean implements FollowerMXBean 
     }
 
     public String getQuorumAddress() {
-        return follower.sock.toString();
+        return follower.getSocket().toString();
     }
     
     public String getLastQueuedZxid() {

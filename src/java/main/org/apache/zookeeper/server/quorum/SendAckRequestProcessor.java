@@ -23,6 +23,7 @@ import java.io.IOException;
 
 import org.apache.zookeeper.server.quorum.roles.Leader;
 import org.apache.zookeeper.server.quorum.roles.Learner;
+import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,44 +34,36 @@ import org.apache.zookeeper.server.RequestProcessor;
 public class SendAckRequestProcessor implements RequestProcessor, Flushable {
     private static final Logger LOG = LoggerFactory.getLogger(SendAckRequestProcessor.class);
 
-    Learner learner;
+    private Learner learner;
 
-    SendAckRequestProcessor(Learner peer) {
+    public SendAckRequestProcessor(Learner peer) {
         this.learner = peer;
     }
 
     public void processRequest(Request si) {
         if(si.op != OpType.sync){
-            QuorumPacket qp = new QuorumPacket(Leader.ACK, si.getHdr().getZxid(), null,
+            QuorumPacket qp = new QuorumPacket(OpOfLeader.ACK.intType(), si.getHdr().getZxid(), null,
                 null);
-            try {
-                learner.writePacket(qp, false);
-            } catch (IOException e) {
-                LOG.warn("Closing connection to leader, exception during packet send", e);
-                try {
-                    if (!learner.sock.isClosed()) {
-                        learner.sock.close();
-                    }
-                } catch (IOException e1) {
-                    // Nothing to do, we are shutting things down, so an exception here is irrelevant
-                    LOG.debug("Ignoring error closing the connection", e1);
-                }
-            }
+            writeOrCloseSocket(qp, false);
         }
     }
 
     public void flush() throws IOException {
+        writeOrCloseSocket(null, true);
+    }
+
+    private void writeOrCloseSocket(QuorumPacket qp, boolean flush) {
         try {
-            learner.writePacket(null, true);
-        } catch(IOException e) {
+            learner.writePacket(qp, false);
+        } catch (IOException e) {
             LOG.warn("Closing connection to leader, exception during packet send", e);
             try {
-                if (!learner.sock.isClosed()) {
-                    learner.sock.close();
+                if (!learner.getSocket().isClosed()) {
+                    learner.getSocket().close();
                 }
             } catch (IOException e1) {
-                    // Nothing to do, we are shutting things down, so an exception here is irrelevant
-                    LOG.debug("Ignoring error closing the connection", e1);
+                // Nothing to do, we are shutting things down, so an exception here is irrelevant
+                LOG.debug("Ignoring error closing the connection", e1);
             }
         }
     }

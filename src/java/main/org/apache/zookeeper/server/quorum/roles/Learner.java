@@ -133,7 +133,7 @@ public class Learner {
      *                the proposal packet to be sent to the leader
      * @throws IOException
      */
-    void writePacket(QuorumPacket pp, boolean flush) throws IOException {
+    public void writePacket(QuorumPacket pp, boolean flush) throws IOException {
         synchronized (leaderOs) {
             if (pp != null) {
                 leaderOs.writeRecord(pp, "packet");

@@ -115,6 +115,7 @@ public class Follower extends Learner {
 
     /**
      * Examine the packet received in qp and dispatch based on its contents.
+     *
      * @param qp
      * @throws IOException
      */
@@ -181,6 +182,7 @@ public class Follower extends Learner {
 
     /**
      * The zxid of the last operation seen
+     *
      * @return zxid
      */
     public long getZxid() {
@@ -196,9 +198,10 @@ public class Follower extends Learner {
 
     /**
      * The zxid of the last operation queued
+     *
      * @return zxid
      */
-    protected long getLastQueued() {
+    public long getLastQueued() {
         return lastQueued;
     }
 

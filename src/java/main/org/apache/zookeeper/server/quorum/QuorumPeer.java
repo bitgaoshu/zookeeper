@@ -1536,7 +1536,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
     /**
      * @return the time taken for leader election in milliseconds.
      */
-    long getElectionTimeTaken() {
+    public long getElectionTimeTaken() {
         return electionTimeTaken;
     }
 
