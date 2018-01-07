@@ -276,7 +276,7 @@ public class Leader {
         zk.registerJMX(new LeaderBean(this, zk), self.getJmxLocalPeerBean());
 
         try {
-            self.getTick().set(0);
+            self.tick.set(0);
             zk.loadData();
 
             leaderStateSummary = new StateSummary(self.getCurrentEpoch(), zk.getLastProcessedZxid());
@@ -392,11 +392,8 @@ public class Leader {
                 zk.setZxid((zk.getZxid() & 0xffffffff00000000L) | zxid);
             }
 
-            if (!System.getProperty("zookeeper.leaderServes", "yes").equals("no")) {
-                self.setZooKeeperServer(zk);
-            }
-
-            self.adminServer.setZooKeeperServer(zk);
+            boolean b = !System.getProperty("zookeeper.leaderServes", "yes").equals("no");
+            self.setZooKeeperServer(zk, b);
 
             // Everything is a go, simply start counting the ticks
             // WARNING: I couldn't find any wait statement on a synchronized
@@ -415,7 +412,7 @@ public class Leader {
                 synchronized (this) {
                     long start = Time.currentElapsedTime();
                     long cur = start;
-                    long end = start + self.tickTime / 2;
+                    long end = start + self.getTickTime() / 2;
                     while (cur < end) {
                         wait(end - cur);
                         cur = Time.currentElapsedTime();
@@ -1161,6 +1158,7 @@ public class Leader {
          *
          * @see org.apache.zookeeper.server.RequestProcessor#processRequest(org.apache.zookeeper.server.Request)
          */
+        @Override
         public void processRequest(Request request) throws RequestProcessorException {
             next.processRequest(request);
 

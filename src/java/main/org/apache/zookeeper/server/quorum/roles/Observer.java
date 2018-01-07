@@ -72,7 +72,7 @@ public class Observer extends Learner {
             LOG.info("Observing " + addr);
             try {
                 connectToLeader(addr);
-                long newLeaderZxid = registerWithLeader(OpOfLeader.OBSERVERINFO.intType());
+                long newLeaderZxid = registerWithLeader(OpOfLeader.OBSERVERINFO);
                 if (self.isReconfigStateChange())
                     throw new Exception("learned about role change");
 

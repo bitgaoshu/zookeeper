@@ -55,7 +55,7 @@ public class LeaderZooKeeperServer extends QuorumZooKeeperServer {
     PrepRequestProcessor prepRequestProcessor;
 
     public LeaderZooKeeperServer(FileTxnSnapLog logFactory, QuorumPeer self, ZKDatabase zkDb) throws IOException {
-        super(logFactory, self.tickTime, self.minSessionTimeout, self.maxSessionTimeout, zkDb, self);
+        super(logFactory, zkDb, self);
     }
 
     public Leader getLeader(){

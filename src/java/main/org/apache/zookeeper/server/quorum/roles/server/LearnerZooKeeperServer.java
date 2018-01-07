@@ -62,7 +62,7 @@ public abstract class LearnerZooKeeperServer extends QuorumZooKeeperServer {
      * Returns the current state of the session tracker. This is only currently
      * used by a Learner to build a ping response packet.
      */
-    protected Map<Long, Integer> getTouchSnapshot() {
+    public Map<Long, Integer> getTouchSnapshot() {
         if (sessionTracker != null) {
             return ((LearnerSessionTracker) sessionTracker).snapshot();
         }

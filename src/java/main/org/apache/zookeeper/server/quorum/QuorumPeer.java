@@ -182,12 +182,6 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
      * (broadcast and fast leader election).
      */
     protected boolean quorumListenOnAllIPs = false;
-
-    public LocalPeerBean getJmxLocalPeerBean() {
-        return jmxLocalPeerBean;
-    }
-
-    private LocalPeerBean jmxLocalPeerBean;
     LeaderElectionBean jmxLeaderElectionBean;
     volatile boolean running = true;
     DatagramSocket udpSocket;
@@ -195,6 +189,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
     ServerCnxnFactory cnxnFactory;
     ServerCnxnFactory secureCnxnFactory;
     AdminServer adminServer;
+    private LocalPeerBean jmxLocalPeerBean;
     private boolean shuttingDownLE = false;
     private QuorumBean jmxQuorumBean;
     private Map<Long, RemotePeerBean> jmxRemotePeerBean;
@@ -234,7 +229,6 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
     private FileTxnSnapLog logFactory = null;
     private long acceptedEpoch = -1;
     private long currentEpoch = -1;
-
     public QuorumPeer() {
         super("QuorumPeer");
         quorumStats = new QuorumStats(this);
@@ -334,6 +328,10 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
                     + " does not match with given port " + clientPort);
         }
         return quorumServer.clientAddr;
+    }
+
+    public LocalPeerBean getJmxLocalPeerBean() {
+        return jmxLocalPeerBean;
     }
 
     public Object getQV_LOCK() {
@@ -1251,13 +1249,18 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
     }
 
     // leader and learner will control the zookeeper server and pass it into QuorumPeer.
-    public void setZooKeeperServer(ZooKeeperServer zks) {
-        if (cnxnFactory != null) {
+    public void setZooKeeperServer(ZooKeeperServer zks, boolean leaderServers) {
+        if (cnxnFactory != null && leaderServers) {
             cnxnFactory.setZooKeeperServer(zks);
         }
-        if (secureCnxnFactory != null) {
+        if (secureCnxnFactory != null && leaderServers) {
             secureCnxnFactory.setZooKeeperServer(zks);
         }
+
+        adminServer.setZooKeeperServer(zks);
+    }
+    public void setZooKeeperServer(ZooKeeperServer zks) {
+        setZooKeeperServer(zks, true);
     }
 
     public void closeAllConnections() {

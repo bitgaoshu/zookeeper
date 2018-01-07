@@ -150,9 +150,6 @@ public class ReadOnlyZooKeeperServer extends ZooKeeperServer {
         self.setZooKeeperServer(null);
         // clear all the connections
         self.closeAllConnections();
-
-        self.adminServer.setZooKeeperServer(null);
-
         // shutdown the server itself
         super.shutdown();
     }

@@ -106,7 +106,7 @@ public class Learner {
      * @return
      * @throws IOException
      */
-    void validateSession(ServerCnxn cnxn, long clientId, int timeout)
+    public void validateSession(ServerCnxn cnxn, long clientId, int timeout)
             throws IOException {
         LOG.info("Revalidating client: 0x" + Long.toHexString(clientId));
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -293,13 +293,13 @@ public class Learner {
      * @return the zxid the leader sends for synchronization purposes.
      * @throws IOException
      */
-    protected long registerWithLeader(int pktType) throws IOException {
+    protected long registerWithLeader(OpOfLeader pktType) throws IOException {
         /*
          * Send follower info, including last zxid and sid
          */
         long lastLoggedZxid = self.getLastLoggedZxid();
         QuorumPacket qp = new QuorumPacket();
-        qp.setType(pktType);
+        qp.setType(pktType.intType());
         qp.setZxid(ZxidUtils.makeZxid(self.getAcceptedEpoch(), 0));
 
         /*
@@ -523,7 +523,6 @@ public class Learner {
                             self.setCurrentEpoch(newEpoch);
                         }
                         self.setZooKeeperServer(zk);
-                        self.adminServer.setZooKeeperServer(zk);
                         break outerLoop;
                     case NEWLEADER: // Getting NEWLEADER here instead of in discovery
                         // means this is Zab 1.0
@@ -641,7 +640,6 @@ public class Learner {
     public void shutdown() {
         self.setZooKeeperServer(null);
         self.closeAllConnections();
-        self.adminServer.setZooKeeperServer(null);
         // shutdown previous zookeeper
         if (zk != null) {
             zk.shutdown();
