@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.zookeeper.PortAssignment;
-import org.apache.zookeeper.server.quorum.Election;
+import org.apache.zookeeper.server.quorum.election.Election;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.LearnerType;
 import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;

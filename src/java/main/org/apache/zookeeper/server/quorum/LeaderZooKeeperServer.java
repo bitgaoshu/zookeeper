@@ -29,6 +29,8 @@ import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
+import org.apache.zookeeper.server.quorum.jmx.impl.LeaderBean;
+import org.apache.zookeeper.server.quorum.jmx.impl.LocalPeerBean;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

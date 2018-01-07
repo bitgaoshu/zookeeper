@@ -16,27 +16,33 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
-
-import java.util.Date;
-
-import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
+package org.apache.zookeeper.server.quorum.jmx;
 
 /**
- * Leader election MBean interface implementation
+ * A proxy for a remote quorum peer.
  */
-public class LeaderElectionBean implements LeaderElectionMXBean, ZKMBeanInfo {
-    private final Date startTime = new Date();
+public interface RemotePeerMXBean {
+    /**
+     * @return name of the peer
+     */
+    public String getName();
+    /**
+     * @return IP address of the quorum peer 
+     */
+    public String getQuorumAddress();
 
-    public String getName() {
-        return "LeaderElection";
-    }
+    /**
+     * @return the election address
+     */
+    public String getElectionAddress();
 
-    public boolean isHidden() {
-        return false;
-    }
+    /**
+     * @return the client address
+     */
+    public String getClientAddress();
 
-    public String getStartTime() {
-        return startTime.toString();
-    }
+    /**
+     * @return the learner type
+     */
+    public String getLearnerType();
 }

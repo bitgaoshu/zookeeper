@@ -28,6 +28,7 @@ import org.apache.zookeeper.server.SyncRequestProcessor;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperServerBean;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
+import org.apache.zookeeper.server.quorum.jmx.impl.LocalPeerBean;
 
 /**
  * Parent class for all ZooKeeperServers for Learners

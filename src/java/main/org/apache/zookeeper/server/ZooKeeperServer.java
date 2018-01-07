@@ -39,7 +39,7 @@ import org.apache.zookeeper.server.auth.ProviderRegistry;
 import org.apache.zookeeper.server.auth.ServerAuthenticationProvider;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
-import org.apache.zookeeper.server.exception.ZKException.CloseRequestException;
+import org.apache.zookeeper.server.exception.CloseRequestException;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.quorum.ReadOnlyZooKeeperServer;
 import org.apache.zookeeper.txn.CreateSessionTxn;

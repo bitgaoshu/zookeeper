@@ -16,9 +16,11 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.jmx.impl;
 
 import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
+import org.apache.zookeeper.server.quorum.QuorumPeer;
+import org.apache.zookeeper.server.quorum.jmx.RemotePeerMXBean;
 
 /**
  * A remote peer bean only provides limited information about the remote peer,

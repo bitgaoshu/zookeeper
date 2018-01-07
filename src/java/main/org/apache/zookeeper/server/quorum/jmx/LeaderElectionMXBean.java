@@ -16,31 +16,16 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.jmx;
 
-import org.apache.zookeeper.server.ZooKeeperServerMXBean;
 
 /**
- * Follower MBean
+ * Leader election protocol MBean. 
  */
-public interface FollowerMXBean extends ZooKeeperServerMXBean {
+public interface LeaderElectionMXBean {
     /**
-     * @return socket address
+     * 
+     * @return the time when the leader election started
      */
-    public String getQuorumAddress();
-    
-    /**
-     * @return last queued zxid
-     */
-    public String getLastQueuedZxid();
-    
-    /**
-     * @return count of pending revalidations
-     */
-    public int getPendingRevalidationCount();
-
-    /**
-     * @return time taken for leader election in milliseconds.
-     */
-    public long getElectionTimeTaken();
+    public String getStartTime();
 }

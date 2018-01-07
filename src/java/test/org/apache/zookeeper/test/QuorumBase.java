@@ -30,7 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.client.clientSocket.TestableZooKeeper;
-import org.apache.zookeeper.server.quorum.Election;
+import org.apache.zookeeper.server.quorum.election.Election;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.LearnerType;
 import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;

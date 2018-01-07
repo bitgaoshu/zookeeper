@@ -16,22 +16,31 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.jmx;
 
 import org.apache.zookeeper.server.ZooKeeperServerMXBean;
 
 /**
- * Observer MX Bean interface, implemented by ObserverBean
- *
+ * Follower MBean
  */
-public interface ObserverMXBean extends ZooKeeperServerMXBean {
-    /**
-     * @return count of pending revalidations
-     */
-    public int getPendingRevalidationCount();
-    
+public interface FollowerMXBean extends ZooKeeperServerMXBean {
     /**
      * @return socket address
      */
     public String getQuorumAddress();
+    
+    /**
+     * @return last queued zxid
+     */
+    public String getLastQueuedZxid();
+    
+    /**
+     * @return count of pending revalidations
+     */
+    public int getPendingRevalidationCount();
+
+    /**
+     * @return time taken for leader election in milliseconds.
+     */
+    public long getElectionTimeTaken();
 }

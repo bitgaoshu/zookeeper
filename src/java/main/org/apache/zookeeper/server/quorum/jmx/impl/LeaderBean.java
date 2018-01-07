@@ -16,40 +16,43 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.jmx.impl;
 
-import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.ZooKeeperServerBean;
+import org.apache.zookeeper.server.ZooKeeperServer;
+import org.apache.zookeeper.server.quorum.Leader;
+import org.apache.zookeeper.server.quorum.LearnerHandler;
+import org.apache.zookeeper.server.quorum.jmx.LeaderMXBean;
 
 /**
- * Follower MBean interface implementation
+ * Leader MBean interface implementation.
  */
-public class FollowerBean extends ZooKeeperServerBean implements FollowerMXBean {
-    private final Follower follower;
-
-    public FollowerBean(Follower follower, ZooKeeperServer zks) {
+public class LeaderBean extends ZooKeeperServerBean implements LeaderMXBean {
+    private final Leader leader;
+    
+    public LeaderBean(Leader leader, ZooKeeperServer zks) {
         super(zks);
-        this.follower = follower;
+        this.leader = leader;
     }
     
     public String getName() {
-        return "Follower";
+        return "Leader";
     }
 
-    public String getQuorumAddress() {
-        return follower.sock.toString();
+    public String getCurrentZxid() {
+        return "0x" + Long.toHexString(zks.getZxid());
     }
     
-    public String getLastQueuedZxid() {
-        return "0x" + Long.toHexString(follower.getLastQueued());
-    }
-    
-    public int getPendingRevalidationCount() {
-        return follower.getPendingRevalidationsCount();
+    public String followerInfo() {
+        StringBuilder sb = new StringBuilder();
+        for (LearnerHandler handler : leader.getLearners()) {
+            sb.append(handler.toString()).append("\n");
+        }
+        return sb.toString();
     }
 
     @Override
     public long getElectionTimeTaken() {
-        return follower.self.getElectionTimeTaken();
+        return leader.self.getElectionTimeTaken();
     }
 }

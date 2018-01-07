@@ -16,19 +16,12 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.election;
 
-/**
- * An MBean representing a zookeeper cluster nodes (aka quorum peers)
- */
-public interface QuorumMXBean {
-    /**
-     * @return the name of the quorum
-     */
-    public String getName();
-    
-    /**
-     * @return configured number of peers in the quorum
-     */
-    public int getQuorumSize();
+
+import org.apache.zookeeper.server.quorum.Vote;
+
+public interface Election {
+    Vote lookForLeader() throws InterruptedException;
+    void shutdown();
 }

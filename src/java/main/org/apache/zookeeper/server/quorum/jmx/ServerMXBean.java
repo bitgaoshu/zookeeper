@@ -16,26 +16,18 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
-
-import org.apache.zookeeper.server.ZooKeeperServerMXBean;
+package org.apache.zookeeper.server.quorum.jmx;
 
 /**
- * Leader MBean.
+ * A quorum server MBean.
  */
-public interface LeaderMXBean extends ZooKeeperServerMXBean {
+public interface ServerMXBean {
     /**
-     * Current zxid of cluster.
+     * @return name of the server MBean
      */
-    public String getCurrentZxid();
-
+    public String getName();
     /**
-     * @return information on current followers
+     * @return the start time the server 
      */
-    public String followerInfo();
-
-    /**
-     * @return time taken for leader election in milliseconds.
-     */
-    public long getElectionTimeTaken();
+    public String getStartTime();
 }

@@ -16,33 +16,22 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.jmx;
+
+import org.apache.zookeeper.server.ZooKeeperServerMXBean;
 
 /**
- * A proxy for a remote quorum peer.
+ * Observer MX Bean interface, implemented by ObserverBean
+ *
  */
-public interface RemotePeerMXBean {
+public interface ObserverMXBean extends ZooKeeperServerMXBean {
     /**
-     * @return name of the peer
+     * @return count of pending revalidations
      */
-    public String getName();
+    public int getPendingRevalidationCount();
+    
     /**
-     * @return IP address of the quorum peer 
+     * @return socket address
      */
     public String getQuorumAddress();
-
-    /**
-     * @return the election address
-     */
-    public String getElectionAddress();
-
-    /**
-     * @return the client address
-     */
-    public String getClientAddress();
-
-    /**
-     * @return the learner type
-     */
-    public String getLearnerType();
 }

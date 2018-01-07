@@ -16,12 +16,30 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.jmx.impl;
 
+import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
+import org.apache.zookeeper.server.quorum.QuorumPeer;
+import org.apache.zookeeper.server.quorum.jmx.QuorumMXBean;
 
-import org.apache.zookeeper.server.quorum.Vote;
-
-public interface Election {
-    public Vote lookForLeader() throws InterruptedException;
-    public void shutdown();
+public class QuorumBean implements QuorumMXBean, ZKMBeanInfo {
+    private final QuorumPeer peer;
+    private final String name;
+    
+    public QuorumBean(QuorumPeer peer){
+        this.peer = peer;
+        name = "ReplicatedServer_id" + peer.getId();
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public boolean isHidden() {
+        return false;
+    }
+    
+    public int getQuorumSize() {
+        return peer.getQuorumSize();
+    }
 }

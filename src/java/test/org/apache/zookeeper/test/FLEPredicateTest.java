@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 
-import org.apache.zookeeper.server.quorum.FastLeaderElection;
-import org.apache.zookeeper.server.quorum.QuorumCnxManager;
+import org.apache.zookeeper.server.quorum.election.FastLeaderElection;
+import org.apache.zookeeper.server.quorum.election.QuorumCnxManager;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
 import org.apache.zookeeper.PortAssignment;

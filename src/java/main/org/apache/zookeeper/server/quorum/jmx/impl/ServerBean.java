@@ -16,11 +16,12 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.jmx.impl;
 
 import java.util.Date;
 
 import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
+import org.apache.zookeeper.server.quorum.jmx.ServerMXBean;
 
 /**
  * An abstract base class for the leader and follower MBeans.

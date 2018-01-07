@@ -16,42 +16,42 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.jmx.impl;
 
-import org.apache.zookeeper.server.ZooKeeperServerBean;
 import org.apache.zookeeper.server.ZooKeeperServer;
-import org.apache.zookeeper.server.quorum.LearnerHandler;
-import org.apache.zookeeper.server.quorum.Leader;
+import org.apache.zookeeper.server.ZooKeeperServerBean;
+import org.apache.zookeeper.server.quorum.Follower;
+import org.apache.zookeeper.server.quorum.jmx.FollowerMXBean;
 
 /**
- * Leader MBean interface implementation.
+ * Follower MBean interface implementation
  */
-public class LeaderBean extends ZooKeeperServerBean implements LeaderMXBean {
-    private final Leader leader;
-    
-    public LeaderBean(Leader leader, ZooKeeperServer zks) {
+public class FollowerBean extends ZooKeeperServerBean implements FollowerMXBean {
+    private final Follower follower;
+
+    public FollowerBean(Follower follower, ZooKeeperServer zks) {
         super(zks);
-        this.leader = leader;
+        this.follower = follower;
     }
     
     public String getName() {
-        return "Leader";
+        return "Follower";
     }
 
-    public String getCurrentZxid() {
-        return "0x" + Long.toHexString(zks.getZxid());
+    public String getQuorumAddress() {
+        return follower.sock.toString();
     }
     
-    public String followerInfo() {
-        StringBuilder sb = new StringBuilder();
-        for (LearnerHandler handler : leader.getLearners()) {
-            sb.append(handler.toString()).append("\n");
-        }
-        return sb.toString();
+    public String getLastQueuedZxid() {
+        return "0x" + Long.toHexString(follower.getLastQueued());
+    }
+    
+    public int getPendingRevalidationCount() {
+        return follower.getPendingRevalidationsCount();
     }
 
     @Override
     public long getElectionTimeTaken() {
-        return leader.self.getElectionTimeTaken();
+        return follower.self.getElectionTimeTaken();
     }
 }

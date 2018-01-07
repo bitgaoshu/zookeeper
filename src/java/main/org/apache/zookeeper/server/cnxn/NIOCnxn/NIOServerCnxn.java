@@ -51,7 +51,6 @@ import org.apache.zookeeper.server.command.CommandExecutor;
 import org.apache.zookeeper.server.command.FourLetterCommands;
 import org.apache.zookeeper.server.command.SetTraceMaskCommand;
 import org.apache.zookeeper.server.command.NopCommand;
-import org.apache.zookeeper.server.exception.ZKException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

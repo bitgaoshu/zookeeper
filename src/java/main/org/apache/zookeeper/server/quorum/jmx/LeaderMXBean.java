@@ -16,28 +16,26 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.jmx;
 
-import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
+import org.apache.zookeeper.server.ZooKeeperServerMXBean;
 
-public class QuorumBean implements QuorumMXBean, ZKMBeanInfo {
-    private final QuorumPeer peer;
-    private final String name;
-    
-    public QuorumBean(QuorumPeer peer){
-        this.peer = peer;
-        name = "ReplicatedServer_id" + peer.getId();
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public boolean isHidden() {
-        return false;
-    }
-    
-    public int getQuorumSize() {
-        return peer.getQuorumSize();
-    }
+/**
+ * Leader MBean.
+ */
+public interface LeaderMXBean extends ZooKeeperServerMXBean {
+    /**
+     * Current zxid of cluster.
+     */
+    public String getCurrentZxid();
+
+    /**
+     * @return information on current followers
+     */
+    public String followerInfo();
+
+    /**
+     * @return time taken for leader election in milliseconds.
+     */
+    public long getElectionTimeTaken();
 }

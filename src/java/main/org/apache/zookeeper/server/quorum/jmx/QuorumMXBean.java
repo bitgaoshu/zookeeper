@@ -16,18 +16,19 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.jmx;
 
 /**
- * A quorum server MBean.
+ * An MBean representing a zookeeper cluster nodes (aka quorum peers)
  */
-public interface ServerMXBean {
+public interface QuorumMXBean {
     /**
-     * @return name of the server MBean
+     * @return the name of the quorum
      */
     public String getName();
+    
     /**
-     * @return the start time the server 
+     * @return configured number of peers in the quorum
      */
-    public String getStartTime();
+    public int getQuorumSize();
 }

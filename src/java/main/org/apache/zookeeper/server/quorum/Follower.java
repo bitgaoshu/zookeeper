@@ -27,6 +27,7 @@ import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
+import org.apache.zookeeper.server.quorum.jmx.impl.FollowerBean;
 import org.apache.zookeeper.server.util.SerializeUtils;
 import org.apache.zookeeper.server.util.ZxidUtils;
 import org.apache.zookeeper.txn.SetDataTxn;

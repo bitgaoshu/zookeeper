@@ -20,9 +20,7 @@ package org.apache.zookeeper.server.quorum;
 import java.nio.ByteBuffer;
 
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.server.quorum.FastLeaderElection;
-import org.apache.zookeeper.server.quorum.QuorumPeer;
-import org.apache.zookeeper.server.quorum.Vote;
+import org.apache.zookeeper.server.quorum.election.FastLeaderElection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
