@@ -16,33 +16,26 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum.jmx;
+package org.apache.zookeeper.server.quorum.mBean;
+
+import org.apache.zookeeper.server.ZooKeeperServerMXBean;
 
 /**
- * A proxy for a remote quorum peer.
+ * Leader MBean.
  */
-public interface RemotePeerMXBean {
+public interface LeaderMXBean extends ZooKeeperServerMXBean {
     /**
-     * @return name of the peer
+     * Current zxid of cluster.
      */
-    public String getName();
-    /**
-     * @return IP address of the quorum peer 
-     */
-    public String getQuorumAddress();
+    public String getCurrentZxid();
 
     /**
-     * @return the election address
+     * @return information on current followers
      */
-    public String getElectionAddress();
+    public String followerInfo();
 
     /**
-     * @return the client address
+     * @return time taken for leader election in milliseconds.
      */
-    public String getClientAddress();
-
-    /**
-     * @return the learner type
-     */
-    public String getLearnerType();
+    public long getElectionTimeTaken();
 }

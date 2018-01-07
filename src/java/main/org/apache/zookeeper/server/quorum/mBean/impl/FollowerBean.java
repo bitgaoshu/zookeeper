@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum.jmx.impl;
+package org.apache.zookeeper.server.quorum.mBean.impl;
 
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.ZooKeeperServerBean;
 import org.apache.zookeeper.server.quorum.Follower;
-import org.apache.zookeeper.server.quorum.jmx.FollowerMXBean;
+import org.apache.zookeeper.server.quorum.mBean.FollowerMXBean;
 
 /**
  * Follower MBean interface implementation

@@ -16,30 +16,28 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum.jmx.impl;
+package org.apache.zookeeper.server.quorum.mBean.impl;
+
+import java.util.Date;
 
 import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
-import org.apache.zookeeper.server.quorum.QuorumPeer;
-import org.apache.zookeeper.server.quorum.jmx.QuorumMXBean;
+import org.apache.zookeeper.server.quorum.mBean.LeaderElectionMXBean;
 
-public class QuorumBean implements QuorumMXBean, ZKMBeanInfo {
-    private final QuorumPeer peer;
-    private final String name;
-    
-    public QuorumBean(QuorumPeer peer){
-        this.peer = peer;
-        name = "ReplicatedServer_id" + peer.getId();
-    }
-    
+/**
+ * Leader election MBean interface implementation
+ */
+public class LeaderElectionBean implements LeaderElectionMXBean, ZKMBeanInfo {
+    private final Date startTime = new Date();
+
     public String getName() {
-        return name;
+        return "LeaderElection";
     }
-    
+
     public boolean isHidden() {
         return false;
     }
-    
-    public int getQuorumSize() {
-        return peer.getQuorumSize();
+
+    public String getStartTime() {
+        return startTime.toString();
     }
 }

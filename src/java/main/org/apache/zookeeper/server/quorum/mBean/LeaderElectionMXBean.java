@@ -16,24 +16,16 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum.jmx.impl;
+package org.apache.zookeeper.server.quorum.mBean;
 
-import java.util.Date;
-
-import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
-import org.apache.zookeeper.server.quorum.jmx.ServerMXBean;
 
 /**
- * An abstract base class for the leader and follower MBeans.
+ * Leader election protocol MBean. 
  */
-public abstract class ServerBean implements ServerMXBean, ZKMBeanInfo {
-    private final Date startTime=new Date();
-    
-    public boolean isHidden() {
-        return false;
-    }
-
-    public String getStartTime() {
-        return startTime.toString();
-    }
+public interface LeaderElectionMXBean {
+    /**
+     * 
+     * @return the time when the leader election started
+     */
+    public String getStartTime();
 }

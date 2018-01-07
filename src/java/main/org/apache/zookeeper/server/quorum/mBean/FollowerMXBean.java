@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum.jmx;
+package org.apache.zookeeper.server.quorum.mBean;
 
 import org.apache.zookeeper.server.ZooKeeperServerMXBean;
 

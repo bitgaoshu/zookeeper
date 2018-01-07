@@ -38,7 +38,7 @@ public class QuorumMajorityTest extends QuorumBase {
     /***************************************************************/
     @Test
     public void testMajQuorums() throws Throwable {
-        LOG.info("Verify QuorumPeer#electionTimeTaken jmx bean attribute");
+        LOG.info("Verify QuorumPeer#electionTimeTaken mBean bean attribute");
 
         ArrayList<QuorumPeer> peers = getPeerList();
         for (int i = 1; i <= peers.size(); i++) {

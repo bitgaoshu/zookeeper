@@ -16,18 +16,30 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum.jmx;
+package org.apache.zookeeper.server.quorum.mBean.impl;
 
-/**
- * A quorum server MBean.
- */
-public interface ServerMXBean {
-    /**
-     * @return name of the server MBean
-     */
-    public String getName();
-    /**
-     * @return the start time the server 
-     */
-    public String getStartTime();
+import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
+import org.apache.zookeeper.server.quorum.QuorumPeer;
+import org.apache.zookeeper.server.quorum.mBean.QuorumMXBean;
+
+public class QuorumBean implements QuorumMXBean, ZKMBeanInfo {
+    private final QuorumPeer peer;
+    private final String name;
+    
+    public QuorumBean(QuorumPeer peer){
+        this.peer = peer;
+        name = "ReplicatedServer_id" + peer.getId();
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public boolean isHidden() {
+        return false;
+    }
+    
+    public int getQuorumSize() {
+        return peer.getQuorumSize();
+    }
 }

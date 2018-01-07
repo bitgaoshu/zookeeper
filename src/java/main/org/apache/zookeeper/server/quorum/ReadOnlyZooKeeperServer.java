@@ -29,7 +29,7 @@ import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.ZooKeeperServerBean;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
-import org.apache.zookeeper.server.quorum.jmx.impl.LocalPeerBean;
+import org.apache.zookeeper.server.quorum.mBean.impl.LocalPeerBean;
 
 /**
  * A ZooKeeperServer which comes into play when peer is partitioned from the

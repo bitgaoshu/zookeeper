@@ -19,7 +19,7 @@
 package org.apache.zookeeper.server;
 
 import org.apache.zookeeper.server.quorum.Observer;
-import org.apache.zookeeper.server.quorum.jmx.ObserverMXBean;
+import org.apache.zookeeper.server.quorum.mBean.ObserverMXBean;
 
 /**
  * ObserverBean

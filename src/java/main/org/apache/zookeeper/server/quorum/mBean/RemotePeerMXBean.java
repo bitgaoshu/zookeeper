@@ -16,16 +16,33 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum.jmx;
-
+package org.apache.zookeeper.server.quorum.mBean;
 
 /**
- * Leader election protocol MBean. 
+ * A proxy for a remote quorum peer.
  */
-public interface LeaderElectionMXBean {
+public interface RemotePeerMXBean {
     /**
-     * 
-     * @return the time when the leader election started
+     * @return name of the peer
      */
-    public String getStartTime();
+    public String getName();
+    /**
+     * @return IP address of the quorum peer 
+     */
+    public String getQuorumAddress();
+
+    /**
+     * @return the election address
+     */
+    public String getElectionAddress();
+
+    /**
+     * @return the client address
+     */
+    public String getClientAddress();
+
+    /**
+     * @return the learner type
+     */
+    public String getLearnerType();
 }

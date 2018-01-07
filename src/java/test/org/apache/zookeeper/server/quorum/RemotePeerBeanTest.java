@@ -24,7 +24,7 @@ import static org.junit.Assert.assertNotNull;
 import java.net.InetSocketAddress;
 
 import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
-import org.apache.zookeeper.server.quorum.jmx.impl.RemotePeerBean;
+import org.apache.zookeeper.server.quorum.mBean.impl.RemotePeerBean;
 import org.junit.Test;
 
 public class RemotePeerBeanTest {

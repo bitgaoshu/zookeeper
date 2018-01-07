@@ -16,19 +16,22 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum.jmx;
+package org.apache.zookeeper.server.quorum.mBean;
+
+import org.apache.zookeeper.server.ZooKeeperServerMXBean;
 
 /**
- * An MBean representing a zookeeper cluster nodes (aka quorum peers)
+ * Observer MX Bean interface, implemented by ObserverBean
+ *
  */
-public interface QuorumMXBean {
+public interface ObserverMXBean extends ZooKeeperServerMXBean {
     /**
-     * @return the name of the quorum
+     * @return count of pending revalidations
      */
-    public String getName();
+    public int getPendingRevalidationCount();
     
     /**
-     * @return configured number of peers in the quorum
+     * @return socket address
      */
-    public int getQuorumSize();
+    public String getQuorumAddress();
 }

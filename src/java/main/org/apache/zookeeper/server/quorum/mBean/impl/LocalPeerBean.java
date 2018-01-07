@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum.jmx.impl;
+package org.apache.zookeeper.server.quorum.mBean.impl;
 
 
 import org.apache.zookeeper.server.quorum.QuorumPeer;
-import org.apache.zookeeper.server.quorum.jmx.LocalPeerMXBean;
+import org.apache.zookeeper.server.quorum.mBean.LocalPeerMXBean;
 
 /**
  * Implementation of the local peer MBean interface.

@@ -39,11 +39,11 @@ public class ManagedUtil {
         try {
             Class.forName("org.apache.log4j.spi.LoggerRepository");
 
-            if (Boolean.getBoolean("zookeeper.jmx.log4j.disable") == true) {
-                LOG.info("Log4j found but jmx support is disabled.");
+            if (Boolean.getBoolean("zookeeper.mBean.log4j.disable") == true) {
+                LOG.info("Log4j found but mBean support is disabled.");
             } else {
                 enabled = true;
-                LOG.info("Log4j found with jmx enabled.");
+                LOG.info("Log4j found with mBean enabled.");
             }
 
         } catch (ClassNotFoundException e) {
@@ -56,8 +56,8 @@ public class ManagedUtil {
 
     /**
      * Register the log4j JMX mbeans. Set environment variable
-     * "zookeeper.jmx.log4j.disable" to true to disable registration.
-     * @see http://logging.apache.org/log4j/1.2/apidocs/index.html?org/apache/log4j/jmx/package-summary.html
+     * "zookeeper.mBean.log4j.disable" to true to disable registration.
+     * @see http://logging.apache.org/log4j/1.2/apidocs/index.html?org/apache/log4j/mBean/package-summary.html
      * @throws JMException if registration fails
      */
     @SuppressWarnings("rawtypes")
@@ -68,7 +68,7 @@ public class ManagedUtil {
 
             try {
                 // Create and Register the top level Log4J MBean
-                // org.apache.log4j.jmx.HierarchyDynamicMBean hdm = new org.apache.log4j.jmx.HierarchyDynamicMBean();
+                // org.apache.log4j.mBean.HierarchyDynamicMBean hdm = new org.apache.log4j.mBean.HierarchyDynamicMBean();
                 Object hdm = Class.forName("org.apache.log4j.jmx.HierarchyDynamicMBean").newInstance();
 
                 ObjectName mbo = new ObjectName("log4j:hiearchy=default");
@@ -111,7 +111,7 @@ public class ManagedUtil {
                             .invoke(hdm, loggerName);
                 }
             } catch (Exception e) {
-                LOG.error("Problems while registering log4j jmx beans!", e);
+                LOG.error("Problems while registering log4j mBean beans!", e);
                 throw new JMException(e.toString());
             }
         }

@@ -904,7 +904,7 @@ public class ReconfigTest extends ZKTestCase implements DataCallback{
     }
 
     /**
-     * Tests verifies the jmx attributes of local and remote peer bean - remove
+     * Tests verifies the mBean attributes of local and remote peer bean - remove
      * one quorum peer and again adding it back
      */
     @Test
@@ -983,7 +983,7 @@ public class ReconfigTest extends ZKTestCase implements DataCallback{
     }
 
     /**
-     * Tests verifies the jmx attributes of local and remote peer bean - change
+     * Tests verifies the mBean attributes of local and remote peer bean - change
      * participant to observer role
      */
     @Test

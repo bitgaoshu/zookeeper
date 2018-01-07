@@ -16,13 +16,13 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum.jmx.impl;
+package org.apache.zookeeper.server.quorum.mBean.impl;
 
 import org.apache.zookeeper.server.ZooKeeperServerBean;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.quorum.Leader;
 import org.apache.zookeeper.server.quorum.LearnerHandler;
-import org.apache.zookeeper.server.quorum.jmx.LeaderMXBean;
+import org.apache.zookeeper.server.quorum.mBean.LeaderMXBean;
 
 /**
  * Leader MBean interface implementation.
