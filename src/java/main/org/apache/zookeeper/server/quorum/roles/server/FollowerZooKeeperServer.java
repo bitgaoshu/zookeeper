@@ -54,8 +54,8 @@ public class FollowerZooKeeperServer extends LearnerZooKeeperServer {
     /*
      * Pending sync requests
      */
-    ConcurrentLinkedQueue<Request> pendingSyncs;
-    LinkedBlockingQueue<Request> pendingTxns = new LinkedBlockingQueue<Request>();
+    private ConcurrentLinkedQueue<Request> pendingSyncs;
+    private LinkedBlockingQueue<Request> pendingTxns = new LinkedBlockingQueue<Request>();
 
     /**
      * @throws IOException
@@ -113,6 +113,10 @@ public class FollowerZooKeeperServer extends LearnerZooKeeperServer {
         }
         Request request = pendingTxns.remove();
         commitProcessor.commit(request);
+    }
+
+    public Request syncFirst() {
+        return pendingTxns.element();
     }
 
     synchronized public void sync() {

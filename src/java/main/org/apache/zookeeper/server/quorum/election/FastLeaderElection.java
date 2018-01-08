@@ -95,7 +95,7 @@ public class FastLeaderElection implements Election {
      * peer with higher zxid or same zxid and higher server id
      */
 
-    static public class Notification {
+    private static class Notification {
         /*
          * Format version, introduced in 3.4.6
          */

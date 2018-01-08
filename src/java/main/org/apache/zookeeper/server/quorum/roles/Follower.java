@@ -65,9 +65,8 @@ public class Follower extends Learner {
     /**
      * the main method called by the follower to follow the leader
      *
-     * @throws InterruptedException
      */
-    public void followLeader() throws InterruptedException {
+    public void followLeader()  {
         self.end_fle = Time.currentElapsedTime();
         long electionTimeTaken = self.end_fle - self.start_fle;
         self.setElectionTimeTaken(electionTimeTaken);
@@ -109,7 +108,7 @@ public class Follower extends Learner {
                 pendingRevalidations.clear();
             }
         } finally {
-            zk.unregisterJMX((Learner) this);
+            zk.unregisterJMX( this);
         }
     }
 
@@ -150,7 +149,7 @@ public class Follower extends Learner {
 
             case COMMITANDACTIVATE:
                 // get the new configuration from the request
-                Request request = fzk.pendingTxns.element();
+                Request request = fzk.syncFirst();
                 SetDataTxn setDataTxn = (SetDataTxn) request.getTxn();
                 QuorumVerifier qv = self.configFromString(new String(setDataTxn.getData()));
 
