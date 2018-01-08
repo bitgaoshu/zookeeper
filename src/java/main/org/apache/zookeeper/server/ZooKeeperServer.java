@@ -21,18 +21,20 @@ package org.apache.zookeeper.server;
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
-import org.apache.zookeeper.operation.OpType;
-import org.apache.zookeeper.server.jmx.impl.DataTreeBean;
-import org.apache.zookeeper.server.jmx.impl.ZooKeeperServerBean;
-import org.apache.zookeeper.util.LogEnv;
-import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.exception.KeeperException.KECode;
-import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.data.StatPersisted;
-import org.apache.zookeeper.server.jmx.MBeanRegistry;
-import org.apache.zookeeper.proto.*;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.exception.KeeperException.KECode;
+import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
+import org.apache.zookeeper.operation.OpType;
+import org.apache.zookeeper.proto.AuthPacket;
+import org.apache.zookeeper.proto.ConnectRequest;
+import org.apache.zookeeper.proto.ConnectResponse;
+import org.apache.zookeeper.proto.GetSASLRequest;
+import org.apache.zookeeper.proto.ReplyHeader;
+import org.apache.zookeeper.proto.RequestHeader;
+import org.apache.zookeeper.proto.SetSASLResponse;
 import org.apache.zookeeper.server.DataTree.ProcessTxnResult;
 import org.apache.zookeeper.server.RequestProcessor.RequestProcessorException;
 import org.apache.zookeeper.server.SessionTracker.Session;
@@ -42,17 +44,32 @@ import org.apache.zookeeper.server.auth.ServerAuthenticationProvider;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.exception.CloseRequestException;
+import org.apache.zookeeper.server.jmx.MBeanRegistry;
+import org.apache.zookeeper.server.jmx.impl.DataTreeBean;
+import org.apache.zookeeper.server.jmx.impl.ZooKeeperServerBean;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.quorum.ReadOnlyZooKeeperServer;
 import org.apache.zookeeper.txn.CreateSessionTxn;
 import org.apache.zookeeper.txn.TxnHeader;
+import org.apache.zookeeper.util.LogEnv;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.sasl.SaslException;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.nio.ByteBuffer;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -88,9 +105,13 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     protected ZooKeeperServerBean jmxServerBean;
     protected DataTreeBean jmxDataTreeBean;
     protected int tickTime = DEFAULT_TICK_TIME;
-    /** value of -1 indicates unset, use default */
+    /**
+     * value of -1 indicates unset, use default
+     */
     protected int minSessionTimeout = -1;
-    /** value of -1 indicates unset, use default */
+    /**
+     * value of -1 indicates unset, use default
+     */
     protected int maxSessionTimeout = -1;
     protected SessionTracker sessionTracker;
     protected RequestProcessor firstProcessor;
@@ -100,6 +121,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     private FileTxnSnapLog txnLogFactory = null;
     private ZKDatabase zkDb;
     private ZooKeeperServerShutdownHandler zkShutdownHandler;
+
     /**
      * Creates a ZooKeeperServer instance. Nothing is setup, use the setX
      * methods to prepare the instance (eg datadir, datalogdir, ticktime,
@@ -115,7 +137,6 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     /**
      * Creates a ZooKeeperServer instance. It sets everything up, but doesn't
      * actually start listening for clients until run() is invoked.
-     *
      */
     public ZooKeeperServer(FileTxnSnapLog txnLogFactory, int tickTime,
                            int minSessionTimeout, int maxSessionTimeout, ZKDatabase zkDb) {
@@ -135,8 +156,9 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
 
     /**
      * creates a zookeeperserver instance.
+     *
      * @param txnLogFactory the file transaction snapshot logging class
-     * @param tickTime the ticktime for the server
+     * @param tickTime      the ticktime for the server
      * @throws IOException
      */
     public ZooKeeperServer(FileTxnSnapLog txnLogFactory, int tickTime)
@@ -205,7 +227,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         pwriter.print("tickTime=");
         pwriter.println(getTickTime());
         pwriter.print("maxClientCnxns=");
-        pwriter.println(getMaxClientCnxnsPerHost());
+        pwriter.println(serverCnxnFactory.getMaxClientCnxnsPerHost());
         pwriter.print("minSessionTimeout=");
         pwriter.println(getMinSessionTimeout());
         pwriter.print("maxSessionTimeout=");
@@ -229,6 +251,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
 
     /**
      * get the zookeeper database for this server
+     *
      * @return the zookeeper database for this server
      */
     public ZKDatabase getZKDatabase() {
@@ -237,6 +260,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
 
     /**
      * set the zkdatabase for this zookeeper server
+     *
      * @param zkDb
      */
     public void setZKDatabase(ZKDatabase zkDb) {
@@ -244,7 +268,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     }
 
     /**
-     *  Restore sessions and data
+     * Restore sessions and data
      */
     public void loadData() throws IOException, InterruptedException {
         /*
@@ -468,7 +492,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
      * is already shutdown or not.
      *
      * @return true if the server is running or server hits an error, false
-     *         otherwise.
+     * otherwise.
      */
     protected boolean canShutdown() {
         return state == State.RUNNING || state == State.ERROR;
@@ -487,6 +511,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
 
     /**
      * Shut down the server instance
+     *
      * @param fullyShutDown true if another server using the same database will not replace this one in the same process
      */
     public synchronized void shutdown(boolean fullyShutDown) {
@@ -583,7 +608,8 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
 
     /**
      * set the owner of this session as owner
-     * @param id the session id
+     *
+     * @param id    the session id
      * @param owner the owner of the session
      * @throws SessionExpiredException
      */
@@ -742,12 +768,21 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         return serverCnxnFactory;
     }
 
-    public ServerCnxnFactory getSecureServerCnxnFactory() {
-        return secureServerCnxnFactory;
-    }
-
     public void setServerCnxnFactory(ServerCnxnFactory factory) {
         serverCnxnFactory = factory;
+    }
+
+    public int getClientPort() {
+        if (serverCnxnFactory!= null) {
+            return serverCnxnFactory.getLocalPort();
+        }
+        if( secureServerCnxnFactory != null) {
+            return secureServerCnxnFactory.getLocalPort();
+        }
+        return -1;
+    }
+    public ServerCnxnFactory getSecureServerCnxnFactory() {
+        return secureServerCnxnFactory;
     }
 
     public void setSecureServerCnxnFactory(ServerCnxnFactory factory) {
@@ -792,8 +827,9 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     /**
      * trunccate the log to get in sync with others
      * if in a quorum
+     *
      * @param zxid the zxid that it needs to get in sync
-     * with others
+     *             with others
      * @throws IOException
      */
     public void truncateLog(long zxid) throws IOException {
@@ -966,8 +1002,8 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     /**
      * process request from client side.
      *
-     * @param cnxn  ServerCnxn
-     * @param incomingBuffer  bytebuffer
+     * @param cnxn           ServerCnxn
+     * @param incomingBuffer bytebuffer
      * @throws IOException
      */
     /**/

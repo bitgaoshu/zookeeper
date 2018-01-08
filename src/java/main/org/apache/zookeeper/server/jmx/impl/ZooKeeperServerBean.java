@@ -86,11 +86,22 @@ public class ZooKeeperServerBean implements ZooKeeperServerMXBean, ZKMBeanInfo {
     }
 
     public int getMaxClientCnxnsPerHost() {
-        return zks.getMaxClientCnxnsPerHost();
+        if (zks.getSecureServerCnxnFactory()!= null) {
+            return zks.getSecureServerCnxnFactory().getMaxClientCnxnsPerHost();
+        }
+        if (zks.getServerCnxnFactory() != null) {
+            return zks.getServerCnxnFactory().getMaxClientCnxnsPerHost();
+        }
+        return -1;
     }
 
     public void setMaxClientCnxnsPerHost(int max) {
-        zks.setMaxClientCnxnsPerHost(max);
+        if (zks.getServerCnxnFactory() != null) {
+            zks.getServerCnxnFactory().setMaxClientCnxnsPerHost(max);
+        }
+        if (zks.getSecureServerCnxnFactory() != null) {
+            zks.getSecureServerCnxnFactory().setMaxClientCnxnsPerHost(max);
+        }
     }
 
     public int getMinSessionTimeout() {
@@ -145,15 +156,15 @@ public class ZooKeeperServerBean implements ZooKeeperServerMXBean, ZKMBeanInfo {
 
     @Override
     public String getSecureClientPort() {
-        return Integer.toString(zks.getSecureClientPort());
+        return Integer.toString(zks.getSecureServerCnxnFactory().getLocalPort());
     }
 
     @Override
     public String getSecureClientAddress() {
-        if (zks.secureServerCnxnFactory != null) {
-            return String.format("%s:%d", zks.secureServerCnxnFactory
+        if (zks.getSecureServerCnxnFactory() != null) {
+            return String.format("%s:%d", zks.getSecureServerCnxnFactory()
                     .getLocalAddress().getHostString(),
-                    zks.secureServerCnxnFactory.getLocalPort());
+                    zks.getSecureServerCnxnFactory().getLocalPort());
         }
         return "";
     }
