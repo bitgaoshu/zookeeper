@@ -34,6 +34,7 @@ import java.util.concurrent.TimeUnit;
 import java.net.Socket;
 
 import org.apache.zookeeper.server.common.Time;
+import org.apache.zookeeper.server.quorum.QuorumState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.PortAssignment;
@@ -44,7 +45,6 @@ import org.apache.zookeeper.server.quorum.election.QuorumCnxManager.InitialMessa
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.LearnerType;
 import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
-import org.apache.zookeeper.server.quorum.ServerState;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -118,7 +118,7 @@ public class CnxManagerTest extends ZKTestCase {
                 }
 
                 long sid = 1;
-                cnxManager.toSend(sid, createMsg(ServerState.LOOKING.ordinal(), 0, -1, 1));
+                cnxManager.toSend(sid, createMsg(QuorumState.LOOKING.ordinal(), 0, -1, 1));
 
                 Message m = null;
                 int numRetries = 1;
@@ -161,7 +161,7 @@ public class CnxManagerTest extends ZKTestCase {
             LOG.error("Null listener when initializing cnx manager");
         }
 
-        cnxManager.toSend(0L, createMsg(ServerState.LOOKING.ordinal(), 1, -1, 1));
+        cnxManager.toSend(0L, createMsg(QuorumState.LOOKING.ordinal(), 1, -1, 1));
 
         Message m = null;
         int numRetries = 1;
@@ -209,7 +209,7 @@ public class CnxManagerTest extends ZKTestCase {
         }
 
         long begin = Time.currentElapsedTime();
-        cnxManager.toSend(2L, createMsg(ServerState.LOOKING.ordinal(), 1, -1, 1));
+        cnxManager.toSend(2L, createMsg(QuorumState.LOOKING.ordinal(), 1, -1, 1));
         long end = Time.currentElapsedTime();
 
         if((end - begin) > 6000) Assert.fail("Waited more than necessary");

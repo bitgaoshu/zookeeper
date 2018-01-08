@@ -140,7 +140,7 @@ public class RaceConditionTest extends QuorumPeerTestBase {
     private QuorumPeer getLeader(MainThread[] mt) {
         for (int i = mt.length - 1; i >= 0; i--) {
             QuorumPeer quorumPeer = mt[i].getQuorumPeer();
-            if (quorumPeer != null && ServerState.LEADING == quorumPeer.getPeerState()) {
+            if (quorumPeer != null && QuorumState.LEADING == quorumPeer.getPeerState()) {
                 return quorumPeer;
             }
         }
@@ -150,7 +150,7 @@ public class RaceConditionTest extends QuorumPeerTestBase {
     private void shutdownFollowers(MainThread[] mt) {
         for (int i = 0; i < mt.length; i++) {
             CustomQuorumPeer quorumPeer = (CustomQuorumPeer) mt[i].getQuorumPeer();
-            if (quorumPeer != null && ServerState.FOLLOWING == quorumPeer.getPeerState()) {
+            if (quorumPeer != null && QuorumState.FOLLOWING == quorumPeer.getPeerState()) {
                 quorumPeer.setStopPing(true);
             }
         }

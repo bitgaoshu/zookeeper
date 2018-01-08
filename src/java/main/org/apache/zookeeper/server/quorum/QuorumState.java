@@ -1,6 +1,6 @@
 package org.apache.zookeeper.server.quorum;
 
-public enum ServerState {
+public enum QuorumState {
     LOOKING,
     FOLLOWING,
     LEADING,

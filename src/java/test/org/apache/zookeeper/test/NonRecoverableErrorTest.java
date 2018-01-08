@@ -27,12 +27,12 @@ import java.util.UUID;
 
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.PortAssignment;
+import org.apache.zookeeper.server.quorum.QuorumState;
 import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
-import org.apache.zookeeper.server.quorum.ServerState;
 import org.apache.zookeeper.server.quorum.QuorumPeerTestBase;
 import org.apache.zookeeper.test.ClientBase.CountdownWatcher;
 import org.junit.Assert;
@@ -170,7 +170,7 @@ public class NonRecoverableErrorTest extends QuorumPeerTestBase {
         for (int i = mt.length - 1; i >= 0; i--) {
             QuorumPeer quorumPeer = mt[i].getQuorumPeer();
             if (null != quorumPeer
-                    && ServerState.LEADING == quorumPeer.getPeerState()) {
+                    && QuorumState.LEADING == quorumPeer.getPeerState()) {
                 return quorumPeer;
             }
         }

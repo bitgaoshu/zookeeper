@@ -104,7 +104,7 @@ public class EphemeralNodeDeletionTest extends QuorumPeerTestBase {
 
         // 2: inject network problem in one of the follower
         CustomQuorumPeer follower = (CustomQuorumPeer) getByServerState(mt,
-                ServerState.FOLLOWING);
+                QuorumState.FOLLOWING);
         follower.setInjectError(true);
 
         // 3: close the session so that ephemeral node is deleted
@@ -118,7 +118,7 @@ public class EphemeralNodeDeletionTest extends QuorumPeerTestBase {
                         "127.0.0.1:" + follower.getClientAddress(),
                         CONNECTION_TIMEOUT));
 
-        QuorumPeer leader = getByServerState(mt, ServerState.LEADING);
+        QuorumPeer leader = getByServerState(mt, QuorumState.LEADING);
         assertNotNull("leader should not be null", leader);
         Assert.assertTrue("leader must be running", ClientBase.waitForServerUp(
                 "127.0.0.1:" + leader.getClientAddress(), CONNECTION_TIMEOUT));
@@ -171,7 +171,7 @@ public class EphemeralNodeDeletionTest extends QuorumPeerTestBase {
         }
     }
 
-    private QuorumPeer getByServerState(MainThread[] mt, ServerState state) {
+    private QuorumPeer getByServerState(MainThread[] mt, QuorumState state) {
         for (int i = mt.length - 1; i >= 0; i--) {
             QuorumPeer quorumPeer = mt[i].getQuorumPeer();
             if (null != quorumPeer && state == quorumPeer.getPeerState()) {

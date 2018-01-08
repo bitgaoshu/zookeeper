@@ -36,7 +36,7 @@ import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.server.jmx.CommonNames;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
-import org.apache.zookeeper.server.quorum.ServerState;
+import org.apache.zookeeper.server.quorum.QuorumState;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
 import org.apache.zookeeper.server.quorum.flexible.QuorumHierarchical;
 import org.apache.zookeeper.server.quorum.flexible.QuorumMaj;
@@ -420,7 +420,7 @@ public class ReconfigTest extends ZKTestCase implements DataCallback{
         // about the change and becomes an observer.
 
         qu.restart(leavingIndex2);
-        Assert.assertTrue(qu.getPeer(leavingIndex2).peer.getPeerState() == ServerState.OBSERVING);
+        Assert.assertTrue(qu.getPeer(leavingIndex2).peer.getPeerState() == QuorumState.OBSERVING);
         testNormalOperation(zkArr[stayingIndex2], zkArr[leavingIndex2]);
         testServerHasConfig(zkArr[leavingIndex2], joiningServers, null);
 
@@ -561,13 +561,13 @@ public class ReconfigTest extends ZKTestCase implements DataCallback{
                 Assert.assertTrue(qu.getPeer(changingIndex).peer.observer != null
                         && qu.getPeer(changingIndex).peer.follower == null
                         && qu.getPeer(changingIndex).peer.leader == null);
-                Assert.assertTrue(qu.getPeer(changingIndex).peer.getPeerState() == ServerState.OBSERVING);
+                Assert.assertTrue(qu.getPeer(changingIndex).peer.getPeerState() == QuorumState.OBSERVING);
             } else {
                 Assert.assertTrue(qu.getPeer(changingIndex).peer.observer == null
                         && (qu.getPeer(changingIndex).peer.follower != null || qu
                                 .getPeer(changingIndex).peer.leader != null));
-                Assert.assertTrue(qu.getPeer(changingIndex).peer.getPeerState() == ServerState.FOLLOWING
-                        || qu.getPeer(changingIndex).peer.getPeerState() == ServerState.LEADING);
+                Assert.assertTrue(qu.getPeer(changingIndex).peer.getPeerState() == QuorumState.FOLLOWING
+                        || qu.getPeer(changingIndex).peer.getPeerState() == QuorumState.LEADING);
             }
 
             joiningServers.clear();
@@ -1036,7 +1036,7 @@ public class ReconfigTest extends ZKTestCase implements DataCallback{
         Assert.assertTrue(qu.getPeer(changingIndex).peer.observer != null
                 && qu.getPeer(changingIndex).peer.follower == null
                 && qu.getPeer(changingIndex).peer.leader == null);
-        Assert.assertTrue(qu.getPeer(changingIndex).peer.getPeerState() == ServerState.OBSERVING);
+        Assert.assertTrue(qu.getPeer(changingIndex).peer.getPeerState() == QuorumState.OBSERVING);
 
         QuorumPeer qp = qu.getPeer(changingIndex).peer;
         String localPeerBeanName = CommonNames.DOMAIN

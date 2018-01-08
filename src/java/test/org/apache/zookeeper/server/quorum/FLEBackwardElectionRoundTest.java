@@ -95,7 +95,7 @@ public class FLEBackwardElectionRoundTest extends ZKTestCase {
             port[i] = clientport;
         }
 
-        ByteBuffer initialMsg = FLETestUtils.createMsg(ServerState.FOLLOWING.ordinal(), 0, 0, 1);
+        ByteBuffer initialMsg = FLETestUtils.createMsg(QuorumState.FOLLOWING.ordinal(), 0, 0, 1);
 
         /*
          * Start server 0

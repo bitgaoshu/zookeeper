@@ -42,7 +42,7 @@ import org.apache.zookeeper.ZKParameterized;
 @RunWith(Parameterized.class)
 @Parameterized.UseParametersRunnerFactory(ZKParameterized.RunnerFactory.class)
 public class QuorumRequestPipelineTest extends QuorumBase {
-    protected ServerState serverState;
+    protected QuorumState serverState;
     protected final CountDownLatch callComplete = new CountDownLatch(1);
     protected boolean complete = false;
     protected final static String PARENT_PATH = "/foo";
@@ -57,12 +57,12 @@ public class QuorumRequestPipelineTest extends QuorumBase {
     public static Collection<Object[]> data() {
         return Arrays.asList(
             new Object[][] {
-                {ServerState.LEADING},
-                {ServerState.FOLLOWING},
-                {ServerState.OBSERVING}});
+                {QuorumState.LEADING},
+                {QuorumState.FOLLOWING},
+                {QuorumState.OBSERVING}});
     }
 
-    public QuorumRequestPipelineTest(ServerState state) {
+    public QuorumRequestPipelineTest(QuorumState state) {
         this.serverState = state;
     }
 

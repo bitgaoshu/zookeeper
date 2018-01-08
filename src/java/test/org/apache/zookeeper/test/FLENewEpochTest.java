@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.Semaphore;
 
+import org.apache.zookeeper.server.quorum.QuorumState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.PortAssignment;
@@ -32,7 +33,6 @@ import org.apache.zookeeper.server.quorum.election.FastLeaderElection;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.election.Vote;
 import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
-import org.apache.zookeeper.server.quorum.ServerState;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -94,7 +94,7 @@ public class FLENewEpochTest extends ZKTestCase {
             try{
                 while(flag){
                     Vote v = null;
-                    peer.setPeerState(ServerState.LOOKING);
+                    peer.setPeerState(QuorumState.LOOKING);
                     LOG.info("Going to call leader election again: " + i);
                     v = peer.getElectionAlg().lookForLeader();
 
@@ -115,7 +115,7 @@ public class FLENewEpochTest extends ZKTestCase {
                     case 0:
                         LOG.info("First peer, do nothing, just join");
                         if(finish0.tryAcquire(1000, java.util.concurrent.TimeUnit.MILLISECONDS)){
-                        //if(threads.get(0).peer.getPeerState() == ServerState.LEADING ){
+                        //if(threads.get(0).peer.getPeerState() == QuorumState.LEADING ){
                             LOG.info("Setting flag to false");
                             flag = false;
                         }

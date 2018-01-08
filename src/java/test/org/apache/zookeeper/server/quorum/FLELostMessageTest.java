@@ -95,8 +95,8 @@ public class FLELostMessageTest extends ZKTestCase {
         cnxManager = new QuorumCnxManager(peer);
         cnxManager.listener.start();
 
-        cnxManager.toSend(1l, FLETestUtils.createMsg(ServerState.LOOKING.ordinal(), 0, 0, 0));
+        cnxManager.toSend(1l, FLETestUtils.createMsg(QuorumState.LOOKING.ordinal(), 0, 0, 0));
         cnxManager.recvQueue.take();
-        cnxManager.toSend(1L, FLETestUtils.createMsg(ServerState.FOLLOWING.ordinal(), 1, 0, 0));
+        cnxManager.toSend(1L, FLETestUtils.createMsg(QuorumState.FOLLOWING.ordinal(), 1, 0, 0));
     }
 }

@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.server.quorum.election;
 
-import org.apache.zookeeper.server.quorum.ServerState;
+import org.apache.zookeeper.server.quorum.QuorumState;
 
 
 public class Vote {
@@ -30,7 +30,7 @@ public class Vote {
         this.zxid = zxid;
         this.electionEpoch = -1;
         this.peerEpoch = -1;
-        this.state = ServerState.LOOKING;
+        this.state = QuorumState.LOOKING;
     }
     
     public Vote(long id,
@@ -41,7 +41,7 @@ public class Vote {
         this.zxid = zxid;
         this.electionEpoch = -1;
         this.peerEpoch = peerEpoch;
-        this.state = ServerState.LOOKING;
+        this.state = QuorumState.LOOKING;
     }
 
     public Vote(long id,
@@ -53,7 +53,7 @@ public class Vote {
         this.zxid = zxid;
         this.electionEpoch = electionEpoch;
         this.peerEpoch = peerEpoch;
-        this.state = ServerState.LOOKING;
+        this.state = QuorumState.LOOKING;
     }
     
     public Vote(int version,
@@ -61,7 +61,7 @@ public class Vote {
                     long zxid,
                     long electionEpoch,
                     long peerEpoch,
-                    ServerState state) {
+                    QuorumState state) {
         this.version = version;
         this.id = id;
         this.zxid = zxid;
@@ -74,7 +74,7 @@ public class Vote {
                     long zxid,
                     long electionEpoch,
                     long peerEpoch,
-                    ServerState state) {
+                    QuorumState state) {
         this.id = id;
         this.zxid = zxid;
         this.electionEpoch = electionEpoch;
@@ -113,11 +113,11 @@ public class Vote {
         return peerEpoch;
     }
 
-    public ServerState getState() {
+    public QuorumState getState() {
         return state;
     }
 
-    final private ServerState state;
+    final private QuorumState state;
     
     @Override
     public boolean equals(Object o) {

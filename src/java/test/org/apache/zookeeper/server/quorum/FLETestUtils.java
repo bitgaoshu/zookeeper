@@ -48,7 +48,7 @@ public class FLETestUtils extends ZKTestCase {
         public void run() {
             try {
                 Vote v = null;
-                peer.setPeerState(ServerState.LOOKING);
+                peer.setPeerState(QuorumState.LOOKING);
                 LOG.info("Going to call leader election: {}", i);
                 v = peer.getElectionAlg().lookForLeader();
 
@@ -64,7 +64,7 @@ public class FLETestUtils extends ZKTestCase {
 
                 LOG.info("Finished election: {}, {}", i, v.getId());
 
-                Assert.assertTrue("State is not leading.", peer.getPeerState() == ServerState.LEADING);
+                Assert.assertTrue("State is not leading.", peer.getPeerState() == QuorumState.LEADING);
             } catch (Exception e) {
                 e.printStackTrace();
             }

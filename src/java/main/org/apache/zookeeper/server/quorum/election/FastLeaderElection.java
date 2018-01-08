@@ -29,10 +29,10 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.server.ZooKeeperThread;
+import org.apache.zookeeper.server.quorum.QuorumState;
 import org.apache.zookeeper.server.quorum.election.QuorumCnxManager.Message;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.LearnerType;
-import org.apache.zookeeper.server.quorum.ServerState;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig.ConfigException;
 import org.apache.zookeeper.server.quorum.SyncedLearnerTracker;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
@@ -121,7 +121,7 @@ public class FastLeaderElection implements Election {
         /*
          * current state of sender
          */
-        ServerState state;
+        QuorumState state;
 
         /*
          * Address of sender
@@ -149,7 +149,7 @@ public class FastLeaderElection implements Election {
                 long leader,
                 long zxid,
                 long electionEpoch,
-                ServerState state,
+                QuorumState state,
                 long sid,
                 long peerEpoch,
                 byte[] configData) {
@@ -181,7 +181,7 @@ public class FastLeaderElection implements Election {
         /*
          * Current state;
          */
-        ServerState state;
+        QuorumState state;
 
         /*
          * Address of recipient
@@ -294,7 +294,7 @@ public class FastLeaderElection implements Election {
                                         LOG.info("{} Received version: {} my version: {}", self.getId(),
                                                 Long.toHexString(rqv.getVersion()),
                                                 Long.toHexString(self.getQuorumVerifier().getVersion()));
-                                        if (self.getPeerState() == ServerState.LOOKING) {
+                                        if (self.getPeerState() == QuorumState.LOOKING) {
                                             LOG.debug("Invoking processReconfig(), state: {}", self.getServerState());
                                             self.processReconfig(rqv, null, null, false);
                                             if (!rqv.equals(curQV)) {
@@ -343,19 +343,19 @@ public class FastLeaderElection implements Election {
                             }
 
                             // State of peer that sent this message
-                            ServerState ackstate = ServerState.LOOKING;
+                            QuorumState ackstate = QuorumState.LOOKING;
                             switch (rstate) {
                             case 0:
-                                ackstate = ServerState.LOOKING;
+                                ackstate = QuorumState.LOOKING;
                                 break;
                             case 1:
-                                ackstate = ServerState.FOLLOWING;
+                                ackstate = QuorumState.FOLLOWING;
                                 break;
                             case 2:
-                                ackstate = ServerState.LEADING;
+                                ackstate = QuorumState.LEADING;
                                 break;
                             case 3:
-                                ackstate = ServerState.OBSERVING;
+                                ackstate = QuorumState.OBSERVING;
                                 break;
                             default:
                                 continue;
@@ -380,7 +380,7 @@ public class FastLeaderElection implements Election {
                              * If this server is looking, then send proposed leader
                              */
 
-                            if(self.getPeerState() == ServerState.LOOKING){
+                            if(self.getPeerState() == QuorumState.LOOKING){
                                 recvqueue.offer(n);
 
                                 /*
@@ -388,7 +388,7 @@ public class FastLeaderElection implements Election {
                                  * message is also looking and its logical clock is
                                  * lagging behind.
                                  */
-                                if((ackstate == ServerState.LOOKING)
+                                if((ackstate == QuorumState.LOOKING)
                                         && (n.electionEpoch < logicalclock.get())){
                                     Vote v = getVote();
                                     QuorumVerifier qv = self.getQuorumVerifier();
@@ -408,7 +408,7 @@ public class FastLeaderElection implements Election {
                                  * is looking, then send back what it believes to be the leader.
                                  */
                                 Vote current = self.getCurrentVote();
-                                if(ackstate == ServerState.LOOKING){
+                                if(ackstate == QuorumState.LOOKING){
                                     if(LOG.isDebugEnabled()){
                                         LOG.debug("Sending new notification. My id ={} recipient={} zxid=0x{} leader={} config version = {}",
                                                 self.getId(),
@@ -671,7 +671,7 @@ public class FastLeaderElection implements Election {
                     proposedLeader,
                     proposedZxid,
                     logicalclock.get(),
-                    ServerState.LOOKING,
+                    QuorumState.LOOKING,
                     sid,
                     proposedEpoch, qv.toString().getBytes());
             if(LOG.isDebugEnabled()){
@@ -780,7 +780,7 @@ public class FastLeaderElection implements Election {
 
         if(leader != self.getId()){
             if(votes.get(leader) == null) predicate = false;
-            else if(votes.get(leader).getState() != ServerState.LEADING) predicate = false;
+            else if(votes.get(leader).getState() != QuorumState.LEADING) predicate = false;
         } else if(logicalclock.get() != electionEpoch) {
             predicate = false;
         }
@@ -808,16 +808,16 @@ public class FastLeaderElection implements Election {
      * This method simply decides which one depending on the
      * role of the server.
      *
-     * @return ServerState
+     * @return QuorumState
      */
-    private ServerState learningState(){
+    private QuorumState learningState(){
         if(self.getLearnerType() == LearnerType.PARTICIPANT){
             LOG.debug("I'm a participant: " + self.getId());
-            return ServerState.FOLLOWING;
+            return QuorumState.FOLLOWING;
         }
         else{
             LOG.debug("I'm an observer: " + self.getId());
-            return ServerState.OBSERVING;
+            return QuorumState.OBSERVING;
         }
     }
 
@@ -890,7 +890,7 @@ public class FastLeaderElection implements Election {
              * Loop in which we exchange notifications until we find a leader
              */
 
-            while ((self.getPeerState() == ServerState.LOOKING) &&
+            while ((self.getPeerState() == QuorumState.LOOKING) &&
                     (!stop)){
                 /*
                  * Remove next notification from queue, times out after 2 times
@@ -988,7 +988,7 @@ public class FastLeaderElection implements Election {
                              */
                             if (n == null) {
                                 self.setPeerState((proposedLeader == self.getId()) ?
-                                        ServerState.LEADING: learningState());
+                                        QuorumState.LEADING: learningState());
 
                                 Vote endVote = new Vote(proposedLeader,
                                         proposedZxid, proposedEpoch);
@@ -1012,7 +1012,7 @@ public class FastLeaderElection implements Election {
                                             n.zxid, n.electionEpoch, n.peerEpoch, n.state))
                                             && checkLeader(outofelection, n.leader, n.electionEpoch)) {
                                 self.setPeerState((n.leader == self.getId()) ?
-                                        ServerState.LEADING: learningState());
+                                        QuorumState.LEADING: learningState());
 
                                 Vote endVote = new Vote(n.leader, n.zxid, n.peerEpoch);
                                 leaveInstance(endVote);
@@ -1042,7 +1042,7 @@ public class FastLeaderElection implements Election {
                             synchronized(this){
                                 logicalclock.set(n.electionEpoch);
                                 self.setPeerState((n.leader == self.getId()) ?
-                                        ServerState.LEADING: learningState());
+                                        QuorumState.LEADING: learningState());
                             }
                             Vote endVote = new Vote(n.leader, n.zxid, n.peerEpoch);
                             leaveInstance(endVote);

@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.concurrent.Semaphore;
 
+import org.apache.zookeeper.server.quorum.QuorumState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.PortAssignment;
@@ -33,7 +34,6 @@ import org.apache.zookeeper.server.quorum.election.FastLeaderElection;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.election.Vote;
 import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
-import org.apache.zookeeper.server.quorum.ServerState;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -97,7 +97,7 @@ public class FLERestartTest extends ZKTestCase {
             try {
                 Vote v = null;
                 while(true) {
-                    peer.setPeerState(ServerState.LOOKING);
+                    peer.setPeerState(QuorumState.LOOKING);
                     LOG.info("Going to call leader election again.");
                     v = peer.getElectionAlg().lookForLeader();
                     if(v == null){
@@ -133,14 +133,14 @@ public class FLERestartTest extends ZKTestCase {
                     case 1:
                         LOG.info("Second entering case");
                         finish.acquire();
-                        //if(threads.get(0).peer.getPeerState() == ServerState.LEADING ){
+                        //if(threads.get(0).peer.getPeerState() == QuorumState.LEADING ){
                         LOG.info("Release");
 
                         return;
                     case 2:
                         LOG.info("First peer, do nothing, just join");
                         finish.acquire();
-                        //if(threads.get(0).peer.getPeerState() == ServerState.LEADING ){
+                        //if(threads.get(0).peer.getPeerState() == QuorumState.LEADING ){
                         LOG.info("Release");
 
                         return;

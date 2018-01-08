@@ -26,12 +26,12 @@ import java.util.Arrays;
 import org.apache.zookeeper.client.AsyncCallback;
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.ZKTestCase;
+import org.apache.zookeeper.server.quorum.QuorumState;
 import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.server.SyncRequestProcessor;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
-import org.apache.zookeeper.server.quorum.ServerState;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -94,7 +94,7 @@ public class ZkDatabaseCorruptionTest extends ZKTestCase {
         QuorumPeer leader = null;
         //find out who is the leader and kill it
         for (QuorumPeer quorumPeer : Arrays.asList(qb.s1, qb.s2, qb.s3, qb.s4, qb.s5)) {
-            if (quorumPeer.getPeerState() == ServerState.LEADING) {
+            if (quorumPeer.getPeerState() == QuorumState.LEADING) {
                 leader = quorumPeer;
                 break;
             }

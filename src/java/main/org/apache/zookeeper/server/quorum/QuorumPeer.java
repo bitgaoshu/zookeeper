@@ -220,7 +220,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
      * this variable only after the completion of leader election.
      */
     private long electionTimeTaken = -1;
-    private ServerState state = ServerState.LOOKING;
+    private QuorumState state = QuorumState.LOOKING;
     private boolean reconfigFlag = false; // indicates that a reconfig just committed
     private InetSocketAddress myQuorumAddr;
     private InetSocketAddress myElectionAddr = null;
@@ -388,11 +388,11 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
         return reconfigFlag;
     }
 
-    public synchronized ServerState getPeerState() {
+    public synchronized QuorumState getPeerState() {
         return state;
     }
 
-    public synchronized void setPeerState(ServerState newState) {
+    public synchronized void setPeerState(QuorumState newState) {
         state = newState;
     }
 
@@ -526,7 +526,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
 
     synchronized public void startLeaderElection() {
         try {
-            if (getPeerState() == ServerState.LOOKING) {
+            if (getPeerState() == QuorumState.LOOKING) {
                 currentVote = new Vote(myid, getLastLoggedZxid(), getCurrentEpoch());
             }
         } catch (IOException e) {
@@ -675,7 +675,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
                                     try {
                                         // lower-bound grace period to 2 secs
                                         sleep(Math.max(2000, tickTime));
-                                        if (ServerState.LOOKING.equals(getPeerState())) {
+                                        if (QuorumState.LOOKING.equals(getPeerState())) {
                                             roZk.startup();
                                         }
                                     } catch (InterruptedException e) {
@@ -695,7 +695,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
                                 setCurrentVote(makeLEStrategy().lookForLeader());
                             } catch (Exception e) {
                                 LOG.warn("Unexpected exception", e);
-                                setPeerState(ServerState.LOOKING);
+                                setPeerState(QuorumState.LOOKING);
                             } finally {
                                 // If the thread is in the the grace period, interrupt
                                 // to come out of waiting.
@@ -712,7 +712,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
                                 setCurrentVote(makeLEStrategy().lookForLeader());
                             } catch (Exception e) {
                                 LOG.warn("Unexpected exception", e);
-                                setPeerState(ServerState.LOOKING);
+                                setPeerState(QuorumState.LOOKING);
                             }
                         }
                         break;
@@ -779,22 +779,22 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
 
     private synchronized void updateServerState() {
         if (!reconfigFlag) {
-            setPeerState(ServerState.LOOKING);
+            setPeerState(QuorumState.LOOKING);
             LOG.warn("PeerState set to LOOKING");
             return;
         }
 
         if (getId() == getCurrentVote().getId()) {
-            setPeerState(ServerState.LEADING);
+            setPeerState(QuorumState.LEADING);
             LOG.debug("PeerState set to LEADING");
         } else if (getLearnerType() == LearnerType.PARTICIPANT) {
-            setPeerState(ServerState.FOLLOWING);
+            setPeerState(QuorumState.FOLLOWING);
             LOG.debug("PeerState set to FOLLOWING");
         } else if (getLearnerType() == LearnerType.OBSERVER) {
-            setPeerState(ServerState.OBSERVING);
+            setPeerState(QuorumState.OBSERVING);
             LOG.debug("PeerState set to OBSERVER");
         } else { // currently shouldn't happen since there are only 2 learner types
-            setPeerState(ServerState.LOOKING);
+            setPeerState(QuorumState.LOOKING);
             LOG.debug("Shouldn't be here");
         }
         reconfigFlag = false;
@@ -1577,7 +1577,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
      * both vote in instances of consensus and to elect or become a leader, or
      * it may be observing in which case it isn't.
      *
-     * We need this distinction to decide which ServerState to move to when
+     * We need this distinction to decide which QuorumState to move to when
      * conditions change (e.g. which state to become after LOOKING).
      */
     public enum LearnerType {

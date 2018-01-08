@@ -27,6 +27,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.zookeeper.server.quorum.QuorumState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.PortAssignment;
@@ -35,7 +36,6 @@ import org.apache.zookeeper.server.quorum.election.FastLeaderElection;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.election.Vote;
 import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
-import org.apache.zookeeper.server.quorum.ServerState;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -130,7 +130,7 @@ public class FLETest extends ZKTestCase {
                     /*
                      * Set the state of the peer to LOOKING and look for leader
                      */
-                    peer.setPeerState(ServerState.LOOKING);
+                    peer.setPeerState(QuorumState.LOOKING);
                     LOG.info("Going to call leader election again.");
                     v = peer.getElectionAlg().lookForLeader();
                     if(v == null){
@@ -197,11 +197,11 @@ public class FLETest extends ZKTestCase {
                                  */
                                 if(v.getId() == i){
                                     Assert.assertTrue("Wrong state" + peer.getPeerState(), 
-                                                                    peer.getPeerState() == ServerState.LEADING);
+                                                                    peer.getPeerState() == QuorumState.LEADING);
                                     leader = i;
                                 } else {
                                     Assert.assertTrue("Wrong state" + peer.getPeerState(), 
-                                                                    peer.getPeerState() == ServerState.FOLLOWING);
+                                                                    peer.getPeerState() == QuorumState.FOLLOWING);
                                 }
                                 
                                 /*
@@ -382,11 +382,11 @@ public class FLETest extends ZKTestCase {
         public void run() {
             setName("VerifyState-" + peer.getId());
             while (true) {
-                if(peer.getPeerState() == ServerState.FOLLOWING) {
+                if(peer.getPeerState() == QuorumState.FOLLOWING) {
                     LOG.info("I am following");
                     success = true;
                     break;
-                } else if (peer.getPeerState() == ServerState.LEADING) {
+                } else if (peer.getPeerState() == QuorumState.LEADING) {
                     LOG.info("I am leading");
                     success = false;
                     break;
@@ -503,7 +503,7 @@ public class FLETest extends ZKTestCase {
         long leaderSid = peer.getCurrentVote().getId();
         long zxid = peer.getCurrentVote().getZxid();
         long electionEpoch = peer.getCurrentVote().getElectionEpoch();
-        ServerState state = peer.getCurrentVote().getState();
+        QuorumState state = peer.getCurrentVote().getState();
         long peerEpoch = peer.getCurrentVote().getPeerEpoch();
         Vote newVote = new Vote(leaderSid, zxid+100, electionEpoch+100, peerEpoch, state);
         peer.setCurrentVote(newVote);

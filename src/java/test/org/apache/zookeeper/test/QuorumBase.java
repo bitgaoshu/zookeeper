@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.apache.zookeeper.server.quorum.QuorumState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.PortAssignment;
@@ -34,7 +35,6 @@ import org.apache.zookeeper.server.quorum.election.Election;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.LearnerType;
 import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
-import org.apache.zookeeper.server.quorum.ServerState;
 import org.apache.zookeeper.server.util.OSMXBean;
 import org.junit.Assert;
 import org.junit.Test;
@@ -250,21 +250,21 @@ public class QuorumBase extends ClientBase {
     }
 
     public int getLeaderIndex() {
-      if (s1.getPeerState() == ServerState.LEADING) {
+      if (s1.getPeerState() == QuorumState.LEADING) {
         return 0;
-      } else if (s2.getPeerState() == ServerState.LEADING) {
+      } else if (s2.getPeerState() == QuorumState.LEADING) {
         return 1;
-      } else if (s3.getPeerState() == ServerState.LEADING) {
+      } else if (s3.getPeerState() == QuorumState.LEADING) {
         return 2;
-      } else if (s4.getPeerState() == ServerState.LEADING) {
+      } else if (s4.getPeerState() == QuorumState.LEADING) {
         return 3;
-      } else if (s5.getPeerState() == ServerState.LEADING) {
+      } else if (s5.getPeerState() == QuorumState.LEADING) {
         return 4;
       }
       return -1;
     }
 
-    public String getPeersMatching(ServerState state) {
+    public String getPeersMatching(QuorumState state) {
         StringBuilder hosts = new StringBuilder();
         for (QuorumPeer p : getPeerList()) {
             if (p.getPeerState() == state) {
@@ -427,7 +427,7 @@ public class QuorumBase extends ClientBase {
         return createClient(watcher, hp);
     }
 
-    protected TestableZooKeeper createClient(CountdownWatcher watcher, ServerState state)
+    protected TestableZooKeeper createClient(CountdownWatcher watcher, QuorumState state)
         throws IOException, InterruptedException
     {
         return createClient(watcher, getPeersMatching(state));

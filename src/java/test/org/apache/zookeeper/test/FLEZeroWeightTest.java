@@ -23,6 +23,8 @@ import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
+
+import org.apache.zookeeper.server.quorum.QuorumState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.PortAssignment;
@@ -30,7 +32,6 @@ import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.election.Vote;
 import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
-import org.apache.zookeeper.server.quorum.ServerState;
 import org.apache.zookeeper.server.quorum.flexible.QuorumHierarchical;
 import org.junit.After;
 import org.junit.Assert;
@@ -107,7 +108,7 @@ public class FLEZeroWeightTest extends ZKTestCase {
                 while(true){
 
                     //while(true) {
-                    peer.setPeerState(ServerState.LOOKING);
+                    peer.setPeerState(QuorumState.LOOKING);
                     LOG.info("Going to call leader election.");
                     v = peer.getElectionAlg().lookForLeader();
                     if(v == null){
@@ -124,11 +125,11 @@ public class FLEZeroWeightTest extends ZKTestCase {
                     LOG.info("Finished election: " + i + ", " + v.getId());
                     votes[i] = v;
 
-                    if((peer.getPeerState() == ServerState.LEADING) &&
+                    if((peer.getPeerState() == QuorumState.LEADING) &&
                             (peer.getId() > 2)) fail = true;
 
-                    if((peer.getPeerState() == ServerState.FOLLOWING) ||
-                            (peer.getPeerState() == ServerState.LEADING)) break;
+                    if((peer.getPeerState() == QuorumState.FOLLOWING) ||
+                            (peer.getPeerState() == QuorumState.LEADING)) break;
                 }
                 LOG.debug("Thread " + i + " votes " + v);
             } catch (InterruptedException e) {
