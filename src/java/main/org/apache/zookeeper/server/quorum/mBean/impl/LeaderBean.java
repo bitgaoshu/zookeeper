@@ -20,8 +20,7 @@ package org.apache.zookeeper.server.quorum.mBean.impl;
 
 import org.apache.zookeeper.server.jmx.impl.ZooKeeperServerBean;
 import org.apache.zookeeper.server.ZooKeeperServer;
-import org.apache.zookeeper.server.quorum.roles.Leader;
-import org.apache.zookeeper.server.quorum.roles.server.LearnerHandler;
+import org.apache.zookeeper.server.quorum.roles.leader.Leader;
 import org.apache.zookeeper.server.quorum.mBean.LeaderMXBean;
 
 /**
@@ -44,15 +43,11 @@ public class LeaderBean extends ZooKeeperServerBean implements LeaderMXBean {
     }
     
     public String followerInfo() {
-        StringBuilder sb = new StringBuilder();
-        for (LearnerHandler handler : leader.getLearners()) {
-            sb.append(handler.toString()).append("\n");
-        }
-        return sb.toString();
+        return leader.getLearnersInfo();
     }
 
     @Override
     public long getElectionTimeTaken() {
-        return leader.self.getElectionTimeTaken();
+        return leader.getQuorumPeer().getElectionTimeTaken();
     }
 }

@@ -29,7 +29,7 @@ import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.server.ZooKeeperCriticalThread;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.ZooTrace;
-import org.apache.zookeeper.server.quorum.roles.Leader.XidRolloverException;
+import org.apache.zookeeper.server.quorum.roles.leader.Leader.XidRolloverException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

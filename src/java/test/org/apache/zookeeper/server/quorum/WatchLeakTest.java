@@ -44,8 +44,8 @@ import java.util.Collections;
 import java.util.Random;
 
 import org.apache.zookeeper.operation.OpType;
-import org.apache.zookeeper.server.quorum.roles.Follower;
-import org.apache.zookeeper.server.quorum.roles.Leader;
+import org.apache.zookeeper.server.quorum.roles.learner.Follower;
+import org.apache.zookeeper.server.quorum.roles.leader.Leader;
 import org.apache.zookeeper.server.quorum.roles.server.FollowerZooKeeperServer;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

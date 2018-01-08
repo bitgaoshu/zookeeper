@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum.roles.server;
+package org.apache.zookeeper.server.quorum.roles.leader;
 
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
@@ -28,14 +28,13 @@ import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperThread;
 import org.apache.zookeeper.server.ZooTrace;
 import org.apache.zookeeper.server.quorum.LearnerSnapshot;
-import org.apache.zookeeper.server.quorum.LearnerSyncRequest;
 import org.apache.zookeeper.server.quorum.QuorumPacket;
+import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.LearnerType;
 import org.apache.zookeeper.server.quorum.SnapshotThrottleException;
 import org.apache.zookeeper.server.quorum.StateSummary;
-import org.apache.zookeeper.server.quorum.roles.Leader;
-import org.apache.zookeeper.server.quorum.roles.Leader.Proposal;
 import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
+import org.apache.zookeeper.server.quorum.roles.leader.Leader.Proposal;
 import org.apache.zookeeper.server.util.SerializeUtils;
 import org.apache.zookeeper.server.util.ZxidUtils;
 import org.apache.zookeeper.txn.TxnHeader;
@@ -226,8 +225,8 @@ public class LearnerHandler extends ZooKeeperThread {
     @Override
     public void run() {
         try {
-            tickOfNextAckDeadline = leader.self.tick.get()
-                    + leader.self.initLimit + leader.self.syncLimit;
+            tickOfNextAckDeadline = getLeaderSelf().getTick() + getLeaderSelf().getInitLimit()
+                    + getLeaderSelf().getSyncLimit();
 
             ia = BinaryInputArchive.getArchive(new BufferedInputStream(sock
                     .getInputStream()));
@@ -254,7 +253,7 @@ public class LearnerHandler extends ZooKeeperThread {
                 }
                 if (learnerInfoData.length >= 20) {
                     long configVersion = bbsid.getLong();
-                    if (configVersion > leader.self.getQuorumVerifier().getVersion()) {
+                    if (configVersion > getLeaderSelf().getQuorumVerifier().getVersion()) {
                         throw new IOException("Follower is ahead of the leader (has a later activated configuration)");
                     }
                 }
@@ -262,11 +261,11 @@ public class LearnerHandler extends ZooKeeperThread {
                 this.sid = leader.followerCounter.getAndDecrement();
             }
 
-            if (leader.self.getView().containsKey(this.sid)) {
+            if (getLeaderSelf().getView().containsKey(this.sid)) {
                 LOG.info("Follower sid: " + this.sid + " : info : "
-                        + leader.self.getView().get(this.sid).toString());
+                        + getLeaderSelf().getView().get(this.sid).toString());
             } else {
-                LOG.info("Follower sid: " + this.sid + " not in the current config " + Long.toHexString(leader.self.getQuorumVerifier().getVersion()));
+                LOG.info("Follower sid: " + this.sid + " not in the current config " + Long.toHexString(getLeaderSelf().getQuorumVerifier().getVersion()));
             }
 
             if (qp.getType() == OpOfLeader.OBSERVERINFO.intType()) {
@@ -320,7 +319,7 @@ public class LearnerHandler extends ZooKeeperThread {
                 oa.writeRecord(newLeaderQP, "packet");
             } else {
                 QuorumPacket newLeaderQP = new QuorumPacket(OpOfLeader.NEWLEADER.intType(),
-                        newLeaderZxid, leader.self.getLastSeenQuorumVerifier()
+                        newLeaderZxid, getLeaderSelf().getLastSeenQuorumVerifier()
                         .toString().getBytes(), null);
                 queuedPackets.add(newLeaderQP);
             }
@@ -372,12 +371,12 @@ public class LearnerHandler extends ZooKeeperThread {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Received NEWLEADER-ACK message from " + sid);
             }
-            leader.waitForNewLeaderAck(getSid(), qp.getZxid(), getLearnerType());
+            leader.waitForNewLeaderAck(getSid(), qp.getZxid());
 
             syncLimitCheck.start();
 
             // now that the ack has been processed expect the syncLimit
-            sock.setSoTimeout(leader.self.tickTime * leader.self.syncLimit);
+            sock.setSoTimeout(getLeaderSelf().getSoTimeout());
 
             /*
              * Wait until leader starts up
@@ -405,7 +404,7 @@ public class LearnerHandler extends ZooKeeperThread {
                 if (LOG.isTraceEnabled()) {
                     ZooTrace.logQuorumPacket(LOG, traceMask, 'i', qp);
                 }
-                tickOfNextAckDeadline = leader.self.tick.get() + leader.self.syncLimit;
+                tickOfNextAckDeadline = getLeaderSelf().getTick() + getLeaderSelf().getSyncLimit();
 
 
                 ByteBuffer bb;
@@ -840,7 +839,7 @@ public class LearnerHandler extends ZooKeeperThread {
 
     public boolean synced() {
         return isAlive()
-                && leader.self.tick.get() <= tickOfNextAckDeadline;
+                && getLeaderSelf().getTick() <= tickOfNextAckDeadline;
     }
 
     /**
@@ -908,8 +907,12 @@ public class LearnerHandler extends ZooKeeperThread {
                 return true;
             } else {
                 long msDelay = (time - currentTime) / 1000000;
-                return (msDelay < (leader.self.tickTime * leader.self.syncLimit));
+                return (msDelay < (getLeaderSelf().getSoTimeout()));
             }
         }
+    }
+
+    private QuorumPeer getLeaderSelf() {
+        return leader.getQuorumPeer();
     }
 }

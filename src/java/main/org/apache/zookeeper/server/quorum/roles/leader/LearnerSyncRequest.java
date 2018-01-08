@@ -16,15 +16,14 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.roles.leader;
+
+import org.apache.zookeeper.data.Id;
+import org.apache.zookeeper.operation.OpType;
+import org.apache.zookeeper.server.Request;
 
 import java.nio.ByteBuffer;
 import java.util.List;
-
-import org.apache.zookeeper.operation.OpType;
-import org.apache.zookeeper.data.Id;
-import org.apache.zookeeper.server.Request;
-import org.apache.zookeeper.server.quorum.roles.server.LearnerHandler;
 
 public class LearnerSyncRequest extends Request {
 	LearnerHandler fh;

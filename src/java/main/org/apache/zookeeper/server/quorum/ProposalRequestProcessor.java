@@ -21,8 +21,9 @@ package org.apache.zookeeper.server.quorum;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.server.SyncRequestProcessor;
-import org.apache.zookeeper.server.quorum.roles.Leader.XidRolloverException;
-import org.apache.zookeeper.server.quorum.roles.server.LeaderZooKeeperServer;
+import org.apache.zookeeper.server.quorum.roles.leader.Leader.XidRolloverException;
+import org.apache.zookeeper.server.quorum.roles.leader.LeaderZooKeeperServer;
+import org.apache.zookeeper.server.quorum.roles.leader.LearnerSyncRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

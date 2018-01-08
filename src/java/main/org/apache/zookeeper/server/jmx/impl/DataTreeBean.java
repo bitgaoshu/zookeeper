@@ -19,6 +19,7 @@
 package org.apache.zookeeper.server.jmx.impl;
 
 import org.apache.zookeeper.server.DataTree;
+import org.apache.zookeeper.server.jmx.DataTreeMXBean;
 import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
 
 /**

@@ -47,7 +47,7 @@ public class ReadOnlyZooKeeperServer extends ZooKeeperServer {
 
     ReadOnlyZooKeeperServer(FileTxnSnapLog logFactory, QuorumPeer self,
                             ZKDatabase zkDb) {
-        super(logFactory, self.tickTime, self.minSessionTimeout,
+        super(logFactory, self.getTickTime(), self.minSessionTimeout,
               self.maxSessionTimeout, zkDb);
         this.self = self;
     }
@@ -87,7 +87,7 @@ public class ReadOnlyZooKeeperServer extends ZooKeeperServer {
         }
     }
 
-    public void registerJMX(ZooKeeperServerBean serverBean, LocalPeerBean localPeerBean) {
+    private void registerJMX(ZooKeeperServerBean serverBean, LocalPeerBean localPeerBean) {
         // register with JMX
         try {
             jmxServerBean = serverBean;

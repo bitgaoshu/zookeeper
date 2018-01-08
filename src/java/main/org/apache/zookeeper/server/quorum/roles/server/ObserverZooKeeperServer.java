@@ -24,10 +24,9 @@ import org.apache.zookeeper.server.SyncRequestProcessor;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.quorum.CommitProcessor;
-import org.apache.zookeeper.server.quorum.ObserverRequestProcessor;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
-import org.apache.zookeeper.server.quorum.roles.Learner;
-import org.apache.zookeeper.server.quorum.roles.Observer;
+import org.apache.zookeeper.server.quorum.roles.learner.Learner;
+import org.apache.zookeeper.server.quorum.roles.learner.Observer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

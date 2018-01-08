@@ -42,11 +42,11 @@ import org.apache.zookeeper.server.quorum.mBean.impl.LeaderElectionBean;
 import org.apache.zookeeper.server.quorum.mBean.impl.LocalPeerBean;
 import org.apache.zookeeper.server.quorum.mBean.impl.QuorumBean;
 import org.apache.zookeeper.server.quorum.mBean.impl.RemotePeerBean;
-import org.apache.zookeeper.server.quorum.roles.Follower;
-import org.apache.zookeeper.server.quorum.roles.Leader;
-import org.apache.zookeeper.server.quorum.roles.Observer;
+import org.apache.zookeeper.server.quorum.roles.learner.Follower;
+import org.apache.zookeeper.server.quorum.roles.leader.Leader;
+import org.apache.zookeeper.server.quorum.roles.learner.Observer;
 import org.apache.zookeeper.server.quorum.roles.server.FollowerZooKeeperServer;
-import org.apache.zookeeper.server.quorum.roles.server.LeaderZooKeeperServer;
+import org.apache.zookeeper.server.quorum.roles.leader.LeaderZooKeeperServer;
 import org.apache.zookeeper.server.quorum.roles.server.ObserverZooKeeperServer;
 import org.apache.zookeeper.server.util.ZxidUtils;
 import org.slf4j.Logger;
@@ -138,7 +138,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
     /**
      * The number of milliseconds of each tick
      */
-    protected int tickTime;
+    private int tickTime;
     /**
      * Whether learners in this quorum should create new sessions as local.
      * False by default to preserve existing behavior.
@@ -176,7 +176,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
     /**
      * The current tick
      */
-    protected AtomicInteger tick = new AtomicInteger();
+    private AtomicInteger tick = new AtomicInteger();
     /**
      * Whether or not to listen on all IPs for the two quorum ports
      * (broadcast and fast leader election).
@@ -880,7 +880,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
         List<String> l = new ArrayList<String>();
         synchronized (this) {
             if (leader != null) {
-                l = leader.getLearners();
+                l = leader.getSyncLearners();
             } else if (follower != null) {
                 l.add(follower.getSocket().getRemoteSocketAddress().toString());
             }
@@ -1013,12 +1013,34 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
         this.initLimit = initLimit;
     }
 
+
+    public void setTick(int val){
+        tick.set(val);
+    }
     /**
      * Get the current tick
      */
     public int getTick() {
         return tick.get();
     }
+
+    public int addTick() {
+        return tick.incrementAndGet();
+    }
+    /**
+     * Get the synclimit
+     */
+    public int getSyncLimit() {
+        return syncLimit;
+    }
+
+    /**
+     * Set the synclimit
+     */
+    public void setSyncLimit(int syncLimit) {
+        this.syncLimit = syncLimit;
+    }
+
 
     public QuorumVerifier configFromString(String s) throws IOException, ConfigException {
         Properties props = new Properties();
@@ -1161,20 +1183,6 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
      */
     public Election getElectionAlg() {
         return electionAlg;
-    }
-
-    /**
-     * Get the synclimit
-     */
-    public int getSyncLimit() {
-        return syncLimit;
-    }
-
-    /**
-     * Set the synclimit
-     */
-    public void setSyncLimit(int syncLimit) {
-        this.syncLimit = syncLimit;
     }
 
     /**

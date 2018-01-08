@@ -17,7 +17,25 @@
  */
 package org.apache.zookeeper.client;
 
-import static org.junit.Assert.*;
+import org.apache.zookeeper.client.AsyncCallback.VoidCallback;
+import org.apache.zookeeper.client.cliCmds.CliCommand;
+import org.apache.zookeeper.client.cliCmds.CliException;
+import org.apache.zookeeper.client.cliCmds.CliWrapperException;
+import org.apache.zookeeper.client.cliCmds.LsCommand;
+import org.apache.zookeeper.client.cliCmds.MalformedCommandException;
+import org.apache.zookeeper.client.cliCmds.MalformedPathException;
+import org.apache.zookeeper.client.cliCmds.ZKUtil;
+import org.apache.zookeeper.data.Stat;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.nodeMode.CreateMode;
+import org.apache.zookeeper.server.common.StringUtils;
+import org.apache.zookeeper.test.ClientBase;
+import org.apache.zookeeper.util.ZooDefs.Ids;
+import org.apache.zookeeper.watcher.Event;
+import org.apache.zookeeper.watcher.WatchedEvent;
+import org.apache.zookeeper.watcher.Watcher;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -28,26 +46,9 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.zookeeper.client.cliCmds.CliCommand;
-import org.apache.zookeeper.client.cliCmds.CliException;
-import org.apache.zookeeper.client.cliCmds.CliWrapperException;
-import org.apache.zookeeper.client.cliCmds.LsCommand;
-import org.apache.zookeeper.client.cliCmds.MalformedCommandException;
-import org.apache.zookeeper.client.cliCmds.MalformedPathException;
-import org.apache.zookeeper.watcher.WatchedEvent;
-import org.apache.zookeeper.client.AsyncCallback.VoidCallback;
-import org.apache.zookeeper.util.ZooDefs.Ids;
-import org.apache.zookeeper.clients.client.cliCmds.*;
-import org.apache.zookeeper.client.cliCmds.ZKUtil;
-import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.server.common.StringUtils;
-import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.test.ClientBase;
-import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.watcher.Event;
-import org.apache.zookeeper.watcher.Watcher;
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  *

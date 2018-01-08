@@ -21,7 +21,7 @@ package org.apache.zookeeper.test;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.server.ZKDatabase;
-import org.apache.zookeeper.server.quorum.roles.Leader.Proposal;
+import org.apache.zookeeper.server.quorum.roles.leader.Leader.Proposal;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.test.ClientBase.CountdownWatcher;
 import org.junit.After;

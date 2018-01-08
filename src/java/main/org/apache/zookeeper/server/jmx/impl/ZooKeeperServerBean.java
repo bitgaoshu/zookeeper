@@ -90,12 +90,7 @@ public class ZooKeeperServerBean implements ZooKeeperServerMXBean, ZKMBeanInfo {
     }
 
     public void setMaxClientCnxnsPerHost(int max) {
-        if (zks.serverCnxnFactory != null) {
-            zks.serverCnxnFactory.setMaxClientCnxnsPerHost(max);
-        }
-        if (zks.secureServerCnxnFactory != null) {
-            zks.secureServerCnxnFactory.setMaxClientCnxnsPerHost(max);
-        }
+        zks.setMaxClientCnxnsPerHost(max);
     }
 
     public int getMinSessionTimeout() {
@@ -150,10 +145,7 @@ public class ZooKeeperServerBean implements ZooKeeperServerMXBean, ZKMBeanInfo {
 
     @Override
     public String getSecureClientPort() {
-        if (zks.secureServerCnxnFactory != null) {
-            return Integer.toString(zks.secureServerCnxnFactory.getLocalPort());
-        }
-        return "";
+        return Integer.toString(zks.getSecureClientPort());
     }
 
     @Override

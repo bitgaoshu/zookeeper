@@ -39,6 +39,7 @@ import org.apache.jute.Record;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.NoNodeException;
 import org.apache.zookeeper.operation.OpType;
+import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.watcher.WatcherType;
 import org.apache.zookeeper.util.ZooDefs;
@@ -50,8 +51,8 @@ import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog.PlayBackListener;
 import org.apache.zookeeper.server.persistence.TxnLog.TxnIterator;
-import org.apache.zookeeper.server.quorum.roles.Leader;
-import org.apache.zookeeper.server.quorum.roles.Leader.Proposal;
+import org.apache.zookeeper.server.quorum.roles.leader.Leader;
+import org.apache.zookeeper.server.quorum.roles.leader.Leader.Proposal;
 import org.apache.zookeeper.server.quorum.QuorumPacket;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 import org.apache.zookeeper.server.util.SerializeUtils;
@@ -277,7 +278,7 @@ public class ZKDatabase {
             } catch (IOException e) {
                 LOG.error("This really should be impossible", e);
             }
-            QuorumPacket pp = new QuorumPacket(Leader.PROPOSAL, request.zxid,
+            QuorumPacket pp = new QuorumPacket(OpOfLeader.PROPOSAL.intType(), request.zxid,
                     baos.toByteArray(), null);
             Proposal p = new Proposal();
             p.packet = pp;

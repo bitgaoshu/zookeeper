@@ -24,8 +24,8 @@ import org.apache.zookeeper.util.Version;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.ServerStats;
 import org.apache.zookeeper.server.ZKDatabase;
-import org.apache.zookeeper.server.quorum.roles.Leader;
-import org.apache.zookeeper.server.quorum.roles.server.LeaderZooKeeperServer;
+import org.apache.zookeeper.server.quorum.roles.leader.Leader;
+import org.apache.zookeeper.server.quorum.roles.leader.LeaderZooKeeperServer;
 import org.apache.zookeeper.server.util.OSMXBean;
 
 public class MonitorCommand extends AbstractFourLetterCommand {
@@ -71,7 +71,7 @@ public class MonitorCommand extends AbstractFourLetterCommand {
         if (stats.getServerState().equals("leader")) {
             Leader leader = ((LeaderZooKeeperServer)zkServer).getLeader();
 
-            print("followers", leader.getLearners().size());
+            print("followers", leader.getLearnersSize());
             print("synced_followers", leader.getForwardingFollowers().size());
             print("pending_syncs", leader.getNumPendingSyncs());
         }

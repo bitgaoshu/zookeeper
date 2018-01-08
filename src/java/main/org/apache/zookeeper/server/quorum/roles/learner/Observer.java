@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum.roles;
+package org.apache.zookeeper.server.quorum.roles.learner;
 
 import org.apache.jute.Record;
 import org.apache.zookeeper.operation.OpType;
@@ -25,7 +25,9 @@ import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.quorum.QuorumPacket;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
-import org.apache.zookeeper.server.quorum.roles.server.LearnerHandler;
+import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
+import org.apache.zookeeper.server.quorum.roles.leader.LearnerHandler;
+import org.apache.zookeeper.server.quorum.roles.learner.Learner;
 import org.apache.zookeeper.server.quorum.roles.server.ObserverZooKeeperServer;
 import org.apache.zookeeper.server.util.SerializeUtils;
 import org.apache.zookeeper.txn.SetDataTxn;

@@ -191,9 +191,9 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
 
     public void dumpConf(PrintWriter pwriter) {
         pwriter.print("clientPort=");
-        pwriter.println(getClientPort());
+        pwriter.println(serverCnxnFactory.getLocalPort());
         pwriter.print("secureClientPort=");
-        pwriter.println(getSecureClientPort());
+        pwriter.println(secureServerCnxnFactory.getLocalPort());
         pwriter.print("dataDir=");
         pwriter.println(zkDb.snapLog.getDataDir().getAbsolutePath());
         pwriter.print("dataDirSize=");
@@ -742,6 +742,10 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         return serverCnxnFactory;
     }
 
+    public ServerCnxnFactory getSecureServerCnxnFactory() {
+        return secureServerCnxnFactory;
+    }
+
     public void setServerCnxnFactory(ServerCnxnFactory factory) {
         serverCnxnFactory = factory;
     }
@@ -821,25 +825,6 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     public void setMaxSessionTimeout(int max) {
         this.maxSessionTimeout = max == -1 ? tickTime * 20 : max;
         LOG.info("maxSessionTimeout set to {}", this.maxSessionTimeout);
-    }
-
-    public int getClientPort() {
-        return serverCnxnFactory != null ? serverCnxnFactory.getLocalPort() : -1;
-    }
-
-    public int getSecureClientPort() {
-        return secureServerCnxnFactory != null ? secureServerCnxnFactory.getLocalPort() : -1;
-    }
-
-    /** Maximum number of connections allowed from particular host (ip) */
-    public int getMaxClientCnxnsPerHost() {
-        if (serverCnxnFactory != null) {
-            return serverCnxnFactory.getMaxClientCnxnsPerHost();
-        }
-        if (secureServerCnxnFactory != null) {
-            return secureServerCnxnFactory.getMaxClientCnxnsPerHost();
-        }
-        return -1;
     }
 
     public FileTxnSnapLog getTxnLogFactory() {

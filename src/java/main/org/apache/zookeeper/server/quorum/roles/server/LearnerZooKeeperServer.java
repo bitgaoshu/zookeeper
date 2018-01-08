@@ -28,7 +28,7 @@ import org.apache.zookeeper.server.quorum.CommitProcessor;
 import org.apache.zookeeper.server.quorum.LearnerSessionTracker;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.mBean.impl.LocalPeerBean;
-import org.apache.zookeeper.server.quorum.roles.Learner;
+import org.apache.zookeeper.server.quorum.roles.learner.Learner;
 
 import java.io.IOException;
 import java.util.Collections;

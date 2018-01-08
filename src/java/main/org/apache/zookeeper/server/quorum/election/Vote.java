@@ -21,9 +21,9 @@ package org.apache.zookeeper.server.quorum.election;
 import org.apache.zookeeper.server.quorum.QuorumState;
 
 
-class Vote {
+public class Vote {
     
-    Vote(long id,
+    public Vote(long id,
                     long zxid) {
         this.version = 0x0;
         this.id = id;
@@ -33,7 +33,7 @@ class Vote {
         this.state = QuorumState.LOOKING;
     }
     
-    Vote(long id,
+    public Vote(long id,
                     long zxid,
                     long peerEpoch) {
         this.version = 0x0;
@@ -44,7 +44,7 @@ class Vote {
         this.state = QuorumState.LOOKING;
     }
 
-    Vote(long id,
+    public Vote(long id,
                     long zxid,
                     long electionEpoch,
                     long peerEpoch) {
@@ -56,7 +56,7 @@ class Vote {
         this.state = QuorumState.LOOKING;
     }
     
-    Vote(int version,
+    public Vote(int version,
                     long id,
                     long zxid,
                     long electionEpoch,
@@ -70,7 +70,7 @@ class Vote {
         this.peerEpoch = peerEpoch;
     }
     
-    Vote(long id,
+    public Vote(long id,
                     long zxid,
                     long electionEpoch,
                     long peerEpoch,
@@ -93,27 +93,27 @@ class Vote {
     
     final private long peerEpoch;
     
-    int getVersion() {
+    public int getVersion() {
         return version;
     }
 
-    long getId() {
+    public long getId() {
         return id;
     }
 
-    long getZxid() {
+    public long getZxid() {
         return zxid;
     }
 
-    long getElectionEpoch() {
+    public long getElectionEpoch() {
         return electionEpoch;
     }
 
-    long getPeerEpoch() {
+    public long getPeerEpoch() {
         return peerEpoch;
     }
 
-    QuorumState getState() {
+    public QuorumState getState() {
         return state;
     }
 
@@ -137,7 +137,6 @@ class Vote {
         return (int) (id & zxid);
     }
 
-    @Override
     public String toString() {
         return "(" + id + ", " + Long.toHexString(zxid) + ", " + Long.toHexString(peerEpoch) + ")";
     }

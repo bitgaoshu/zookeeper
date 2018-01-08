@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.jmx.impl;
+package org.apache.zookeeper.server.jmx;
 
 /**
  * Zookeeper data tree MBean.

@@ -21,8 +21,7 @@ package org.apache.zookeeper.server.quorum;
 import java.io.Flushable;
 import java.io.IOException;
 
-import org.apache.zookeeper.server.quorum.roles.Leader;
-import org.apache.zookeeper.server.quorum.roles.Learner;
+import org.apache.zookeeper.server.quorum.roles.learner.Learner;
 import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

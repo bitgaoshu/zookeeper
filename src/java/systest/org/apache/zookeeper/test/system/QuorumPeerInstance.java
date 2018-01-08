@@ -18,6 +18,13 @@
 
 package org.apache.zookeeper.test.system;
 
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.server.quorum.QuorumPeer;
+import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
+import org.apache.zookeeper.test.TestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,13 +34,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Properties;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.server.quorum.QuorumPeer;
-import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
-import org.apache.zookeeper.test.TestUtils;
 
 class QuorumPeerInstance implements Instance {
     final private static Logger LOG = LoggerFactory.getLogger(QuorumPeerInstance.class);

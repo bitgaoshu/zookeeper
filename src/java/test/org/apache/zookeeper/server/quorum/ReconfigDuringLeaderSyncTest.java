@@ -28,8 +28,8 @@ import java.util.Map;
 
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.PortAssignment;
-import org.apache.zookeeper.server.quorum.roles.Follower;
-import org.apache.zookeeper.server.quorum.roles.Leader;
+import org.apache.zookeeper.server.quorum.roles.learner.Follower;
+import org.apache.zookeeper.server.quorum.roles.leader.Leader;
 import org.apache.zookeeper.server.quorum.roles.server.FollowerZooKeeperServer;
 import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.client.ZooKeeper;

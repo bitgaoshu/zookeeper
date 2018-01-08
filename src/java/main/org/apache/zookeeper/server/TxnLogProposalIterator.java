@@ -25,8 +25,9 @@ import java.util.Iterator;
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
 import org.apache.zookeeper.server.persistence.TxnLog.TxnIterator;
-import org.apache.zookeeper.server.quorum.roles.Leader;
-import org.apache.zookeeper.server.quorum.roles.Leader.Proposal;
+import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
+import org.apache.zookeeper.server.quorum.roles.leader.Leader;
+import org.apache.zookeeper.server.quorum.roles.leader.Leader.Proposal;
 import org.apache.zookeeper.server.quorum.QuorumPacket;
 import org.apache.zookeeper.txn.TxnHeader;
 import org.slf4j.Logger;
@@ -74,7 +75,7 @@ public class TxnLogProposalIterator implements Iterator<Proposal> {
             }
             baos.close();
 
-            QuorumPacket pp = new QuorumPacket(Leader.PROPOSAL, itr.getHeader()
+            QuorumPacket pp = new QuorumPacket(OpOfLeader.PROPOSAL.intType(), itr.getHeader()
                     .getZxid(), baos.toByteArray(), null);
             p.packet = pp;
             p.request = null;

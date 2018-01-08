@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum.roles;
+package org.apache.zookeeper.server.quorum.roles.leader;
 
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.zookeeper.operation.OpType;
@@ -24,16 +24,14 @@ import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.ZooKeeperCriticalThread;
 import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.server.quorum.LearnerSnapshotThrottler;
-import org.apache.zookeeper.server.quorum.LearnerSyncRequest;
 import org.apache.zookeeper.server.quorum.QuorumPacket;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.LearnerType;
 import org.apache.zookeeper.server.quorum.StateSummary;
-import org.apache.zookeeper.server.quorum.SyncedLearnerTracker;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 import org.apache.zookeeper.server.quorum.mBean.impl.LeaderBean;
-import org.apache.zookeeper.server.quorum.roles.server.LeaderZooKeeperServer;
-import org.apache.zookeeper.server.quorum.roles.server.LearnerHandler;
+import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
+import org.apache.zookeeper.server.quorum.roles.Role;
 import org.apache.zookeeper.server.util.ZxidUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,7 +61,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * This class has the control logic for the leader.
  */
-public class Leader implements Role{
+public class Leader implements Role {
 
     private static final Logger LOG;
     private static final boolean nodelay;
@@ -113,6 +111,7 @@ public class Leader implements Role{
     AtomicInteger followerCounter = new AtomicInteger(-1);
     long epoch = -1;
     boolean waitingForNewEpoch = true;
+    long lastProposed;
     /*
     when a reconfig occurs where the leader is removed or becomes an observer,
     it does not commit ops after committing the reconfig
@@ -120,7 +119,6 @@ public class Leader implements Role{
     private boolean allowedToCommit = true;
     private boolean isShutdown;
     private long lastCommitted = -1;
-    long lastProposed;
     private boolean quorumFormed = false;
     private boolean electionFinished = false;
 
@@ -151,10 +149,22 @@ public class Leader implements Role{
         return zk;
     }
 
-    /**
-     * Returns a copy of the current learner snapshot
-     */
-    public List<String> getLearners() {
+
+    public String getLearnersInfo() {
+        StringBuilder sb = new StringBuilder();
+        synchronized (learners) {
+            for (LearnerHandler handler : learners) {
+                sb.append(handler.toString()).append("\n");
+            }
+        }
+        return sb.toString();
+    }
+
+    public int getLearnersSize() {
+        return learners.size();
+    }
+
+    public List<String> getSyncLearners() {
         List<String> l = new LinkedList<>();
         synchronized (learners) {
             for (LearnerHandler fh : learners) {
@@ -168,6 +178,7 @@ public class Leader implements Role{
         }
         return l;
     }
+
     /**
      * Returns a copy of the current forwarding follower snapshot
      */
@@ -274,7 +285,7 @@ public class Leader implements Role{
         zk.registerJMX(new LeaderBean(this, zk), self.getJmxLocalPeerBean());
 
         try {
-            self.tick.set(0);
+            self.setTick(0);
             zk.loadData();
 
             leaderStateSummary = new StateSummary(self.getCurrentEpoch(), zk.getLastProcessedZxid());
@@ -347,7 +358,7 @@ public class Leader implements Role{
             self.setCurrentEpoch(epoch);
 
             try {
-                waitForNewLeaderAck(self.getId(), zk.getZxid(), LearnerType.PARTICIPANT);
+                waitForNewLeaderAck(self.getId(), zk.getZxid());
             } catch (InterruptedException e) {
                 shutdown("Waiting for a quorum of followers, only synced with sids: [ "
                         + newLeaderProposal.ackSetsToString() + " ]");
@@ -419,7 +430,7 @@ public class Leader implements Role{
                     }
 
                     if (!tickSkip) {
-                        self.tick.incrementAndGet();
+                        self.addTick();
                     }
 
                     // We use an instance of SyncedLearnerTracker to
@@ -1006,22 +1017,6 @@ public class Leader implements Role{
     }
 
     /**
-     * Return a list of sid in set as string
-     */
-    private String getSidSetString(Set<Long> sidSet) {
-        StringBuilder sids = new StringBuilder();
-        Iterator<Long> iter = sidSet.iterator();
-        while (iter.hasNext()) {
-            sids.append(iter.next());
-            if (!iter.hasNext()) {
-                break;
-            }
-            sids.append(",");
-        }
-        return sids.toString();
-    }
-
-    /**
      * Start up leader ZooKeeper server and initialize zxid to the new epoch
      */
     private synchronized void startZkServer() {
@@ -1066,10 +1061,9 @@ public class Leader implements Role{
      * sufficient acks.
      *
      * @param sid
-     * @param learnerType
      * @throws InterruptedException
      */
-    public void waitForNewLeaderAck(long sid, long zxid, LearnerType learnerType)
+    public void waitForNewLeaderAck(long sid, long zxid)
             throws InterruptedException {
 
         synchronized (newLeaderProposal.qvAcksetPairs) {

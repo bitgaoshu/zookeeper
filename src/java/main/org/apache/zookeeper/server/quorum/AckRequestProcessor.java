@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.server.quorum;
 
-import org.apache.zookeeper.server.quorum.roles.Leader;
+import org.apache.zookeeper.server.quorum.roles.leader.Leader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +42,7 @@ class AckRequestProcessor implements RequestProcessor {
      * Forward the request as an ACK to the leader
      */
     public void processRequest(Request request) {
-        QuorumPeer self = leader.self;
+        QuorumPeer self = leader.getQuorumPeer();
         if(self != null)
             leader.processAck(self.getId(), request.zxid, null);
         else

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 import org.apache.zookeeper.server.jmx.CommonNames;
 import org.apache.zookeeper.server.quorum.QuorumState;
-import org.apache.zookeeper.server.quorum.roles.Leader.Proposal;
+import org.apache.zookeeper.server.quorum.roles.leader.Leader.Proposal;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.junit.Assert;
 import org.junit.Test;

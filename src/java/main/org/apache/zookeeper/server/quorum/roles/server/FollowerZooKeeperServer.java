@@ -27,11 +27,10 @@ import org.apache.zookeeper.server.SyncRequestProcessor;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.quorum.CommitProcessor;
-import org.apache.zookeeper.server.quorum.FollowerRequestProcessor;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.SendAckRequestProcessor;
-import org.apache.zookeeper.server.quorum.roles.Follower;
-import org.apache.zookeeper.server.quorum.roles.Learner;
+import org.apache.zookeeper.server.quorum.roles.learner.Follower;
+import org.apache.zookeeper.server.quorum.roles.learner.Learner;
 import org.apache.zookeeper.txn.TxnHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +53,7 @@ public class FollowerZooKeeperServer extends LearnerZooKeeperServer {
     /*
      * Pending sync requests
      */
-    private ConcurrentLinkedQueue<Request> pendingSyncs;
+    ConcurrentLinkedQueue<Request> pendingSyncs;
     private LinkedBlockingQueue<Request> pendingTxns = new LinkedBlockingQueue<Request>();
 
     /**
@@ -115,7 +114,7 @@ public class FollowerZooKeeperServer extends LearnerZooKeeperServer {
         commitProcessor.commit(request);
     }
 
-    public Request syncFirst() {
+    public Request pendingHead() {
         return pendingTxns.element();
     }
 

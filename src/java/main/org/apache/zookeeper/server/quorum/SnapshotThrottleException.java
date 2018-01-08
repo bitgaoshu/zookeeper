@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.server.quorum;
 
-import org.apache.zookeeper.server.quorum.roles.Leader;
+import org.apache.zookeeper.server.quorum.roles.leader.Leader;
 
 /**
  * Thrown when a {@link Leader} has too many concurrent snapshots being sent

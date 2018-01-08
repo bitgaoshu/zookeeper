@@ -20,7 +20,7 @@ package org.apache.zookeeper.server;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.zookeeper.server.quorum.roles.server.LearnerHandler;
+import org.apache.zookeeper.server.quorum.roles.leader.LearnerHandler;
 import org.apache.zookeeper.server.quorum.QuorumPacket;
 
 /**

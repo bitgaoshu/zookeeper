@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.server.quorum.roles;
+package org.apache.zookeeper.server.quorum.roles.learner;
 
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
@@ -33,7 +33,9 @@ import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
 import org.apache.zookeeper.server.quorum.election.Vote;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
-import org.apache.zookeeper.server.quorum.roles.server.LearnerHandler;
+import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
+import org.apache.zookeeper.server.quorum.roles.Role;
+import org.apache.zookeeper.server.quorum.roles.leader.LearnerHandler;
 import org.apache.zookeeper.server.quorum.roles.server.FollowerZooKeeperServer;
 import org.apache.zookeeper.server.quorum.roles.server.LearnerZooKeeperServer;
 import org.apache.zookeeper.server.quorum.roles.server.ObserverZooKeeperServer;
@@ -65,7 +67,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * ensemble: Followers and Observers. Both Followers and Observers share 
  * a good deal of code which is moved into Peer to avoid duplication. 
  */
-public class Learner  implements Role{
+public class Learner  implements Role {
     protected static final Logger LOG = LoggerFactory.getLogger(Learner.class);
     static final private boolean nodelay = System.getProperty("follower.nodelay", "true").equals("true");
 
@@ -171,7 +173,7 @@ public class Learner  implements Role{
      *                the request from the client
      * @throws IOException
      */
-    void request(Request request) throws IOException {
+    public void request(Request request) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream oa = new DataOutputStream(baos);
         oa.writeLong(request.sessionId);

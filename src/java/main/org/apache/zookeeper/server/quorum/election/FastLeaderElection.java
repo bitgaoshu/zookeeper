@@ -34,7 +34,7 @@ import org.apache.zookeeper.server.quorum.election.QuorumCnxManager.Message;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.LearnerType;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig.ConfigException;
-import org.apache.zookeeper.server.quorum.SyncedLearnerTracker;
+import org.apache.zookeeper.server.quorum.roles.leader.SyncedLearnerTracker;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 import org.apache.zookeeper.server.util.ZxidUtils;
 import org.slf4j.Logger;

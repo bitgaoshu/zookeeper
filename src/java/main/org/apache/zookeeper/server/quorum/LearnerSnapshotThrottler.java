@@ -19,7 +19,7 @@
 package org.apache.zookeeper.server.quorum;
 
 import org.apache.zookeeper.server.common.Time;
-import org.apache.zookeeper.server.quorum.roles.server.LearnerHandler;
+import org.apache.zookeeper.server.quorum.roles.leader.LearnerHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

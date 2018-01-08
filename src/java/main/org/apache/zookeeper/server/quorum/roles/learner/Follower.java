@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum.roles;
+package org.apache.zookeeper.server.quorum.roles.learner;
 
 import org.apache.jute.Record;
 import org.apache.zookeeper.operation.OpType;
@@ -26,8 +26,9 @@ import org.apache.zookeeper.server.quorum.QuorumPacket;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 import org.apache.zookeeper.server.quorum.mBean.impl.FollowerBean;
+import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
 import org.apache.zookeeper.server.quorum.roles.server.FollowerZooKeeperServer;
-import org.apache.zookeeper.server.quorum.roles.server.LearnerHandler;
+import org.apache.zookeeper.server.quorum.roles.leader.LearnerHandler;
 import org.apache.zookeeper.server.util.SerializeUtils;
 import org.apache.zookeeper.server.util.ZxidUtils;
 import org.apache.zookeeper.txn.SetDataTxn;
@@ -149,7 +150,7 @@ public class Follower extends Learner {
 
             case COMMITANDACTIVATE:
                 // get the new configuration from the request
-                Request request = fzk.syncFirst();
+                Request request = fzk.pendingHead();
                 SetDataTxn setDataTxn = (SetDataTxn) request.getTxn();
                 QuorumVerifier qv = self.configFromString(new String(setDataTxn.getData()));
 

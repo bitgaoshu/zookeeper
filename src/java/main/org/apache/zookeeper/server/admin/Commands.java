@@ -25,8 +25,8 @@ import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.ZooTrace;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
-import org.apache.zookeeper.server.quorum.roles.Leader;
-import org.apache.zookeeper.server.quorum.roles.server.LeaderZooKeeperServer;
+import org.apache.zookeeper.server.quorum.roles.leader.Leader;
+import org.apache.zookeeper.server.quorum.roles.leader.LeaderZooKeeperServer;
 import org.apache.zookeeper.server.quorum.ReadOnlyZooKeeperServer;
 import org.apache.zookeeper.server.util.OSMXBean;
 import org.apache.zookeeper.util.LogEnv;
@@ -332,7 +332,7 @@ public class Commands {
             if (zkServer instanceof LeaderZooKeeperServer) {
                 Leader leader = ((LeaderZooKeeperServer) zkServer).getLeader();
 
-                response.put("followers", leader.getLearners().size());
+                response.put("followers", leader.getLearnersSize());
                 response.put("synced_followers", leader.getForwardingFollowers().size());
                 response.put("pending_syncs", leader.getNumPendingSyncs());
             }
