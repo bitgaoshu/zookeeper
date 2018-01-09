@@ -32,10 +32,10 @@ import org.apache.zookeeper.server.ZooTrace;
 import org.apache.zookeeper.server.cnxn.NIOCnxn.NIOServerCnxnFactory.SelectorThread;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
-import org.apache.zookeeper.server.command.CommandExecutor;
-import org.apache.zookeeper.server.command.FourLetterCommands;
-import org.apache.zookeeper.server.command.NopCommand;
-import org.apache.zookeeper.server.command.SetTraceMaskCommand;
+import org.apache.zookeeper.server.cmd4l.CommandExecutor;
+import org.apache.zookeeper.server.cmd4l.FourLetterCommands;
+import org.apache.zookeeper.server.cmd4l.NopCommand;
+import org.apache.zookeeper.server.cmd4l.SetTraceMaskCommand;
 import org.apache.zookeeper.server.exception.CloseRequestException;
 import org.apache.zookeeper.watcher.WatchedEvent;
 import org.slf4j.Logger;
@@ -497,7 +497,7 @@ public class NIOServerCnxn extends ServerCnxn {
             try {
                 k.cancel();
             } catch (Exception e) {
-                LOG.error("Error cancelling command selection key ", e);
+                LOG.error("Error cancelling cmd4l selection key ", e);
             }
         }
 
@@ -513,7 +513,7 @@ public class NIOServerCnxn extends ServerCnxn {
             return true;
         }
 
-        LOG.info("Processing " + cmd + " command from "
+        LOG.info("Processing " + cmd + " cmd4l from "
                 + sock.socket().getRemoteSocketAddress());
 
         if (len == FourLetterCommands.setTraceMaskCmd) {
@@ -584,7 +584,7 @@ public class NIOServerCnxn extends ServerCnxn {
     }
 
     /**
-     * Used by "dump" 4-letter command to map all connection in
+     * Used by "dump" 4-letter cmd4l to map all connection in
      * cnxnExpiryMap
      */
     @Override

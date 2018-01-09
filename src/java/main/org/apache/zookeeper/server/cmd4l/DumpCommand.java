@@ -16,26 +16,32 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.command;
+package org.apache.zookeeper.server.cmd4l;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.apache.zookeeper.server.cnxn.NIOCnxn.NIOServerCnxnFactory;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 
-public class DirsCommand extends AbstractFourLetterCommand {
-
-    public DirsCommand(PrintWriter pw, ServerCnxn serverCnxn) {
+public class DumpCommand extends AbstractFourLetterCommand {
+    public DumpCommand(PrintWriter pw, ServerCnxn serverCnxn) {
         super(pw, serverCnxn);
     }
 
     @Override
-    public void commandRun() throws IOException {
+    public void commandRun() {
         if (!isZKServerRunning()) {
             pw.println(ZK_NOT_SERVING);
-            return;
+        } else {
+            pw.println("SessionTracker dump:");
+            zkServer.getSessionTracker().dumpSessions(pw);
+            pw.println("ephemeral nodes dump:");
+            zkServer.dumpEphemerals(pw);
+            pw.println("Connections dump:");
+            //dumpConnections connection is implemented only in NIOServerCnxnFactory
+            if (factory instanceof NIOServerCnxnFactory) {
+                ((NIOServerCnxnFactory)factory).dumpConnections(pw);
+            }
         }
-        pw.println("datadir_size: " + zkServer.getDataDirSize());
-        pw.println("logdir_size: " + zkServer.getLogDirSize());
     }
 }

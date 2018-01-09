@@ -28,7 +28,7 @@ public abstract class CommandBase implements Command {
     private final String doc;
 
     /**
-     * @param names The possible names of this command, with the primary name first.
+     * @param names The possible names of this cmd4l, with the primary name first.
      */
     protected CommandBase(List<String> names) {
         this(names, null);
@@ -56,8 +56,8 @@ public abstract class CommandBase implements Command {
     }
 
     /**
-     * @return A response with the command set to the primary name and the
-     *         error set to null (these are the two entries that all command
+     * @return A response with the cmd4l set to the primary name and the
+     *         error set to null (these are the two entries that all cmd4l
      *         responses are required to include).
      */
     protected CommandResponse initializeResponse() {

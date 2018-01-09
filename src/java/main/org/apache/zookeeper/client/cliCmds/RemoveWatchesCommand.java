@@ -26,7 +26,7 @@ import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.watcher.WatcherType;
 
 /**
- * Remove watches command for cli
+ * Remove watches cmd4l for cli
  */
 public class RemoveWatchesCommand extends CliCommand {
 

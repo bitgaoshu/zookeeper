@@ -30,7 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * setQuota command for cli
+ * setQuota cmd4l for cli
  */
 public class SetQuotaCommand extends CliCommand {
 

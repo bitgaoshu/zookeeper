@@ -338,11 +338,11 @@ public abstract class ServerCnxn implements Stats, Watcher {
     }
 
     /**
-     * clean up the socket related to a command and also make sure we flush the
+     * clean up the socket related to a cmd4l and also make sure we flush the
      * data before we do that
      *
      * @param pwriter
-     *            the pwriter for a command socket
+     *            the pwriter for a cmd4l socket
      */
     public void cleanupWriterSocket(PrintWriter pwriter) {
         try {
@@ -356,7 +356,7 @@ public abstract class ServerCnxn implements Stats, Watcher {
             try {
                 close();
             } catch (Exception e) {
-                LOG.error("Error closing a command socket ", e);
+                LOG.error("Error closing a cmd4l socket ", e);
             }
         }
     }

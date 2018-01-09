@@ -23,7 +23,7 @@ import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.server.util.ConfigUtils;
 
 /**
- * get command for cli
+ * get cmd4l for cli
  */
 public class GetConfigCommand extends CliCommand {
 

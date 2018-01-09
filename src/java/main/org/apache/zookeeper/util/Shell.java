@@ -44,7 +44,7 @@ import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * A base class for running a Unix command.
+ * A base class for running a Unix cmd4l.
  *
  * <code>Shell</code> can be used to run unix cliCmds like <code>du</code> or
  * <code>df</code>. It also offers facilities to gate cliCmds by
@@ -52,14 +52,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 abstract public class Shell {
 
-    /** a Unix command to get the current user's name */
+    /** a Unix cmd4l to get the current user's name */
     public final static String USER_NAME_COMMAND = "whoami";
-    /** a Unix command to set permission */
+    /** a Unix cmd4l to set permission */
     public static final String SET_PERMISSION_COMMAND = "chmod";
-    /** a Unix command to set owner */
+    /** a Unix cmd4l to set owner */
     public static final String SET_OWNER_COMMAND = "chown";
     public static final String SET_GROUP_COMMAND = "chgrp";
-    /** a Unix command to get ulimit of a process. */
+    /** a Unix cmd4l to get ulimit of a process. */
     public static final String ULIMIT_COMMAND = "ulimit";
     /** Set to true on Windows platforms */
     public static final boolean WINDOWS /* borrowed from Path.WINDOWS */
@@ -70,10 +70,10 @@ abstract public class Shell {
     /** If or not script timed out*/
     private AtomicBoolean timedOut;
     private long interval;   // refresh interval in msec
-    private long lastTime;   // last time the command was performed
-    private Map<String, String> environment; // env for the command execution
+    private long lastTime;   // last time the cmd4l was performed
+    private Map<String, String> environment; // env for the cmd4l execution
     private File dir;
-    private Process process; // sub process used to execute the command
+    private Process process; // sub process used to execute the cmd4l
     private int exitCode;
     /**If or not script finished executing*/
     private volatile AtomicBoolean completed;
@@ -82,32 +82,32 @@ abstract public class Shell {
     }
     /**
      * @param interval the minimum duration to wait before re-executing the
-     *        command.
+     *        cmd4l.
      */
     public Shell(long interval) {
         this.interval = interval;
         this.lastTime = (interval < 0) ? 0 : -interval;
     }
 
-    /** a Unix command to get the current user's groups list */
+    /** a Unix cmd4l to get the current user's groups list */
     public static String[] getGroupsCommand() {
         return new String[]{"bash", "-c", "groups"};
     }
 
-    /** a Unix command to get a given user's groups list */
+    /** a Unix cmd4l to get a given user's groups list */
     public static String[] getGroupsForUserCommand(final String user) {
-        //'groups username' command return is non-consistent across different unixes
+        //'groups username' cmd4l return is non-consistent across different unixes
         return new String[]{"bash", "-c", "id -Gn " + user};
     }
 
-    /** Return a Unix command to get permission information. */
+    /** Return a Unix cmd4l to get permission information. */
     public static String[] getGET_PERMISSION_COMMAND() {
         //force /bin/ls, except on windows.
         return new String[]{(WINDOWS ? "ls" : "/bin/ls"), "-ld"};
     }
 
     /**
-     * Get the Unix command for setting the maximum virtual memory available
+     * Get the Unix cmd4l for setting the maximum virtual memory available
      * to a given child process. This is only relevant when we are forking a
      * process from within the Mapper or the Reducer implementations.
      * Also see Hadoop Pipes and Hadoop Streaming.
@@ -115,7 +115,7 @@ abstract public class Shell {
      * It also checks to ensure that we are running on a *nix platform else
      * (e.g. in Cygwin/Windows) it returns <code>null</code>.
      * @param memoryLimit virtual memory limit
-     * @return a <code>String[]</code> with the ulimit command arguments or
+     * @return a <code>String[]</code> with the ulimit cmd4l arguments or
      *         <code>null</code> if we are running on a non *nix platform or
      *         if the limit is unspecified.
      */
@@ -129,24 +129,24 @@ abstract public class Shell {
     }
 
     /**
-     * Static method to execute a shell command.
+     * Static method to execute a shell cmd4l.
      * Covers most of the simple cases without requiring the user to implement
      * the <code>Shell</code> interface.
-     * @param cmd shell command to execute.
-     * @return the output of the executed command.
+     * @param cmd shell cmd4l to execute.
+     * @return the output of the executed cmd4l.
      */
     public static String execCommand(String... cmd) throws IOException {
         return execCommand(null, cmd, 0L);
     }
 
     /**
-     * Static method to execute a shell command.
+     * Static method to execute a shell cmd4l.
      * Covers most of the simple cases without requiring the user to implement
      * the <code>Shell</code> interface.
      * @param env the map of environment key=value
-     * @param cmd shell command to execute.
+     * @param cmd shell cmd4l to execute.
      * @param timeout time in milliseconds after which script should be marked timeout
-     * @return the output of the executed command.o
+     * @return the output of the executed cmd4l.o
      */
 
     public static String execCommand(Map<String, String> env, String[] cmd,
@@ -158,19 +158,19 @@ abstract public class Shell {
     }
 
     /**
-     * Static method to execute a shell command.
+     * Static method to execute a shell cmd4l.
      * Covers most of the simple cases without requiring the user to implement
      * the <code>Shell</code> interface.
      * @param env the map of environment key=value
-     * @param cmd shell command to execute.
-     * @return the output of the executed command.
+     * @param cmd shell cmd4l to execute.
+     * @return the output of the executed cmd4l.
      */
     public static String execCommand(Map<String, String> env, String... cmd)
             throws IOException {
         return execCommand(env, cmd, 0L);
     }
 
-    /** set the environment for the command
+    /** set the environment for the cmd4l
      * @param env Mapping of environment variables
      */
     protected void setEnvironment(Map<String, String> env) {
@@ -178,13 +178,13 @@ abstract public class Shell {
     }
 
     /** set the working directory
-     * @param dir The directory where the command would be executed
+     * @param dir The directory where the cmd4l would be executed
      */
     protected void setWorkingDirectory(File dir) {
         this.dir = dir;
     }
 
-    /** check to see if a command needs to be executed and execute if needed */
+    /** check to see if a cmd4l needs to be executed and execute if needed */
     protected void run() throws IOException {
         if (lastTime + interval > Time.currentElapsedTime())
             return;
@@ -192,7 +192,7 @@ abstract public class Shell {
         runCommand();
     }
 
-    /** Run a command */
+    /** Run a cmd4l */
     private void runCommand() throws IOException {
         ProcessBuilder builder = new ProcessBuilder(getExecString());
         Timer timeOutTimer = null;
@@ -290,15 +290,15 @@ abstract public class Shell {
         }
     }
 
-    /** return an array containing the command name & its parameters */
+    /** return an array containing the cmd4l name & its parameters */
     protected abstract String[] getExecString();
 
     /** Parse the execution result */
     protected abstract void parseExecResult(BufferedReader lines)
             throws IOException;
 
-    /** get the current sub-process executing the given command
-     * @return process executing the command
+    /** get the current sub-process executing the given cmd4l
+     * @return process executing the cmd4l
      */
     public Process getProcess() {
         return process;
@@ -312,7 +312,7 @@ abstract public class Shell {
     }
 
     /**
-     * To check if the passed script to shell command executor timed out or
+     * To check if the passed script to shell cmd4l executor timed out or
      * not.
      *
      * @return if the script timed out.
@@ -322,7 +322,7 @@ abstract public class Shell {
     }
 
     /**
-     * Set if the command has timed out.
+     * Set if the cmd4l has timed out.
      *
      */
     private void setTimedOut() {
@@ -347,11 +347,11 @@ abstract public class Shell {
     }
 
     /**
-     * A simple shell command executor.
+     * A simple shell cmd4l executor.
      *
      * <code>ShellCommandExecutor</code>should be used in cases where the output
-     * of the command needs no explicit parsing and where the command, working
-     * directory and the environment remains unchanged. The output of the command
+     * of the cmd4l needs no explicit parsing and where the cmd4l, working
+     * directory and the environment remains unchanged. The output of the cmd4l
      * is stored as-is and is expected to be small.
      */
     public static class ShellCommandExecutor extends Shell {
@@ -374,18 +374,18 @@ abstract public class Shell {
         }
 
         /**
-         * Create a new instance of the ShellCommandExecutor to execute a command.
+         * Create a new instance of the ShellCommandExecutor to execute a cmd4l.
          *
-         * @param execString The command to execute with arguments
+         * @param execString The cmd4l to execute with arguments
          * @param dir If not-null, specifies the directory which should be set
-         *            as the current working directory for the command.
+         *            as the current working directory for the cmd4l.
          *            If null, the current working directory is not modified.
-         * @param env If not-null, environment of the command will include the
+         * @param env If not-null, environment of the cmd4l will include the
          *            key-value pairs specified in the map. If null, the current
          *            environment is not modified.
          * @param timeout Specifies the time in milliseconds, after which the
-         *                command will be killed and the status marked as timedout.
-         *                If 0, the command will not be timed out.
+         *                cmd4l will be killed and the status marked as timedout.
+         *                If 0, the cmd4l will not be timed out.
          */
         public ShellCommandExecutor(String[] execString, File dir,
                                     Map<String, String> env, long timeout) {
@@ -400,7 +400,7 @@ abstract public class Shell {
         }
 
 
-        /** Execute the shell command. */
+        /** Execute the shell cmd4l. */
         public void execute() throws IOException {
             this.run();
         }
@@ -418,7 +418,7 @@ abstract public class Shell {
             }
         }
 
-        /** Get the output of the shell command.*/
+        /** Get the output of the shell cmd4l.*/
         public String getOutput() {
             return (output == null) ? "" : output.toString();
         }

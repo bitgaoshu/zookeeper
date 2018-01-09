@@ -33,10 +33,10 @@ abstract public class CliCommand {
     private String optionStr;
 
     /**
-     * a CLI command with command string and options.
+     * a CLI cmd4l with cmd4l string and options.
      * Using System.out and System.err for printing
-     * @param cmdStr the string used to call this command
-     * @param optionStr the string used to call this command 
+     * @param cmdStr the string used to call this cmd4l
+     * @param optionStr the string used to call this cmd4l
      */
     public CliCommand(String cmdStr, String optionStr) {
         this.out = System.out;
@@ -70,7 +70,7 @@ abstract public class CliCommand {
     }
 
     /**
-     * get the string used to call this command
+     * get the string used to call this cmd4l
      * @return 
      */
     public String getCmdStr() {
@@ -86,7 +86,7 @@ abstract public class CliCommand {
     }
 
     /**
-     * get a usage string, contains the command and the options
+     * get a usage string, contains the cmd4l and the options
      * @return 
      */
     public String getUsageStr() {
@@ -94,7 +94,7 @@ abstract public class CliCommand {
     }
 
     /**
-     * add this command to a map. Use the command string as key.
+     * add this cmd4l to a map. Use the cmd4l string as key.
      * @param cmdMap 
      */
     public void addToMap(Map<String, CliCommand> cmdMap) {
@@ -102,7 +102,7 @@ abstract public class CliCommand {
     }
     
     /**
-     * parse the command arguments
+     * parse the cmd4l arguments
      * @param cmdArgs
      * @return this CliCommand
      * @throws CliParseException

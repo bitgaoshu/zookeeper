@@ -72,7 +72,7 @@ public class QuorumPeerMain {
 
     /**
      * To start the replicated processor specify the configuration file name on
-     * the command line.
+     * the cmd4l line.
      * @param args path to the configfile
      */
     public static void main(String[] args) {

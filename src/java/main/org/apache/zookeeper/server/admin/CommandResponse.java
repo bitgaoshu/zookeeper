@@ -26,9 +26,9 @@ import java.util.Map;
 public class CommandResponse {
 
     /**
-     * The key in the map returned by {@link #toMap()} for the command name.
+     * The key in the map returned by {@link #toMap()} for the cmd4l name.
      */
-    public static final String KEY_COMMAND = "command";
+    public static final String KEY_COMMAND = "cmd4l";
     /**
      * The key in the map returned by {@link #toMap()} for the error string.
      */
@@ -41,7 +41,7 @@ public class CommandResponse {
     /**
      * Creates a new response with no error string.
      *
-     * @param command command name
+     * @param command cmd4l name
      */
     public CommandResponse(String command) {
         this(command, null);
@@ -49,7 +49,7 @@ public class CommandResponse {
     /**
      * Creates a new response.
      *
-     * @param command command name
+     * @param command cmd4l name
      * @param error error string (may be null)
      */
     public CommandResponse(String command, String error) {
@@ -59,9 +59,9 @@ public class CommandResponse {
     }
 
     /**
-     * Gets the command name.
+     * Gets the cmd4l name.
      *
-     * @return command name
+     * @return cmd4l name
      */
     public String getCommand() {
         return command;

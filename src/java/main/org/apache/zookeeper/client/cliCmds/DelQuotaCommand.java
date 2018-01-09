@@ -27,7 +27,7 @@ import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 
 /**
- * delQuota command for cli
+ * delQuota cmd4l for cli
  */
 public class DelQuotaCommand extends CliCommand {
 

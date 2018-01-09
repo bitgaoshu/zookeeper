@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.command;
+package org.apache.zookeeper.server.cmd4l;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,8 +28,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Set of threads for command ports. All the 4 letter commands are run via a
- * thread. Each class maps to a correspoding 4 letter command. CommandThread is
+ * Set of threads for cmd4l ports. All the 4 letter commands are run via a
+ * thread. Each class maps to a correspoding 4 letter cmd4l. CommandThread is
  * the abstract class from which all the others inherit.
  */
 public abstract class AbstractFourLetterCommand {
@@ -54,7 +54,7 @@ public abstract class AbstractFourLetterCommand {
         try {
             commandRun();
         } catch (IOException ie) {
-            LOG.error("Error in running command ", ie);
+            LOG.error("Error in running cmd4l ", ie);
         } finally {
             serverCnxn.cleanupWriterSocket(pw);
         }

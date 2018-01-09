@@ -890,17 +890,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
 
     @Override
     public String getServerState() {
-        switch (getPeerState()) {
-            case LOOKING:
-                return QuorumStats.Provider.LOOKING_STATE;
-            case LEADING:
-                return QuorumStats.Provider.LEADING_STATE;
-            case FOLLOWING:
-                return QuorumStats.Provider.FOLLOWING_STATE;
-            case OBSERVING:
-                return QuorumStats.Provider.OBSERVING_STATE;
-        }
-        return QuorumStats.Provider.UNKNOWN_STATE;
+        return getPeerState().getMsg();
     }
 
     /**

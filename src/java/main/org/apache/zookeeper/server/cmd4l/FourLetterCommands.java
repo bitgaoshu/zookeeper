@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.command;
+package org.apache.zookeeper.server.cmd4l;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -175,32 +175,32 @@ public class FourLetterCommands {
     }
 
     /**
-     * Return the string representation of the specified command code.
+     * Return the string representation of the specified cmd4l code.
      */
     public static String getCommandString(int command) {
         return cmd2String.get(command);
     }
 
     /**
-     * Check if the specified command code is from a known command.
+     * Check if the specified cmd4l code is from a known cmd4l.
      *
-     * @param command The integer code of command.
-     * @return true if the specified command is known, false otherwise.
+     * @param command The integer code of cmd4l.
+     * @return true if the specified cmd4l is known, false otherwise.
      */
     public static boolean isKnown(int command) {
         return cmd2String.containsKey(command);
     }
 
     /**
-     * Check if the specified command is enabled.
+     * Check if the specified cmd4l is enabled.
      *
      * In ZOOKEEPER-2693 we introduce a configuration option to only
      * allow a specific set of white listed cliCmds to execute.
-     * A command will only be executed if it is also configured
+     * A cmd4l will only be executed if it is also configured
      * in the white map.
      *
-     * @param command The command string.
-     * @return true if the specified command is enabled
+     * @param command The cmd4l string.
+     * @return true if the specified cmd4l is enabled
      */
     public synchronized static boolean isEnabled(String command) {
         if (whiteListInitialized) {

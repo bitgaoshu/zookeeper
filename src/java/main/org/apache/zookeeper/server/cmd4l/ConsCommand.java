@@ -16,26 +16,27 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.command;
+package org.apache.zookeeper.server.cmd4l;
 
 import java.io.PrintWriter;
 
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 
-/**
- * A command that does not do anything except reply to client with predefined message.
- * It is used to inform clients who execute none white listed four letter word commands.
- */
-public class NopCommand extends AbstractFourLetterCommand {
-    private String msg;
-
-    public NopCommand(PrintWriter pw, ServerCnxn serverCnxn, String msg) {
+public class ConsCommand extends AbstractFourLetterCommand {
+    public ConsCommand(PrintWriter pw, ServerCnxn serverCnxn) {
         super(pw, serverCnxn);
-        this.msg = msg;
     }
 
     @Override
     public void commandRun() {
-        pw.println(msg);
+        if (!isZKServerRunning()) {
+            pw.println(ZK_NOT_SERVING);
+        } else {
+            for (ServerCnxn c : factory.getConnections()) {
+                c.dumpConnectionInfo(pw, false);
+                pw.println();
+            }
+            pw.println();
+        }
     }
 }

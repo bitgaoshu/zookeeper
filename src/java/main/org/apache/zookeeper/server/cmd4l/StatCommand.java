@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.command;
+package org.apache.zookeeper.server.cmd4l;
 
 import java.io.PrintWriter;
 
@@ -46,7 +46,7 @@ public class StatCommand extends AbstractFourLetterCommand {
                 pw.println("READ-ONLY mode; serving only read-only clients");
             }
             if (len == FourLetterCommands.statCmd) {
-                LOG.info("Stat command output");
+                LOG.info("Stat cmd4l output");
                 pw.println("Clients:");
                 for(ServerCnxn c : factory.getConnections()){
                     c.dumpConnectionInfo(pw, true);

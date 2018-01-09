@@ -43,10 +43,10 @@ import org.apache.zookeeper.proto.WatcherEvent;
 import org.apache.zookeeper.server.*;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
-import org.apache.zookeeper.server.command.CommandExecutor;
-import org.apache.zookeeper.server.command.FourLetterCommands;
-import org.apache.zookeeper.server.command.NopCommand;
-import org.apache.zookeeper.server.command.SetTraceMaskCommand;
+import org.apache.zookeeper.server.cmd4l.CommandExecutor;
+import org.apache.zookeeper.server.cmd4l.FourLetterCommands;
+import org.apache.zookeeper.server.cmd4l.NopCommand;
+import org.apache.zookeeper.server.cmd4l.SetTraceMaskCommand;
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.channel.Channel;
@@ -307,7 +307,7 @@ public class NettyServerCnxn extends ServerCnxn {
             return true;
         }
 
-        LOG.info("Processing " + cmd + " command from "
+        LOG.info("Processing " + cmd + " cmd4l from "
                 + channel.getRemoteAddress());
 
        if (len == FourLetterCommands.setTraceMaskCmd) {

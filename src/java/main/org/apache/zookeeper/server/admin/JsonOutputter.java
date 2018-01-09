@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
 public class JsonOutputter implements CommandOutputter {
     static final Logger LOG = LoggerFactory.getLogger(JsonOutputter.class);
 
-    public static final String ERROR_RESPONSE = "{\"error\": \"Exception writing command response to JSON\"}";
+    public static final String ERROR_RESPONSE = "{\"error\": \"Exception writing cmd4l response to JSON\"}";
 
     private ObjectMapper mapper;
 
@@ -54,13 +54,13 @@ public class JsonOutputter implements CommandOutputter {
         try {
             mapper.writeValue(pw, response.toMap());
         } catch (JsonGenerationException e) {
-            LOG.warn("Exception writing command response to JSON:", e);
+            LOG.warn("Exception writing cmd4l response to JSON:", e);
             pw.write(ERROR_RESPONSE);
         } catch (JsonMappingException e) {
-            LOG.warn("Exception writing command response to JSON:", e);
+            LOG.warn("Exception writing cmd4l response to JSON:", e);
             pw.write(ERROR_RESPONSE);
         } catch (IOException e) {
-            LOG.warn("Exception writing command response to JSON:", e);
+            LOG.warn("Exception writing cmd4l response to JSON:", e);
             pw.write(ERROR_RESPONSE);
         }
     }

@@ -73,7 +73,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * The command line client to ZooKeeper.
+ * The cmd4l line client to ZooKeeper.
  *
  */
 @InterfaceAudience.Public
@@ -150,7 +150,7 @@ public class ZooKeeperMain {
     }
 
     /**
-     * A storage class for both command line options and shell cliCmds.
+     * A storage class for both cmd4l line options and shell cliCmds.
      *
      */
     static class MyCommandOptions {
@@ -187,9 +187,9 @@ public class ZooKeeperMain {
         }
 
         /**
-         * Parses a command line that may contain one or more flags
-         * before an optional command string
-         * @param args command line arguments
+         * Parses a cmd4l line that may contain one or more flags
+         * before an optional cmd4l string
+         * @param args cmd4l line arguments
          * @return true if parsing succeeded, false otherwise.
          */
         public boolean parseOptions(String[] args) {
@@ -226,7 +226,7 @@ public class ZooKeeperMain {
         }
 
         /**
-         * Breaks a string into command + arguments.
+         * Breaks a string into cmd4l + arguments.
          * @param cmdstring string of form "cmd arg1 arg2..etc"
          * @return true if parsing succeeded.
          */
@@ -602,7 +602,7 @@ public class ZooKeeperMain {
         String cmd = co.getCommand();
         if (args.length < 1) {
             usage();
-            throw new MalformedCommandException("No command entered");
+            throw new MalformedCommandException("No cmd4l entered");
         }
 
         if (!commandMap.containsKey(cmd)) {

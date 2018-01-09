@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,34 +16,26 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.command;
+package org.apache.zookeeper.server.cmd4l;
+
+import org.apache.zookeeper.server.cnxn.ServerCnxn;
+import org.apache.zookeeper.util.LogEnv;
 
 import java.io.PrintWriter;
+import java.util.Map;
 
-import org.apache.zookeeper.server.DataTree;
-import org.apache.zookeeper.server.cnxn.ServerCnxn;
-
-public class WatchCommand extends AbstractFourLetterCommand {
-    int len = 0;
-    public WatchCommand(PrintWriter pw, ServerCnxn serverCnxn, int len) {
+public class EnvCommand extends AbstractFourLetterCommand {
+    EnvCommand(PrintWriter pw, ServerCnxn serverCnxn) {
         super(pw, serverCnxn);
-        this.len = len;
     }
 
     @Override
     public void commandRun() {
-        if (!isZKServerRunning()) {
-            pw.println(ZK_NOT_SERVING);
-        } else {
-            DataTree dt = zkServer.getZKDatabase().getDataTree();
-            if (len == FourLetterCommands.wchsCmd) {
-                dt.dumpWatchesSummary(pw);
-            } else if (len == FourLetterCommands.wchpCmd) {
-                dt.dumpWatches(pw, true);
-            } else {
-                dt.dumpWatches(pw, false);
-            }
-            pw.println();
+        Map<String, String> env = LogEnv.map();
+
+        pw.println("LogEnv:");
+        for (Map.Entry<String, String> e : env.entrySet()) {
+            pw.println(e.toString());
         }
     }
 }

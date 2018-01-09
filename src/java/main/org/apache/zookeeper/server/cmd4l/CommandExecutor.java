@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.command;
+package org.apache.zookeeper.server.cmd4l;
 
 import java.io.PrintWriter;
 
@@ -26,7 +26,7 @@ import org.apache.zookeeper.server.ZooKeeperServer;
 
 public class CommandExecutor {
     /**
-     * This class decides which command to be executed and then executes
+     * This class decides which cmd4l to be executed and then executes
      */
     public boolean execute(ServerCnxn serverCnxn, PrintWriter pwriter,
             final int commandCode, ZooKeeperServer zkServer, ServerCnxnFactory factory) {

@@ -147,7 +147,7 @@ class QuorumPeerInstance implements Instance {
             String quorumSpecs = params.substring(0, spaceIndex);
             String cmd = params.substring(spaceIndex+1);
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Running command: " + cmd);
+                LOG.debug("Running cmd4l: " + cmd);
             }
             if (!cmd.equals("start")) {
                 if (peer != null) {

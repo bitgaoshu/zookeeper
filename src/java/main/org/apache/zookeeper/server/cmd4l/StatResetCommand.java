@@ -16,14 +16,14 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.command;
+package org.apache.zookeeper.server.cmd4l;
 
 import java.io.PrintWriter;
 
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 
-public class CnxnStatResetCommand extends AbstractFourLetterCommand {
-    public CnxnStatResetCommand(PrintWriter pw, ServerCnxn serverCnxn) {
+public class StatResetCommand extends AbstractFourLetterCommand {
+    public StatResetCommand(PrintWriter pw, ServerCnxn serverCnxn) {
         super(pw, serverCnxn);
     }
 
@@ -32,8 +32,8 @@ public class CnxnStatResetCommand extends AbstractFourLetterCommand {
         if (!isZKServerRunning()) {
             pw.println(ZK_NOT_SERVING);
         } else {
-            factory.resetAllConnectionStats();
-            pw.println("Connection stats reset.");
+            zkServer.serverStats().reset();
+            pw.println("Server stats reset.");
         }
     }
 }

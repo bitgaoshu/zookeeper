@@ -46,7 +46,7 @@ import org.slf4j.LoggerFactory;
  * http://<hostname>:8080/cliCmds for links to all registered cliCmds. Visiting
  * http://<hostname>:8080/cliCmds/<commandname> will execute the associated
  * Command and return the result in the body of the response. Any keyword
- * arguments to the command are specified with URL parameters (e.g.,
+ * arguments to the cmd4l are specified with URL parameters (e.g.,
  * http://localhost:8080/commands/set_trace_mask?traceMask=306).
  *
  * @see Commands
@@ -106,11 +106,11 @@ public class JettyAdminServer implements AdminServer {
             // in an identifiable subclass
             throw new AdminServerException(String.format(
                     "Problem starting AdminServer on address %s,"
-                            + " port %d and command URL %s", address, port,
+                            + " port %d and cmd4l URL %s", address, port,
                     commandUrl), e);
         }
         LOG.info(String.format("Started AdminServer on address %s, port %d"
-                + " and command URL %s", address, port, commandUrl));
+                + " and cmd4l URL %s", address, port, commandUrl));
     }
 
     /**
@@ -127,7 +127,7 @@ public class JettyAdminServer implements AdminServer {
         } catch (Exception e) {
             throw new AdminServerException(String.format(
                     "Problem stopping AdminServer on address %s,"
-                            + " port %d and command URL %s", address, port, commandUrl),
+                            + " port %d and cmd4l URL %s", address, port, commandUrl),
                     e);
         }
     }
@@ -150,10 +150,10 @@ public class JettyAdminServer implements AdminServer {
         private static final long serialVersionUID = 1L;
 
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            // Capture the command name from the URL
+            // Capture the cmd4l name from the URL
             String cmd = request.getPathInfo();
             if (cmd == null || cmd.equals("/")) {
-                // No command specified, print links to all cliCmds instead
+                // No cmd4l specified, print links to all cliCmds instead
                 for (String link : commandLinks()) {
                     response.getWriter().println(link);
                     response.getWriter().println("<br/>");
@@ -163,7 +163,7 @@ public class JettyAdminServer implements AdminServer {
             // Strip leading "/"
             cmd = cmd.substring(1);
 
-            // Extract keyword arguments to command from request parameters
+            // Extract keyword arguments to cmd4l from request parameters
             @SuppressWarnings("unchecked")
             Map<String, String[]> parameterMap = request.getParameterMap();
             Map<String, String> kwargs = new HashMap<String, String>();
@@ -171,10 +171,10 @@ public class JettyAdminServer implements AdminServer {
                 kwargs.put(entry.getKey(), entry.getValue()[0]);
             }
 
-            // Run the command
+            // Run the cmd4l
             CommandResponse cmdResponse = Commands.runCommand(cmd, zkServer, kwargs);
 
-            // Format and print the output of the command
+            // Format and print the output of the cmd4l
             CommandOutputter outputter = new JsonOutputter();
             response.setStatus(HttpServletResponse.SC_OK);
             response.setContentType(outputter.getContentType());

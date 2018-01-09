@@ -24,7 +24,7 @@ import org.apache.commons.cli.PosixParser;
 import org.apache.zookeeper.client.AsyncCallback;
 
 /**
- * sync command for cli
+ * sync cmd4l for cli
  */
 public class SyncCommand extends CliCommand {
 

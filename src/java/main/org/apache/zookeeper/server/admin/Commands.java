@@ -50,41 +50,41 @@ import java.util.Set;
 public class Commands {
     static final Logger LOG = LoggerFactory.getLogger(Commands.class);
 
-    /** Maps command names to Command instances */
+    /** Maps cmd4l names to Command instances */
     private static Map<String, Command> commands = new HashMap<String, Command>();
     private static Set<String> primaryNames = new HashSet<String>();
 
     /**
-     * Registers the given command. Registered cliCmds can be run by passing
+     * Registers the given cmd4l. Registered cliCmds can be run by passing
      * any of their names to runCommand.
      */
     public static void registerCommand(Command command) {
         for (String name : command.getNames()) {
             Command prev = commands.put(name, command);
             if (prev != null) {
-                LOG.warn("Re-registering command %s (primary name = %s)", name, command.getPrimaryName());
+                LOG.warn("Re-registering cmd4l %s (primary name = %s)", name, command.getPrimaryName());
             }
         }
         primaryNames.add(command.getPrimaryName());
     }
 
     /**
-     * Run the registered command with name cmdName. Commands should not produce
+     * Run the registered cmd4l with name cmdName. Commands should not produce
      * any exceptions; any (anticipated) errors should be reported in the
-     * "error" entry of the returned map. Likewise, if no command with the given
+     * "error" entry of the returned map. Likewise, if no cmd4l with the given
      * name is registered, this will be noted in the "error" entry.
      *
      * @param cmdName
      * @param zkServer
-     * @param kwargs String-valued keyword arguments to the command
-     *        (may be null if command requires no additional arguments)
-     * @return Map representing response to command containing at minimum:
-     *    - "command" key containing the command's primary name
+     * @param kwargs String-valued keyword arguments to the cmd4l
+     *        (may be null if cmd4l requires no additional arguments)
+     * @return Map representing response to cmd4l containing at minimum:
+     *    - "cmd4l" key containing the cmd4l's primary name
      *    - "error" key containing a String error message or null if no error
      */
     public static CommandResponse runCommand(String cmdName, ZooKeeperServer zkServer, Map<String, String> kwargs) {
         if (!commands.containsKey(cmdName)) {
-            return new CommandResponse(cmdName, "Unknown command: " + cmdName);
+            return new CommandResponse(cmdName, "Unknown cmd4l: " + cmdName);
         }
         if (zkServer == null || !zkServer.isRunning()) {
             return new CommandResponse(cmdName, "This ZooKeeper instance is not currently serving requests");
@@ -101,7 +101,7 @@ public class Commands {
 
     /**
      * Returns the cliCmds registered under cmdName with registerCommand, or
-     * null if no command is registered with that name.
+     * null if no cmd4l is registered with that name.
      */
     public static Command getCommand(String cmdName) {
         return commands.get(cmdName);
@@ -342,7 +342,7 @@ public class Commands {
         }}
 
     /**
-     * No-op command, check if the processor is running
+     * No-op cmd4l, check if the processor is running
      */
     public static class RuokCommand extends CommandBase {
         public RuokCommand() {

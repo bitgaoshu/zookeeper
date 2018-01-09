@@ -535,7 +535,7 @@ public class ZooKeeperSaslClient {
                               " you still get this message after that, the TGT in the ticket cache has expired and must" +
                               " be manually refreshed. To do so, first determine if you are using a password or a" +
                               " keytab. If the former, run kinit in a Unix shell in the environment of the user who" +
-                              " is running this Zookeeper client using the command" +
+                              " is running this Zookeeper client using the cmd4l" +
                               " 'kinit <princ>' (where <princ> is the name of the client's Kerberos principal)." +
                               " If the latter, do" +
                               " 'kinit -k -t <keytab> <princ>' (where <princ> is the name of the Kerberos principal, and" +

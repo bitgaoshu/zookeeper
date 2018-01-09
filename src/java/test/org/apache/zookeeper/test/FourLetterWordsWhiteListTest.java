@@ -25,7 +25,7 @@ import org.apache.zookeeper.server.common.X509Exception.SSLContextException;
 
 import static org.apache.zookeeper.client.FourLetterWordMain.send4LetterWord;
 
-import org.apache.zookeeper.server.command.FourLetterCommands;
+import org.apache.zookeeper.server.cmd4l.FourLetterCommands;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;

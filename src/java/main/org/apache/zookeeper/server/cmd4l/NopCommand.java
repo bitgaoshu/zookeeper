@@ -16,24 +16,26 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.command;
+package org.apache.zookeeper.server.cmd4l;
 
 import java.io.PrintWriter;
 
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 
-public class StatResetCommand extends AbstractFourLetterCommand {
-    public StatResetCommand(PrintWriter pw, ServerCnxn serverCnxn) {
+/**
+ * A cmd4l that does not do anything except reply to client with predefined message.
+ * It is used to inform clients who execute none white listed four letter word commands.
+ */
+public class NopCommand extends AbstractFourLetterCommand {
+    private String msg;
+
+    public NopCommand(PrintWriter pw, ServerCnxn serverCnxn, String msg) {
         super(pw, serverCnxn);
+        this.msg = msg;
     }
 
     @Override
     public void commandRun() {
-        if (!isZKServerRunning()) {
-            pw.println(ZK_NOT_SERVING);
-        } else {
-            zkServer.serverStats().reset();
-            pw.println("Server stats reset.");
-        }
+        pw.println(msg);
     }
 }

@@ -64,7 +64,7 @@ public class Util {
      * Given two directory files the method returns a well-formed 
      * logfile provider URI. This method is for backward compatibility with the
      * existing code that only supports logfile persistence and expects these two
-     * parameters passed either on the command-line or in the configuration file.
+     * parameters passed either on the cmd4l-line or in the configuration file.
      * 
      * @param dataDir snapshot directory
      * @param dataLogDir transaction log directory

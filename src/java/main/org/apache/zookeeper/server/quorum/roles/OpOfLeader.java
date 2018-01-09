@@ -73,7 +73,7 @@ public enum OpOfLeader{
      */
     REVALIDATE(6,"REVALIDATE"),
     /**
-     * This message is a reply to a synchronize command flushing the pipe
+     * This message is a reply to a synchronize cmd4l flushing the pipe
      * between the leader and the follower.
      */
     SYNC(7,"SYNC"),

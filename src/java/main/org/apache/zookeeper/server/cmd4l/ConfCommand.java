@@ -16,21 +16,23 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.command;
+package org.apache.zookeeper.server.cmd4l;
 
 import java.io.PrintWriter;
 
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 
-public class SetTraceMaskCommand extends AbstractFourLetterCommand {
-    long trace = 0;
-    public SetTraceMaskCommand(PrintWriter pw, ServerCnxn serverCnxn, long trace) {
-        super(pw, serverCnxn);
-        this.trace = trace;
+public class ConfCommand extends AbstractFourLetterCommand {
+    ConfCommand(PrintWriter pw, ServerCnxn serverCnxn) {
+        super(pw,serverCnxn);
     }
 
     @Override
     public void commandRun() {
-        pw.print(trace);
+        if (!isZKServerRunning()) {
+            pw.println(ZK_NOT_SERVING);
+        } else {
+            zkServer.dumpConf(pw);
+        }
     }
 }

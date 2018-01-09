@@ -32,36 +32,36 @@ import org.apache.zookeeper.server.ZooKeeperServer;
  */
 public interface Command {
     /**
-     * The set of all names that can be used to refer to this command (e.g.,
+     * The set of all names that can be used to refer to this cmd4l (e.g.,
      * "configuration", "config", and "conf").
      */
     Set<String> getNames();
 
     /**
-     * The name that is returned with the command response and that appears in
+     * The name that is returned with the cmd4l response and that appears in
      * the list of all commands. This should be a member of the set returned by
      * getNames().
      */
     String getPrimaryName();
 
     /**
-     * A string documentating this command (e.g., what it does, any arguments it
+     * A string documentating this cmd4l (e.g., what it does, any arguments it
      * takes).
      */
     String getDoc();
 
     /**
-     * Run this command. Commands take a ZooKeeperServer and String-valued
+     * Run this cmd4l. Commands take a ZooKeeperServer and String-valued
      * keyword arguments and return a map containing any information
-     * constituting the response to the command. Commands are responsible for
+     * constituting the response to the cmd4l. Commands are responsible for
      * parsing keyword arguments and performing any error handling if necessary.
      * Errors should be reported by setting the "error" entry of the returned
      * map with an appropriate message rather than throwing an exception.
      *
      * @param zkServer
      * @param kwargs keyword -> argument value mapping
-     * @return Map representing response to command containing at minimum:
-     *    - "command" key containing the command's primary name
+     * @return Map representing response to cmd4l containing at minimum:
+     *    - "cmd4l" key containing the cmd4l's primary name
      *    - "error" key containing a String error message or null if no error
      */
     CommandResponse run(ZooKeeperServer zkServer, Map<String, String> kwargs);

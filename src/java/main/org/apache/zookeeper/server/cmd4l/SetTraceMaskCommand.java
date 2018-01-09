@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,26 +16,21 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.command;
-
-import org.apache.zookeeper.server.cnxn.ServerCnxn;
-import org.apache.zookeeper.util.LogEnv;
+package org.apache.zookeeper.server.cmd4l;
 
 import java.io.PrintWriter;
-import java.util.Map;
 
-public class EnvCommand extends AbstractFourLetterCommand {
-    EnvCommand(PrintWriter pw, ServerCnxn serverCnxn) {
+import org.apache.zookeeper.server.cnxn.ServerCnxn;
+
+public class SetTraceMaskCommand extends AbstractFourLetterCommand {
+    long trace = 0;
+    public SetTraceMaskCommand(PrintWriter pw, ServerCnxn serverCnxn, long trace) {
         super(pw, serverCnxn);
+        this.trace = trace;
     }
 
     @Override
     public void commandRun() {
-        Map<String, String> env = LogEnv.map();
-
-        pw.println("LogEnv:");
-        for (Map.Entry<String, String> e : env.entrySet()) {
-            pw.println(e.toString());
-        }
+        pw.print(trace);
     }
 }

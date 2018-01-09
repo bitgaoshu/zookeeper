@@ -22,7 +22,7 @@ import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.data.Stat;
 
 /**
- * get command for cli
+ * get cmd4l for cli
  */
 public class GetCommand extends CliCommand {
 

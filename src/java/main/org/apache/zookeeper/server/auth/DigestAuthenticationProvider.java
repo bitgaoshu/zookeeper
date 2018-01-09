@@ -31,7 +31,7 @@ public class DigestAuthenticationProvider implements AuthenticationProvider {
     private static final Logger LOG =
         LoggerFactory.getLogger(DigestAuthenticationProvider.class);
 
-    /** specify a command line property with key of 
+    /** specify a cmd4l line property with key of
      * "zookeeper.DigestAuthenticationProvider.superDigest"
      * and value of "super:<base64encoded(SHA1(password))>" to enable
      * super user access (i.e. acls disabled)

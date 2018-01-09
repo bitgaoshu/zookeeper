@@ -18,7 +18,7 @@
 package org.apache.zookeeper.client.cliCmds;
 
 /**
- * close command for cli
+ * close cmd4l for cli
  */
 public class CloseCommand extends CliCommand {
 

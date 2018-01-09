@@ -24,7 +24,7 @@ import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
 
 /**
- * setAcl command for cli
+ * setAcl cmd4l for cli
  */
 public class SetAclCommand extends CliCommand {
 
