@@ -42,6 +42,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.apache.zookeeper.server.*;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
+import org.apache.zookeeper.server.ZooKeeperServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -628,7 +629,7 @@ public class NIOServerCnxnFactory extends ServerCnxnFactory {
     private long workerShutdownTimeoutMS;
 
     /**
-     * Construct a new server connection factory which will accept an unlimited number
+     * Construct a new processor connection factory which will accept an unlimited number
      * of concurrent connections from each client (up to the file descriptor
      * limits of the operating system). startup(zks) must be called subsequently.
      */
@@ -696,7 +697,7 @@ public class NIOServerCnxnFactory extends ServerCnxnFactory {
         try {
             s.close();
         } catch (IOException sse) {
-            LOG.error("Error while closing server socket.", sse);
+            LOG.error("Error while closing processor socket.", sse);
         }
     }
 

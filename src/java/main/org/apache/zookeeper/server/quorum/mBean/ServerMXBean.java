@@ -19,15 +19,15 @@
 package org.apache.zookeeper.server.quorum.mBean;
 
 /**
- * A quorum server MBean.
+ * A quorum processor MBean.
  */
 public interface ServerMXBean {
     /**
-     * @return name of the server MBean
+     * @return name of the processor MBean
      */
     public String getName();
     /**
-     * @return the start time the server 
+     * @return the start time the processor
      */
     public String getStartTime();
 }

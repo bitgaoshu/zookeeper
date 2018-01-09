@@ -558,7 +558,7 @@ public class NIOServerCnxn extends ServerCnxn {
     }
 
     /**
-     * @return true if the server is running, false otherwise.
+     * @return true if the processor is running, false otherwise.
      */
     boolean isZKServerRunning() {
         return zkServer != null && zkServer.isRunning();
@@ -571,7 +571,7 @@ public class NIOServerCnxn extends ServerCnxn {
     /*
      * (non-Javadoc)
      *
-     * @see org.apache.zookeeper.server.ServerCnxnIface#getSessionTimeout()
+     * @see org.apache.zookeeper.processor.ServerCnxnIface#getSessionTimeout()
      */
     public int getSessionTimeout() {
         return sessionTimeout;
@@ -639,7 +639,7 @@ public class NIOServerCnxn extends ServerCnxn {
     /*
      * (non-Javadoc)
      *
-     * @see org.apache.zookeeper.server.ServerCnxnIface#sendResponse(org.apache.zookeeper.proto.ReplyHeader,
+     * @see org.apache.zookeeper.processor.ServerCnxnIface#sendResponse(org.apache.zookeeper.proto.ReplyHeader,
      *      org.apache.jute.Record, java.lang.String)
      */
     @Override
@@ -677,7 +677,7 @@ public class NIOServerCnxn extends ServerCnxn {
     /*
      * (non-Javadoc)
      *
-     * @see org.apache.zookeeper.server.ServerCnxnIface#process(org.apache.zookeeper.proto.WatcherEvent)
+     * @see org.apache.zookeeper.processor.ServerCnxnIface#process(org.apache.zookeeper.proto.WatcherEvent)
      */
     @Override
     public void process(WatchedEvent event) {
@@ -698,7 +698,7 @@ public class NIOServerCnxn extends ServerCnxn {
     /*
      * (non-Javadoc)
      *
-     * @see org.apache.zookeeper.server.ServerCnxnIface#getSessionId()
+     * @see org.apache.zookeeper.processor.ServerCnxnIface#getSessionId()
      */
     @Override
     public long getSessionId() {

@@ -163,13 +163,13 @@ public class ZooInspectorPanel extends JPanel implements
                     LoggerFactory
                             .getLogger()
                             .error(
-                                    "Error occurred while connecting to ZooKeeper server",
+                                    "Error occurred while connecting to ZooKeeper processor",
                                     e);
                 } catch (ExecutionException e) {
                     LoggerFactory
                             .getLogger()
                             .error(
-                                    "Error occurred while connecting to ZooKeeper server",
+                                    "Error occurred while connecting to ZooKeeper processor",
                                     e);
                 }
             }
@@ -209,13 +209,13 @@ public class ZooInspectorPanel extends JPanel implements
                     LoggerFactory
                             .getLogger()
                             .error(
-                                    "Error occurred while disconnecting from ZooKeeper server",
+                                    "Error occurred while disconnecting from ZooKeeper processor",
                                     e);
                 } catch (ExecutionException e) {
                     LoggerFactory
                             .getLogger()
                             .error(
-                                    "Error occurred while disconnecting from ZooKeeper server",
+                                    "Error occurred while disconnecting from ZooKeeper processor",
                                     e);
                 }
             }
@@ -230,7 +230,7 @@ public class ZooInspectorPanel extends JPanel implements
                     LoggerFactory
                             .getLogger()
                             .error(
-                                    "Error occurred while disconnecting from ZooKeeper server",
+                                    "Error occurred while disconnecting from ZooKeeper processor",
                                     e);
                 }
             }

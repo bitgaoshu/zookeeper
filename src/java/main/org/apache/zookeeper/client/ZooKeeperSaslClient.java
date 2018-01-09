@@ -57,7 +57,7 @@ import java.security.PrivilegedExceptionAction;
 
 /**
  * This class manages SASL authentication for the client. It
- * allows ClientCnxn to authenticate using SASL with a ZooKeeper server.
+ * allows ClientCnxn to authenticate using SASL with a ZooKeeper processor.
  */
 public class ZooKeeperSaslClient {
     /**
@@ -232,16 +232,16 @@ public class ZooKeeperSaslClient {
             // to reply to the Zookeeper Server's SASL token
             ZooKeeperSaslClient client = ((ClientCnxn)ctx).zooKeeperSaslClient;
             if (client == null) {
-                LOG.warn("sasl client was unexpectedly null: cannot respond to Zookeeper server.");
+                LOG.warn("sasl client was unexpectedly null: cannot respond to Zookeeper processor.");
                 return;
             }
             byte[] usedata = data;
             if (data != null) {
-                LOG.debug("ServerSaslResponseCallback(): saslToken server response: (length="+usedata.length+")");
+                LOG.debug("ServerSaslResponseCallback(): saslToken processor response: (length="+usedata.length+")");
             }
             else {
                 usedata = new byte[0];
-                LOG.debug("ServerSaslResponseCallback(): using empty data[] as server response (length="+usedata.length+")");
+                LOG.debug("ServerSaslResponseCallback(): using empty data[] as processor response (length="+usedata.length+")");
             }
             client.respondToServer(usedata, (ClientCnxn)ctx);
         }
@@ -274,7 +274,7 @@ public class ZooKeeperSaslClient {
                 String[] mechs = {"DIGEST-MD5"};
                 String username = (String)(subject.getPublicCredentials().toArray()[0]);
                 String password = (String)(subject.getPrivateCredentials().toArray()[0]);
-                // "zk-sasl-md5" is a hard-wired 'domain' parameter shared with zookeeper server code (see ServerCnxnFactory.java)
+                // "zk-sasl-md5" is a hard-wired 'domain' parameter shared with zookeeper processor code (see ServerCnxnFactory.java)
                 saslClient = Sasl.createSaslClient(mechs, username, "zookeeper", "zk-sasl-md5", null, new ClientCallbackHandler(password));
                 return saslClient;
             }
@@ -302,15 +302,15 @@ public class ZooKeeperSaslClient {
             			}
             		} catch (GSSException ex) {
             			LOG.warn("Cannot add private credential to subject; " +
-            					"authentication at the server may fail", ex);
+            					"authentication at the processor may fail", ex);
             		}
             	}
                 final Object[] principals = subject.getPrincipals().toArray();
                 // determine client principal from subject.
                 final Principal clientPrincipal = (Principal)principals[0];
                 final KerberosName clientKerberosName = new KerberosName(clientPrincipal.getName());
-                // assume that server and client are in the same realm (by default; unless the system property
-                // "zookeeper.server.realm" is set).
+                // assume that processor and client are in the same realm (by default; unless the system property
+                // "zookeeper.processor.realm" is set).
                 String serverRealm = clientConfig.getProperty(
                         ZKClientConfig.ZOOKEEPER_SERVER_REALM,
                         clientKerberosName.getRealm());
@@ -348,7 +348,7 @@ public class ZooKeeperSaslClient {
 
     public void respondToServer(byte[] serverToken, ClientCnxn cnxn) {
         if (saslClient == null) {
-            LOG.error("saslClient is unexpectedly null. Cannot respond to server's SASL message; ignoring.");
+            LOG.error("saslClient is unexpectedly null. Cannot respond to processor's SASL message; ignoring.");
             return;
         }
 
@@ -367,17 +367,17 @@ public class ZooKeeperSaslClient {
         }
 
         if (saslClient.isComplete()) {
-            // GSSAPI: server sends a final packet after authentication succeeds
+            // GSSAPI: processor sends a final packet after authentication succeeds
             // or fails.
             if ((serverToken == null) && (saslClient.getMechanismName().equals("GSSAPI")))
                 gotLastPacket = true;
-            // non-GSSAPI: no final packet from server.
+            // non-GSSAPI: no final packet from processor.
             if (!saslClient.getMechanismName().equals("GSSAPI")) {
                 gotLastPacket = true;
             }
             // SASL authentication is completed, successfully or not:
             // enable the socket's writable flag so that any packets waiting for authentication to complete in
-            // the outgoing queue will be sent to the Zookeeper server.
+            // the outgoing queue will be sent to the Zookeeper processor.
             cnxn.saslCompleted();
         }
     }
@@ -446,7 +446,7 @@ public class ZooKeeperSaslClient {
         try {
             cnxn.sendPacket(request,response,cb, OpType.sasl);
         } catch (IOException e) {
-            throw new SaslException("Failed to send SASL packet to server.",
+            throw new SaslException("Failed to send SASL packet to processor.",
                 e);
         }
     }
@@ -462,7 +462,7 @@ public class ZooKeeperSaslClient {
         try {
             cnxn.sendPacket(request,response,cb, OpType.sasl);
         } catch (IOException e) {
-            throw new SaslException("Failed to send SASL packet to server due " +
+            throw new SaslException("Failed to send SASL packet to processor due " +
               "to IOException:", e);
         }
     }
@@ -485,7 +485,7 @@ public class ZooKeeperSaslClient {
         return null;
     }
 
-    // Initialize the client's communications with the Zookeeper server by sending the server the first
+    // Initialize the client's communications with the Zookeeper processor by sending the processor the first
     // authentication packet.
     public void initialize(ClientCnxn cnxn) throws SaslException {
         if (saslClient == null) {
@@ -507,7 +507,7 @@ public class ZooKeeperSaslClient {
     // The CallbackHandler interface here refers to
     // javax.security.auth.callback.CallbackHandler.
     // It should not be confused with Zookeeper packet callbacks like
-    //  org.apache.zookeeper.server.auth.SaslServerCallbackHandler.
+    //  org.apache.zookeeper.processor.auth.SaslServerCallbackHandler.
     public static class ClientCallbackHandler implements CallbackHandler {
         private String password = null;
 
@@ -598,14 +598,14 @@ public class ZooKeeperSaslClient {
                 if (isComplete() || isFailed()) {
                     if (gotLastPacket == false) {
                         // ..but still in progress, because there is a final SASL
-                        // message from server which must be received.
+                        // message from processor which must be received.
                     return true;
                     }
                 }
             }
             // Either client is not configured to use a tunnelled authentication
             // scheme, or tunnelled authentication has completed (successfully or
-            // not), and all server SASL messages have been received.
+            // not), and all processor SASL messages have been received.
             return false;
         } catch (SecurityException e) {
             // Thrown if the caller does not have permission to retrieve the Configuration.

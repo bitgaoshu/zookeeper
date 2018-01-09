@@ -75,9 +75,9 @@ public class ClientCnxnSocketNIO extends ClientCnxnSocket {
             int rc = sock.read(incomingBuffer);
             if (rc < 0) {
                 throw new EndOfStreamException(
-                        "Unable to read additional data from server sessionid 0x"
+                        "Unable to read additional data from processor sessionid 0x"
                                 + Long.toHexString(sessionId)
-                                + ", likely server has closed socket");
+                                + ", likely processor has closed socket");
             }
             if (!incomingBuffer.hasRemaining()) {
                 incomingBuffer.flip();
@@ -144,7 +144,7 @@ public class ClientCnxnSocketNIO extends ClientCnxnSocket {
                 // On initial connection, write the complete connect request
                 // packet, but then disable further writes until after
                 // receiving a successful connection response.  If the
-                // session is expired, then the server sends the expiration
+                // session is expired, then the processor sends the expiration
                 // response and immediately closes its end of the socket.  If
                 // the client is simultaneously writing on its end, then the
                 // TCP stack may choose to abort with RST, in which case the
@@ -167,7 +167,7 @@ public class ClientCnxnSocketNIO extends ClientCnxnSocket {
         if (outgoingQueue.getFirst().bb != null || !tunneledAuthInProgres) {
             return outgoingQueue.getFirst();
         }
-        // Since client's authentication with server is in progress,
+        // Since client's authentication with processor is in progress,
         // send only the null-header packet queued by primeConnection().
         // This packet must be sent so that the SASL authentication process
         // can proceed, but all other packets should wait until

@@ -16,7 +16,10 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum.roles.server;
+package org.apache.zookeeper.server.quorum.roles.learner.processor;
+
+import java.io.IOException;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.operation.OpType;
@@ -24,40 +27,30 @@ import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.server.ZooKeeperCriticalThread;
 import org.apache.zookeeper.server.ZooTrace;
+import org.apache.zookeeper.server.quorum.roles.learner.server.FollowerZooKeeperServer;
 import org.apache.zookeeper.txn.ErrorTxn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * This RequestProcessor forwards any requests that modify the state of the
  * system to the leader.
  */
-public class ObserverRequestProcessor extends ZooKeeperCriticalThread implements
+public class FollowerRequestProcessor extends ZooKeeperCriticalThread implements
         RequestProcessor {
-    private static final Logger LOG = LoggerFactory.getLogger(ObserverRequestProcessor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FollowerRequestProcessor.class);
 
-    ObserverZooKeeperServer zks;
+    FollowerZooKeeperServer zks;
 
     RequestProcessor nextProcessor;
 
-    // We keep a queue of requests. As requests get submitted they are
-    // stored here. The queue is drained in the run() method.
     LinkedBlockingQueue<Request> queuedRequests = new LinkedBlockingQueue<Request>();
 
     boolean finished = false;
 
-    /**
-     * Constructor - takes an ObserverZooKeeperServer to associate with
-     * and the next processor to pass requests to after we're finished.
-     * @param zks
-     * @param nextProcessor
-     */
-    public ObserverRequestProcessor(ObserverZooKeeperServer zks,
+    public FollowerRequestProcessor(FollowerZooKeeperServer zks,
             RequestProcessor nextProcessor) {
-        super("ObserverRequestProcessor:" + zks.getServerId(), zks
+        super("FollowerRequestProcessor:" + zks.getServerId(), zks
                 .getZooKeeperServerListener());
         this.zks = zks;
         this.nextProcessor = nextProcessor;
@@ -83,31 +76,31 @@ public class ObserverRequestProcessor extends ZooKeeperCriticalThread implements
                 // We now ship the request to the leader. As with all
                 // other quorum operations, sync also follows this code
                 // path, but different from others, we need to keep track
-                // of the sync operations this Observer has pending, so we
+                // of the sync operations this follower has pending, so we
                 // add it to pendingSyncs.
                 switch (request.op) {
-                    case sync:
-                        zks.pendingSyncs.add(request);
-                        zks.getObserver().request(request);
-                        break;
-                    case create:
-                    case create2:
-                    case createTTL:
-                    case createContainer:
-                    case delete:
-                    case deleteContainer:
-                    case setData:
-                    case reconfig:
-                    case setACL:
-                    case multi:
-                    case check:
-                        zks.getObserver().request(request);
-                        break;
-                    case createSession:
-                    case closeSession:
+                case sync:
+                    zks.pendingSyncRequest(request);
+                    zks.getFollower().request(request);
+                    break;
+                case create:
+                case create2:
+                case createTTL:
+                case createContainer:
+                case delete:
+                case deleteContainer:
+                case setData:
+                case reconfig:
+                case setACL:
+                case multi:
+                case check:
+                    zks.getFollower().request(request);
+                    break;
+                case createSession:
+                case closeSession:
                     // Don't forward local sessions to the leader.
                     if (!request.isLocalSession()) {
-                        zks.getObserver().request(request);
+                        zks.getFollower().request(request);
                     }
                     break;
                 }
@@ -115,14 +108,14 @@ public class ObserverRequestProcessor extends ZooKeeperCriticalThread implements
         } catch (Exception e) {
             handleException(this.getName(), e);
         }
-        LOG.info("ObserverRequestProcessor exited loop!");
+        LOG.info("FollowerRequestProcessor exited loop!");
     }
 
-    /**
-     * Simply queue the request, which will be processed in FIFO order.
-     */
     public void processRequest(Request request) {
         if (!finished) {
+            // Before sending the request, check if the request requires a
+            // global session and what we have is a local session. If so do
+            // an upgrade.
             Request upgradeRequest = null;
             try {
                 upgradeRequest = zks.checkUpgradeSession(request);
@@ -143,9 +136,6 @@ public class ObserverRequestProcessor extends ZooKeeperCriticalThread implements
         }
     }
 
-    /**
-     * Shutdown the processor.
-     */
     public void shutdown() {
         LOG.info("Shutting down");
         finished = true;

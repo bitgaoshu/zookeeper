@@ -16,14 +16,13 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.roles.leader;
 
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.RequestProcessor;
-import org.apache.zookeeper.server.SyncRequestProcessor;
+import org.apache.zookeeper.server.processor.SyncRequestProcessor;
+import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.roles.leader.Leader.XidRolloverException;
-import org.apache.zookeeper.server.quorum.roles.leader.LeaderZooKeeperServer;
-import org.apache.zookeeper.server.quorum.roles.leader.LearnerSyncRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,4 +91,31 @@ public class ProposalRequestProcessor implements RequestProcessor {
         syncProcessor.shutdown();
     }
 
+    /**
+     * This is a very simple RequestProcessor that simply forwards a request from a
+     * previous stage to the leader as an ACK.
+     */
+    static class AckRequestProcessor implements RequestProcessor {
+        private static final Logger LOG = LoggerFactory.getLogger(AckRequestProcessor.class);
+        Leader leader;
+
+        AckRequestProcessor(Leader leader) {
+            this.leader = leader;
+        }
+
+        /**
+         * Forward the request as an ACK to the leader
+         */
+        public void processRequest(Request request) {
+            QuorumPeer self = leader.getQuorumPeer();
+            if(self != null)
+                leader.processAck(self.getId(), request.zxid, null);
+            else
+                LOG.error("Null QuorumPeer");
+        }
+
+        public void shutdown() {
+            // XXX No need to do anything
+        }
+    }
 }

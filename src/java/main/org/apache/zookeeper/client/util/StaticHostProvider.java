@@ -68,7 +68,7 @@ public final class StaticHostProvider implements HostProvider {
      * Constructs a SimpleHostSet.
      * 
      * @param serverAddresses
-     *            possibly unresolved ZooKeeper server addresses
+     *            possibly unresolved ZooKeeper processor addresses
      * @throws IllegalArgumentException
      *             if serverAddresses is empty or resolves to an empty list
      */
@@ -89,7 +89,7 @@ public final class StaticHostProvider implements HostProvider {
      * by initializing sourceOfRandomness with the same seed
      * 
      * @param serverAddresses
-     *            possibly unresolved ZooKeeper server addresses
+     *            possibly unresolved ZooKeeper processor addresses
      * @param randomnessSeed a seed used to initialize sourceOfRandomnes
      * @throws IllegalArgumentException
      *             if serverAddresses is empty or resolves to an empty list
@@ -119,7 +119,7 @@ public final class StaticHostProvider implements HostProvider {
                     tmpList.add(new InetSocketAddress(taddr, address.getPort()));
                 }
             } catch (UnknownHostException ex) {
-                LOG.warn("No IP address found for server: {}", address, ex);
+                LOG.warn("No IP address found for processor: {}", address, ex);
             }
         }
         Collections.shuffle(tmpList, sourceOfRandomness);
@@ -135,7 +135,7 @@ public final class StaticHostProvider implements HostProvider {
      * b) the number of servers in the cluster is increasing - in this case the load on currentHost should decrease,
      *    which means that SOME of the clients connected to it will migrate to the new servers. The decision whether
      *    this client migrates or not (i.e., whether true or false is returned) is probabilistic so that the expected 
-     *    number of clients connected to each server is the same.
+     *    number of clients connected to each processor is the same.
      *    
      * If true is returned, the function sets pOld and pNew that correspond to the probability to migrate to ones of the
      * new servers in serverAddresses or one of the old servers (migrating to one of the old servers is done only
@@ -155,30 +155,30 @@ public final class StaticHostProvider implements HostProvider {
     public synchronized boolean updateServerList(
             Collection<InetSocketAddress> serverAddresses,
             InetSocketAddress currentHost) {
-        // Resolve server addresses and shuffle them
+        // Resolve processor addresses and shuffle them
         List<InetSocketAddress> resolvedList = resolveAndShuffle(serverAddresses);
         if (resolvedList.isEmpty()) {
             throw new IllegalArgumentException(
                     "A HostProvider may not be empty!");
         }
-        // Check if client's current server is in the new list of servers
+        // Check if client's current processor is in the new list of servers
         boolean myServerInNewConfig = false;
 
         InetSocketAddress myServer = currentHost;
 
-        // choose "current" server according to the client rebalancing algorithm
+        // choose "current" processor according to the client rebalancing algorithm
         if (reconfigMode) {
             myServer = next(0);
         }
 
-        // if the client is not currently connected to any server
+        // if the client is not currently connected to any processor
         if (myServer == null) {
             // reconfigMode = false (next shouldn't return null).
             if (lastIndex >= 0) {
-                // take the last server to which we were connected
+                // take the last processor to which we were connected
                 myServer = this.serverAddresses.get(lastIndex);
             } else {
-                // take the first server on the list
+                // take the first processor on the list
                 myServer = this.serverAddresses.get(0);
             }
         }
@@ -214,7 +214,7 @@ public final class StaticHostProvider implements HostProvider {
         // number of servers increased
         if (numOld + numNew > this.serverAddresses.size()) {
             if (myServerInNewConfig) {
-                // my server is in new config, but load should be decreased.
+                // my processor is in new config, but load should be decreased.
                 // Need to decide if this client
                 // is moving to one of the new servers
                 if (sourceOfRandomness.nextFloat() <= (1 - ((float) this.serverAddresses
@@ -222,11 +222,11 @@ public final class StaticHostProvider implements HostProvider {
                     pNew = 1;
                     pOld = 0;
                 } else {
-                    // do nothing special - stay with the current server
+                    // do nothing special - stay with the current processor
                     reconfigMode = false;
                 }
             } else {
-                // my server is not in new config, and load on old servers must
+                // my processor is not in new config, and load on old servers must
                 // be decreased, so connect to
                 // one of the new servers
                 pNew = 1;
@@ -234,8 +234,8 @@ public final class StaticHostProvider implements HostProvider {
             }
         } else { // number of servers stayed the same or decreased
             if (myServerInNewConfig) {
-                // my server is in new config, and load should be increased, so
-                // stay with this server and do nothing special
+                // my processor is in new config, and load should be increased, so
+                // stay with this processor and do nothing special
                 reconfigMode = false;
             } else {
                 pOld = ((float) (numOld * (this.serverAddresses.size() - (numOld + numNew))))
@@ -270,12 +270,12 @@ public final class StaticHostProvider implements HostProvider {
     }
 
     /**
-     * Get the next server to connect to, when in "reconfigMode", which means that 
-     * you've just updated the server list, and now trying to find some server to connect to. 
+     * Get the next processor to connect to, when in "reconfigMode", which means that
+     * you've just updated the processor list, and now trying to find some processor to connect to.
      * Once onConnected() is called, reconfigMode is set to false. Similarly, if we tried to connect
      * to all servers in new config and failed, reconfigMode is set to false.
      * 
-     * While in reconfigMode, we should connect to a server in newServers with probability pNew and to servers in
+     * While in reconfigMode, we should connect to a processor in newServers with probability pNew and to servers in
      * oldServers with probability pOld (which is just 1-pNew). If we tried out all servers in either oldServers
      * or newServers we continue to try servers from the other set, regardless of pNew or pOld. If we tried all servers
      * we give up and go back to the normal round robin mode

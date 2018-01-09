@@ -16,21 +16,22 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum.roles.server;
+package org.apache.zookeeper.server.quorum.roles.learner.server;
 
 import org.apache.jute.Record;
 import org.apache.zookeeper.operation.OpType;
-import org.apache.zookeeper.server.FinalRequestProcessor;
-import org.apache.zookeeper.server.Request;
-import org.apache.zookeeper.server.RequestProcessor;
-import org.apache.zookeeper.server.SyncRequestProcessor;
-import org.apache.zookeeper.server.ZKDatabase;
-import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
-import org.apache.zookeeper.server.quorum.CommitProcessor;
-import org.apache.zookeeper.server.quorum.QuorumPeer;
-import org.apache.zookeeper.server.quorum.SendAckRequestProcessor;
 import org.apache.zookeeper.server.quorum.roles.learner.Follower;
 import org.apache.zookeeper.server.quorum.roles.learner.Learner;
+import org.apache.zookeeper.server.processor.FinalRequestProcessor;
+import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.RequestProcessor;
+import org.apache.zookeeper.server.processor.SyncRequestProcessor;
+import org.apache.zookeeper.server.ZKDatabase;
+import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
+import org.apache.zookeeper.server.quorum.QuorumPeer;
+import org.apache.zookeeper.server.quorum.roles.learner.processor.FollowerRequestProcessor;
+import org.apache.zookeeper.server.quorum.roles.learner.processor.SendAckRequestProcessor;
+import org.apache.zookeeper.server.quorum.roles.processor.CommitProcessor;
 import org.apache.zookeeper.txn.TxnHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,16 +117,6 @@ public class FollowerZooKeeperServer extends LearnerZooKeeperServer {
 
     public Request pendingHead() {
         return pendingTxns.element();
-    }
-
-    synchronized public void sync() {
-        if (pendingSyncs.size() == 0) {
-            LOG.warn("Not expecting a sync.");
-            return;
-        }
-
-        Request r = pendingSyncs.remove();
-        commitProcessor.commit(r);
     }
 
     @Override

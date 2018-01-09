@@ -16,13 +16,14 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.roles.learner.processor;
 
 import java.io.Flushable;
 import java.io.IOException;
 
-import org.apache.zookeeper.server.quorum.roles.learner.Learner;
+import org.apache.zookeeper.server.quorum.QuorumPacket;
 import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
+import org.apache.zookeeper.server.quorum.roles.learner.Learner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

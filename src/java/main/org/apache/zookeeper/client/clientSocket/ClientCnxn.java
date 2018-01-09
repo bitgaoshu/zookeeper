@@ -106,11 +106,11 @@ public class ClientCnxn {
 
     /* ZOOKEEPER-706: If a session has a large number of watches set then
      * attempting to re-establish those watches after a connection loss may
-     * fail due to the SetWatches request exceeding the server's configured
+     * fail due to the SetWatches request exceeding the processor's configured
      * jute.maxBuffer value. To avoid this we instead split the watch
      * re-establishement across multiple SetWatches calls. This constant
      * controls the size of each call. It is set to 128kB to be conservative
-     * with respect to the server's 1MB default for jute.maxBuffer.
+     * with respect to the processor's 1MB default for jute.maxBuffer.
      */
     private static final int SET_WATCHES_MAX_LENGTH = 128 * 1024;
     private final CopyOnWriteArraySet<AuthData> authInfo = new CopyOnWriteArraySet<AuthData>();
@@ -135,16 +135,16 @@ public class ClientCnxn {
     private final ZKClientConfig clientConfig;
     public ZooKeeperSaslClient zooKeeperSaslClient;
     /**
-     * Is set to true when a connection to a r/w server is established for the
+     * Is set to true when a connection to a r/w processor is established for the
      * first time; never changed afterwards.
      * <p>
      * Is used to handle situations when client without sessionId connects to a
-     * read-only server. Such client receives "fake" sessionId from read-only
-     * server, but this sessionId is invalid for other servers. So when such
-     * client finds a r/w server, it sends 0 instead of fake sessionId during
+     * read-only processor. Such client receives "fake" sessionId from read-only
+     * processor, but this sessionId is invalid for other servers. So when such
+     * client finds a r/w processor, it sends 0 instead of fake sessionId during
      * connection handshake and establishes new, valid session.
      * <p>
-     * If this field is false (which implies we haven't seen r/w server before)
+     * If this field is false (which implies we haven't seen r/w processor before)
      * then non-zero sessionId is fake, otherwise it is valid.
      */
     volatile boolean seenRwServerBefore = false;
@@ -152,9 +152,9 @@ public class ClientCnxn {
     volatile ZooKeeper.States state = ZooKeeper.States.NOT_CONNECTED;
     private int connectTimeout;
     /**
-     * The timeout in ms the client negotiated with the server. This is the
+     * The timeout in ms the client negotiated with the processor. This is the
      * "real" timeout, not the timeout request by the client (which may have
-     * been increased/decreased by the server which applies bounds to this
+     * been increased/decreased by the processor which applies bounds to this
      * value.
      */
     private volatile int negotiatedSessionTimeout;
@@ -164,14 +164,14 @@ public class ClientCnxn {
     /**
      * If true, the connection is allowed to go to r-o mode. This field's value
      * is sent, besides other data, during session creation handshake. If the
-     * server on the other side of the wire is partitioned it'll accept
+     * processor on the other side of the wire is partitioned it'll accept
      * read-only clients only.
      */
     private boolean readOnly;
     /**
      * Set to true when close is called. Latches the connection such that we
-     * don't attempt to re-connect to the server if in the middle of closing the
-     * connection (client sends session disconnect to server as part of close
+     * don't attempt to re-connect to the processor if in the middle of closing the
+     * connection (client sends session disconnect to processor as part of close
      * operation)
      */
     private volatile boolean closing = false;
@@ -385,7 +385,7 @@ public class ClientCnxn {
 
     /**
      * Close the connection, which includes; send session disconnect to the
-     * server, shutdown the send/event threads.
+     * processor, shutdown the send/event threads.
      *
      * @throws IOException
      */
@@ -409,7 +409,7 @@ public class ClientCnxn {
 
     /*
      * getXid() is called externally by ClientCnxnNIO::doIO() when packets are sent from the outgoingQueue to
-     * the server. Thus, getXid() must be public.
+     * the processor. Thus, getXid() must be public.
      */
     synchronized public int getXid() {
         return xid++;
@@ -1041,7 +1041,7 @@ public class ClientCnxn {
                 WatcherEvent event = new WatcherEvent();
                 event.deserialize(bbia, "response");
 
-                // convert from a server path to a client path
+                // convert from a processor path to a client path
                 if (chrootPath != null) {
                     String serverPath = event.getPath();
                     if (serverPath.compareTo(chrootPath) == 0)
@@ -1049,7 +1049,7 @@ public class ClientCnxn {
                     else if (serverPath.length() > chrootPath.length())
                         event.setPath(serverPath.substring(chrootPath.length()));
                     else {
-                        LOG.warn("Got server path " + event.getPath()
+                        LOG.warn("Got processor path " + event.getPath()
                                 + " which is too short for chroot path "
                                 + chrootPath);
                     }
@@ -1137,7 +1137,7 @@ public class ClientCnxn {
          * Setup session, previous watches, authentication.
          */
         void primeConnection() throws IOException {
-            LOG.info("Socket connection established, initiating session, client: {}, server: {}",
+            LOG.info("Socket connection established, initiating session, client: {}, processor: {}",
                     clientCnxnSocket.getLocalSocketAddress(),
                     clientCnxnSocket.getRemoteSocketAddress());
             isFirstConnect = false;
@@ -1266,9 +1266,9 @@ public class ClientCnxn {
                     // An authentication error occurred when the SASL client tried to initialize:
                     // for Kerberos this means that the client failed to authenticate with the KDC.
                     // This is different from an authentication error that occurs during communication
-                    // with the Zookeeper server, which is handled below.
-                    LOG.warn("SASL configuration failed: " + e + " Will continue connection to Zookeeper server without "
-                            + "SASL authentication, if Zookeeper server allows it.");
+                    // with the Zookeeper processor, which is handled below.
+                    LOG.warn("SASL configuration failed: " + e + " Will continue connection to Zookeeper processor without "
+                            + "SASL authentication, if Zookeeper processor allows it.");
                     eventThread.queueEvent(new WatchedEvent(
                             Event.EventType.None,
                             Event.KeeperState.AuthFailed, null));
@@ -1288,7 +1288,7 @@ public class ClientCnxn {
         }
 
         private void logStartConnect(InetSocketAddress addr) {
-            String msg = "Opening socket connection to server " + addr;
+            String msg = "Opening socket connection to processor " + addr;
             if (zooKeeperSaslClient != null) {
                 msg += ". " + zooKeeperSaslClient.getConfigStatus();
             }
@@ -1353,7 +1353,7 @@ public class ClientCnxn {
 
                     if (to <= 0) {
                         String warnInfo;
-                        warnInfo = "Client session timed out, have not heard from server in "
+                        warnInfo = "Client session timed out, have not heard from processor in "
                                 + clientCnxnSocket.getIdleRecv()
                                 + "ms"
                                 + " for sessionid 0x"
@@ -1377,7 +1377,7 @@ public class ClientCnxn {
                         }
                     }
 
-                    // If we are in read-only mode, seek for read/write server
+                    // If we are in read-only mode, seek for read/write processor
                     if (state == ZooKeeper.States.CONNECTEDREADONLY) {
                         long now = Time.currentElapsedTime();
                         int idlePingRwServer = (int) (now - lastPingRwServer);
@@ -1415,7 +1415,7 @@ public class ClientCnxn {
                             LOG.warn(
                                     "Session 0x"
                                             + Long.toHexString(getSessionId())
-                                            + " for server "
+                                            + " for processor "
                                             + clientCnxnSocket.getRemoteSocketAddress()
                                             + ", unexpected error"
                                             + RETRY_CONN_MSG, e);
@@ -1452,7 +1452,7 @@ public class ClientCnxn {
         private void pingRwServer() throws RWServerFoundException {
             String result = null;
             InetSocketAddress addr = hostProvider.next(0);
-            LOG.info("Checking server " + addr + " for being r/w." +
+            LOG.info("Checking processor " + addr + " for being r/w." +
                     " Timeout " + pingRwTimeout);
 
             Socket sock = null;
@@ -1469,10 +1469,10 @@ public class ClientCnxn {
                         new InputStreamReader(sock.getInputStream()));
                 result = br.readLine();
             } catch (ConnectException e) {
-                // ignore, this just means server is not up
+                // ignore, this just means processor is not up
             } catch (IOException e) {
                 // some unexpected error, warn about it
-                LOG.warn("Exception while seeking for r/w server " +
+                LOG.warn("Exception while seeking for r/w processor " +
                         e.getMessage(), e);
             } finally {
                 if (sock != null) {
@@ -1496,7 +1496,7 @@ public class ClientCnxn {
                 // save the found address so that it's used during the next
                 // connection attempt
                 rwServerAddress = addr;
-                throw new RWServerFoundException("Majority server found at "
+                throw new RWServerFoundException("Majority processor found at "
                         + addr.getHostString() + ":" + addr.getPort());
             }
         }
@@ -1548,7 +1548,7 @@ public class ClientCnxn {
                 throw new SessionExpiredException(warnInfo);
             }
             if (!readOnly && isRO) {
-                LOG.error("Read/write client got connected to read-only server");
+                LOG.error("Read/write client got connected to read-only processor");
             }
             readTimeout = negotiatedSessionTimeout * 2 / 3;
             connectTimeout = negotiatedSessionTimeout / hostProvider.size();
@@ -1558,7 +1558,7 @@ public class ClientCnxn {
             state = (isRO) ?
                     ZooKeeper.States.CONNECTEDREADONLY : ZooKeeper.States.CONNECTED;
             seenRwServerBefore |= !isRO;
-            LOG.info("Session establishment complete on server "
+            LOG.info("Session establishment complete on processor "
                     + clientCnxnSocket.getRemoteSocketAddress()
                     + ", sessionid = 0x" + Long.toHexString(sessionId)
                     + ", negotiated timeout = " + negotiatedSessionTimeout

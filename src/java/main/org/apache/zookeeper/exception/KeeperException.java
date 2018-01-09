@@ -126,8 +126,8 @@ public abstract class KeeperException extends Exception {
         OK(0, "ok", IllegalArgumentException.class),
 
         /**
-         * System and server-side errors.
-         * This is never thrown by the server, it shouldn't be used other than
+         * System and processor-side errors.
+         * This is never thrown by the processor, it shouldn't be used other than
          * to indicate a range. Specifically error codes greater than this
          * value, but lesser than {@link #APIERROR}, are system errors.
          */
@@ -142,7 +142,7 @@ public abstract class KeeperException extends Exception {
          */
         DATAINCONSISTENCY(-3, "DataInconsistency", DataInconsistencyException.class),
         /**
-         * Connection to the server has been lost
+         * Connection to the processor has been lost
          */
         CONNECTIONLOSS(-4, "ConnectinLoss", ConnectionLossException.class),
         /**
@@ -171,13 +171,13 @@ public abstract class KeeperException extends Exception {
          */
         RECONFIGINPROGRESS(-14, "ReconfigInProcess", ReconfigInProgressException.class),
         /**
-         * Unknown session (internal server use only)
+         * Unknown session (internal processor use only)
          */
         UNKNOWNSESSION(-12, "UnkonwnSession", UnknownSessionException.class),
 
         /**
          * API errors.
-         * This is never thrown by the server, it shouldn't be used other than
+         * This is never thrown by the processor, it shouldn't be used other than
          * to indicate a range. Specifically error codes greater than this
          * value are API errors (while values less than this indicate a
          * {@link #SYSTEMERROR}).
@@ -210,7 +210,7 @@ public abstract class KeeperException extends Exception {
          */
         NOTEMPTY(-111, "Directory not empty", NotEmptyException.class),
         /**
-         * The session has been expired by the server
+         * The session has been expired by the processor
          */
         SESSIONEXPIRED(-112, "Session expired", SessionExpiredException.class),
         /**
@@ -226,11 +226,11 @@ public abstract class KeeperException extends Exception {
          */
         AUTHFAILED(-115, "AuthFailed", AuthFailedException.class),
         /**
-         * Session moved to another server, so operation is ignored
+         * Session moved to another processor, so operation is ignored
          */
         SESSIONMOVED(-118, "Session moved", SessionMovedException.class),
         /**
-         * State-changing request is passed to read-only server
+         * State-changing request is passed to read-only processor
          */
         NOTREADONLY(-119, "Not a read-only call", NotReadOnlyException.class),
         /**

@@ -21,9 +21,7 @@ package org.apache.zookeeper.server;
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
-import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
-import org.apache.zookeeper.data.StatPersisted;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
@@ -36,7 +34,6 @@ import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.proto.RequestHeader;
 import org.apache.zookeeper.proto.SetSASLResponse;
 import org.apache.zookeeper.server.DataTree.ProcessTxnResult;
-import org.apache.zookeeper.server.RequestProcessor.RequestProcessorException;
 import org.apache.zookeeper.server.SessionTracker.Session;
 import org.apache.zookeeper.server.SessionTracker.SessionExpirer;
 import org.apache.zookeeper.server.auth.ProviderRegistry;
@@ -48,7 +45,13 @@ import org.apache.zookeeper.server.jmx.MBeanRegistry;
 import org.apache.zookeeper.server.jmx.impl.DataTreeBean;
 import org.apache.zookeeper.server.jmx.impl.ZooKeeperServerBean;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
+import org.apache.zookeeper.server.processor.ChangeRecord;
 import org.apache.zookeeper.server.quorum.ReadOnlyZooKeeperServer;
+import org.apache.zookeeper.server.RequestProcessor.RequestProcessorException;
+import org.apache.zookeeper.server.processor.FinalRequestProcessor;
+import org.apache.zookeeper.server.processor.PrepRequestProcessor;
+import org.apache.zookeeper.server.processor.SyncRequestProcessor;
+import org.apache.zookeeper.server.quorum.roles.processor.UnimplementedRequestProcessor;
 import org.apache.zookeeper.txn.CreateSessionTxn;
 import org.apache.zookeeper.txn.TxnHeader;
 import org.apache.zookeeper.util.LogEnv;
@@ -94,10 +97,19 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         LogEnv.logEnv("Server environment:", LOG);
     }
 
-    final List<ChangeRecord> outstandingChanges = new ArrayList<ChangeRecord>();
+    private final List<ChangeRecord> outstandingChanges = new ArrayList<ChangeRecord>();
     // this data structure must be accessed under the outstandingChanges lock
-    final HashMap<String, ChangeRecord> outstandingChangesForPath =
+    private final Map<String, ChangeRecord> outstandingChangesForPath =
             new HashMap<String, ChangeRecord>();
+
+    public List<ChangeRecord> getOutstandingChanges() {
+        return outstandingChanges;
+    }
+
+    public Map<String, ChangeRecord> getOutstandingChangesForPath() {
+        return outstandingChangesForPath;
+    }
+
     private final AtomicLong hzxid = new AtomicLong(0);
     private final AtomicInteger requestsInProcess = new AtomicInteger(0);
     private final ServerStats serverStats;
@@ -213,9 +225,9 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
 
     public void dumpConf(PrintWriter pwriter) {
         pwriter.print("clientPort=");
-        pwriter.println(serverCnxnFactory.getLocalPort());
+        pwriter.println(serverCnxnFactory == null ? serverCnxnFactory.getLocalPort():-1);
         pwriter.print("secureClientPort=");
-        pwriter.println(secureServerCnxnFactory.getLocalPort());
+        pwriter.println(secureServerCnxnFactory == null ? secureServerCnxnFactory.getLocalPort():-1);
         pwriter.print("dataDir=");
         pwriter.println(zkDb.snapLog.getDataDir().getAbsolutePath());
         pwriter.print("dataDirSize=");
@@ -239,7 +251,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
 
     public ZooKeeperServerConf getConf() {
         return new ZooKeeperServerConf
-                (getClientPort(),
+                (serverCnxnFactory == null ? serverCnxnFactory.getLocalPort():-1,
                         zkDb.snapLog.getSnapDir().getAbsolutePath(),
                         zkDb.snapLog.getDataDir().getAbsolutePath(),
                         getTickTime(),
@@ -372,7 +384,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         return sessionTracker;
     }
 
-    long getNextZxid() {
+    public long getNextZxid() {
         return hzxid.incrementAndGet();
     }
 
@@ -1193,33 +1205,4 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         }
     }
 
-    /**
-     * This structure is used to facilitate information sharing between PrepRP
-     * and FinalRP.
-     */
-    static class ChangeRecord {
-        long zxid;
-        String path;
-        StatPersisted stat; /* Make sure to create a new object when changing */
-        int childCount;
-        List<ACL> acl; /* Make sure to create a new object when changing */
-
-        ChangeRecord(long zxid, String path, StatPersisted stat, int childCount,
-                     List<ACL> acl) {
-            this.zxid = zxid;
-            this.path = path;
-            this.stat = stat;
-            this.childCount = childCount;
-            this.acl = acl;
-        }
-
-        ChangeRecord duplicate(long zxid) {
-            StatPersisted stat = new StatPersisted();
-            if (this.stat != null) {
-                DataTree.copyStatPersisted(this.stat, stat);
-            }
-            return new ChangeRecord(zxid, path, stat, childCount,
-                    acl == null ? new ArrayList<ACL>() : new ArrayList<ACL>(acl));
-        }
-    }
 }

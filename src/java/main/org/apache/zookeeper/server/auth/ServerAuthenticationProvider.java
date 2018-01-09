@@ -36,7 +36,7 @@ public abstract class ServerAuthenticationProvider implements AuthenticationProv
 
         /**
          * @param zks
-         *                the ZooKeeper server instance
+         *                the ZooKeeper processor instance
          * @param cnxn
          *                the cnxn that received the authentication information.
          */
@@ -109,7 +109,7 @@ public abstract class ServerAuthenticationProvider implements AuthenticationProv
      * cnxn to send packets back to the client.
      *
      * @param serverObjs
-     *                cnxn/server/etc that received the authentication information.
+     *                cnxn/processor/etc that received the authentication information.
      * @param authData
      *                the authentication data received.
      * @return indication of success or failure
@@ -122,7 +122,7 @@ public abstract class ServerAuthenticationProvider implements AuthenticationProv
      * wild cards.
      *
      * @param serverObjs
-     *                cnxn/server/etc that received the authentication information.
+     *                cnxn/processor/etc that received the authentication information.
      * @param matchValues
      *                values to be matched
      */

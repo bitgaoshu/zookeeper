@@ -202,7 +202,7 @@ public class ZKWatchManager implements ClientWatchManager {
         boolean success = false;
         // When local flag is true, remove watchers for the given path
         // irrespective of rc. Otherwise shouldn't remove watchers locally
-        // when sees failure from server.
+        // when sees failure from processor.
         if (rc == KeeperException.KECode.OK.intValue() || (local && rc != KeeperException.KECode.OK.intValue())) {
             // Remove all the watchers for the given path
             if (watcher == null) {

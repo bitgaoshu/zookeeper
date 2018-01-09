@@ -16,36 +16,61 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.processor;
 
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
-import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.operation.OpType;
-import org.apache.zookeeper.operation.multi.MultiTransactionRecord;
-import org.apache.zookeeper.operation.Op;
-import org.apache.zookeeper.util.ZooDefs;
-import org.apache.zookeeper.server.common.*;
-import org.apache.zookeeper.exception.KeeperException.BadArgumentsException;
-import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.data.StatPersisted;
-import org.apache.zookeeper.proto.*;
-import org.apache.zookeeper.server.ZooKeeperServer.ChangeRecord;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.exception.KeeperException.BadArgumentsException;
+import org.apache.zookeeper.exception.KeeperException.KECode;
+import org.apache.zookeeper.nodeMode.CreateMode;
+import org.apache.zookeeper.nodeMode.EphemeralType;
+import org.apache.zookeeper.operation.Op;
+import org.apache.zookeeper.operation.OpType;
+import org.apache.zookeeper.operation.multi.MultiTransactionRecord;
+import org.apache.zookeeper.proto.CheckVersionRequest;
+import org.apache.zookeeper.proto.CreateRequest;
+import org.apache.zookeeper.proto.CreateTTLRequest;
+import org.apache.zookeeper.proto.DeleteRequest;
+import org.apache.zookeeper.proto.ReconfigRequest;
+import org.apache.zookeeper.proto.SetACLRequest;
+import org.apache.zookeeper.proto.SetDataRequest;
+import org.apache.zookeeper.server.ByteBufferInputStream;
+import org.apache.zookeeper.server.DataNode;
+import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.RequestProcessor;
+import org.apache.zookeeper.server.ZooKeeperCriticalThread;
+import org.apache.zookeeper.server.ZooKeeperServer;
+import org.apache.zookeeper.server.ZooTrace;
 import org.apache.zookeeper.server.auth.ProviderRegistry;
 import org.apache.zookeeper.server.auth.ServerAuthenticationProvider;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
-import org.apache.zookeeper.server.quorum.roles.leader.Leader.XidRolloverException;
-import org.apache.zookeeper.server.quorum.roles.leader.LeaderZooKeeperServer;
+import org.apache.zookeeper.server.common.PathUtils;
+import org.apache.zookeeper.server.common.StringUtils;
+import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig.ConfigException;
 import org.apache.zookeeper.server.quorum.flexible.QuorumMaj;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
-import org.apache.zookeeper.txn.*;
-import org.apache.zookeeper.nodeMode.EphemeralType;
+import org.apache.zookeeper.server.quorum.roles.leader.Leader.XidRolloverException;
+import org.apache.zookeeper.server.quorum.roles.leader.LeaderZooKeeperServer;
+import org.apache.zookeeper.txn.CheckVersionTxn;
+import org.apache.zookeeper.txn.CreateContainerTxn;
+import org.apache.zookeeper.txn.CreateSessionTxn;
+import org.apache.zookeeper.txn.CreateTTLTxn;
+import org.apache.zookeeper.txn.CreateTxn;
+import org.apache.zookeeper.txn.DeleteTxn;
+import org.apache.zookeeper.txn.ErrorTxn;
+import org.apache.zookeeper.txn.MultiTxn;
+import org.apache.zookeeper.txn.SetACLTxn;
+import org.apache.zookeeper.txn.SetDataTxn;
+import org.apache.zookeeper.txn.Txn;
+import org.apache.zookeeper.txn.TxnHeader;
+import org.apache.zookeeper.util.ZooDefs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +78,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.ByteBuffer;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -95,6 +128,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
 
     /**
      * method for tests to set failCreate
+     *
      * @param b
      */
     public static void setFailCreate(boolean b) {
@@ -103,12 +137,13 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
 
     /**
      * Grant or deny authorization to an operation on a node as a function of:
-     * @param zks :     the ZooKeeper server
-     * @param cnxn :    the server connection
-     * @param acl :     set of ACLs for the node
-     * @param perm :    the permission that the client is requesting
-     * @param ids :     the credentials supplied by the client
-     * @param path :    the ZNode path
+     *
+     * @param zks     :     the ZooKeeper processor
+     * @param cnxn    :    the processor connection
+     * @param acl     :     set of ACLs for the node
+     * @param perm    :    the permission that the client is requesting
+     * @param ids     :     the credentials supplied by the client
+     * @param path    :    the ZNode path
      * @param setAcls : for set ACL operations, the list of ACLs being set. Otherwise null.
      */
     static void checkACL(ZooKeeperServer zks, ServerCnxn cnxn, List<ACL> acl, int perm, List<Id> ids,
@@ -189,21 +224,21 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
     }
 
     private ChangeRecord getRecordForPath(String path) throws KeeperException.NoNodeException {
-        ChangeRecord lastChange = null;
-        synchronized (zks.outstandingChanges) {
-            lastChange = zks.outstandingChangesForPath.get(path);
-            if (lastChange == null) {
+        ChangeRecord lastChange = synchronizedOutstandingChange(() -> {
+            ChangeRecord cr = zks.getOutstandingChangesForPath().get(path);
+            if (cr == null) {
                 DataNode n = zks.getZKDatabase().getNode(path);
                 if (n != null) {
                     Set<String> children;
                     synchronized (n) {
                         children = n.getChildren();
                     }
-                    lastChange = new ChangeRecord(-1, path, n.stat, children.size(),
+                    cr = new ChangeRecord(-1, path, n.stat, children.size(),
                             zks.getZKDatabase().aclForNode(n));
                 }
             }
-        }
+            return cr;
+        });
         if (lastChange == null || lastChange.stat == null) {
             throw new KeeperException.NoNodeException(path);
         }
@@ -211,27 +246,34 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
     }
 
     private ChangeRecord getOutstandingChange(String path) {
-        synchronized (zks.outstandingChanges) {
-            return zks.outstandingChangesForPath.get(path);
-        }
+        return synchronizedOutstandingChange(
+                () -> zks.getOutstandingChangesForPath().get(path)
+        );
     }
 
     private void addChangeRecord(ChangeRecord c) {
-        synchronized (zks.outstandingChanges) {
-            zks.outstandingChanges.add(c);
-            zks.outstandingChangesForPath.put(c.path, c);
+        synchronizedOutstandingChange(() -> {
+            zks.getOutstandingChanges().add(c);
+            zks.getOutstandingChangesForPath().put(c.path, c);
+            return null;
+        });
+    }
+
+    private ChangeRecord synchronizedOutstandingChange(Fun fun) {
+        synchronized (zks.getOutstandingChanges()) {
+            return fun.apply();
         }
     }
 
     /**
      * Grab current pending change records for each op in a multi-op.
-     *
+     * <p>
      * This is used inside MultiOp error code path to rollback in the event
      * of a failed multi-op.
      *
      * @param multiRequest
      * @return a map that contains previously existed records that probably need to be
-     *         rolled back in any failure.
+     * rolled back in any failure.
      */
     private Map<String, ChangeRecord> getPendingChanges(MultiTransactionRecord multiRequest) {
         HashMap<String, ChangeRecord> pendingChangeRecords = new HashMap<String, ChangeRecord>();
@@ -269,7 +311,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
 
     /**
      * Rollback pending changes records from a failed multi-op.
-     *
+     * <p>
      * If a multi-op fails, we can't leave any invalid change records we created
      * around. We also need to restore their prior value (if any) if their prior
      * value is still valid.
@@ -278,27 +320,29 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
      * @param pendingChangeRecords
      */
     void rollbackPendingChanges(long zxid, Map<String, ChangeRecord> pendingChangeRecords) {
-        synchronized (zks.outstandingChanges) {
+        List<ChangeRecord> outstandingChanges = zks.getOutstandingChanges();
+        Map<String, ChangeRecord> outstandingChangesForPath = zks.getOutstandingChangesForPath();
+        synchronized (outstandingChanges) {
             // Grab a map iterator starting at the END of the map so we can iterate in reverse
-            ListIterator<ChangeRecord> iter = zks.outstandingChanges.listIterator(zks.outstandingChanges.size());
+            ListIterator<ChangeRecord> iter = outstandingChanges.listIterator(outstandingChanges.size());
             while (iter.hasPrevious()) {
                 ChangeRecord c = iter.previous();
                 if (c.zxid == zxid) {
                     iter.remove();
                     // Remove all outstanding changes for paths of this multi.
                     // Previous records will be added back later.
-                    zks.outstandingChangesForPath.remove(c.path);
+                    outstandingChangesForPath.remove(c.path);
                 } else {
                     break;
                 }
             }
 
             // we don't need to roll back any records because there is nothing left.
-            if (zks.outstandingChanges.isEmpty()) {
+            if (outstandingChanges.isEmpty()) {
                 return;
             }
 
-            long firstZxid = zks.outstandingChanges.get(0).zxid;
+            long firstZxid = outstandingChanges.get(0).zxid;
 
             for (ChangeRecord c : pendingChangeRecords.values()) {
                 // Don't apply any prior change records less than firstZxid.
@@ -309,7 +353,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                 }
 
                 // add previously existing records back.
-                zks.outstandingChangesForPath.put(c.path, c);
+                outstandingChangesForPath.put(c.path, c);
             }
         }
     }
@@ -317,6 +361,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
     /**
      * Performs basic validation of a path for a create request.
      * Throws if the path is not valid and returns the parent path.
+     *
      * @throws BadArgumentsException
      */
     private String validatePathForCreate(String path, long sessionId)
@@ -334,7 +379,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
      * This method will be called inside the ProcessRequestThread, which is a
      * singleton, so there will be a single thread calling this code.
      *
-     * @param op OpType
+     * @param op      OpType
      * @param zxid
      * @param request
      * @param record
@@ -372,7 +417,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                 break;
             }
             case delete:
-                zks.sessionTracker.checkSession(request.sessionId, request.getOwner());
+                zks.getSessionTracker().checkSession(request.sessionId, request.getOwner());
                 DeleteRequest deleteRequest = (DeleteRequest) record;
                 if (deserialize)
                     ByteBufferInputStream.byteBuffer2Record(request.request, deleteRequest);
@@ -392,7 +437,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                 addChangeRecord(new ChangeRecord(request.getHdr().getZxid(), path, null, -1, null));
                 break;
             case setData:
-                zks.sessionTracker.checkSession(request.sessionId, request.getOwner());
+                zks.getSessionTracker().checkSession(request.sessionId, request.getOwner());
                 SetDataRequest setDataRequest = (SetDataRequest) record;
                 if (deserialize)
                     ByteBufferInputStream.byteBuffer2Record(request.request, setDataRequest);
@@ -416,7 +461,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                     LOG.warn("skipACL is set, reconfig operation will skip ACL checks!");
                 }
 
-                zks.sessionTracker.checkSession(request.sessionId, request.getOwner());
+                zks.getSessionTracker().checkSession(request.sessionId, request.getOwner());
                 ReconfigRequest reconfigRequest = (ReconfigRequest) record;
                 LeaderZooKeeperServer lzks;
                 try {
@@ -484,16 +529,16 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                         }
                         if (joiningServers != null) {
                             for (String joiner : joiningServers) {
-                                // joiner should have the following format: server.x = server_spec;client_spec
+                                // joiner should have the following format: processor.x = server_spec;client_spec
                                 String[] parts = StringUtils.split(joiner, "=").toArray(new String[0]);
                                 if (parts.length != 2) {
-                                    throw new KeeperException.BadArgumentsException("Wrong format of server string");
+                                    throw new KeeperException.BadArgumentsException("Wrong format of processor string");
                                 }
-                                // extract server id x from first part of joiner: server.x
+                                // extract processor id x from first part of joiner: processor.x
                                 Long sid = Long.parseLong(parts[0].substring(parts[0].lastIndexOf('.') + 1));
                                 QuorumServer qs = new QuorumServer(sid, parts[1]);
                                 if (qs.clientAddr == null || qs.electionAddr == null || qs.addr == null) {
-                                    throw new KeeperException.BadArgumentsException("Wrong format of server string - each server should have 3 ports specified");
+                                    throw new KeeperException.BadArgumentsException("Wrong format of processor string - each processor should have 3 ports specified");
                                 }
 
                                 // check duplication of addresses and ports
@@ -538,7 +583,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                 addChangeRecord(nodeRecord);
                 break;
             case setACL:
-                zks.sessionTracker.checkSession(request.sessionId, request.getOwner());
+                zks.getSessionTracker().checkSession(request.sessionId, request.getOwner());
                 SetACLRequest setAclRequest = (SetACLRequest) record;
                 if (deserialize)
                     ByteBufferInputStream.byteBuffer2Record(request.request, setAclRequest);
@@ -560,10 +605,10 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                 request.request.rewind();
                 if (request.isLocalSession()) {
                     // This will add to local session tracker if it is enabled
-                    zks.sessionTracker.addSession(request.sessionId, to);
+                    zks.getSessionTracker().addSession(request.sessionId, to);
                 } else {
                     // Explicitly add to global session if the flag is not set
-                    zks.sessionTracker.addGlobalSession(request.sessionId, to);
+                    zks.getSessionTracker().addGlobalSession(request.sessionId, to);
                 }
                 zks.setOwner(request.sessionId, request.getOwner());
                 break;
@@ -571,11 +616,11 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                 // We don't want to do this check since the session expiration thread
                 // queues up this operation without being the session owner.
                 // this request is the last of the session so it should be ok
-                //zks.sessionTracker.checkSession(request.sessionId, request.getOwner());
+                //zks.getSessionTracker().checkSession(request.sessionId, request.getOwner());
                 Set<String> es = zks.getZKDatabase()
                         .getEphemerals(request.sessionId);
-                synchronized (zks.outstandingChanges) {
-                    for (ChangeRecord c : zks.outstandingChanges) {
+                synchronizedOutstandingChange(() -> {
+                    for (ChangeRecord c : zks.getOutstandingChanges()) {
                         if (c.stat == null) {
                             // Doing a delete
                             es.remove(c.path);
@@ -587,14 +632,15 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                         addChangeRecord(new ChangeRecord(request.getHdr().getZxid(), path2Delete, null, 0, null));
                     }
 
-                    zks.sessionTracker.setSessionClosing(request.sessionId);
-                }
+                    zks.getSessionTracker().setSessionClosing(request.sessionId);
+                    return null;
+                });
 
                 LOG.info("Processed session termination for sessionid: 0x"
                         + Long.toHexString(request.sessionId));
                 break;
             case check:
-                zks.sessionTracker.checkSession(request.sessionId, request.getOwner());
+                zks.getSessionTracker().checkSession(request.sessionId, request.getOwner());
                 CheckVersionRequest checkVersionRequest = (CheckVersionRequest) record;
                 if (deserialize)
                     ByteBufferInputStream.byteBuffer2Record(request.request, checkVersionRequest);
@@ -837,7 +883,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                 case setWatches:
                 case checkWatches:
                 case removeWatches:
-                    zks.sessionTracker.checkSession(request.sessionId,
+                    zks.getSessionTracker().checkSession(request.sessionId,
                             request.getOwner());
                     break;
                 default:
@@ -906,10 +952,10 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
             if (request.getException() != null) {
                 throw request.getException();
             }
-            zks.sessionTracker.checkGlobalSession(request.sessionId,
+            zks.getSessionTracker().checkGlobalSession(request.sessionId,
                     request.getOwner());
         } else {
-            zks.sessionTracker.checkSession(request.sessionId,
+            zks.getSessionTracker().checkSession(request.sessionId,
                     request.getOwner());
         }
     }
@@ -920,7 +966,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
      * depend on the requestor's authentication information.
      *
      * @param authInfo list of ACL IDs associated with the client connection
-     * @param acls list of ACLs being assigned to the node (create or setACL operation)
+     * @param acls     list of ACLs being assigned to the node (create or setACL operation)
      * @return verified and expanded ACLs
      * @throws KeeperException.InvalidACLException
      */
@@ -982,5 +1028,9 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
         submittedRequests.clear();
         submittedRequests.add(Request.requestOfDeath);
         nextProcessor.shutdown();
+    }
+
+    private interface Fun {
+        ChangeRecord apply();
     }
 }

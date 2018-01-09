@@ -50,7 +50,7 @@ public enum CreateMode {
      * The znode will be a container node. Container
      * nodes are special purpose nodes useful for recipes such as leader, lock,
      * etc. When the last child of a container is deleted, the container becomes
-     * a candidate to be deleted by the server at some point in the future.
+     * a candidate to be deleted by the processor at some point in the future.
      * Given this property, you should be prepared to get
      * {@link KeeperException.NoNodeException}
      * when creating children inside of this container node.

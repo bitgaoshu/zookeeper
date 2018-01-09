@@ -40,9 +40,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class encapsulates a Jetty server for running Commands.
+ * This class encapsulates a Jetty processor for running Commands.
  *
- * Given the default settings, start a ZooKeeper server and visit
+ * Given the default settings, start a ZooKeeper processor and visit
  * http://<hostname>:8080/cliCmds for links to all registered cliCmds. Visiting
  * http://<hostname>:8080/cliCmds/<commandname> will execute the associated
  * Command and return the result in the body of the response. Any keyword
@@ -95,7 +95,7 @@ public class JettyAdminServer implements AdminServer {
     }
 
     /**
-     * Start the embedded Jetty server.
+     * Start the embedded Jetty processor.
      */
     @Override
     public void start() throws AdminServerException {
@@ -114,7 +114,7 @@ public class JettyAdminServer implements AdminServer {
     }
 
     /**
-     * Stop the embedded Jetty server.
+     * Stop the embedded Jetty processor.
      *
      * This is not very important except for tests where multiple
      * JettyAdminServers are started and may try to bind to the same ports if
@@ -135,11 +135,11 @@ public class JettyAdminServer implements AdminServer {
     /**
      * Set the ZooKeeperServer that will be used to run Commands.
      *
-     * It is not necessary to set the ZK server before calling
-     * AdminServer.start(), and the ZK server can be set to null when, e.g.,
-     * that server is being shut down. If the ZK server is not set or set to
+     * It is not necessary to set the ZK processor before calling
+     * AdminServer.start(), and the ZK processor can be set to null when, e.g.,
+     * that processor is being shut down. If the ZK processor is not set or set to
      * null, the AdminServer will still be able to issue Commands, but they will
-     * return an error until a ZK server is set.
+     * return an error until a ZK processor is set.
      */
     @Override
     public void setZooKeeperServer(ZooKeeperServer zkServer) {

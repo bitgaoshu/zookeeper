@@ -134,7 +134,7 @@ public abstract class ServerCnxnFactory {
         }
         try {
             ServerCnxnFactory serverCnxnFactory = (ServerCnxnFactory) Class.forName(serverCnxnFactoryName).newInstance();
-            LOG.info("Using {} as server connection factory", serverCnxnFactoryName);
+            LOG.info("Using {} as processor connection factory", serverCnxnFactoryName);
             return serverCnxnFactory;
         } catch (Exception e) {
             IOException ioe = new IOException("Couldn't instantiate "
@@ -192,7 +192,7 @@ public abstract class ServerCnxnFactory {
     }
 
     /**
-     * Initialize the server SASL if specified.
+     * Initialize the processor SASL if specified.
      *
      * If the user has specified a "ZooKeeperServer.LOGIN_CONTEXT_NAME_KEY"
      * or a jaas.conf using "java.security.auth.login.config"
@@ -242,8 +242,8 @@ public abstract class ServerCnxnFactory {
             login = new Login(serverSection, saslServerCallbackHandler, new ZKConfig() );
             login.startThreadIfNeeded();
         } catch (LoginException e) {
-            throw new IOException("Could not configure server because SASL configuration did not allow the "
-              + " ZooKeeper server to authenticate itself properly: " + e);
+            throw new IOException("Could not configure processor because SASL configuration did not allow the "
+              + " ZooKeeper processor to authenticate itself properly: " + e);
         }
     }
 

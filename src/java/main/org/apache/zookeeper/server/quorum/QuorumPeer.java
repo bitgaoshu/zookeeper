@@ -45,9 +45,9 @@ import org.apache.zookeeper.server.quorum.mBean.impl.RemotePeerBean;
 import org.apache.zookeeper.server.quorum.roles.learner.Follower;
 import org.apache.zookeeper.server.quorum.roles.leader.Leader;
 import org.apache.zookeeper.server.quorum.roles.learner.Observer;
-import org.apache.zookeeper.server.quorum.roles.server.FollowerZooKeeperServer;
+import org.apache.zookeeper.server.quorum.roles.learner.server.FollowerZooKeeperServer;
 import org.apache.zookeeper.server.quorum.roles.leader.LeaderZooKeeperServer;
-import org.apache.zookeeper.server.quorum.roles.server.ObserverZooKeeperServer;
+import org.apache.zookeeper.server.quorum.roles.learner.server.ObserverZooKeeperServer;
 import org.apache.zookeeper.server.util.ZxidUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,14 +76,14 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * This class manages the quorum protocol. There are three states this server
+ * This class manages the quorum protocol. There are three states this processor
  * can be in:
  * <ol>
- * <li>leader election - each server will elect a leader (proposing itself as a
+ * <li>leader election - each processor will elect a leader (proposing itself as a
  * leader initially).</li>
- * <li>Follower - the server will synchronize with the leader and replicate any
+ * <li>Follower - the processor will synchronize with the leader and replicate any
  * transactions.</li>
- * <li>leader - the server will process requests and forward them to followers.
+ * <li>leader - the processor will process requests and forward them to followers.
  * A majority of followers must log the request before it can be accepted.
  * </ol>
  * <p>
@@ -397,10 +397,10 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
     }
 
     /**
-     * Resolves hostname for a given server ID.
+     * Resolves hostname for a given processor ID.
      * <p>
-     * This method resolves hostname for a given server ID in both quorumVerifer
-     * and lastSeenQuorumVerifier. If the server ID matches the local server ID,
+     * This method resolves hostname for a given processor ID in both quorumVerifer
+     * and lastSeenQuorumVerifier. If the processor ID matches the local processor ID,
      * it also updates myQuorumAddr and myElectionAddr.
      */
     public void recreateSocketAddresses(long id) {
@@ -520,7 +520,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
             }
         } catch (IOException ie) {
             LOG.error("Unable to load database on disk", ie);
-            throw new RuntimeException("Unable to run quorum server ", ie);
+            throw new RuntimeException("Unable to run quorum processor ", ie);
         }
     }
 
@@ -660,7 +660,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
                         if (Boolean.getBoolean("readonlymode.enabled")) {
                             LOG.info("Attempting to start ReadOnlyZooKeeperServer");
 
-                            // Create read-only server but don't start it immediately
+                            // Create read-only processor but don't start it immediately
                             final ReadOnlyZooKeeperServer roZk =
                                     new ReadOnlyZooKeeperServer(logFactory, this, this.zkDb);
 
@@ -1126,7 +1126,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
     public QuorumVerifier setQuorumVerifier(QuorumVerifier qv, boolean writeToDisk) {
         synchronized (QV_LOCK) {
             if ((quorumVerifier != null) && (quorumVerifier.getVersion() >= qv.getVersion())) {
-                // this is normal. For example - server found out about new config through FastLeaderElection gossiping
+                // this is normal. For example - processor found out about new config through FastLeaderElection gossiping
                 // and then got the same config in UPTODATE message so its already known
                 LOG.debug(getId() + " setQuorumVerifier called with known or old config " + qv.getVersion() +
                         ". Current version: " + quorumVerifier.getVersion());
@@ -1256,7 +1256,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
         }
     }
 
-    // leader and learner will control the zookeeper server and pass it into QuorumPeer.
+    // leader and learner will control the zookeeper processor and pass it into QuorumPeer.
     public void setZooKeeperServer(ZooKeeperServer zks, boolean leaderServers) {
         if (cnxnFactory != null && leaderServers) {
             cnxnFactory.setZooKeeperServer(zks);
@@ -1514,7 +1514,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
 
     /**
      * Updates leader election info to avoid inconsistencies when
-     * a new server tries to join the ensemble.
+     * a new processor tries to join the ensemble.
      *
      * @see {https://issues.apache.org/jira/browse/ZOOKEEPER-1732}
      */
@@ -1711,7 +1711,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
         }
 
         /**
-         * Performs a DNS lookup for server address and election address.
+         * Performs a DNS lookup for processor address and election address.
          * <p>
          * If the DNS lookup fails, this.addr and electionAddr remain
          * unmodified.
@@ -1814,7 +1814,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
 
                 for (InetSocketAddress other : otherAddrs) {
                     if (my.equals(other)) {
-                        String error = String.format("%s of server.%d conflicts %s of server.%d", my, this.id, other, s.id);
+                        String error = String.format("%s of processor.%d conflicts %s of processor.%d", my, this.id, other, s.id);
                         throw new BadArgumentsException(error);
                     }
                 }

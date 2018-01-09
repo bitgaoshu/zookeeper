@@ -36,6 +36,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
+import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.proto.WatcherEvent;
@@ -68,8 +69,8 @@ public class NettyServerCnxn extends ServerCnxn {
     Certificate[] clientChain;
     volatile boolean closingChannel;
 
-    /** The ZooKeeperServer for this connection. May be null if the server
-     * is not currently serving requests (for example if the server is not
+    /** The ZooKeeperServer for this connection. May be null if the processor
+     * is not currently serving requests (for example if the processor is not
      * an active quorum participant.
      */
     private volatile ZooKeeperServer zkServer;

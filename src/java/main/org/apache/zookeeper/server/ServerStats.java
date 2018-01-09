@@ -102,7 +102,7 @@ public class ServerStats {
     }
 
     // mutators
-    synchronized void updateLatency(long requestCreateTime) {
+    synchronized public void updateLatency(long requestCreateTime) {
         long latency = Time.currentElapsedTime() - requestCreateTime;
         totalLatency += latency;
         count++;

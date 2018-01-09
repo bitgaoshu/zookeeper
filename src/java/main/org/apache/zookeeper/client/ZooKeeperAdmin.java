@@ -59,13 +59,13 @@ public class ZooKeeperAdmin extends ZooKeeper {
      *
      * @param connectString
      *            comma separated host:port pairs, each corresponding to a zk
-     *            server. e.g. "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002" If
+     *            processor. e.g. "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002" If
      *            the optional chroot suffix is used the example would look
      *            like: "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002/app/a"
      *            where the client would be rooted at "/app/a" and all paths
      *            would be relative to this root - ie getting/setting/etc...
      *            "/foo/bar" would result in operations being run on
-     *            "/app/a/foo/bar" (from the server perspective).
+     *            "/app/a/foo/bar" (from the processor perspective).
      * @param sessionTimeout
      *            session timeout in milliseconds
      * @param watcher
@@ -91,13 +91,13 @@ public class ZooKeeperAdmin extends ZooKeeper {
      *
      * @param connectString
      *            comma separated host:port pairs, each corresponding to a zk
-     *            server. e.g. "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002" If
+     *            processor. e.g. "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002" If
      *            the optional chroot suffix is used the example would look
      *            like: "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002/app/a"
      *            where the client would be rooted at "/app/a" and all paths
      *            would be relative to this root - ie getting/setting/etc...
      *            "/foo/bar" would result in operations being run on
-     *            "/app/a/foo/bar" (from the server perspective).
+     *            "/app/a/foo/bar" (from the processor perspective).
      * @param sessionTimeout
      *            session timeout in milliseconds
      * @param watcher
@@ -125,13 +125,13 @@ public class ZooKeeperAdmin extends ZooKeeper {
      *
      * @param connectString
      *            comma separated host:port pairs, each corresponding to a zk
-     *            server. e.g. "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002" If
+     *            processor. e.g. "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002" If
      *            the optional chroot suffix is used the example would look
      *            like: "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002/app/a"
      *            where the client would be rooted at "/app/a" and all paths
      *            would be relative to this root - ie getting/setting/etc...
      *            "/foo/bar" would result in operations being run on
-     *            "/app/a/foo/bar" (from the server perspective).
+     *            "/app/a/foo/bar" (from the processor perspective).
      * @param sessionTimeout
      *            session timeout in milliseconds
      * @param watcher
@@ -141,7 +141,7 @@ public class ZooKeeperAdmin extends ZooKeeper {
      *            whether the created client is allowed to go to
      *            read-only mode in case of partitioning. Read-only mode
      *            basically means that if the client can't find any majority
-     *            servers but there's partitioned server it could reach, it
+     *            servers but there's partitioned processor it could reach, it
      *            connects to one in read-only mode, i.e. read requests are
      *            allowed while write requests are not. It continues seeking for
      *            majority in the background.
@@ -172,8 +172,8 @@ public class ZooKeeperAdmin extends ZooKeeper {
      * @param stat the stat of /zookeeper/config znode will be copied to this
      *             parameter if not null.
      * @return new configuration
-     * @throws InterruptedException If the server transaction is interrupted.
-     * @throws KeeperException If the server signals an error with a non-zero error code.
+     * @throws InterruptedException If the processor transaction is interrupted.
+     * @throws KeeperException If the processor signals an error with a non-zero error code.
      */
     public byte[] reconfigure(String joiningServers, String leavingServers,
                               String newMembers, long fromConfig, Stat stat) throws KeeperException, InterruptedException {

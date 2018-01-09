@@ -294,7 +294,7 @@ public class QuorumPeerConfig {
                 } else {
                     throw new ConfigException("Invalid option " + value + " for reconfigEnabled flag. Choose 'true' or 'false.'");
                 }
-            } else if ((key.startsWith("server.") || key.startsWith("group") || key.startsWith("weight")) && zkProp.containsKey("dynamicConfigFile")) {
+            } else if ((key.startsWith("processor.") || key.startsWith("group") || key.startsWith("weight")) && zkProp.containsKey("dynamicConfigFile")) {
                 throw new ConfigException("parameter: " + key + " must be in a separate dynamic config file");
             } else {
                 System.setProperty("zookeeper." + key, value);
@@ -384,7 +384,7 @@ public class QuorumPeerConfig {
         if (System.getProperty(sslAuthProp) == null) {
             if ("zookeeper.authProvider.x509".equals(sslAuthProp)) {
                 System.setProperty("zookeeper.authProvider.x509",
-                        "org.apache.zookeeper.server.auth.X509AuthenticationProvider");
+                        "org.apache.zookeeper.processor.auth.X509AuthenticationProvider");
             } else {
                 throw new ConfigException("No auth provider configured for the SSL authentication scheme '"
                         + System.getProperty(ZKConfig.SSL_AUTHPROVIDER) + "'.");
@@ -452,7 +452,7 @@ public class QuorumPeerConfig {
 
     /**
      * Edit static config file.
-     * If there are quorum information in static file, e.g. "server.X", "group",
+     * If there are quorum information in static file, e.g. "processor.X", "group",
      * it will remove them.
      * If it needs to erase client port information left by the old config,
      * "eraseClientPortAddress" should be set true.
@@ -490,7 +490,7 @@ public class QuorumPeerConfig {
                 for (Entry<Object, Object> entry : cfg.entrySet()) {
                     String key = entry.getKey().toString().trim();
 
-                    if (key.startsWith("server.")
+                    if (key.startsWith("processor.")
                         || key.startsWith("group")
                         || key.startsWith("weight")
                         || key.startsWith("dynamicConfigFile")
@@ -564,7 +564,7 @@ public class QuorumPeerConfig {
             String key = entry.getKey().toString().trim();                    
             if (key.startsWith("group") || key.startsWith("weight")) {
                isHierarchical = true;
-            } else if (!configBackwardCompatibilityMode && !key.startsWith("server.") && !key.equals("version")){ 
+            } else if (!configBackwardCompatibilityMode && !key.startsWith("processor.") && !key.equals("version")){
                LOG.info(dynamicConfigProp.toString());
                throw new ConfigException("Unrecognised parameter: " + key);                
             }
@@ -583,18 +583,18 @@ public class QuorumPeerConfig {
                 throw new IllegalArgumentException("Observers w/o participants is an invalid configuration");
             }
         } else if (numParticipators == 1 && standaloneEnabled) {
-            // HBase currently adds a single server line to the config, for
+            // HBase currently adds a single processor line to the config, for
             // b/w compatibility reasons we need to keep this here. If standaloneEnabled
-            // is true, the QuorumPeerMain script will create a standalone server instead
+            // is true, the QuorumPeerMain script will create a standalone processor instead
             // of a quorum configuration
-            LOG.error("Invalid configuration, only one server specified (ignoring)");
+            LOG.error("Invalid configuration, only one processor specified (ignoring)");
             if (numObservers > 0) {
                 throw new IllegalArgumentException("Observers w/o quorum is an invalid configuration");
             }
         } else {
             if (warnings) {
                 if (numParticipators <= 2) {
-                    LOG.warn("No server failure will be tolerated. " +
+                    LOG.warn("No processor failure will be tolerated. " +
                         "You need at least 3 servers.");
                 } else if (numParticipators % 2 == 0) {
                     LOG.warn("Non-optimial configuration, consider an odd number of servers.");
@@ -604,7 +604,7 @@ public class QuorumPeerConfig {
             for (QuorumServer s : qv.getVotingMembers().values()) {
                 if (s.electionAddr == null)
                     throw new IllegalArgumentException(
-                            "Missing election port for server: " + s.id);
+                            "Missing election port for processor: " + s.id);
             }
         }
         return qv;
@@ -612,7 +612,7 @@ public class QuorumPeerConfig {
 
     private void setupMyId() throws IOException {
         File myIdFile = new File(dataDir, "myid");
-        // standalone server doesn't need myid file.
+        // standalone processor doesn't need myid file.
         if (!myIdFile.isFile()) {
             return;
         }
@@ -642,7 +642,7 @@ public class QuorumPeerConfig {
                     && !clientPortAddress.equals(qs.clientAddr)) ||
                     (clientPortAddress.getAddress().isAnyLocalAddress()
                             && clientPortAddress.getPort() != qs.clientAddr.getPort()))
-                throw new ConfigException("client address for this server (id = " + serverId +
+                throw new ConfigException("client address for this processor (id = " + serverId +
                         ") in static config file is " + clientPortAddress +
                         " is different from client address found in dynamic file: " + qs.clientAddr);
         }

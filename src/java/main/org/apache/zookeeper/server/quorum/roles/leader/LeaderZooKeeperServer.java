@@ -20,8 +20,8 @@ package org.apache.zookeeper.server.quorum.roles.leader;
 
 import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
 import org.apache.zookeeper.server.ContainerManager;
-import org.apache.zookeeper.server.FinalRequestProcessor;
-import org.apache.zookeeper.server.PrepRequestProcessor;
+import org.apache.zookeeper.server.processor.FinalRequestProcessor;
+import org.apache.zookeeper.server.processor.PrepRequestProcessor;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.server.ZKDatabase;
@@ -29,15 +29,16 @@ import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.jmx.MBeanRegistry;
 import org.apache.zookeeper.server.jmx.impl.DataTreeBean;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
-import org.apache.zookeeper.server.quorum.CommitProcessor;
-import org.apache.zookeeper.server.quorum.LeaderRequestProcessor;
+import org.apache.zookeeper.server.quorum.roles.leader.Leader;
+import org.apache.zookeeper.server.quorum.roles.processor.CommitProcessor;
+import org.apache.zookeeper.server.quorum.roles.leader.LeaderRequestProcessor;
 import org.apache.zookeeper.server.quorum.LeaderSessionTracker;
-import org.apache.zookeeper.server.quorum.ProposalRequestProcessor;
+import org.apache.zookeeper.server.quorum.roles.leader.ProposalRequestProcessor;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
-import org.apache.zookeeper.server.quorum.ToBeAppliedRequestProcessor;
+import org.apache.zookeeper.server.quorum.roles.leader.ToBeAppliedRequestProcessor;
 import org.apache.zookeeper.server.quorum.mBean.impl.LeaderBean;
 import org.apache.zookeeper.server.quorum.mBean.impl.LocalPeerBean;
-import org.apache.zookeeper.server.quorum.roles.server.QuorumZooKeeperServer;
+import org.apache.zookeeper.server.quorum.QuorumZooKeeperServer;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -139,11 +140,11 @@ public class LeaderZooKeeperServer extends QuorumZooKeeperServer {
     public void submitLearnerRequest(Request request) {
         /*
          * Requests coming from the learner should have gone through
-         * submitRequest() on each server which already perform some request
+         * submitRequest() on each processor which already perform some request
          * validation, so we don't need to do it again.
          *
          * Additionally, LearnerHandler should start submitting requests into
-         * the leader's pipeline only when the leader's server is started, so we
+         * the leader's pipeline only when the leader's processor is started, so we
          * can submit the request directly into PrepRequestProcessor.
          *
          * This is done so that requests from learners won't go through
@@ -210,7 +211,7 @@ public class LeaderZooKeeperServer extends QuorumZooKeeperServer {
 
     /**
      * Returns the id of the associated QuorumPeer, which will do for a unique
-     * id of this server.
+     * id of this processor.
      */
     @Override
     public long getServerId() {

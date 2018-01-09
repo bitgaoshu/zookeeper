@@ -142,9 +142,9 @@ public abstract class ClientCnxnSocket {
         try {
             isRO = bbia.readBool("readOnly");
         } catch (IOException e) {
-            // this is ok -- just a packet from an old server which
+            // this is ok -- just a packet from an old processor which
             // doesn't contain readOnly field
-            LOG.warn("Connected to an old server; r-o mode will be unavailable");
+            LOG.warn("Connected to an old processor; r-o mode will be unavailable");
         }
 
         this.sessionId = conRsp.getSessionId();

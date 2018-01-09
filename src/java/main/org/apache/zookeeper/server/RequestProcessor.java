@@ -18,9 +18,11 @@
 
 package org.apache.zookeeper.server;
 
+import org.apache.zookeeper.server.Request;
+
 /**
  * RequestProcessors are chained together to process transactions. Requests are
- * always processed in order. The standalone server, follower, and leader all
+ * always processed in order. The standalone processor, follower, and leader all
  * have slightly different RequestProcessors chained together.
  * 
  * Requests always move forward through the chain of RequestProcessors. Requests

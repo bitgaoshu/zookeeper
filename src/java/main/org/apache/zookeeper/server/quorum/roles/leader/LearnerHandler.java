@@ -79,7 +79,7 @@ public class LearnerHandler extends ZooKeeperThread {
     final QuorumPacket proposalOfDeath = new QuorumPacket();
     private final Leader leader;
     /**
-     * ZooKeeper server identifier of this learner
+     * ZooKeeper processor identifier of this learner
      */
     protected long sid = 0;
     protected int version = 0x1;

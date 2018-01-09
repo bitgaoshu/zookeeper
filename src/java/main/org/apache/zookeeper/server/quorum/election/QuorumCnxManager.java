@@ -82,7 +82,7 @@ public class QuorumCnxManager {
     static final int SEND_CAPACITY = 1;
 
     /*
-     * Negative counter for observer server ids.
+     * Negative counter for observer processor ids.
      */
     static final int PACKETMAXSIZE = 1024 * 512;
     private static final Logger LOG = LoggerFactory.getLogger(QuorumCnxManager.class);
@@ -154,7 +154,7 @@ public class QuorumCnxManager {
      * @param sid
      */
     public void testInitiateConnection(long sid) throws Exception {
-        LOG.debug("Opening channel to server " + sid);
+        LOG.debug("Opening channel to processor " + sid);
         Socket sock = new Socket();
         setSockOpts(sock);
         sock.connect(self.getVotingView().get(sid).electionAddr, cnxTO);
@@ -162,7 +162,7 @@ public class QuorumCnxManager {
     }
 
     /**
-     * If this server has initiated the connection, then it gives up on the
+     * If this processor has initiated the connection, then it gives up on the
      * connection if it loses challenge. Otherwise, it keeps the connection.
      */
     public boolean initiateConnection(Socket sock, Long sid) {
@@ -190,7 +190,7 @@ public class QuorumCnxManager {
 
         // If lost the challenge, then drop the new connection
         if (sid > self.getId()) {
-            LOG.info("Have smaller server identifier, so dropping the " +
+            LOG.info("Have smaller processor identifier, so dropping the " +
                     "connection: (" + sid + ", " + self.getId() + ")");
             closeSocket(sock);
             // Otherwise proceed with the connection
@@ -218,9 +218,9 @@ public class QuorumCnxManager {
     }
 
     /**
-     * If this server receives a connection request, then it gives up on the new
+     * If this processor receives a connection request, then it gives up on the new
      * connection if it wins. Notice that it checks whether it has a connection
-     * to this server already or not. If it does, then it sends the smallest
+     * to this processor already or not. If it does, then it sends the smallest
      * possible long value to lose the challenge.
      *
      */
@@ -232,7 +232,7 @@ public class QuorumCnxManager {
             DataInputStream din = new DataInputStream(sock.getInputStream());
 
             protocolVersion = din.readLong();
-            if (protocolVersion >= 0) { // this is a server id and not a protocol version
+            if (protocolVersion >= 0) { // this is a processor id and not a protocol version
                 sid = protocolVersion;
             } else {
                 try {
@@ -276,7 +276,7 @@ public class QuorumCnxManager {
             /*
              * Now we start a new connection
              */
-            LOG.debug("Create new connection to server: {}", sid);
+            LOG.debug("Create new connection to processor: {}", sid);
             closeSocket(sock);
 
             if (electionAddr != null) {
@@ -338,24 +338,24 @@ public class QuorumCnxManager {
     }
 
     /**
-     * Try to establish a connection to server with id sid using its electionAddr.
+     * Try to establish a connection to processor with id sid using its electionAddr.
      *
-     *  @param sid  server id
+     *  @param sid  processor id
      *  @return boolean success indication
      */
     synchronized private boolean connectOne(long sid, InetSocketAddress electionAddr) {
         if (senderWorkerMap.get(sid) != null) {
-            LOG.debug("There is a connection already for server " + sid);
+            LOG.debug("There is a connection already for processor " + sid);
             return true;
         }
 
         Socket sock = null;
         try {
-            LOG.debug("Opening channel to server " + sid);
+            LOG.debug("Opening channel to processor " + sid);
             sock = new Socket();
             setSockOpts(sock);
             sock.connect(electionAddr, cnxTO);
-            LOG.debug("Connected to server " + sid);
+            LOG.debug("Connected to processor " + sid);
             initiateConnection(sock, sid);
             return true;
         } catch (UnresolvedAddressException e) {
@@ -378,18 +378,18 @@ public class QuorumCnxManager {
     }
 
     /**
-     * Try to establish a connection to server with id sid.
+     * Try to establish a connection to processor with id sid.
      *
-     *  @param sid  server id
+     *  @param sid  processor id
      */
     public synchronized void connectOne(long sid) {
         if (senderWorkerMap.get(sid) != null) {
-            LOG.debug("There is a connection already for server " + sid);
+            LOG.debug("There is a connection already for processor " + sid);
             return;
         }
         synchronized (self.getQV_LOCK()) {
             boolean knownId = false;
-            // Resolve hostname for the remote server before attempting to
+            // Resolve hostname for the remote processor before attempting to
             // connect in case the underlying ip address has changed.
             self.recreateSocketAddresses(sid);
             Map<Long, QuorumPeer.QuorumServer> lastCommittedView = self.getView();
@@ -408,14 +408,14 @@ public class QuorumCnxManager {
                     return;
             }
             if (!knownId) {
-                LOG.warn("Invalid server id: " + sid);
+                LOG.warn("Invalid processor id: " + sid);
                 return;
             }
         }
     }
 
     /**
-     * Try to establish a connection with each server if one
+     * Try to establish a connection with each processor if one
      * doesn't exist.
      */
 
@@ -678,7 +678,7 @@ public class QuorumCnxManager {
 
             if (num_read != remaining) {
                 throw new InitialMessageException(
-                        "Read only %s bytes out of %s sent by server %s",
+                        "Read only %s bytes out of %s sent by processor %s",
                         num_read, remaining, sid);
             }
 
@@ -738,7 +738,7 @@ public class QuorumCnxManager {
                         int port = self.getElectionAddress().getPort();
                         addr = new InetSocketAddress(port);
                     } else {
-                        // Resolve hostname for this server in case the
+                        // Resolve hostname for this processor in case the
                         // underlying ip address has changed.
                         self.recreateSocketAddresses(self.getId());
                         addr = self.getElectionAddress();
@@ -770,7 +770,7 @@ public class QuorumCnxManager {
                         ss.close();
                         Thread.sleep(1000);
                     } catch (IOException ie) {
-                        LOG.error("Error closing server socket", ie);
+                        LOG.error("Error closing processor socket", ie);
                     } catch (InterruptedException ie) {
                         LOG.error("Interrupted while sleeping. " +
                                 "Ignoring exception", ie);
@@ -790,7 +790,7 @@ public class QuorumCnxManager {
                     ss.close();
                 } catch (IOException ie) {
                     // Don't log an error for shutdown.
-                    LOG.debug("Error closing server socket", ie);
+                    LOG.debug("Error closing processor socket", ie);
                 }
             }
         }
@@ -825,7 +825,7 @@ public class QuorumCnxManager {
 
         /**
          * An instance of this thread receives messages to send
-         * through a queue and sends them to the server sid.
+         * through a queue and sends them to the processor sid.
          *
          * @param sock
          *            Socket to remote peer
@@ -940,7 +940,7 @@ public class QuorumCnxManager {
                             b = pollSendQueue(bq, 1000, TimeUnit.MILLISECONDS);
                         } else {
                             LOG.error("No queue of incoming messages for " +
-                                    "server " + sid);
+                                    "processor " + sid);
                             break;
                         }
 

@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# This is the port where zookeeper server runs on.
+# This is the port where zookeeper processor runs on.
 ZOOPORT=22181
 
 if [ "x$1" == "x" ]
@@ -117,7 +117,7 @@ start|startClean)
         echo -n $pid > "${base_dir}/build/tmp/zk.pid"
     fi
 
-    # wait max 120 seconds for server to be ready to server clients
+    # wait max 120 seconds for processor to be ready to processor clients
     # this handles testing on slow hosts
     success=false
     for i in {1..120}
@@ -127,16 +127,16 @@ start|startClean)
             java -cp "$CLASSPATH" org.apache.zookeeper.clients.client.ZooKeeperMain -server localhost:$ZOOPORT ls / > /dev/null 2>&1
             if [ $? -ne 0  ]
             then
-                # server not up yet - wait
+                # processor not up yet - wait
                 sleep 1
             else
-                # server is up and serving client connections
+                # processor is up and serving client connections
                 success=true
                 break
             fi
         else
-            # server died - exit now
-            echo -n " ZooKeeper server process failed"
+            # processor died - exit now
+            echo -n " ZooKeeper processor process failed"
             break
         fi
     done
@@ -145,9 +145,9 @@ start|startClean)
     then
         ## in case for debug, but generally don't use as it messes up the
         ## console test output
-        echo -n " ZooKeeper server started"
+        echo -n " ZooKeeper processor started"
     else
-        echo -n " ZooKeeper server NOT started"
+        echo -n " ZooKeeper processor NOT started"
     fi
 
     ;;
@@ -164,7 +164,7 @@ startReadOnly)
         java -cp "$CLASSPATH" -Dreadonlymode.enabled=true org.apache.zookeeper.server.quorum.QuorumPeerMain ${base_dir}/src/c/tests/quorum.cfg &> "${base_dir}/build/tmp/zk.log" &
         pid=$!
         echo -n $pid > "${base_dir}/build/tmp/zk.pid"
-        sleep 3 # wait until read-only server is up
+        sleep 3 # wait until read-only processor is up
     fi
 
     ;;

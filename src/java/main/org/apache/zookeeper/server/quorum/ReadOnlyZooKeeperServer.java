@@ -22,8 +22,8 @@ import java.io.PrintWriter;
 
 import org.apache.zookeeper.server.jmx.MBeanRegistry;
 import org.apache.zookeeper.server.jmx.impl.DataTreeBean;
-import org.apache.zookeeper.server.FinalRequestProcessor;
-import org.apache.zookeeper.server.PrepRequestProcessor;
+import org.apache.zookeeper.server.processor.FinalRequestProcessor;
+import org.apache.zookeeper.server.processor.PrepRequestProcessor;
 import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperServer;
@@ -31,6 +31,7 @@ import org.apache.zookeeper.server.jmx.impl.ZooKeeperServerBean;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.quorum.mBean.impl.LocalPeerBean;
 import org.apache.zookeeper.server.quorum.mBean.impl.ReadOnlyBean;
+import org.apache.zookeeper.server.quorum.roles.processor.ReadOnlyRequestProcessor;
 
 /**
  * A ZooKeeperServer which comes into play when peer is partitioned from the
@@ -65,14 +66,14 @@ public class ReadOnlyZooKeeperServer extends ZooKeeperServer {
     public synchronized void startup() {
         // check to avoid startup follows shutdown
         if (shutdown) {
-            LOG.warn("Not starting Read-only server as startup follows shutdown!");
+            LOG.warn("Not starting Read-only processor as startup follows shutdown!");
             return;
         }
         registerJMX(new ReadOnlyBean(this), self.getJmxLocalPeerBean());
         super.startup();
         self.setZooKeeperServer(this);
         self.adminServer.setZooKeeperServer(this);
-        LOG.info("Read-only server started");
+        LOG.info("Read-only processor started");
     }
 
     @Override
@@ -130,7 +131,7 @@ public class ReadOnlyZooKeeperServer extends ZooKeeperServer {
 
     /**
      * Returns the id of the associated QuorumPeer, which will do for a unique
-     * id of this server.
+     * id of this processor.
      */
     @Override
     public long getServerId() {
@@ -140,17 +141,17 @@ public class ReadOnlyZooKeeperServer extends ZooKeeperServer {
     @Override
     public synchronized void shutdown() {
         if (!canShutdown()) {
-            LOG.debug("ZooKeeper server is not running, so not proceeding to shutdown!");
+            LOG.debug("ZooKeeper processor is not running, so not proceeding to shutdown!");
             return;
         }
         shutdown = true;
         unregisterJMX(this);
 
-        // set peer's server to null
+        // set peer's processor to null
         self.setZooKeeperServer(null);
         // clear all the connections
         self.closeAllConnections();
-        // shutdown the server itself
+        // shutdown the processor itself
         super.shutdown();
     }
 

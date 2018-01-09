@@ -27,8 +27,7 @@ import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
 import org.apache.zookeeper.server.quorum.roles.leader.LearnerHandler;
-import org.apache.zookeeper.server.quorum.roles.learner.Learner;
-import org.apache.zookeeper.server.quorum.roles.server.ObserverZooKeeperServer;
+import org.apache.zookeeper.server.quorum.roles.learner.server.ObserverZooKeeperServer;
 import org.apache.zookeeper.server.util.SerializeUtils;
 import org.apache.zookeeper.txn.SetDataTxn;
 import org.apache.zookeeper.txn.TxnHeader;
@@ -124,7 +123,7 @@ public class Observer extends Learner {
                 revalidate(qp);
                 break;
             case SYNC:
-                ((ObserverZooKeeperServer) zk).sync();
+                zk.sync();
                 break;
             case INFORM:
                 TxnHeader hdr = new TxnHeader();

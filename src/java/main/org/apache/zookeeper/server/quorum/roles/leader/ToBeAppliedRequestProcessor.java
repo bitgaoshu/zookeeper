@@ -1,9 +1,8 @@
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.roles.leader;
 
-import org.apache.zookeeper.server.FinalRequestProcessor;
+import org.apache.zookeeper.server.processor.FinalRequestProcessor;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.RequestProcessor;
-import org.apache.zookeeper.server.quorum.roles.leader.Leader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +37,7 @@ public class ToBeAppliedRequestProcessor implements RequestProcessor {
     /*
      * (non-Javadoc)
      *
-     * @see org.apache.zookeeper.server.RequestProcessor#processRequest(org.apache.zookeeper.server.Request)
+     * @see org.apache.zookeeper.processor.RequestProcessor#processRequest(org.apache.zookeeper.processor.Request)
      */
     @Override
     public void processRequest(Request request) throws RequestProcessorException {
@@ -56,7 +55,7 @@ public class ToBeAppliedRequestProcessor implements RequestProcessor {
     /*
      * (non-Javadoc)
      *
-     * @see org.apache.zookeeper.server.RequestProcessor#shutdown()
+     * @see org.apache.zookeeper.processor.RequestProcessor#shutdown()
      */
     public void shutdown() {
         log.info("Shutting down");

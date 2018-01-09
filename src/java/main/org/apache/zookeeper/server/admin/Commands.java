@@ -162,7 +162,7 @@ public class Commands {
     }
 
     /**
-     * Information on client connections to server. Returned Map contains:
+     * Information on client connections to processor. Returned Map contains:
      *   - "connections": map of connection info objects
      * @see ServerCnxn#getConnectionInfo(boolean)
      */
@@ -255,7 +255,7 @@ public class Commands {
     }
 
     /**
-     * Is this server in read-only mode. Returned map contains:
+     * Is this processor in read-only mode. Returned map contains:
      *   - "is_read_only": Boolean
      */
     public static class IsroCommand extends CommandBase {
@@ -274,7 +274,7 @@ public class Commands {
     /**
      * Some useful info for monitoring. Returned map contains:
      *   - "version": String
-     *                server version
+     *                processor version
      *   - "avg_latency": Long
      *   - "max_latency": Long
      *   - "min_latency": Long
@@ -342,7 +342,7 @@ public class Commands {
         }}
 
     /**
-     * No-op command, check if the server is running
+     * No-op command, check if the processor is running
      */
     public static class RuokCommand extends CommandBase {
         public RuokCommand() {
@@ -391,9 +391,9 @@ public class Commands {
     /**
      * Server information. Returned map contains:
      *   - "version": String
-     *                version of server
+     *                version of processor
      *   - "read_only": Boolean
-     *                  is server in read-only mode
+     *                  is processor in read-only mode
      *   - "server_stats": ServerStats object
      *   - "node_count": Integer
      */
@@ -437,7 +437,7 @@ public class Commands {
     }
 
     /**
-     * Resets server statistics.
+     * Resets processor statistics.
      */
     public static class StatResetCommand extends CommandBase {
         public StatResetCommand() {

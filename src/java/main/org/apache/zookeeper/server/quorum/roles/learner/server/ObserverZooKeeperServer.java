@@ -15,23 +15,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.server.quorum.roles.server;
+package org.apache.zookeeper.server.quorum.roles.learner.server;
 
-import org.apache.zookeeper.server.FinalRequestProcessor;
-import org.apache.zookeeper.server.Request;
-import org.apache.zookeeper.server.RequestProcessor;
-import org.apache.zookeeper.server.SyncRequestProcessor;
-import org.apache.zookeeper.server.ZKDatabase;
-import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
-import org.apache.zookeeper.server.quorum.CommitProcessor;
-import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.roles.learner.Learner;
 import org.apache.zookeeper.server.quorum.roles.learner.Observer;
+import org.apache.zookeeper.server.processor.FinalRequestProcessor;
+import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.RequestProcessor;
+import org.apache.zookeeper.server.processor.SyncRequestProcessor;
+import org.apache.zookeeper.server.ZKDatabase;
+import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
+import org.apache.zookeeper.server.quorum.QuorumPeer;
+import org.apache.zookeeper.server.quorum.roles.learner.processor.ObserverRequestProcessor;
+import org.apache.zookeeper.server.quorum.roles.processor.CommitProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * A ZooKeeperServer for the Observer node type. Not much is different, but
@@ -41,11 +41,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class ObserverZooKeeperServer extends LearnerZooKeeperServer {
     private static final Logger LOG =
             LoggerFactory.getLogger(ObserverZooKeeperServer.class);
-    /*
-     * Pending sync requests
-     */
-    ConcurrentLinkedQueue<Request> pendingSyncs =
-            new ConcurrentLinkedQueue<Request>();
+
     /**
      * Enable since request processor for writing txnlog to disk and
      * take periodic snapshot. Default is ON.
@@ -114,19 +110,6 @@ public class ObserverZooKeeperServer extends LearnerZooKeeperServer {
         }
     }
 
-    /*
-     * Process a sync request
-     */
-    synchronized public void sync() {
-        if (pendingSyncs.size() == 0) {
-            LOG.warn("Not expecting a sync.");
-            return;
-        }
-
-        Request r = pendingSyncs.remove();
-        commitProcessor.commit(r);
-    }
-
     @Override
     public String getState() {
         return "observer";
@@ -137,7 +120,7 @@ public class ObserverZooKeeperServer extends LearnerZooKeeperServer {
     @Override
     public synchronized void shutdown() {
         if (!canShutdown()) {
-            LOG.debug("ZooKeeper server is not running, so not proceeding to shutdown!");
+            LOG.debug("ZooKeeper processor is not running, so not proceeding to shutdown!");
             return;
         }
         super.shutdown();

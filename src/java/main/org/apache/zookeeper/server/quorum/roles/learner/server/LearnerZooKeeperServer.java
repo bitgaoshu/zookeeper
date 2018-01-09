@@ -15,29 +15,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.server.quorum.roles.server;
+package org.apache.zookeeper.server.quorum.roles.learner.server;
 
-import org.apache.zookeeper.server.SyncRequestProcessor;
+import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.quorum.roles.learner.Learner;
+import org.apache.zookeeper.server.processor.SyncRequestProcessor;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.jmx.MBeanRegistry;
 import org.apache.zookeeper.server.jmx.impl.DataTreeBean;
 import org.apache.zookeeper.server.jmx.impl.ZooKeeperServerBean;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
-import org.apache.zookeeper.server.quorum.CommitProcessor;
 import org.apache.zookeeper.server.quorum.LearnerSessionTracker;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.mBean.impl.LocalPeerBean;
-import org.apache.zookeeper.server.quorum.roles.learner.Learner;
+import org.apache.zookeeper.server.quorum.roles.processor.CommitProcessor;
+import org.apache.zookeeper.server.quorum.QuorumZooKeeperServer;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Parent class for all ZooKeeperServers for Learners
  */
 public abstract class LearnerZooKeeperServer extends QuorumZooKeeperServer {
+
+    /*
+     * Pending sync requests
+     */
+    private ConcurrentLinkedQueue<Request> pendingSyncs =
+            new ConcurrentLinkedQueue<Request>();
 
     /*
      * Request processors
@@ -51,7 +60,7 @@ public abstract class LearnerZooKeeperServer extends QuorumZooKeeperServer {
     }
 
     /**
-     * Abstract method to return the learner associated with this server.
+     * Abstract method to return the learner associated with this processor.
      * Since the Learner may change under our feet (when QuorumPeer reassigns
      * it) we can't simply take a reference here. Instead, we need the
      * subclasses to implement this.
@@ -69,9 +78,27 @@ public abstract class LearnerZooKeeperServer extends QuorumZooKeeperServer {
         return Collections.emptyMap();
     }
 
+
+    /*
+     * Process a sync request
+     */
+    synchronized public void sync() {
+        if (pendingSyncs.size() == 0) {
+            LOG.warn("Not expecting a sync.");
+            return;
+        }
+
+        Request r = pendingSyncs.remove();
+        commitProcessor.commit(r);
+    }
+
+    public void pendingSyncRequest(Request request){
+        pendingSyncs.add(request);
+    }
+
     /**
      * Returns the id of the associated QuorumPeer, which will do for a unique
-     * id of this server.
+     * id of this processor.
      */
     @Override
     public long getServerId() {
@@ -149,7 +176,7 @@ public abstract class LearnerZooKeeperServer extends QuorumZooKeeperServer {
     @Override
     public synchronized void shutdown() {
         if (!canShutdown()) {
-            LOG.debug("ZooKeeper server is not running, so not proceeding to shutdown!");
+            LOG.debug("ZooKeeper processor is not running, so not proceeding to shutdown!");
             return;
         }
         LOG.info("Shutting down");

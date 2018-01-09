@@ -34,11 +34,11 @@ import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
 import org.apache.zookeeper.server.quorum.election.Vote;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
-import org.apache.zookeeper.server.quorum.roles.Role;
+import org.apache.zookeeper.server.quorum.Role;
 import org.apache.zookeeper.server.quorum.roles.leader.LearnerHandler;
-import org.apache.zookeeper.server.quorum.roles.server.FollowerZooKeeperServer;
-import org.apache.zookeeper.server.quorum.roles.server.LearnerZooKeeperServer;
-import org.apache.zookeeper.server.quorum.roles.server.ObserverZooKeeperServer;
+import org.apache.zookeeper.server.quorum.roles.learner.server.FollowerZooKeeperServer;
+import org.apache.zookeeper.server.quorum.roles.learner.server.LearnerZooKeeperServer;
+import org.apache.zookeeper.server.quorum.roles.learner.server.ObserverZooKeeperServer;
 import org.apache.zookeeper.server.util.SerializeUtils;
 import org.apache.zookeeper.server.util.ZxidUtils;
 import org.apache.zookeeper.txn.SetDataTxn;
@@ -318,7 +318,7 @@ public class Learner  implements Role {
         final long newEpoch = ZxidUtils.getEpochFromZxid(qp.getZxid());
         OpOfLeader op = OpOfLeader.fromInt(qp.getType());
         if (op == OpOfLeader.LEADERINFO) {
-            // we are connected to a 1.0 server so accept the new epoch and read the next packet
+            // we are connected to a 1.0 processor so accept the new epoch and read the next packet
             leaderProtocolVersion = ByteBuffer.wrap(qp.getData()).getInt();
             byte epochBytes[] = new byte[4];
             final ByteBuffer wrappedEpochBytes = ByteBuffer.wrap(epochBytes);
@@ -596,8 +596,8 @@ public class Learner  implements Role {
                 ozk.commitRequest(request);
             }
         } else {
-            // New server type need to handle in-flight packets
-            throw new UnsupportedOperationException("Unknown server type");
+            // New processor type need to handle in-flight packets
+            throw new UnsupportedOperationException("Unknown processor type");
         }
     }
 

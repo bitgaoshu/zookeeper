@@ -36,7 +36,7 @@ import com.sun.jersey.api.client.ClientResponse;
 
 
 /**
- * Test stand-alone server.
+ * Test stand-alone processor.
  *
  */
 @RunWith(Parameterized.class)

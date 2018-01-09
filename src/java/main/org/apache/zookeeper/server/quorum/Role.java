@@ -1,4 +1,4 @@
-package org.apache.zookeeper.server.quorum.roles;
+package org.apache.zookeeper.server.quorum;
 
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 

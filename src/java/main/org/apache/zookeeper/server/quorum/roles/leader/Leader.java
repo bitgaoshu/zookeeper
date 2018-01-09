@@ -31,7 +31,7 @@ import org.apache.zookeeper.server.quorum.StateSummary;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 import org.apache.zookeeper.server.quorum.mBean.impl.LeaderBean;
 import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
-import org.apache.zookeeper.server.quorum.roles.Role;
+import org.apache.zookeeper.server.quorum.Role;
 import org.apache.zookeeper.server.util.ZxidUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +51,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
@@ -320,7 +319,7 @@ public class Leader implements Role {
                 specified by the user; the lack of version in a config file is interpreted as version=0).
                 As soon as a config is established we would like to increase its version so that it
                 takes presedence over other initial configs that were not established (such as a config
-                of a server trying to join the ensemble, which may be a partial view of the system, not the full config).
+                of a processor trying to join the ensemble, which may be a partial view of the system, not the full config).
                 We chose to set the new version to the one of the NEWLEADER message. However, before we can do that
                 there must be agreement on the new version, so we can only change the version when sending/receiving UPTODATE,
                 not when sending/receiving NEWLEADER. In other words, we can't change curQV here since its the committed quorum verifier,
@@ -393,7 +392,7 @@ public class Leader implements Role {
              * time (on order of a month say) to see the 4 billion writes
              * necessary to cause the roll-over to occur.
              *
-             * This field allows you to override the zxid of the server. Typically
+             * This field allows you to override the zxid of the processor. Typically
              * you'll want to set it to something like 0xfffffff0 and then
              * start the quorum, run some operations and see the re-election.
              */
@@ -530,7 +529,7 @@ public class Leader implements Role {
      *
      * @param reconfigProposal
      * @param zxid             of the reconfigProposal
-     * @return server if of the designated leader
+     * @return processor if of the designated leader
      */
 
     private long getDesignatedLeader(Proposal reconfigProposal, long zxid) {
@@ -613,7 +612,7 @@ public class Leader implements Role {
         } else if (p.request.getHdr().getType() == OpType.reconfig.getValue()) {
             LOG.debug("Committing a reconfiguration! " + outstandingProposals.size());
 
-            //if this server is voter in new config with the same quorum address,
+            //if this processor is voter in new config with the same quorum address,
             //then it will remain the leader
             //otherwise an up-to-date follower will be designated as leader. This saves
             //leader election time, unless the designated leader fails
@@ -653,7 +652,7 @@ public class Leader implements Role {
      * proposal
      *
      * @param zxid,        the zxid of the proposal sent out
-     * @param sid,         the id of the server that sent the ack
+     * @param sid,         the id of the processor that sent the ack
      * @param followerAddr
      */
     synchronized public void processAck(long sid, long zxid, SocketAddress followerAddr) {
@@ -894,7 +893,7 @@ public class Leader implements Role {
     }
 
     /**
-     * Sends a sync message to the appropriate server
+     * Sends a sync message to the appropriate processor
      *
      * @param r
      */
@@ -1017,7 +1016,7 @@ public class Leader implements Role {
     }
 
     /**
-     * Start up leader ZooKeeper server and initialize zxid to the new epoch
+     * Start up leader ZooKeeper processor and initialize zxid to the new epoch
      */
     private synchronized void startZkServer() {
         // Update lastCommitted and Db's zxid to a value representing the new epoch

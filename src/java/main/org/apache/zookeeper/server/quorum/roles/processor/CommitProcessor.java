@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.roles.processor;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,10 +24,10 @@ import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.apache.zookeeper.server.RequestProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.server.Request;
-import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.server.WorkerService;
 import org.apache.zookeeper.server.ZooKeeperCriticalThread;
 import org.apache.zookeeper.server.ZooKeeperServerListener;
@@ -168,7 +168,7 @@ public class CommitProcessor extends ZooKeeperCriticalThread implements
                  * Since requests are placed in the queue before being sent to
                  * the leader, if commitIsWaiting = true, the commit belongs to
                  * the first update operation in the queuedRequests or to a
-                 * request from a client on another server (i.e., the order of
+                 * request from a client on another processor (i.e., the order of
                  * the following two lines is important!).
                  */
                 commitIsWaiting = !committedRequests.isEmpty();
@@ -218,7 +218,7 @@ public class CommitProcessor extends ZooKeeperCriticalThread implements
                      * the queue, so if we have a pending request and a
                      * committed request, the committed request must be for that
                      * pending write or for a write originating at a different
-                     * server.
+                     * processor.
                      */
                     if (!pendingRequests.isEmpty() && !committedRequests.isEmpty()){
                         /*

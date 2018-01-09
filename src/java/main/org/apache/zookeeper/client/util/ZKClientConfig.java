@@ -41,7 +41,7 @@ public class ZKClientConfig extends ZKConfig {
     public static final String ENABLE_CLIENT_SASL_KEY = ZooKeeperSaslClient.ENABLE_CLIENT_SASL_KEY;
     @SuppressWarnings("deprecation")
     public static final String ENABLE_CLIENT_SASL_DEFAULT = ZooKeeperSaslClient.ENABLE_CLIENT_SASL_DEFAULT;
-    public static final String ZOOKEEPER_SERVER_REALM = "zookeeper.server.realm";
+    public static final String ZOOKEEPER_SERVER_REALM = "zookeeper.processor.realm";
     /**
      * This controls whether automatic watch resetting is enabled. Clients
      * automatically reset watches during session reconnect, this option allows
@@ -52,7 +52,7 @@ public class ZKClientConfig extends ZKConfig {
     @SuppressWarnings("deprecation")
     public static final String ZOOKEEPER_CLIENT_CNXN_SOCKET = ZooKeeper.ZOOKEEPER_CLIENT_CNXN_SOCKET;
     /**
-     * Setting this to "true" will enable encrypted client-server communication.
+     * Setting this to "true" will enable encrypted client-processor communication.
      */
     @SuppressWarnings("deprecation")
     public static final String SECURE_CLIENT = ZooKeeper.SECURE_CLIENT;
@@ -74,7 +74,7 @@ public class ZKClientConfig extends ZKConfig {
     protected void handleBackwardCompatibility() {
         /**
          * backward compatibility for properties which are util to both client
-         * and server
+         * and processor
          */
         super.handleBackwardCompatibility();
 

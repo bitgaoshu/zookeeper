@@ -37,7 +37,7 @@ import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.quorum.roles.leader.Leader;
 import org.apache.zookeeper.server.quorum.roles.leader.Leader.Proposal;
-import org.apache.zookeeper.server.quorum.roles.leader.LearnerHandler;
+import org.apache.zookeeper.server.quorum.roles.leader.server.LearnerHandler;
 import org.apache.zookeeper.server.util.ZxidUtils;
 import org.junit.Before;
 import org.junit.Test;

@@ -85,7 +85,7 @@ public interface ConnectionMXBean {
     /** Last zxid of this connection
      * @since 3.3.0 */
     String getLastZxid();
-    /** Last time server sent a response to client on this connection
+    /** Last time processor sent a response to client on this connection
      * @since 3.3.0 */
     String getLastResponseTime();
     /** Latency of last response to client on this connection in ms

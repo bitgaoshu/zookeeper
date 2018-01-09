@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.roles.processor;
 
 import java.io.IOException;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -25,10 +25,10 @@ import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.server.Request;
-import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.server.ZooKeeperCriticalThread;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.ZooTrace;
+import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.server.quorum.roles.leader.Leader.XidRolloverException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

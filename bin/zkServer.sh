@@ -50,7 +50,7 @@ then
     # for some reason these two options are necessary on jdk6 on Ubuntu
     #   accord to the docs they are not necessary, but otw jconsole cannot
     #   do a local attach
-    ZOOMAIN="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only=$JMXLOCALONLY org.apache.zookeeper.server.quorum.QuorumPeerMain"
+    ZOOMAIN="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only=$JMXLOCALONLY org.apache.zookeeper.processor.quorum.QuorumPeerMain"
   else
     if [ "x$JMXAUTH" = "x" ]
     then
@@ -68,11 +68,11 @@ then
     echo "ZooKeeper remote JMX authenticate set to $JMXAUTH" >&2
     echo "ZooKeeper remote JMX ssl set to $JMXSSL" >&2
     echo "ZooKeeper remote JMX log4j set to $JMXLOG4J" >&2
-    ZOOMAIN="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=$JMXPORT -Dcom.sun.management.jmxremote.authenticate=$JMXAUTH -Dcom.sun.management.jmxremote.ssl=$JMXSSL -Dzookeeper.mBean.log4j.disable=$JMXLOG4J org.apache.zookeeper.server.quorum.QuorumPeerMain"
+    ZOOMAIN="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=$JMXPORT -Dcom.sun.management.jmxremote.authenticate=$JMXAUTH -Dcom.sun.management.jmxremote.ssl=$JMXSSL -Dzookeeper.mBean.log4j.disable=$JMXLOG4J org.apache.zookeeper.processor.quorum.QuorumPeerMain"
   fi
 else
     echo "JMX disabled by user request" >&2
-    ZOOMAIN="org.apache.zookeeper.server.quorum.QuorumPeerMain"
+    ZOOMAIN="org.apache.zookeeper.processor.quorum.QuorumPeerMain"
 fi
 
 if [ "x$SERVER_JVMFLAGS" != "x" ]
@@ -144,7 +144,7 @@ mkdir -p "$ZOO_LOG_DIR"
 fi
 
 ZOO_LOG_FILE=zookeeper-$USER-server-$HOSTNAME.log
-_ZOO_DAEMON_OUT="$ZOO_LOG_DIR/zookeeper-$USER-server-$HOSTNAME.out"
+_ZOO_DAEMON_OUT="$ZOO_LOG_DIR/zookeeper-$USER-processor-$HOSTNAME.out"
 
 case $1 in
 start)
@@ -238,11 +238,11 @@ status)
          echo "clientPort not found and myid could not be determined. Terminating."
          exit 1
        fi
-       clientPortAndAddress=`$GREP "^[[:space:]]*server.$myid=.*;.*" "$ZOOCFG" | sed -e 's/.*=//' | sed -e 's/.*;//'`
+       clientPortAndAddress=`$GREP "^[[:space:]]*processor.$myid=.*;.*" "$ZOOCFG" | sed -e 's/.*=//' | sed -e 's/.*;//'`
        if [ ! "$clientPortAndAddress" ] ; then
            echo "Client port not found in static config file. Looking in dynamic config file."
            dynamicConfigFile=`$GREP "^[[:space:]]*dynamicConfigFile" "$ZOOCFG" | sed -e 's/.*=//'`
-           clientPortAndAddress=`$GREP "^[[:space:]]*server.$myid=.*;.*" "$dynamicConfigFile" | sed -e 's/.*=//' | sed -e 's/.*;//'`
+           clientPortAndAddress=`$GREP "^[[:space:]]*processor.$myid=.*;.*" "$dynamicConfigFile" | sed -e 's/.*=//' | sed -e 's/.*;//'`
        fi
        if [ ! "$clientPortAndAddress" ] ; then
           echo "Client port not found. Terminating."

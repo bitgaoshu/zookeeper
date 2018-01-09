@@ -19,19 +19,19 @@
 package org.apache.zookeeper.server.jmx;
 
 /**
- * ZooKeeper server MBean.
+ * ZooKeeper processor MBean.
  */
 public interface ZooKeeperServerMXBean {
     /**
-     * @return the server socket port number
+     * @return the processor socket port number
      */
     public String getClientPort();
     /**
-     * @return the zookeeper server version
+     * @return the zookeeper processor version
      */
     public String getVersion();
     /**
-     * @return time the server was started
+     * @return time the processor was started
      */
     public String getStartTime();
     /**
@@ -59,11 +59,11 @@ public interface ZooKeeperServerMXBean {
      */
     public long getOutstandingRequests();
     /**
-     * Current TickTime of server in milliseconds
+     * Current TickTime of processor in milliseconds
      */
     public int getTickTime();
     /**
-     * Set TickTime of server in milliseconds
+     * Set TickTime of processor in milliseconds
      */
     public void setTickTime(int tickTime);
 
@@ -74,20 +74,20 @@ public interface ZooKeeperServerMXBean {
     public void setMaxClientCnxnsPerHost(int max);
 
     /**
-     * Current minSessionTimeout of the server in milliseconds
+     * Current minSessionTimeout of the processor in milliseconds
      */
     public int getMinSessionTimeout();
     /**
-     * Set minSessionTimeout of server in milliseconds
+     * Set minSessionTimeout of processor in milliseconds
      */
     public void setMinSessionTimeout(int min);
 
     /**
-     * Current maxSessionTimeout of the server in milliseconds
+     * Current maxSessionTimeout of the processor in milliseconds
      */
     public int getMaxSessionTimeout();
     /**
-     * Set maxSessionTimeout of server in milliseconds
+     * Set maxSessionTimeout of processor in milliseconds
      */
     public void setMaxSessionTimeout(int max);
 

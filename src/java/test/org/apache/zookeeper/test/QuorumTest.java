@@ -37,7 +37,7 @@ import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.server.quorum.roles.leader.Leader;
-import org.apache.zookeeper.server.quorum.roles.leader.LearnerHandler;
+import org.apache.zookeeper.server.quorum.roles.leader.server.LearnerHandler;
 import org.apache.zookeeper.test.ClientBase.CountdownWatcher;
 import org.junit.After;
 import org.junit.Assert;

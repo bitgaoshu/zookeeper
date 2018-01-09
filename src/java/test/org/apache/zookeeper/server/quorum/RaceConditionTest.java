@@ -37,7 +37,7 @@ import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.quorum.roles.learner.Follower;
 import org.apache.zookeeper.server.quorum.roles.leader.Leader;
 import org.apache.zookeeper.server.quorum.roles.server.FollowerZooKeeperServer;
-import org.apache.zookeeper.server.quorum.roles.leader.LeaderZooKeeperServer;
+import org.apache.zookeeper.server.quorum.roles.leader.server.LeaderZooKeeperServer;
 import org.apache.zookeeper.test.ClientBase;
 import org.junit.After;
 import org.junit.Assert;

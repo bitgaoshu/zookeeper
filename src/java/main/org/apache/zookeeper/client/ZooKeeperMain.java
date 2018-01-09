@@ -132,7 +132,7 @@ public class ZooKeeperMain {
     }
 
     static void usage() {
-        System.err.println("ZooKeeper -server host:port cmd args");
+        System.err.println("ZooKeeper -processor host:port cmd args");
         List<String> cmdList = new ArrayList<String>(commandMap.keySet());
         Collections.sort(cmdList);
         for (String cmd : cmdList) {
@@ -162,7 +162,7 @@ public class ZooKeeperMain {
         public static final Pattern QUOTED_PATTERN = Pattern.compile("^([\'\"])(.*)(\\1)$");
 
         public MyCommandOptions() {
-          options.put("server", "localhost:2181");
+          options.put("processor", "localhost:2181");
           options.put("timeout", "30000");
         }
 
@@ -199,8 +199,8 @@ public class ZooKeeperMain {
             while (it.hasNext()) {
                 String opt = it.next();
                 try {
-                    if (opt.equals("-server")) {
-                        options.put("server", it.next());
+                    if (opt.equals("-processor")) {
+                        options.put("processor", it.next());
                     } else if (opt.equals("-timeout")) {
                         options.put("timeout", it.next());
                     } else if (opt.equals("-r")) {
@@ -299,8 +299,8 @@ public class ZooKeeperMain {
 
     public ZooKeeperMain(String args[]) throws IOException, InterruptedException {
         cl.parseOptions(args);
-        System.out.println("Connecting to " + cl.getOption("server"));
-        connectToZK(cl.getOption("server"));
+        System.out.println("Connecting to " + cl.getOption("processor"));
+        connectToZK(cl.getOption("processor"));
     }
 
     public ZooKeeperMain(ZooKeeper zk) {

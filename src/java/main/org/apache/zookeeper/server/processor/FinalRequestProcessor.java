@@ -16,13 +16,19 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.processor;
 
 import org.apache.jute.Record;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.operation.multi.MultiResponse;
 import org.apache.zookeeper.operation.OpResult;
 import org.apache.zookeeper.operation.OpResult.*;
+import org.apache.zookeeper.server.ByteBufferInputStream;
+import org.apache.zookeeper.server.DataNode;
+import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.ZooKeeperServer;
+import org.apache.zookeeper.server.ZooTrace;
+import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.watcher.WatcherType;
 import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.exception.KeeperException;
@@ -33,10 +39,9 @@ import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.proto.*;
 import org.apache.zookeeper.server.DataTree.ProcessTxnResult;
-import org.apache.zookeeper.server.ZooKeeperServer.ChangeRecord;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
-import org.apache.zookeeper.server.quorum.roles.server.QuorumZooKeeperServer;
+import org.apache.zookeeper.server.quorum.QuorumZooKeeperServer;
 import org.apache.zookeeper.txn.ErrorTxn;
 import org.apache.zookeeper.txn.TxnHeader;
 import org.slf4j.Logger;
@@ -46,6 +51,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * This Request processor actually applies any transaction associated with a
@@ -78,7 +84,9 @@ public class FinalRequestProcessor implements RequestProcessor {
             ZooTrace.logRequest(LOG, traceMask, 'E', request, "");
         }
         ProcessTxnResult rc = null;
-        synchronized (zks.outstandingChanges) {
+        List<ChangeRecord> outstandingChanges = zks.getOutstandingChanges();
+        Map<String, ChangeRecord> outstandingChangesForPath = zks.getOutstandingChangesForPath();
+        synchronized (outstandingChanges) {
             // Need to process local session requests
             rc = zks.processTxn(request);
 
@@ -88,15 +96,15 @@ public class FinalRequestProcessor implements RequestProcessor {
                 TxnHeader hdr = request.getHdr();
                 Record txn = request.getTxn();
                 long zxid = hdr.getZxid();
-                while (!zks.outstandingChanges.isEmpty()
-                        && zks.outstandingChanges.get(0).zxid <= zxid) {
-                    ChangeRecord cr = zks.outstandingChanges.remove(0);
+                while (!outstandingChanges.isEmpty()
+                        && outstandingChanges.get(0).zxid <= zxid) {
+                    ChangeRecord cr = outstandingChanges.remove(0);
                     if (cr.zxid < zxid) {
                         LOG.warn("Zxid outstanding " + cr.zxid
                                 + " is less than current " + zxid);
                     }
-                    if (zks.outstandingChangesForPath.get(cr.path) == cr) {
-                        zks.outstandingChangesForPath.remove(cr.path);
+                    if (outstandingChangesForPath.get(cr.path) == cr) {
+                        outstandingChangesForPath.remove(cr.path);
                     }
                 }
             }
@@ -108,16 +116,16 @@ public class FinalRequestProcessor implements RequestProcessor {
         }
 
         // ZOOKEEPER-558:
-        // In some cases the server does not close the connection (e.g., closeconn buffer
+        // In some cases the processor does not close the connection (e.g., closeconn buffer
         // was not being queued — ZOOKEEPER-558) properly. This happens, for example,
-        // when the client closes the connection. The server should still close the session, though.
+        // when the client closes the connection. The processor should still close the session, though.
         // Calling closeSession() after losing the cnxn, results in the client close session response being dropped.
         if (request.op == OpType.closeSession && connClosedByClient(request)) {
             // We need to check if we can close the session id.
             // Sometimes the corresponding ServerCnxnFactory could be null because
             // we are just playing diffs from the leader.
-            if (closeSession(zks.serverCnxnFactory, request.sessionId) ||
-                    closeSession(zks.secureServerCnxnFactory, request.sessionId)) {
+            if (closeSession(zks.getServerCnxnFactory(), request.sessionId) ||
+                    closeSession(zks.getSecureServerCnxnFactory(), request.sessionId)) {
                 return;
             }
         }

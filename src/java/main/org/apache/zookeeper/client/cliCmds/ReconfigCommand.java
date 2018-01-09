@@ -33,13 +33,13 @@ public class ReconfigCommand extends CliCommand {
 
     private static Options options = new Options();
 
-    /* joining - comma separated map of server config strings for servers to be added to the ensemble.
+    /* joining - comma separated map of processor config strings for servers to be added to the ensemble.
      * Each entry is identical in syntax as it would appear in a configuration file. Only used for 
      * incremental reconfigurations.
      */
     private String joining;
 
-    /* leaving - comma separated map of server IDs to be removed from the ensemble. Only used for
+    /* leaving - comma separated map of processor IDs to be removed from the ensemble. Only used for
      * incremental reconfigurations.
      */
     private String leaving;
@@ -65,7 +65,7 @@ public class ReconfigCommand extends CliCommand {
         		"non-incremental reconfig");
         options.addOption("add", true, "comma-separated map of config strings for " +
         		"new servers");
-        options.addOption("remove", true, "comma-separated map of server IDs to remove");
+        options.addOption("remove", true, "comma-separated map of processor IDs to remove");
     }
 
     public ReconfigCommand() {

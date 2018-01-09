@@ -28,7 +28,7 @@ import com.sun.jersey.core.header.MediaTypes;
 
 
 /**
- * Test stand-alone server.
+ * Test stand-alone processor.
  *
  */
 public class WadlTest extends Base {
