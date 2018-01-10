@@ -31,7 +31,7 @@ import org.apache.zookeeper.client.util.ZKClientConfig;
 import org.apache.zookeeper.server.common.ZKConfig;
 import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.proto.ConnectResponse;
-import org.apache.zookeeper.server.ByteBufferInputStream;
+import org.apache.zookeeper.server.common.ByteBufferInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

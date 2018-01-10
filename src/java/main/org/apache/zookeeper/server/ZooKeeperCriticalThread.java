@@ -25,6 +25,9 @@ import org.slf4j.LoggerFactory;
  * thread this will exit the system.
  */
 public class ZooKeeperCriticalThread extends ZooKeeperThread {
+
+    private static final int UNEXPECTED_ERROR = -1;
+
     private static final Logger LOG = LoggerFactory
             .getLogger(ZooKeeperCriticalThread.class);
     private final ZooKeeperServerListener listener;
@@ -46,6 +49,6 @@ public class ZooKeeperCriticalThread extends ZooKeeperThread {
     @Override
     protected void handleException(String threadName, Throwable e) {
         LOG.error("Severe unrecoverable error, from thread : {}", threadName, e);
-        listener.notifyStopping(threadName, ExitCode.UNEXPECTED_ERROR);
+        listener.notifyStopping(threadName, UNEXPECTED_ERROR);
     }
 }

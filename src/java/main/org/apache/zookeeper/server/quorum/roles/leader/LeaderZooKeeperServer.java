@@ -29,7 +29,7 @@ import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.jmx.MBeanRegistry;
 import org.apache.zookeeper.server.jmx.impl.DataTreeBean;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
-import org.apache.zookeeper.server.quorum.roles.processor.CommitProcessor;
+import org.apache.zookeeper.server.quorum.processor.CommitProcessor;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.mBean.impl.LeaderBean;
 import org.apache.zookeeper.server.quorum.mBean.impl.LocalPeerBean;

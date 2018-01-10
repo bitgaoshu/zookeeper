@@ -27,7 +27,7 @@ import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.roles.learner.processor.ObserverRequestProcessor;
-import org.apache.zookeeper.server.quorum.roles.processor.CommitProcessor;
+import org.apache.zookeeper.server.quorum.processor.CommitProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -31,7 +31,7 @@ import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.roles.learner.processor.FollowerRequestProcessor;
 import org.apache.zookeeper.server.quorum.roles.learner.processor.SendAckRequestProcessor;
-import org.apache.zookeeper.server.quorum.roles.processor.CommitProcessor;
+import org.apache.zookeeper.server.quorum.processor.CommitProcessor;
 import org.apache.zookeeper.txn.TxnHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

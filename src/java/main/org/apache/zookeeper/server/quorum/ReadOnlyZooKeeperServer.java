@@ -31,7 +31,7 @@ import org.apache.zookeeper.server.jmx.impl.ZooKeeperServerBean;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.quorum.mBean.impl.LocalPeerBean;
 import org.apache.zookeeper.server.quorum.mBean.impl.ReadOnlyBean;
-import org.apache.zookeeper.server.quorum.roles.processor.ReadOnlyRequestProcessor;
+import org.apache.zookeeper.server.quorum.processor.ReadOnlyRequestProcessor;
 
 /**
  * A ZooKeeperServer which comes into play when peer is partitioned from the

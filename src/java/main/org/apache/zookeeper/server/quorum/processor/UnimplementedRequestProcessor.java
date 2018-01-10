@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum.roles.processor;
+package org.apache.zookeeper.server.quorum.processor;
 
 import java.io.IOException;
 

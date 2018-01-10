@@ -26,6 +26,7 @@ import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.exception.KeeperException.NoNodeException;
 import org.apache.zookeeper.exception.KeeperException.NodeExistsException;
 import org.apache.zookeeper.operation.OpType;
+import org.apache.zookeeper.server.common.ByteBufferInputStream;
 import org.apache.zookeeper.util.StatsTrack;
 import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.watcher.Watcher;

@@ -23,7 +23,7 @@ import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.operation.multi.MultiResponse;
 import org.apache.zookeeper.operation.OpResult;
 import org.apache.zookeeper.operation.OpResult.*;
-import org.apache.zookeeper.server.ByteBufferInputStream;
+import org.apache.zookeeper.server.common.ByteBufferInputStream;
 import org.apache.zookeeper.server.DataNode;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.ZooKeeperServer;
