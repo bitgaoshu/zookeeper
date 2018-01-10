@@ -27,7 +27,6 @@ import org.apache.zookeeper.server.TxnLogProposalIterator;
 import org.apache.zookeeper.server.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperThread;
 import org.apache.zookeeper.server.ZooTrace;
-import org.apache.zookeeper.server.quorum.LearnerSnapshot;
 import org.apache.zookeeper.server.quorum.QuorumPacket;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.LearnerType;
@@ -61,7 +60,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
  * learner. All communication with a learner is handled by this
  * class.
  */
-public class LearnerHandler extends ZooKeeperThread {
+class LearnerHandler extends ZooKeeperThread {
     /**
      * For testing purpose, force leader to use snapshot to sync with followers
      */

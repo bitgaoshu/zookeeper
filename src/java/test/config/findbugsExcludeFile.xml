@@ -82,7 +82,7 @@
      <Bug code="IS"/>
   </Match>
   <Match>
-     <Class name="org.apache.zookeeper.server.quorum.LearnerSessionTracker"/>
+     <Class name="org.apache.zookeeper.server.quorum.roles.learner.server.LearnerSessionTracker"/>
        <Bug code="UrF"/>
   </Match>
   <Match>

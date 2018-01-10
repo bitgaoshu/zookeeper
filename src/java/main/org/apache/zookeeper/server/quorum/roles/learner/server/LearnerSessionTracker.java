@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.quorum.roles.learner.server;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -33,6 +33,7 @@ import org.apache.zookeeper.exception.KeeperException.SessionMovedException;
 import org.apache.zookeeper.exception.KeeperException.UnknownSessionException;
 import org.apache.zookeeper.server.SessionTrackerImpl;
 import org.apache.zookeeper.server.ZooKeeperServerListener;
+import org.apache.zookeeper.server.quorum.UpgradeableSessionTracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
