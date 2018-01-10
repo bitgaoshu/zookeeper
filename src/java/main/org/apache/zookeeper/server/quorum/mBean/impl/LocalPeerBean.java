@@ -71,7 +71,7 @@ public class LocalPeerBean extends ServerBean implements LocalPeerMXBean {
     }
     
     public String getState() {
-        return peer.getServerState();
+        return peer.getServerState().getMsg();
     }
     
     public String getQuorumAddress() {

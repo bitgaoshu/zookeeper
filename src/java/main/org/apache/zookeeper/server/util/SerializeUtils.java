@@ -25,6 +25,8 @@ import org.apache.jute.Record;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.DataTree;
 import org.apache.zookeeper.server.ZooTrace;
+import org.apache.zookeeper.server.quorum.QuorumPacket;
+import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
 import org.apache.zookeeper.txn.CreateContainerTxn;
 import org.apache.zookeeper.txn.CreateSessionTxn;
 import org.apache.zookeeper.txn.CreateTTLTxn;
@@ -40,6 +42,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -147,6 +150,34 @@ public class SerializeUtils {
             oa.writeInt(entry.getValue().intValue(), "timeout");
         }
         dt.serialize(oa, "tree");
+    }
+
+
+    public static String serializePacket2String(QuorumPacket qp) {
+        String mess = null;
+        OpOfLeader op = OpOfLeader.fromInt(qp.getType());
+
+        switch (op) {
+            case PROPOSAL:
+                TxnHeader hdr = new TxnHeader();
+                try {
+                    SerializeUtils.deserializeTxn(qp.getData(), hdr);
+                    // mess = "transaction: " + txn.toString();
+                } catch (IOException e) {
+                    LOG.warn("Unexpected exception", e);
+                }
+                break;
+            case REVALIDATE:
+                ByteArrayInputStream bis = new ByteArrayInputStream(qp.getData());
+                DataInputStream dis = new DataInputStream(bis);
+                try {
+                    long id = dis.readLong();
+                    mess = " sessionid = " + id;
+                } catch (IOException e) {
+                    LOG.warn("Unexpected exception", e);
+                }
+        }
+        return op.msg() + " " + Long.toHexString(qp.getZxid()) + " " + mess;
     }
 
 }

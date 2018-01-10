@@ -31,11 +31,10 @@ import org.apache.zookeeper.server.quorum.QuorumPacket;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
+import org.apache.zookeeper.server.quorum.Role;
 import org.apache.zookeeper.server.quorum.election.Vote;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
-import org.apache.zookeeper.server.quorum.Role;
-import org.apache.zookeeper.server.quorum.roles.leader.LearnerHandler;
 import org.apache.zookeeper.server.quorum.roles.learner.server.FollowerZooKeeperServer;
 import org.apache.zookeeper.server.quorum.roles.learner.server.LearnerZooKeeperServer;
 import org.apache.zookeeper.server.quorum.roles.learner.server.ObserverZooKeeperServer;
@@ -410,7 +409,7 @@ public class Learner  implements Role {
 
             } else {
                 LOG.error("Got unexpected packet from leader: {}, exiting ... ",
-                        LearnerHandler.packetToString(qp));
+                        SerializeUtils.serializePacket2String(qp));
                 System.exit(13);
 
             }

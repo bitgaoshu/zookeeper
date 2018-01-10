@@ -102,7 +102,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * <p>
  * The request for the current leader will consist solely of an xid: int xid;
  */
-public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider {
+public class QuorumPeer extends ZooKeeperThread implements QuorumStats {
     public static final String FLE_TIME_UNIT = "MS";
     /**
      * The syncEnabled can also be set via a system property.
@@ -114,7 +114,6 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
     private static final Logger LOG = LoggerFactory.getLogger(QuorumPeer.class);
     // Lock object that guard access to quorumVerifier and lastSeenQuorumVerifier.
     private final Object QV_LOCK = new Object();
-    private final QuorumStats quorumStats;
     /*
      * Record leader election time
      */
@@ -231,7 +230,6 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
     private long currentEpoch = -1;
     public QuorumPeer() {
         super("QuorumPeer");
-        quorumStats = new QuorumStats(this);
         jmxRemotePeerBean = new HashMap<Long, RemotePeerBean>();
         adminServer = AdminServerFactory.createAdminServer();
     }
@@ -458,10 +456,6 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
         synchronized (QV_LOCK) {
             myClientAddr = addr;
         }
-    }
-
-    QuorumStats quorumStats() {
-        return quorumStats;
     }
 
     @Override
@@ -889,8 +883,8 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats.Provider 
     }
 
     @Override
-    public String getServerState() {
-        return getPeerState().getMsg();
+    public QuorumState getServerState() {
+        return getPeerState();
     }
 
     /**

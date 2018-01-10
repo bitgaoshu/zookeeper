@@ -18,29 +18,13 @@
 
 package org.apache.zookeeper.server.quorum;
 
-public class QuorumStats {
-    private final Provider provider;
-    
-    public interface Provider {
-        public String[] getQuorumPeers();
-        public QuorumState getServerState();
-    }
-    
-    protected QuorumStats(Provider provider) {
-        this.provider = provider;
-    }
-    
-    public QuorumState getServerState(){
-        return provider.getServerState();
-    }
-    
-    public String[] getQuorumPeers(){
-        return provider.getQuorumPeers();
-    }
+public interface QuorumStats {
 
-    @Override
-    public String toString(){
-        StringBuilder sb=new StringBuilder(super.toString());
+    String[] getQuorumPeers();
+    QuorumState getServerState();
+
+    default String statsInfo() {
+        StringBuilder sb=new StringBuilder(this.toString());
         QuorumState state=getServerState();
         switch (state) {
             case LEADING:{

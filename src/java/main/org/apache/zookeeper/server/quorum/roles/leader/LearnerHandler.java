@@ -116,33 +116,6 @@ class LearnerHandler extends ZooKeeperThread {
         leader.addLearnerHandler(this);
     }
 
-    static public String packetToString(QuorumPacket p) {
-        String mess = null;
-        OpOfLeader op = OpOfLeader.fromInt(p.getType());
-
-        switch (op) {
-            case PROPOSAL:
-                TxnHeader hdr = new TxnHeader();
-                try {
-                    SerializeUtils.deserializeTxn(p.getData(), hdr);
-                    // mess = "transaction: " + txn.toString();
-                } catch (IOException e) {
-                    LOG.warn("Unexpected exception", e);
-                }
-                break;
-            case REVALIDATE:
-                ByteArrayInputStream bis = new ByteArrayInputStream(p.getData());
-                DataInputStream dis = new DataInputStream(bis);
-                try {
-                    long id = dis.readLong();
-                    mess = " sessionid = " + id;
-                } catch (IOException e) {
-                    LOG.warn("Unexpected exception", e);
-                }
-        }
-        return op.msg() + " " + Long.toHexString(p.getZxid()) + " " + mess;
-    }
-
     public Socket getSocket() {
         return sock;
     }
@@ -363,7 +336,7 @@ class LearnerHandler extends ZooKeeperThread {
             ia.readRecord(qp, "packet");
             if (qp.getType() != OpOfLeader.ACK.intType()) {
                 LOG.error("Next packet was supposed to be an ACK,"
-                        + " but received packet: {}", packetToString(qp));
+                        + " but received packet: {}", SerializeUtils.serializePacket2String(qp));
                 return;
             }
 
@@ -478,7 +451,7 @@ class LearnerHandler extends ZooKeeperThread {
                         leader.getZk().submitLearnerRequest(si);
                         break;
                     default:
-                        LOG.warn("unexpected quorum packet, type: {}", packetToString(qp));
+                        LOG.warn("unexpected quorum packet, type: {}", SerializeUtils.serializePacket2String(qp));
                         break;
                 }
             }

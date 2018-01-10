@@ -20,13 +20,12 @@ package org.apache.zookeeper.server.quorum.roles.learner;
 
 import org.apache.jute.Record;
 import org.apache.zookeeper.operation.OpType;
-import org.apache.zookeeper.server.quorum.mBean.impl.ObserverBean;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.quorum.QuorumPacket;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
+import org.apache.zookeeper.server.quorum.mBean.impl.ObserverBean;
 import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
-import org.apache.zookeeper.server.quorum.roles.leader.LearnerHandler;
 import org.apache.zookeeper.server.quorum.roles.learner.server.ObserverZooKeeperServer;
 import org.apache.zookeeper.server.util.SerializeUtils;
 import org.apache.zookeeper.txn.SetDataTxn;
@@ -42,7 +41,7 @@ import java.nio.ByteBuffer;
  * therefore naturally act as a relay point for publishing the proposal stream
  * and can relieve Followers of some of the connection load. Observers may
  * submit proposals, but do not vote in their acceptance.
- *
+ * <p>
  * See ZOOKEEPER-368 for a discussion of this feature.
  */
 public class Observer extends Learner {
@@ -63,6 +62,7 @@ public class Observer extends Learner {
 
     /**
      * the main method called by the observer to observe the leader
+     *
      * @throws Exception
      */
     public void observeLeader() throws Exception {
@@ -101,6 +101,7 @@ public class Observer extends Learner {
 
     /**
      * Controls the response of an observer to the receipt of a quorumpacket
+     *
      * @param qp
      * @throws Exception
      */
@@ -157,7 +158,7 @@ public class Observer extends Learner {
                 }
                 break;
             default:
-                LOG.warn("Unknown packet type: {}", LearnerHandler.packetToString(qp));
+                LOG.warn("Unknown packet type: {}", SerializeUtils.serializePacket2String(qp));
                 break;
         }
     }

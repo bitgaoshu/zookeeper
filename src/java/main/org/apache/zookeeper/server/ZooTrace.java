@@ -18,10 +18,10 @@
 
 package org.apache.zookeeper.server;
 
+import org.apache.zookeeper.server.quorum.QuorumPacket;
+import org.apache.zookeeper.server.util.SerializeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.zookeeper.server.quorum.roles.leader.LearnerHandler;
-import org.apache.zookeeper.server.quorum.QuorumPacket;
 
 /**
  * This class encapsulates and centralizes tracing for the ZooKeeper server.
@@ -77,7 +77,7 @@ public class ZooTrace {
     {
         if (isTraceEnabled(log, mask)) { 
             logTraceMessage(log, mask, direction +
-                    " " + LearnerHandler.packetToString(qp));
+                    " " + SerializeUtils.serializePacket2String(qp));
          }
     }
 
