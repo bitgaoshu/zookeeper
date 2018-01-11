@@ -24,6 +24,7 @@ import org.apache.jute.OutputArchive;
 import org.apache.jute.Record;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.util.IOUtils;
 import org.apache.zookeeper.server.util.ZooTrace;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.quorum.LearnerInfo;
@@ -38,7 +39,6 @@ import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
 import org.apache.zookeeper.server.quorum.roles.learner.server.FollowerZooKeeperServer;
 import org.apache.zookeeper.server.quorum.roles.learner.server.LearnerZooKeeperServer;
 import org.apache.zookeeper.server.quorum.roles.learner.server.ObserverZooKeeperServer;
-import org.apache.zookeeper.server.util.SerializeUtils;
 import org.apache.zookeeper.server.util.ZxidUtils;
 import org.apache.zookeeper.txn.SetDataTxn;
 import org.apache.zookeeper.txn.TxnHeader;
@@ -409,7 +409,7 @@ public class Learner  implements Role {
 
             } else {
                 LOG.error("Got unexpected packet from leader: {}, exiting ... ",
-                        SerializeUtils.serializePacket2String(qp));
+                        IOUtils.serializePacket2String(qp));
                 System.exit(13);
 
             }
@@ -434,7 +434,7 @@ public class Learner  implements Role {
                     case PROPOSAL:
                         PacketInFlight pif = new PacketInFlight();
                         pif.hdr = new TxnHeader();
-                        pif.rec = SerializeUtils.deserializeTxn(qp.getData(), pif.hdr);
+                        pif.rec = IOUtils.deserializeTxn(qp.getData(), pif.hdr);
                         if (pif.hdr.getZxid() != lastQueued + 1) {
                             LOG.warn("Got zxid 0x"
                                     + Long.toHexString(pif.hdr.getZxid())
@@ -483,7 +483,7 @@ public class Learner  implements Role {
                             long suggestedLeaderId = buffer.getLong();
                             byte[] remainingdata = new byte[buffer.remaining()];
                             buffer.get(remainingdata);
-                            packet.rec = SerializeUtils.deserializeTxn(remainingdata, packet.hdr);
+                            packet.rec = IOUtils.deserializeTxn(remainingdata, packet.hdr);
                             QuorumVerifier qv = self.configFromString(new String(((SetDataTxn) packet.rec).getData()));
                             boolean majorChange =
                                     self.processReconfig(qv, suggestedLeaderId, qp.getZxid(), true);
@@ -491,7 +491,7 @@ public class Learner  implements Role {
                                 throw new Exception("changes proposed in reconfig");
                             }
                         } else {
-                            packet.rec = SerializeUtils.deserializeTxn(qp.getData(), packet.hdr);
+                            packet.rec = IOUtils.deserializeTxn(qp.getData(), packet.hdr);
                             // Log warning message if txn comes out-of-order
                             if (packet.hdr.getZxid() != lastQueued + 1) {
                                 LOG.warn("Got zxid 0x"

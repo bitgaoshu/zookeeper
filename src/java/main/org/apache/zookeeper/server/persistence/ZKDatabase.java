@@ -28,6 +28,7 @@ import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.NoNodeException;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.util.IOUtils;
 import org.apache.zookeeper.server.util.TxnLogProposalIterator;
 import org.apache.zookeeper.server.persistence.DataTree.ProcessTxnResult;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
@@ -38,7 +39,6 @@ import org.apache.zookeeper.server.quorum.QuorumPacket;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
 import org.apache.zookeeper.server.quorum.Proposal;
-import org.apache.zookeeper.server.util.SerializeUtils;
 import org.apache.zookeeper.txn.TxnHeader;
 import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.watcher.Watcher;
@@ -555,7 +555,7 @@ public class ZKDatabase {
      */
     public void deserializeSnapshot(InputArchive ia) throws IOException {
         clear();
-        SerializeUtils.deserializeSnapshot(getDataTree(),ia,getSessionWithTimeOuts());
+        IOUtils.deserializeSnapshot(getDataTree(),ia,getSessionWithTimeOuts());
         initialized = true;
     }
 
@@ -567,7 +567,7 @@ public class ZKDatabase {
      */
     public void serializeSnapshot(OutputArchive oa) throws IOException,
     InterruptedException {
-        SerializeUtils.serializeSnapshot(getDataTree(), oa, getSessionWithTimeOuts());
+        IOUtils.serializeSnapshot(getDataTree(), oa, getSessionWithTimeOuts());
     }
 
     /**

@@ -21,7 +21,7 @@ import org.apache.commons.cli.*;
 import org.apache.zookeeper.exception.KeeperException;
 
 /**
- * delete cmd4l for cli
+ * delete command for cli
  */
 public class DeleteCommand extends CliCommand {
 

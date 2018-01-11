@@ -20,7 +20,7 @@ package org.apache.zookeeper.server.admin;
 
 import org.apache.zookeeper.util.Version;
 import org.apache.zookeeper.server.persistence.DataTree;
-import org.apache.zookeeper.server.ServerStats;
+import org.apache.zookeeper.server.statistics.ServerStats;
 import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.util.ZooTrace;

@@ -32,7 +32,6 @@ import org.apache.jute.InputArchive;
 import org.apache.jute.Record;
 import org.apache.zookeeper.server.persistence.FileHeader;
 import org.apache.zookeeper.server.persistence.FileTxnLog;
-import org.apache.zookeeper.server.util.SerializeUtils;
 import org.apache.zookeeper.txn.TxnHeader;
 
 import org.apache.zookeeper.ZooDefs.OpCode;

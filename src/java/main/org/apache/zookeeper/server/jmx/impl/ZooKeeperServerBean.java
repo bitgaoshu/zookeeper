@@ -20,7 +20,7 @@ package org.apache.zookeeper.server.jmx.impl;
 
 import java.util.Date;
 
-import org.apache.zookeeper.server.ServerStats;
+import org.apache.zookeeper.server.statistics.ServerStats;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.jmx.ZooKeeperServerMXBean;
 import org.apache.zookeeper.util.Version;

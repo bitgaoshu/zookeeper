@@ -27,7 +27,7 @@ import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
 
 /**
- * reconfig cmd4l for cli
+ * reconfig command for cli
  */
 public class ReconfigCommand extends CliCommand {
 
@@ -146,7 +146,7 @@ public class ReconfigCommand extends CliCommand {
         try {
             Stat stat = new Stat();
             if (!(zk instanceof ZooKeeperAdmin)) {
-                // This should never happen when executing reconfig cmd4l line,
+                // This should never happen when executing reconfig command line,
                 // because it is guaranteed that we have a ZooKeeperAdmin instance ready
                 // to use in CliCommand stack.
                 // The only exception would be in test code where clients can directly set

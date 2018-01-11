@@ -21,6 +21,7 @@ package org.apache.zookeeper.server.quorum.roles.leader;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.exception.RequestProcessorException;
 import org.apache.zookeeper.server.processor.RequestProcessor;
 import org.apache.zookeeper.txn.ErrorTxn;
 import org.slf4j.Logger;

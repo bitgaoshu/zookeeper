@@ -50,14 +50,6 @@ public class StringUtils {
      */ 
     public static String joinStrings(List<String> list, String delim)
     {
-        if (list == null)
-            return null;
-
-       StringBuilder builder = new StringBuilder(list.get(0));
-        for (String s : list.subList(1, list.size())) {
-            builder.append(delim).append(s);
-        }
-
-        return builder.toString();
+        return list == null ? null : String.join(delim, list);
     }
 }

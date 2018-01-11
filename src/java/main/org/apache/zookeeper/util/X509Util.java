@@ -33,9 +33,9 @@ import java.security.KeyStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.apache.zookeeper.server.common.X509Exception.KeyManagerException;
-import static org.apache.zookeeper.server.common.X509Exception.SSLContextException;
-import static org.apache.zookeeper.server.common.X509Exception.TrustManagerException;
+import static org.apache.zookeeper.server.exception.X509Exception.KeyManagerException;
+import static org.apache.zookeeper.server.exception.X509Exception.SSLContextException;
+import static org.apache.zookeeper.server.exception.X509Exception.TrustManagerException;
 
 /**
  * Utility code for X509 handling

@@ -25,7 +25,7 @@ import org.apache.commons.cli.PosixParser;
 import org.apache.zookeeper.exception.KeeperException;
 
 /**
- * deleteAll cmd4l for cli
+ * deleteAll command for cli
  */
 public class DeleteAllCommand extends CliCommand {
 
@@ -74,7 +74,7 @@ public class DeleteAllCommand extends CliCommand {
     
     private void printDeprecatedWarning() {
         if("rmr".equals(args[0])) {
-            err.println("The cmd4l 'rmr' has been deprecated. " +
+            err.println("The command 'rmr' has been deprecated. " +
                   "Please use 'deleteall' instead.");
         }
     }

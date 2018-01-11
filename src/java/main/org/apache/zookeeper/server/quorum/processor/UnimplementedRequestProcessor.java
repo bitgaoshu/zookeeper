@@ -23,6 +23,7 @@ import java.io.IOException;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.exception.RequestProcessorException;
 import org.apache.zookeeper.server.processor.RequestProcessor;
 
 /**

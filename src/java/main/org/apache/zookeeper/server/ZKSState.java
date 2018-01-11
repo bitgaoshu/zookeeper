@@ -1,6 +1,6 @@
 package org.apache.zookeeper.server;
 
-enum ZKSState {
+public enum ZKSState {
     INITIAL,
     RUNNING,
     SHUTDOWN,

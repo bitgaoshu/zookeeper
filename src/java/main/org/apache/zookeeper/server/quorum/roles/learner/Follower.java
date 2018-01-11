@@ -28,7 +28,7 @@ import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 import org.apache.zookeeper.server.quorum.mBean.impl.FollowerBean;
 import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
 import org.apache.zookeeper.server.quorum.roles.learner.server.FollowerZooKeeperServer;
-import org.apache.zookeeper.server.util.SerializeUtils;
+import org.apache.zookeeper.server.util.IOUtils;
 import org.apache.zookeeper.server.util.ZxidUtils;
 import org.apache.zookeeper.txn.SetDataTxn;
 import org.apache.zookeeper.txn.TxnHeader;
@@ -126,7 +126,7 @@ public class Follower extends Learner {
                 break;
             case PROPOSAL:
                 TxnHeader hdr = new TxnHeader();
-                Record txn = SerializeUtils.deserializeTxn(qp.getData(), hdr);
+                Record txn = IOUtils.deserializeTxn(qp.getData(), hdr);
                 if (hdr.getZxid() != lastQueued + 1) {
                     LOG.warn("Got zxid 0x"
                             + Long.toHexString(hdr.getZxid())
@@ -174,7 +174,7 @@ public class Follower extends Learner {
                 fzk.sync();
                 break;
             default:
-                LOG.warn("Unknown packet type: {}",SerializeUtils.serializePacket2String(qp));
+                LOG.warn("Unknown packet type: {}", IOUtils.serializePacket2String(qp));
                 break;
         }
     }

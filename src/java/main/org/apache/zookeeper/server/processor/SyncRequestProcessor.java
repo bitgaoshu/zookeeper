@@ -25,6 +25,7 @@ import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.exception.RequestProcessorException;
 import org.apache.zookeeper.server.zkThread.ZooKeeperCriticalThread;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.zkThread.ZooKeeperThread;

@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,13 +17,23 @@
  */
 package org.apache.zookeeper.client.cliCmds;
 
-import org.apache.commons.cli.*;
-import org.apache.zookeeper.exception.KeeperException;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.Parser;
+import org.apache.commons.cli.PosixParser;
 import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.server.util.ConfigUtils;
+import org.apache.zookeeper.exception.ConfigException;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.server.quorum.QuorumPeer;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.Map;
+import java.util.Properties;
 
 /**
- * get cmd4l for cli
+ * get config command for cli
  */
 public class GetConfigCommand extends CliCommand {
 
@@ -39,6 +49,39 @@ public class GetConfigCommand extends CliCommand {
 
     public GetConfigCommand() {
         super("config", "[-c] [-w] [-s]");
+    }
+
+    private static String getClientConfigStr(String configData) {
+        Properties props = new Properties();
+        try {
+            props.load(new StringReader(configData));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
+        StringBuffer sb = new StringBuffer();
+        String version = "";
+        for (Map.Entry<Object, Object> entry : props.entrySet()) {
+            String key = entry.getKey().toString().trim();
+            String value = entry.getValue().toString().trim();
+            if (key.equals("version")) version = value;
+            if (!key.startsWith("server.")) continue;
+            sb.append(value).append(";");
+//            QuorumPeer.QuorumServer qs;
+//            try {
+//                qs = new QuorumPeer.QuorumServer(-1, value);
+//            } catch (ConfigException e) {
+//                e.printStackTrace();
+//                continue;
+//            }
+//            if (!first) sb.append(",");
+//            else first = false;
+//            if (null != qs.clientAddr) {
+//                sb.append(qs.clientAddr.getHostString()
+//                        + ":" + qs.clientAddr.getPort());
+//            }
+        }
+        return version + " " + sb.toString();
     }
 
     @Override
@@ -60,25 +103,25 @@ public class GetConfigCommand extends CliCommand {
 
     @Override
     public boolean exec() throws CliException {
-        boolean watch = cl.hasOption("w");        
+        boolean watch = cl.hasOption("w");
         Stat stat = new Stat();
         byte data[];
         try {
             data = zk.getConfig(watch, stat);
-        } catch (KeeperException|InterruptedException ex) {
+        } catch (KeeperException | InterruptedException ex) {
             throw new CliWrapperException(ex);
         }
         data = (data == null) ? "null".getBytes() : data;
         if (cl.hasOption("c")) {
-            out.println(ConfigUtils.getClientConfigStr(new String(data)));
+            out.println(getClientConfigStr(new String(data)));
         } else {
             out.println(new String(data));
         }
-        
+
         if (cl.hasOption("s")) {
             new StatPrinter(out).print(stat);
-        }                
-        
+        }
+
         return watch;
     }
 }

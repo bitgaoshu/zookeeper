@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.server.common;
+package org.apache.zookeeper.server.exception;
 
 @SuppressWarnings("serial")
 public class X509Exception extends Exception {

@@ -47,7 +47,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static org.apache.zookeeper.server.common.X509Exception.SSLContextException;
+import static org.apache.zookeeper.server.exception.X509Exception.SSLContextException;
 
 /**
  * ClientCnxnSocketNetty implements ClientCnxnSocket abstract methods.

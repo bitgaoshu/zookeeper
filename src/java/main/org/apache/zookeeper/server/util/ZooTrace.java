@@ -77,7 +77,7 @@ public class ZooTrace {
     {
         if (isTraceEnabled(log, mask)) { 
             logTraceMessage(log, mask, direction +
-                    " " + SerializeUtils.serializePacket2String(qp));
+                    " " + IOUtils.serializePacket2String(qp));
          }
     }
 

@@ -25,7 +25,7 @@ import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.proto.RequestHeader;
 import org.apache.zookeeper.proto.WatcherEvent;
-import org.apache.zookeeper.server.ServerStats;
+import org.apache.zookeeper.server.statistics.ServerStats;
 import org.apache.zookeeper.server.ZooKeeperSaslServer;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.util.ZooTrace;

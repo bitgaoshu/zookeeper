@@ -30,11 +30,11 @@ import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.Record;
 import org.apache.yetus.audience.InterfaceAudience;
 import org.apache.zookeeper.operation.OpType;
+import org.apache.zookeeper.server.util.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.server.persistence.FileHeader;
 import org.apache.zookeeper.server.persistence.FileTxnLog;
-import org.apache.zookeeper.server.util.SerializeUtils;
 import org.apache.zookeeper.txn.TxnHeader;
 
 @InterfaceAudience.Public
@@ -84,7 +84,7 @@ public class LogFormatter {
                         " vs " + crc.getValue());
             }
             TxnHeader hdr = new TxnHeader();
-            Record txn = SerializeUtils.deserializeTxn(bytes, hdr);
+            Record txn = IOUtils.deserializeTxn(bytes, hdr);
             System.out.println(DateFormat.getDateTimeInstance(DateFormat.SHORT,
                     DateFormat.LONG).format(new Date(hdr.getTime()))
                     + " session 0x"

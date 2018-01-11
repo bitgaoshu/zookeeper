@@ -38,8 +38,5 @@ public interface AdminServer {
         public AdminServerException(String message, Throwable cause) {
             super(message, cause);
         }
-        public AdminServerException(Throwable cause) {
-            super(cause);
-        }
     }
 }

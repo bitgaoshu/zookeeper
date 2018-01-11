@@ -19,6 +19,7 @@
 package org.apache.zookeeper.server.processor;
 
 import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.exception.RequestProcessorException;
 
 /**
  * RequestProcessors are chained together to process transactions. Requests are
@@ -37,10 +38,4 @@ public interface RequestProcessor {
 
     void shutdown();
 
-    @SuppressWarnings("serial")
-    class RequestProcessorException extends Exception {
-        public RequestProcessorException(String msg, Throwable t) {
-            super(msg, t);
-        }
-    }
 }

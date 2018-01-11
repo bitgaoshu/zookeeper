@@ -223,21 +223,21 @@ public class ZKServerStandAloneMain {
      *
      */
     @InterfaceAudience.Public
-    public static class ServerConfig {
+    private static class ServerConfig {
         ////
         //// If you update the configuration parameters be sure
         //// to update the "conf" 4letter word
         ////
-        protected InetSocketAddress clientPortAddress;
-        protected InetSocketAddress secureClientPortAddress;
-        protected File dataDir;
-        protected File dataLogDir;
-        protected int tickTime = ZooKeeperServer.DEFAULT_TICK_TIME;
-        protected int maxClientCnxns;
+        private InetSocketAddress clientPortAddress;
+        private InetSocketAddress secureClientPortAddress;
+        private File dataDir;
+        private File dataLogDir;
+        private int tickTime = ZooKeeperServer.DEFAULT_TICK_TIME;
+        private int maxClientCnxns;
         /** defaults to -1 if not set explicitly */
-        protected int minSessionTimeout = -1;
+        private int minSessionTimeout = -1;
         /** defaults to -1 if not set explicitly */
-        protected int maxSessionTimeout = -1;
+        private int maxSessionTimeout = -1;
 
         /**
          * Parse arguments for server configuration

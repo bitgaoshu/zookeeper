@@ -27,7 +27,7 @@ import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.nodeMode.EphemeralType;
 
 /**
- * create cmd4l for cli
+ * create command for cli
  */
 public class CreateCommand extends CliCommand {
 

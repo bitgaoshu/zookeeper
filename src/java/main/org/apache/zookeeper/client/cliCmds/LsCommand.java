@@ -24,7 +24,7 @@ import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.data.Stat;
 
 /**
- * ls cmd4l for cli
+ * ls command for cli
  */
 public class LsCommand extends CliCommand {
 

@@ -24,7 +24,7 @@ import org.apache.commons.cli.Parser;
 import org.apache.commons.cli.PosixParser;
 
 /**
- * addAuth cmd4l for cli
+ * addAuth command for cli
  */
 public class AddAuthCommand extends CliCommand {
 

@@ -37,9 +37,9 @@ import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.InputArchive;
 import org.apache.jute.OutputArchive;
 import org.apache.zookeeper.server.common.AtomicFileOutputStream;
+import org.apache.zookeeper.server.util.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.zookeeper.server.util.SerializeUtils;
 
 /**
  * This class implements the snapshot interface.
@@ -116,7 +116,7 @@ public class FileSnap implements SnapShot {
                     + header.getMagic() +
                     " !=  " + FileSnap.SNAP_MAGIC);
         }
-        SerializeUtils.deserializeSnapshot(dt,ia,sessions);
+        IOUtils.deserializeSnapshot(dt,ia,sessions);
     }
 
     /**
@@ -204,7 +204,7 @@ public class FileSnap implements SnapShot {
             throw new IllegalStateException(
                     "Snapshot's not open for writing: uninitialized header");
         header.serialize(oa, "fileheader");
-        SerializeUtils.serializeSnapshot(dt,oa,sessions);
+        IOUtils.serializeSnapshot(dt,oa,sessions);
     }
 
     /**

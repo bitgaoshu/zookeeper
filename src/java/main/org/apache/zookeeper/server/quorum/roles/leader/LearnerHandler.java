@@ -23,6 +23,7 @@ import org.apache.jute.BinaryOutputArchive;
 import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.util.IOUtils;
 import org.apache.zookeeper.server.util.TxnLogProposalIterator;
 import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.zkThread.ZooKeeperThread;
@@ -30,11 +31,10 @@ import org.apache.zookeeper.server.util.ZooTrace;
 import org.apache.zookeeper.server.quorum.QuorumPacket;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.LearnerType;
-import org.apache.zookeeper.server.quorum.SnapshotThrottleException;
+import org.apache.zookeeper.server.exception.SnapshotThrottleException;
 import org.apache.zookeeper.server.quorum.StateSummary;
 import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
 import org.apache.zookeeper.server.quorum.Proposal;
-import org.apache.zookeeper.server.util.SerializeUtils;
 import org.apache.zookeeper.server.util.ZxidUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -335,7 +335,7 @@ class LearnerHandler extends ZooKeeperThread {
             ia.readRecord(qp, "packet");
             if (qp.getType() != OpOfLeader.ACK.intType()) {
                 LOG.error("Next packet was supposed to be an ACK,"
-                        + " but received packet: {}", SerializeUtils.serializePacket2String(qp));
+                        + " but received packet: {}", IOUtils.serializePacket2String(qp));
                 return;
             }
 
@@ -450,7 +450,7 @@ class LearnerHandler extends ZooKeeperThread {
                         leader.getZk().submitLearnerRequest(si);
                         break;
                     default:
-                        LOG.warn("unexpected quorum packet, type: {}", SerializeUtils.serializePacket2String(qp));
+                        LOG.warn("unexpected quorum packet, type: {}", IOUtils.serializePacket2String(qp));
                         break;
                 }
             }

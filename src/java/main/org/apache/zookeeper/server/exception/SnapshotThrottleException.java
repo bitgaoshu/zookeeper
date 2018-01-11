@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.exception;
 
 import org.apache.zookeeper.server.quorum.roles.leader.Leader;
 import org.apache.zookeeper.server.quorum.roles.leader.LearnerSnapshotThrottler;

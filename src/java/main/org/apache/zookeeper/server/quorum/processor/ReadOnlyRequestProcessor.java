@@ -25,6 +25,7 @@ import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.exception.RequestProcessorException;
 import org.apache.zookeeper.server.zkThread.ZooKeeperCriticalThread;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.util.ZooTrace;

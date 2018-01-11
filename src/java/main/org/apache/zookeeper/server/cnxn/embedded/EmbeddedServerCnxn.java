@@ -5,7 +5,7 @@ import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
-import org.apache.zookeeper.server.ServerStats;
+import org.apache.zookeeper.server.statistics.ServerStats;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;

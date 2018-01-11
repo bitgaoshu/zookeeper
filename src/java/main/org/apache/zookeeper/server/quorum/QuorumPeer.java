@@ -20,6 +20,7 @@ package org.apache.zookeeper.server.quorum;
 import org.apache.zookeeper.exception.KeeperException.BadArgumentsException;
 import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperServer;
+import org.apache.zookeeper.server.statistics.QuorumStats;
 import org.apache.zookeeper.server.zkThread.ZooKeeperThread;
 import org.apache.zookeeper.server.admin.AdminServer;
 import org.apache.zookeeper.server.admin.AdminServer.AdminServerException;

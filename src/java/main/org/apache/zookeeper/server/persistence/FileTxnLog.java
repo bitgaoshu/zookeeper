@@ -22,7 +22,7 @@ import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.InputArchive;
 import org.apache.jute.OutputArchive;
 import org.apache.jute.Record;
-import org.apache.zookeeper.server.util.SerializeUtils;
+import org.apache.zookeeper.server.util.IOUtils;
 import org.apache.zookeeper.txn.TxnHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -704,7 +704,7 @@ public class FileTxnLog implements TxnLog {
                 if (crcValue != crc.getValue())
                     throw new IOException(CRC_ERROR);
                 hdr = new TxnHeader();
-                record = SerializeUtils.deserializeTxn(bytes, hdr);
+                record = IOUtils.deserializeTxn(bytes, hdr);
             } catch (EOFException e) {
                 LOG.debug("EOF exception " + e);
                 inputStream.close();

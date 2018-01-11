@@ -24,6 +24,7 @@ import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.apache.zookeeper.server.exception.RequestProcessorException;
 import org.apache.zookeeper.server.processor.RequestProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

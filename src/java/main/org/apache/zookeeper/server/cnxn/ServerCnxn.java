@@ -34,7 +34,7 @@ import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.proto.RequestHeader;
-import org.apache.zookeeper.server.ServerStats;
+import org.apache.zookeeper.server.statistics.ServerStats;
 import org.apache.zookeeper.server.ZooKeeperSaslServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

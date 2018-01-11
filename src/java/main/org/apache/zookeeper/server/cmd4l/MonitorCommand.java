@@ -22,7 +22,7 @@ import java.io.PrintWriter;
 
 import org.apache.zookeeper.util.Version;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
-import org.apache.zookeeper.server.ServerStats;
+import org.apache.zookeeper.server.statistics.ServerStats;
 import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.quorum.roles.leader.Leader;
 import org.apache.zookeeper.server.quorum.roles.leader.LeaderZooKeeperServer;

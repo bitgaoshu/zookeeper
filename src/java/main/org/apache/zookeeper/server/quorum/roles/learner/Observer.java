@@ -27,7 +27,7 @@ import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 import org.apache.zookeeper.server.quorum.mBean.impl.ObserverBean;
 import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
 import org.apache.zookeeper.server.quorum.roles.learner.server.ObserverZooKeeperServer;
-import org.apache.zookeeper.server.util.SerializeUtils;
+import org.apache.zookeeper.server.util.IOUtils;
 import org.apache.zookeeper.txn.SetDataTxn;
 import org.apache.zookeeper.txn.TxnHeader;
 
@@ -128,7 +128,7 @@ public class Observer extends Learner {
                 break;
             case INFORM:
                 TxnHeader hdr = new TxnHeader();
-                Record txn = SerializeUtils.deserializeTxn(qp.getData(), hdr);
+                Record txn = IOUtils.deserializeTxn(qp.getData(), hdr);
                 Request request = new Request(hdr.getClientId(), hdr.getCxid(), OpType.getOpCode(hdr.getType()), hdr, txn, 0);
                 ObserverZooKeeperServer obs = (ObserverZooKeeperServer) zk;
                 obs.commitRequest(request);
@@ -142,7 +142,7 @@ public class Observer extends Learner {
 
                 byte[] remainingdata = new byte[buffer.remaining()];
                 buffer.get(remainingdata);
-                txn = SerializeUtils.deserializeTxn(remainingdata, hdr);
+                txn = IOUtils.deserializeTxn(remainingdata, hdr);
                 QuorumVerifier qv = self.configFromString(new String(((SetDataTxn) txn).getData()));
 
                 request = new Request(hdr.getClientId(), hdr.getCxid(), OpType.getOpCode(hdr.getType()), hdr, txn, 0);
@@ -158,7 +158,7 @@ public class Observer extends Learner {
                 }
                 break;
             default:
-                LOG.warn("Unknown packet type: {}", SerializeUtils.serializePacket2String(qp));
+                LOG.warn("Unknown packet type: {}", IOUtils.serializePacket2String(qp));
                 break;
         }
     }
