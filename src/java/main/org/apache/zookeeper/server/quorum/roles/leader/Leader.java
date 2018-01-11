@@ -23,6 +23,7 @@ import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.ZooKeeperCriticalThread;
 import org.apache.zookeeper.server.common.Time;
+import org.apache.zookeeper.server.quorum.Proposal;
 import org.apache.zookeeper.server.quorum.QuorumPacket;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.LearnerType;
@@ -1125,16 +1126,6 @@ public class Leader implements Role {
     @Override
     public QuorumPeer getQuorumPeer() {
         return self;
-    }
-
-    static public class Proposal extends SyncedLearnerTracker {
-        public QuorumPacket packet;
-        public Request request;
-
-        @Override
-        public String toString() {
-            return packet.getType() + ", " + packet.getZxid() + ", " + request;
-        }
     }
 
     @SuppressWarnings("serial")

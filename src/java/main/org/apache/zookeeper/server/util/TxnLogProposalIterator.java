@@ -16,22 +16,21 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Iterator;
+package org.apache.zookeeper.server.util;
 
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
 import org.apache.zookeeper.server.persistence.TxnLog.TxnIterator;
-import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
-import org.apache.zookeeper.server.quorum.roles.leader.Leader;
-import org.apache.zookeeper.server.quorum.roles.leader.Leader.Proposal;
 import org.apache.zookeeper.server.quorum.QuorumPacket;
+import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
+import org.apache.zookeeper.server.quorum.Proposal;
 import org.apache.zookeeper.txn.TxnHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Iterator;
 
 /**
  * This class provides an iterator interface to access Proposal deserialized
