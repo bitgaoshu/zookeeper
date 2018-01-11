@@ -39,10 +39,10 @@ import javax.net.ssl.X509KeyManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.server.common.ZKConfig;
+import org.apache.zookeeper.util.ZKConfig;
 import org.apache.zookeeper.server.common.X509Exception;
 import org.apache.zookeeper.server.common.X509Exception.SSLContextException;
-import org.apache.zookeeper.server.common.X509Util;
+import org.apache.zookeeper.util.X509Util;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.auth.ProviderRegistry;

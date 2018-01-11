@@ -28,7 +28,7 @@ import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.client.AsyncCallback.DataCallback;
-import org.apache.zookeeper.server.common.StringUtils;
+import org.apache.zookeeper.server.util.StringUtils;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.proto.GetDataResponse;
 import org.apache.zookeeper.proto.ReconfigRequest;

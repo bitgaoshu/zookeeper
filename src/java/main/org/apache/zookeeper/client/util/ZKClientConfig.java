@@ -23,7 +23,7 @@ import java.io.File;
 import org.apache.yetus.audience.InterfaceAudience;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.client.ZooKeeperSaslClient;
-import org.apache.zookeeper.server.common.ZKConfig;
+import org.apache.zookeeper.util.ZKConfig;
 import org.apache.zookeeper.exception.ConfigException;
 
 /**

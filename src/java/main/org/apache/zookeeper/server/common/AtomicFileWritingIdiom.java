@@ -17,6 +17,8 @@
  */
 package org.apache.zookeeper.server.common;
 
+import org.apache.zookeeper.server.util.IOUtils;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;

@@ -23,6 +23,7 @@ import java.io.FileOutputStream;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 
+import org.apache.zookeeper.server.util.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

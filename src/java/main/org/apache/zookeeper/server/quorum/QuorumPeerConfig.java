@@ -38,22 +38,22 @@ import java.util.Map.Entry;
 
 import org.apache.yetus.audience.InterfaceAudience;
 import org.apache.zookeeper.exception.ConfigException;
-import org.apache.zookeeper.server.common.StringUtils;
-import org.apache.zookeeper.server.common.ZKConfig;
+import org.apache.zookeeper.server.util.StringUtils;
+import org.apache.zookeeper.util.ZKConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.apache.zookeeper.server.common.AtomicFileWritingIdiom;
 import org.apache.zookeeper.server.common.AtomicFileWritingIdiom.OutputStreamStatement;
 import org.apache.zookeeper.server.common.AtomicFileWritingIdiom.WriterStatement;
-import org.apache.zookeeper.server.common.PathUtils;
+import org.apache.zookeeper.server.util.PathUtils;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.LearnerType;
 import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
 import org.apache.zookeeper.server.quorum.flexible.QuorumHierarchical;
 import org.apache.zookeeper.server.quorum.flexible.QuorumMaj;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
-import org.apache.zookeeper.server.util.VerifyingFileFactory;
+import org.apache.zookeeper.util.VerifyingFileFactory;
 
 @InterfaceAudience.Public
 public class QuorumPeerConfig {

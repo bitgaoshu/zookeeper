@@ -16,7 +16,11 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.common;
+package org.apache.zookeeper.util;
+
+import org.apache.zookeeper.exception.ConfigException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,12 +29,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
-
-import org.apache.zookeeper.util.LogEnv;
-import org.apache.zookeeper.exception.ConfigException;
-import org.apache.zookeeper.server.util.VerifyingFileFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class is a base class for the configurations of both client and server.

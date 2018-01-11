@@ -75,7 +75,7 @@ import org.apache.zookeeper.proto.SetDataRequest;
 import org.apache.zookeeper.proto.SetDataResponse;
 import org.apache.zookeeper.proto.SyncRequest;
 import org.apache.zookeeper.proto.SyncResponse;
-import org.apache.zookeeper.server.common.PathUtils;
+import org.apache.zookeeper.server.util.PathUtils;
 import org.apache.zookeeper.util.LogEnv;
 import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.watcher.Event;

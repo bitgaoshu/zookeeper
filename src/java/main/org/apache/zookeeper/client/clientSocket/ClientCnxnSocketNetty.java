@@ -22,7 +22,7 @@ import org.apache.zookeeper.client.util.ZKClientConfig;
 import org.apache.zookeeper.client.clientSocket.ClientCnxn.EndOfStreamException;
 import org.apache.zookeeper.client.clientSocket.ClientCnxn.Packet;
 import org.apache.zookeeper.operation.OpType;
-import org.apache.zookeeper.server.common.X509Util;
+import org.apache.zookeeper.util.X509Util;
 import org.jboss.netty.bootstrap.ClientBootstrap;
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;

@@ -22,7 +22,7 @@ import org.apache.zookeeper.Login;
 import org.apache.zookeeper.client.util.ZKClientConfig;
 import org.apache.zookeeper.client.clientSocket.ClientCnxn;
 import org.apache.zookeeper.operation.OpType;
-import org.apache.zookeeper.server.common.ZKConfig;
+import org.apache.zookeeper.util.ZKConfig;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.proto.GetSASLRequest;
 import org.apache.zookeeper.proto.SetSASLResponse;
