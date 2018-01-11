@@ -39,7 +39,7 @@ import org.apache.zookeeper.client.AsyncCallback.MultiCallback;
 import org.apache.zookeeper.client.AsyncCallback.StatCallback;
 import org.apache.zookeeper.client.AsyncCallback.StringCallback;
 import org.apache.zookeeper.client.AsyncCallback.VoidCallback;
-import org.apache.zookeeper.server.common.Time;
+import org.apache.zookeeper.server.util.Time;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.operation.OpResult;

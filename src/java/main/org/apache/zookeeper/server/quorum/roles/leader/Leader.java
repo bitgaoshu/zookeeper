@@ -22,7 +22,7 @@ import org.apache.jute.BinaryOutputArchive;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.zkThread.ZooKeeperCriticalThread;
-import org.apache.zookeeper.server.common.Time;
+import org.apache.zookeeper.server.util.Time;
 import org.apache.zookeeper.server.quorum.Proposal;
 import org.apache.zookeeper.server.quorum.QuorumPacket;
 import org.apache.zookeeper.server.quorum.QuorumPeer;

@@ -29,7 +29,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import org.apache.jute.BinaryInputArchive;
 import org.apache.zookeeper.client.util.ZKClientConfig;
 import org.apache.zookeeper.util.ZKConfig;
-import org.apache.zookeeper.server.common.Time;
+import org.apache.zookeeper.server.util.Time;
 import org.apache.zookeeper.proto.ConnectResponse;
 import org.apache.zookeeper.server.common.ByteBufferInputStream;
 import org.slf4j.Logger;

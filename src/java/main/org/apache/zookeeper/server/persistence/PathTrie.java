@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.common;
+package org.apache.zookeeper.server.persistence;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,7 +51,7 @@ public class PathTrie {
      */
     private final TrieNode rootNode ;
     
-    static class TrieNode {
+    private static class TrieNode {
         boolean property = false;
         final HashMap<String, TrieNode> children;
         TrieNode parent = null;

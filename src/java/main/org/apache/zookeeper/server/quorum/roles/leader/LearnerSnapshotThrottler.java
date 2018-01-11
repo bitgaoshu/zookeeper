@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.server.quorum.roles.leader;
 
-import org.apache.zookeeper.server.common.Time;
+import org.apache.zookeeper.server.util.Time;
 import org.apache.zookeeper.server.exception.SnapshotThrottleException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

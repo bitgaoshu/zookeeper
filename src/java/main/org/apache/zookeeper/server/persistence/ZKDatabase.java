@@ -32,7 +32,7 @@ import org.apache.zookeeper.server.util.IOUtils;
 import org.apache.zookeeper.server.util.TxnLogProposalIterator;
 import org.apache.zookeeper.server.persistence.DataTree.ProcessTxnResult;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
-import org.apache.zookeeper.server.common.Time;
+import org.apache.zookeeper.server.util.Time;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog.PlayBackListener;
 import org.apache.zookeeper.server.persistence.TxnLog.TxnIterator;
 import org.apache.zookeeper.server.quorum.QuorumPacket;

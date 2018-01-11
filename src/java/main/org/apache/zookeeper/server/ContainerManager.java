@@ -19,7 +19,7 @@
 package org.apache.zookeeper.server;
 
 import org.apache.zookeeper.operation.OpType;
-import org.apache.zookeeper.server.common.Time;
+import org.apache.zookeeper.server.util.Time;
 import org.apache.zookeeper.nodeMode.EphemeralType;
 import org.apache.zookeeper.server.persistence.DataNode;
 import org.apache.zookeeper.server.persistence.ZKDatabase;

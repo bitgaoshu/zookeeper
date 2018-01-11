@@ -27,7 +27,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.apache.zookeeper.server.common.Time;
+import org.apache.zookeeper.server.util.Time;
 import org.apache.zookeeper.server.zkThread.ZooKeeperThread;
 import org.apache.zookeeper.server.quorum.QuorumState;
 import org.apache.zookeeper.server.quorum.election.QuorumCnxManager.Message;

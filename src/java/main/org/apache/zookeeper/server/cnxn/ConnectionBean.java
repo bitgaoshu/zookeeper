@@ -25,7 +25,7 @@ import java.util.Arrays;
 
 import javax.management.ObjectName;
 
-import org.apache.zookeeper.server.common.Time;
+import org.apache.zookeeper.server.util.Time;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

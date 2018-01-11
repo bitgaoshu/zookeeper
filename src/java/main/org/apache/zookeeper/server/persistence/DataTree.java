@@ -32,7 +32,6 @@ import org.apache.zookeeper.nodeMode.EphemeralType;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.util.ZooTrace;
 import org.apache.zookeeper.server.common.ByteBufferInputStream;
-import org.apache.zookeeper.server.common.PathTrie;
 import org.apache.zookeeper.server.persistence.watcher.WatchManager;
 import org.apache.zookeeper.server.persistence.watcher.WatchesPathReport;
 import org.apache.zookeeper.server.persistence.watcher.WatchesReport;

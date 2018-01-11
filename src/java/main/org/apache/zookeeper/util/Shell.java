@@ -30,7 +30,7 @@
 
 package org.apache.zookeeper.util;
 
-import org.apache.zookeeper.server.common.Time;
+import org.apache.zookeeper.server.util.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

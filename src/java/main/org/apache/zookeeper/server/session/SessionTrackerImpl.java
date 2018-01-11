@@ -36,7 +36,7 @@ import org.apache.zookeeper.server.util.ExpiryQueue;
 import org.apache.zookeeper.server.zkThread.ZooKeeperCriticalThread;
 import org.apache.zookeeper.server.ZooKeeperServerListener;
 import org.apache.zookeeper.server.util.ZooTrace;
-import org.apache.zookeeper.server.common.Time;
+import org.apache.zookeeper.server.util.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

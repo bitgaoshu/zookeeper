@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.server.cnxn.NIOCnxn;
 
-import org.apache.zookeeper.server.common.Time;
+import org.apache.zookeeper.server.util.Time;
 import org.slf4j.Logger;
 
 class RateLogger {

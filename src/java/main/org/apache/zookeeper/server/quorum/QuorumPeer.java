@@ -28,7 +28,7 @@ import org.apache.zookeeper.server.admin.AdminServerFactory;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.common.AtomicFileWritingIdiom;
 import org.apache.zookeeper.server.common.AtomicFileWritingIdiom.WriterStatement;
-import org.apache.zookeeper.server.common.Time;
+import org.apache.zookeeper.server.util.Time;
 import org.apache.zookeeper.server.jmx.MBeanRegistry;
 import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
