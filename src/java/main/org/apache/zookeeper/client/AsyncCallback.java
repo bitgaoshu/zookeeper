@@ -24,6 +24,7 @@ import org.apache.zookeeper.operation.OpResult;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
+import org.apache.zookeeper.server.persistence.DataNode;
 import org.apache.zookeeper.util.ZooDefs;
 
 /**
@@ -95,7 +96,7 @@ public interface AsyncCallback {
          * @param path The path that we passed to asynchronous calls.
          * @param ctx  Whatever context object that we passed to
          *             asynchronous calls.
-         * @param data The {@link org.apache.zookeeper.server.DataNode#data}
+         * @param data The {@link DataNode#data}
          *             of the node.
          * @param stat {@link org.apache.zookeeper.data.Stat} object of
          *             the node on given path.

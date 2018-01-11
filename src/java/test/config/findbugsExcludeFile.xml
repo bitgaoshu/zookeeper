@@ -57,7 +57,7 @@
   </Match>
 
   <Match>
-    <Class name="org.apache.zookeeper.server.DataNode" />
+    <Class name="org.apache.zookeeper.server.persistence.DataNode" />
       <Bug code="EI2"/>
   </Match>
 
@@ -72,7 +72,7 @@
   </Match>
 
   <Match>
-    <Class name="org.apache.zookeeper.server.DataNode"/>
+    <Class name="org.apache.zookeeper.server.persistence.DataNode"/>
       <Field name="children"/> 
       <Bug code="IS"/>
   </Match>

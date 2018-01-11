@@ -20,7 +20,7 @@ package org.apache.zookeeper.server.cmd4l;
 
 import java.io.PrintWriter;
 
-import org.apache.zookeeper.server.DataTree;
+import org.apache.zookeeper.server.persistence.DataTree;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 
 public class WatchCommand extends AbstractFourLetterCommand {

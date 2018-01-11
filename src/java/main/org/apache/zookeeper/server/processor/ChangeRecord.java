@@ -2,7 +2,7 @@ package org.apache.zookeeper.server.processor;
 
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.StatPersisted;
-import org.apache.zookeeper.server.DataTree;
+import org.apache.zookeeper.server.persistence.DataTree;
 
 import java.util.ArrayList;
 import java.util.List;

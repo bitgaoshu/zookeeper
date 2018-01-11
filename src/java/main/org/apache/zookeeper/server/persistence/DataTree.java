@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.persistence;
 
 import org.apache.jute.InputArchive;
 import org.apache.jute.OutputArchive;
@@ -26,6 +26,12 @@ import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.exception.KeeperException.NoNodeException;
 import org.apache.zookeeper.exception.KeeperException.NodeExistsException;
 import org.apache.zookeeper.operation.OpType;
+import org.apache.zookeeper.server.ReferenceCountedACLCache;
+import org.apache.zookeeper.server.WatchManager;
+import org.apache.zookeeper.server.WatchesPathReport;
+import org.apache.zookeeper.server.WatchesReport;
+import org.apache.zookeeper.server.WatchesSummary;
+import org.apache.zookeeper.server.ZooTrace;
 import org.apache.zookeeper.server.common.ByteBufferInputStream;
 import org.apache.zookeeper.util.StatsTrack;
 import org.apache.zookeeper.watcher.WatchedEvent;

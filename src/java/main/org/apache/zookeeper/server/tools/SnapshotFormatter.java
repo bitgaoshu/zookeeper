@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.tools;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -33,6 +33,8 @@ import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.InputArchive;
 import org.apache.yetus.audience.InterfaceAudience;
 import org.apache.zookeeper.data.StatPersisted;
+import org.apache.zookeeper.server.persistence.DataNode;
+import org.apache.zookeeper.server.persistence.DataTree;
 import org.apache.zookeeper.server.persistence.FileSnap;
 
 /**
@@ -89,10 +91,10 @@ public class SnapshotFormatter {
         synchronized(n) { // keep findbugs happy
             System.out.println(name);
             printStat(n.stat);
-            if (n.data != null) {
-                System.out.println("  dataLength = " + n.data.length);
-            } else {
+            if (n.dataLength() == -1) {
                 System.out.println("  no data");
+            } else {
+                System.out.println("  dataLength = " + n.dataLength());
             }
             children = n.getChildren();
         }

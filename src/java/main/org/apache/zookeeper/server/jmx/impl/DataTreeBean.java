@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.server.jmx.impl;
 
-import org.apache.zookeeper.server.DataTree;
+import org.apache.zookeeper.server.persistence.DataTree;
 import org.apache.zookeeper.server.jmx.DataTreeMXBean;
 import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
 
@@ -28,7 +28,7 @@ import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
 public class DataTreeBean implements DataTreeMXBean, ZKMBeanInfo {
     DataTree dataTree;
     
-    public DataTreeBean(org.apache.zookeeper.server.DataTree dataTree){
+    public DataTreeBean(DataTree dataTree){
         this.dataTree = dataTree;
     }
     

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.persistence;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -83,6 +83,13 @@ public class DataNode implements Record {
         this.stat = stat;
     }
 
+    public int dataLength() {
+        if (data == null ){
+            return -1;
+        } else {
+            return data.length;
+        }
+    }
     /**
      * Method that inserts a child into the children set
      * 

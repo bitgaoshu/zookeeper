@@ -21,8 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.zookeeper.server.DataTree;
-
 /**
  * snapshot interface for the persistence layer.
  * implement this interface for implementing 

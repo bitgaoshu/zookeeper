@@ -33,7 +33,7 @@ import org.apache.zookeeper.proto.GetSASLRequest;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.proto.RequestHeader;
 import org.apache.zookeeper.proto.SetSASLResponse;
-import org.apache.zookeeper.server.DataTree.ProcessTxnResult;
+import org.apache.zookeeper.server.persistence.DataTree.ProcessTxnResult;
 import org.apache.zookeeper.server.quorum.SessionTracker;
 import org.apache.zookeeper.server.quorum.SessionTracker.Session;
 import org.apache.zookeeper.server.quorum.SessionTracker.SessionExpirer;
