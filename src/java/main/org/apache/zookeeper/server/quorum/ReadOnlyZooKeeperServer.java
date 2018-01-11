@@ -20,11 +20,12 @@ package org.apache.zookeeper.server.quorum;
 
 import java.io.PrintWriter;
 
+import org.apache.zookeeper.server.ZKSState;
 import org.apache.zookeeper.server.jmx.MBeanRegistry;
 import org.apache.zookeeper.server.jmx.impl.DataTreeBean;
 import org.apache.zookeeper.server.processor.FinalRequestProcessor;
 import org.apache.zookeeper.server.processor.PrepRequestProcessor;
-import org.apache.zookeeper.server.RequestProcessor;
+import org.apache.zookeeper.server.processor.RequestProcessor;
 import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.jmx.impl.ZooKeeperServerBean;
@@ -174,7 +175,7 @@ public class ReadOnlyZooKeeperServer extends ZooKeeperServer {
     }
 
     @Override
-    protected void setState(State state) {
+    protected void setState(ZKSState state) {
         this.state = state;
     }
 }

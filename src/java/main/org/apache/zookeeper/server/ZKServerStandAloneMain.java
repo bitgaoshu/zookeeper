@@ -133,8 +133,12 @@ public class ZKServerStandAloneMain {
             // server error or shutdown state changes.
             final CountDownLatch shutdownLatch = new CountDownLatch(1);
             zkServer.registerServerShutdownHandler(
-                    new ZooKeeperServerShutdownHandler(shutdownLatch));
-
+                    zksState -> {
+                        if (zksState == ZKSState.ERROR || zksState == ZKSState.SHUTDOWN) {
+                            shutdownLatch.countDown();
+                        }
+                    }
+            );
             // Start Admin server
             adminServer = AdminServerFactory.createAdminServer();
             adminServer.setZooKeeperServer(zkServer);

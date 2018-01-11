@@ -16,7 +16,9 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.processor;
+
+import org.apache.zookeeper.server.Request;
 
 /**
  * RequestProcessors are chained together to process transactions. Requests are

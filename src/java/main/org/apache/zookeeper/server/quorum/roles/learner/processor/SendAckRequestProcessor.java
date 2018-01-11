@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.Request;
-import org.apache.zookeeper.server.RequestProcessor;
+import org.apache.zookeeper.server.processor.RequestProcessor;
 
 public class SendAckRequestProcessor implements RequestProcessor, Flushable {
     private static final Logger LOG = LoggerFactory.getLogger(SendAckRequestProcessor.class);

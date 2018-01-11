@@ -28,7 +28,6 @@ import org.apache.zookeeper.server.persistence.DataNode;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.util.ZooTrace;
-import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.watcher.WatcherType;
 import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.exception.KeeperException;

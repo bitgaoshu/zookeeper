@@ -17,7 +17,6 @@
  */
 package org.apache.zookeeper.server;
 
-import org.apache.zookeeper.server.ZooKeeperServer.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +39,6 @@ class ZooKeeperServerListenerImpl implements ZooKeeperServerListener {
     @Override
     public void notifyStopping(String threadName, int exitCode) {
         LOG.info("Thread {} exits, error code {}", threadName, exitCode);
-        zkServer.setState(State.ERROR);
+        zkServer.setState(ZKSState.ERROR);
     }
 }

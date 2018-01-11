@@ -23,7 +23,7 @@ import org.apache.zookeeper.server.ContainerManager;
 import org.apache.zookeeper.server.processor.FinalRequestProcessor;
 import org.apache.zookeeper.server.processor.PrepRequestProcessor;
 import org.apache.zookeeper.server.Request;
-import org.apache.zookeeper.server.RequestProcessor;
+import org.apache.zookeeper.server.processor.RequestProcessor;
 import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.jmx.MBeanRegistry;

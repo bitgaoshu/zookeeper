@@ -23,6 +23,7 @@ import org.apache.zookeeper.operation.Op;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.operation.multi.MultiTransactionRecord;
 import org.apache.zookeeper.proto.CreateRequest;
+import org.apache.zookeeper.server.ZKSState;
 import org.apache.zookeeper.server.common.ByteBufferInputStream;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.persistence.ZKDatabase;
@@ -183,7 +184,7 @@ public abstract class QuorumZooKeeperServer extends ZooKeeperServer {
     }
 
     @Override
-    protected void setState(State state) {
+    protected void setState(ZKSState state) {
         this.state = state;
     }
 }

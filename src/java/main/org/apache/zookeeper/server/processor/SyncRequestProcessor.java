@@ -28,7 +28,6 @@ import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.zkThread.ZooKeeperCriticalThread;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.zkThread.ZooKeeperThread;
-import org.apache.zookeeper.server.RequestProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

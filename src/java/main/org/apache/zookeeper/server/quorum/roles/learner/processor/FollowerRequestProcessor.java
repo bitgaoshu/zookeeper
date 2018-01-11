@@ -24,7 +24,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.Request;
-import org.apache.zookeeper.server.RequestProcessor;
+import org.apache.zookeeper.server.processor.RequestProcessor;
 import org.apache.zookeeper.server.zkThread.ZooKeeperCriticalThread;
 import org.apache.zookeeper.server.util.ZooTrace;
 import org.apache.zookeeper.server.quorum.roles.learner.server.FollowerZooKeeperServer;

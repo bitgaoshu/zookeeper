@@ -21,7 +21,7 @@ import org.apache.zookeeper.server.quorum.roles.learner.Learner;
 import org.apache.zookeeper.server.quorum.roles.learner.Observer;
 import org.apache.zookeeper.server.processor.FinalRequestProcessor;
 import org.apache.zookeeper.server.Request;
-import org.apache.zookeeper.server.RequestProcessor;
+import org.apache.zookeeper.server.processor.RequestProcessor;
 import org.apache.zookeeper.server.processor.SyncRequestProcessor;
 import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;

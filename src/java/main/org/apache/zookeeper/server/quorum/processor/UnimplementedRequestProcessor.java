@@ -23,7 +23,7 @@ import java.io.IOException;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.server.Request;
-import org.apache.zookeeper.server.RequestProcessor;
+import org.apache.zookeeper.server.processor.RequestProcessor;
 
 /**
  * Manages the unknown requests (i.e. unknown OpType), by:

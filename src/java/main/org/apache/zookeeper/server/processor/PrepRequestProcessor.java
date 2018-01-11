@@ -41,7 +41,6 @@ import org.apache.zookeeper.proto.SetDataRequest;
 import org.apache.zookeeper.server.common.ByteBufferInputStream;
 import org.apache.zookeeper.server.persistence.DataNode;
 import org.apache.zookeeper.server.Request;
-import org.apache.zookeeper.server.RequestProcessor;
 import org.apache.zookeeper.server.zkThread.ZooKeeperCriticalThread;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.util.ZooTrace;

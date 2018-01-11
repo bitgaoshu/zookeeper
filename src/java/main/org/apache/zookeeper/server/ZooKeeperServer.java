@@ -33,7 +33,6 @@ import org.apache.zookeeper.proto.GetSASLRequest;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.proto.RequestHeader;
 import org.apache.zookeeper.proto.SetSASLResponse;
-import org.apache.zookeeper.server.RequestProcessor.RequestProcessorException;
 import org.apache.zookeeper.server.auth.ProviderRegistry;
 import org.apache.zookeeper.server.auth.ServerAuthenticationProvider;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
@@ -49,6 +48,8 @@ import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.processor.ChangeRecord;
 import org.apache.zookeeper.server.processor.FinalRequestProcessor;
 import org.apache.zookeeper.server.processor.PrepRequestProcessor;
+import org.apache.zookeeper.server.processor.RequestProcessor;
+import org.apache.zookeeper.server.processor.RequestProcessor.RequestProcessorException;
 import org.apache.zookeeper.server.processor.SyncRequestProcessor;
 import org.apache.zookeeper.server.quorum.ReadOnlyZooKeeperServer;
 import org.apache.zookeeper.server.quorum.processor.UnimplementedRequestProcessor;
@@ -80,6 +81,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Consumer;
 
 
 /**
@@ -123,12 +125,12 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     protected int maxSessionTimeout = -1;
     protected SessionTracker sessionTracker;
     protected RequestProcessor firstProcessor;
-    protected volatile State state = State.INITIAL;
+    protected volatile ZKSState state = ZKSState.INITIAL;
     protected ServerCnxnFactory serverCnxnFactory;
     protected ServerCnxnFactory secureServerCnxnFactory;
     private FileTxnSnapLog txnLogFactory = null;
     private ZKDatabase zkDb;
-    private ZooKeeperServerShutdownHandler zkShutdownHandler;
+    private Consumer<ZKSState> zkShutdownHandler;
 
     /**
      * Creates a ZooKeeperServer instance. Nothing is setup, use the setX
@@ -439,7 +441,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
 
         registerJMX();
 
-        setState(State.RUNNING);
+        setState(ZKSState.RUNNING);
         notifyAll();
     }
 
@@ -473,14 +475,14 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
      * otherwise.
      */
     public boolean canShutdown() {
-        return state == State.RUNNING || state == State.ERROR;
+        return state == ZKSState.RUNNING || state == ZKSState.ERROR;
     }
 
     /**
      * @return true if the server is running, false otherwise.
      */
     public boolean isRunning() {
-        return state == State.RUNNING;
+        return state == ZKSState.RUNNING;
     }
 
     public void shutdown() {
@@ -500,7 +502,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         LOG.info("shutting down");
 
         // new RuntimeException("Calling shutdown").printStackTrace();
-        setState(State.SHUTDOWN);
+        setState(ZKSState.SHUTDOWN);
         // Since sessionTracker and syncThreads poll we just have to
         // set running to false and they will detect it during the poll
         // interval.
@@ -699,13 +701,13 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
                     // processor it should wait for setting up the request
                     // processor chain. The state will be updated to RUNNING
                     // after the setup.
-                    while (state == State.INITIAL) {
+                    while (state == ZKSState.INITIAL) {
                         wait(1000);
                     }
                 } catch (InterruptedException e) {
                     LOG.warn("Unexpected interruption", e);
                 }
-                if (firstProcessor == null || state != State.RUNNING) {
+                if (firstProcessor == null || state != ZKSState.RUNNING) {
                     throw new RuntimeException("Not started");
                 }
             }
@@ -878,11 +880,11 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
      *
      * @param state new server state.
      */
-    protected void setState(State state) {
+    protected void setState(ZKSState state) {
         this.state = state;
         // Notify server state changes to the registered shutdown handler, if any.
         if (zkShutdownHandler != null) {
-            zkShutdownHandler.handle(state);
+            zkShutdownHandler.accept(state);
         } else {
             LOG.error("ZKShutdownHandler is not registered, so ZooKeeper server "
                     + "won't take any action on ERROR or SHUTDOWN server state changes");
@@ -1147,12 +1149,12 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     /**
      * This method is used to register the ZooKeeperServerShutdownHandler to get
      * server's error or shutdown state change notifications.
-     * {@link ZooKeeperServerShutdownHandler#handle(State)} will be called for
-     * every server state changes {@link #setState(State)}.
+     * zkShutdownHandler will be called for
+     * every server state changes {@link #setState(ZKSState)}.
      *
      * @param zkShutdownHandler shutdown handler
      */
-    public void registerServerShutdownHandler(ZooKeeperServerShutdownHandler zkShutdownHandler) {
+    public void registerServerShutdownHandler(Consumer<ZKSState> zkShutdownHandler) {
         this.zkShutdownHandler = zkShutdownHandler;
     }
 
@@ -1195,15 +1197,11 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         confs.put(ConfKeys.DATA_LOG_DIR, zkDb.getSnapDir().getAbsolutePath());
         confs.put(ConfKeys.DATA_DIR, zkDb.getDataDir().getAbsolutePath());
         confs.put(ConfKeys.TICK_TIME, getTickTime());
-        confs.put(ConfKeys.MAX_CLIENT_CNXNS,serverCnxnFactory.getMaxClientCnxnsPerHost());
+        confs.put(ConfKeys.MAX_CLIENT_CNXNS, serverCnxnFactory.getMaxClientCnxnsPerHost());
         confs.put(ConfKeys.MIN_SESSION_TIMEOUT, getMaxSessionTimeout());
         confs.put(ConfKeys.MAX_SESSION_TIMEOUT, getMaxSessionTimeout());
         confs.put(ConfKeys.SERVER_ID, getServerId());
         return confs;
-    }
-
-    protected enum State {
-        INITIAL, RUNNING, SHUTDOWN, ERROR
     }
 
     private interface ConfKeys {

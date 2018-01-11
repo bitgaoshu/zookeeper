@@ -2,7 +2,7 @@ package org.apache.zookeeper.server.quorum.roles.leader;
 
 import org.apache.zookeeper.server.processor.FinalRequestProcessor;
 import org.apache.zookeeper.server.Request;
-import org.apache.zookeeper.server.RequestProcessor;
+import org.apache.zookeeper.server.processor.RequestProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
