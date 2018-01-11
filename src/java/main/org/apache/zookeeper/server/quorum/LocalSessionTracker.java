@@ -19,7 +19,6 @@ package org.apache.zookeeper.server.quorum;
 
 import java.util.concurrent.ConcurrentMap;
 
-import org.apache.zookeeper.server.SessionTrackerImpl;
 import org.apache.zookeeper.server.ZooKeeperServerListener;
 
 /**

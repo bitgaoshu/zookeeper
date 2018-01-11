@@ -41,9 +41,6 @@ import org.apache.zookeeper.txn.TxnHeader;
 public class LogFormatter {
     private static final Logger LOG = LoggerFactory.getLogger(LogFormatter.class);
 
-    /**
-     * @param args
-     */
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
             System.err.println("USAGE: LogFormatter log_file");

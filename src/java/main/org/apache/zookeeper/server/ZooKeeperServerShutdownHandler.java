@@ -26,10 +26,10 @@ import org.apache.zookeeper.server.ZooKeeperServer.State;
  * SHUTDOWN server state transitions, which in turn releases the associated
  * shutdown latch.
  */
-class ZooKeeperServerShutdownHandler {
+public class ZooKeeperServerShutdownHandler {
     private final CountDownLatch shutdownLatch;
 
-    ZooKeeperServerShutdownHandler(CountDownLatch shutdownLatch) {
+    public ZooKeeperServerShutdownHandler(CountDownLatch shutdownLatch) {
         this.shutdownLatch = shutdownLatch;
     }
 

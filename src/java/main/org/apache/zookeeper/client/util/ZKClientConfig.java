@@ -24,7 +24,7 @@ import org.apache.yetus.audience.InterfaceAudience;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.client.ZooKeeperSaslClient;
 import org.apache.zookeeper.server.common.ZKConfig;
-import org.apache.zookeeper.server.quorum.QuorumPeerConfig.ConfigException;
+import org.apache.zookeeper.exception.ConfigException;
 
 /**
  * Handles client specific properties

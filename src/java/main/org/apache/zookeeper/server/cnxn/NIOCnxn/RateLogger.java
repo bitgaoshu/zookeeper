@@ -16,13 +16,13 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.cnxn.NIOCnxn;
 
 import org.apache.zookeeper.server.common.Time;
 import org.slf4j.Logger;
 
-public class RateLogger {
-    public RateLogger(Logger log) {
+class RateLogger {
+    RateLogger(Logger log) {
         LOG = log;
     }
 

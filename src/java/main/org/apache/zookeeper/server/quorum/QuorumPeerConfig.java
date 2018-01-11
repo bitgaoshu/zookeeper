@@ -37,6 +37,7 @@ import java.util.Properties;
 import java.util.Map.Entry;
 
 import org.apache.yetus.audience.InterfaceAudience;
+import org.apache.zookeeper.exception.ConfigException;
 import org.apache.zookeeper.server.common.StringUtils;
 import org.apache.zookeeper.server.common.ZKConfig;
 import org.slf4j.Logger;
@@ -98,16 +99,6 @@ public class QuorumPeerConfig {
      * @see org.apache.zookeeper.server.PurgeTxnLog#purge(File, File, int)
      */
     private final int MIN_SNAP_RETAIN_COUNT = 3;
-
-    @SuppressWarnings("serial")
-    public static class ConfigException extends Exception {
-        public ConfigException(String msg) {
-            super(msg);
-        }
-        public ConfigException(String msg, Exception e) {
-            super(msg, e);
-        }
-    }
 
     /**
      * Parse a ZooKeeper configuration file

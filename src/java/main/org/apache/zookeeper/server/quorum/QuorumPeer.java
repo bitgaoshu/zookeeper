@@ -31,7 +31,7 @@ import org.apache.zookeeper.server.common.Time;
 import org.apache.zookeeper.server.jmx.MBeanRegistry;
 import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
-import org.apache.zookeeper.server.quorum.QuorumPeerConfig.ConfigException;
+import org.apache.zookeeper.exception.ConfigException;
 import org.apache.zookeeper.server.quorum.election.Election;
 import org.apache.zookeeper.server.quorum.election.FastLeaderElection;
 import org.apache.zookeeper.server.quorum.election.QuorumCnxManager;

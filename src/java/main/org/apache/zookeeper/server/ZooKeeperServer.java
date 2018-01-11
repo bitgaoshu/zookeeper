@@ -34,8 +34,9 @@ import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.proto.RequestHeader;
 import org.apache.zookeeper.proto.SetSASLResponse;
 import org.apache.zookeeper.server.DataTree.ProcessTxnResult;
-import org.apache.zookeeper.server.SessionTracker.Session;
-import org.apache.zookeeper.server.SessionTracker.SessionExpirer;
+import org.apache.zookeeper.server.quorum.SessionTracker;
+import org.apache.zookeeper.server.quorum.SessionTracker.Session;
+import org.apache.zookeeper.server.quorum.SessionTracker.SessionExpirer;
 import org.apache.zookeeper.server.auth.ProviderRegistry;
 import org.apache.zookeeper.server.auth.ServerAuthenticationProvider;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
@@ -52,6 +53,7 @@ import org.apache.zookeeper.server.RequestProcessor.RequestProcessorException;
 import org.apache.zookeeper.server.processor.FinalRequestProcessor;
 import org.apache.zookeeper.server.processor.PrepRequestProcessor;
 import org.apache.zookeeper.server.processor.SyncRequestProcessor;
+import org.apache.zookeeper.server.quorum.SessionTrackerImpl;
 import org.apache.zookeeper.server.quorum.processor.UnimplementedRequestProcessor;
 import org.apache.zookeeper.txn.CreateSessionTxn;
 import org.apache.zookeeper.txn.TxnHeader;
@@ -1186,7 +1188,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
      *
      * @param zkShutdownHandler shutdown handler
      */
-    void registerServerShutdownHandler(ZooKeeperServerShutdownHandler zkShutdownHandler) {
+    public void registerServerShutdownHandler(ZooKeeperServerShutdownHandler zkShutdownHandler) {
         this.zkShutdownHandler = zkShutdownHandler;
     }
 

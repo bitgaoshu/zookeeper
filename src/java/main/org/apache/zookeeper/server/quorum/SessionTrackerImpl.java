@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.quorum;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -32,6 +32,10 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
+import org.apache.zookeeper.server.ExpiryQueue;
+import org.apache.zookeeper.server.ZooKeeperCriticalThread;
+import org.apache.zookeeper.server.ZooKeeperServerListener;
+import org.apache.zookeeper.server.ZooTrace;
 import org.apache.zookeeper.server.common.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

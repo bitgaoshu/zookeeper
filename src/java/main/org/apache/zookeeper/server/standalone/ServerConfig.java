@@ -16,15 +16,16 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.standalone;
 
 import java.io.File;
 import java.net.InetSocketAddress;
 import java.util.Arrays;
 
 import org.apache.yetus.audience.InterfaceAudience;
+import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
-import org.apache.zookeeper.server.quorum.QuorumPeerConfig.ConfigException;
+import org.apache.zookeeper.exception.ConfigException;
 
 /**
  * Server configuration storage.

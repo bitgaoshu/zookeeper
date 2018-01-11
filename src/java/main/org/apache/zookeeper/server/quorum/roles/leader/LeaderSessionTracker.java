@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
 import org.apache.zookeeper.exception.KeeperException.SessionMovedException;
 import org.apache.zookeeper.exception.KeeperException.UnknownSessionException;
-import org.apache.zookeeper.server.SessionTrackerImpl;
+import org.apache.zookeeper.server.quorum.SessionTrackerImpl;
 import org.apache.zookeeper.server.ZooKeeperServerListener;
 import org.apache.zookeeper.server.quorum.UpgradeableSessionTracker;
 import org.slf4j.Logger;
