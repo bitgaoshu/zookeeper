@@ -979,7 +979,7 @@ server.3=zoo3:2888:3888</pre>
         in the unlikely event a recent log has become corrupted). This
         can be run as a cron job on the ZooKeeper server machines to
         clean up the logs daily.</p>
-<pre class="code"> java -cp zookeeper.jar:lib/slf4j-api-1.7.5.jar:lib/slf4j-log4j12-1.7.5.jar:lib/log4j-1.2.17.jar:conf org.apache.zookeeper.server.PurgeTxnLog &lt;dataDir&gt; &lt;snapDir&gt; -n &lt;count&gt;</pre>
+<pre class="code"> java -cp zookeeper.jar:lib/slf4j-api-1.7.5.jar:lib/slf4j-log4j12-1.7.5.jar:lib/log4j-1.2.17.jar:conf org.apache.zookeeper.server.tools.PurgeTxnLog &lt;dataDir&gt; &lt;snapDir&gt; -n &lt;count&gt;</pre>
 <p>Automatic purging of the snapshots and corresponding
         transaction logs was introduced in version 3.4.0 and can be
         enabled via the following configuration parameters <strong>autopurge.snapRetainCount</strong> and <strong>autopurge.purgeInterval</strong>. For more on

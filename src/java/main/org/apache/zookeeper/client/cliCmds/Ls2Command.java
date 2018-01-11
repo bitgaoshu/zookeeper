@@ -30,7 +30,7 @@ public class Ls2Command extends CliCommand {
     private String args[];
     
     public Ls2Command() {
-        super("ls2", "path [watch]");
+        super("ls2", "path [watcher]");
     }
     
     @Override

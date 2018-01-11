@@ -25,7 +25,7 @@ import org.apache.zookeeper.server.jmx.impl.DataTreeBean;
 import org.apache.zookeeper.server.processor.FinalRequestProcessor;
 import org.apache.zookeeper.server.processor.PrepRequestProcessor;
 import org.apache.zookeeper.server.RequestProcessor;
-import org.apache.zookeeper.server.ZKDatabase;
+import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.jmx.impl.ZooKeeperServerBean;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;

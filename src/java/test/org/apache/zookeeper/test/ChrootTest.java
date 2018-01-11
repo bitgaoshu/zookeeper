@@ -48,7 +48,7 @@ public class ChrootTest extends ClientBase {
         }
         public boolean matches() throws InterruptedException {
             if (!latch.await(CONNECTION_TIMEOUT, TimeUnit.MILLISECONDS)) {
-                Assert.fail("No watch received within timeout period " + path);
+                Assert.fail("No watcher received within timeout period " + path);
             }
             return path.equals(eventPath);
         }

@@ -128,9 +128,9 @@ import java.util.Set;
  * <p>
  * Some successful ZooKeeper API calls can leave watches on the "data nodes" in
  * the ZooKeeper processor. Other successful ZooKeeper API calls can trigger those
- * watches. Once a watch is triggered, an event will be delivered to the client
- * which left the watch at the first place. Each watch can be triggered only
- * once. Thus, up to one event will be delivered to a client for every watch it
+ * watches. Once a watcher is triggered, an event will be delivered to the client
+ * which left the watcher at the first place. Each watcher can be triggered only
+ * once. Thus, up to one event will be delivered to a client for every watcher it
  * leaves.
  * <p>
  * A client needs an object of a class implementing Watcher interface for
@@ -282,7 +282,7 @@ public class ZooKeeper implements AutoCloseable {
          * Register the watcher with the set of watches on path.
          *
          * @param rc the result code of the operation that attempted to
-         *           add the watch on the path.
+         *           add the watcher on the path.
          */
         public void register(int rc) {
             if (shouldAddWatch(rc)) {
@@ -299,11 +299,11 @@ public class ZooKeeper implements AutoCloseable {
         }
 
         /**
-         * Determine whether the watch should be added based on return code.
+         * Determine whether the watcher should be added based on return code.
          *
          * @param rc the result code of the operation that attempted to add the
-         *           watch on the node
-         * @return true if the watch should be added, otw false
+         *           watcher on the node
+         * @return true if the watcher should be added, otw false
          */
         protected boolean shouldAddWatch(int rc) {
             return rc == 0;
@@ -893,7 +893,7 @@ public class ZooKeeper implements AutoCloseable {
                 new ConnectStringParser(connectString).getServerAddresses());
     }
 
-    /* Useful for testing watch handling behavior */
+    /* Useful for testing watcher handling behavior */
 
     protected ZKWatchManager defaultWatchManager() {
         return new ZKWatchManager(getClientConfig().getBoolean(ZKClientConfig.DISABLE_AUTO_WATCH_RESET));
@@ -1533,8 +1533,8 @@ public class ZooKeeper implements AutoCloseable {
      * Return the stat of the node of the given path. Return null if no such a
      * node exists.
      * <p>
-     * If the watch is non-null and the call is successful (no exception is thrown),
-     * a watch will be left on the node with the given path. The watch will be
+     * If the watcher is non-null and the call is successful (no exception is thrown),
+     * a watcher will be left on the node with the given path. The watcher will be
      * triggered by a successful operation that creates/delete the node or sets
      * the data on the node.
      *
@@ -1551,7 +1551,7 @@ public class ZooKeeper implements AutoCloseable {
         final String clientPath = path;
         PathUtils.validatePath(clientPath);
 
-        // the watch contains the un-chroot path
+        // the watcher contains the un-chroot path
         WatchRegistration wcb = null;
         if (watcher != null) {
             wcb = new ExistsWatchRegistration(watcher, clientPath);
@@ -1582,13 +1582,13 @@ public class ZooKeeper implements AutoCloseable {
      * Return the stat of the node of the given path. Return null if no such a
      * node exists.
      * <p>
-     * If the watch is true and the call is successful (no exception is thrown),
-     * a watch will be left on the node with the given path. The watch will be
+     * If the watcher is true and the call is successful (no exception is thrown),
+     * a watcher will be left on the node with the given path. The watcher will be
      * triggered by a successful operation that creates/delete the node or sets
      * the data on the node.
      *
      * @param path  the node path
-     * @param watch whether need to watch this node
+     * @param watch whether need to watcher this node
      * @return the stat of the node of the given path; return null if no such a
      * node exists.
      * @throws KeeperException      If the processor signals an error
@@ -1609,7 +1609,7 @@ public class ZooKeeper implements AutoCloseable {
         final String clientPath = path;
         PathUtils.validatePath(clientPath);
 
-        // the watch contains the un-chroot path
+        // the watcher contains the un-chroot path
         WatchRegistration wcb = null;
         if (watcher != null) {
             wcb = new ExistsWatchRegistration(watcher, clientPath);
@@ -1639,8 +1639,8 @@ public class ZooKeeper implements AutoCloseable {
     /**
      * Return the data and the stat of the node of the given path.
      * <p>
-     * If the watch is non-null and the call is successful (no exception is
-     * thrown), a watch will be left on the node with the given path. The watch
+     * If the watcher is non-null and the call is successful (no exception is
+     * thrown), a watcher will be left on the node with the given path. The watcher
      * will be triggered by a successful operation that sets data on the node, or
      * deletes the node.
      * <p>
@@ -1660,7 +1660,7 @@ public class ZooKeeper implements AutoCloseable {
         final String clientPath = path;
         PathUtils.validatePath(clientPath);
 
-        // the watch contains the un-chroot path
+        // the watcher contains the un-chroot path
         WatchRegistration wcb = null;
         if (watcher != null) {
             wcb = new DataWatchRegistration(watcher, clientPath);
@@ -1688,8 +1688,8 @@ public class ZooKeeper implements AutoCloseable {
     /**
      * Return the data and the stat of the node of the given path.
      * <p>
-     * If the watch is true and the call is successful (no exception is
-     * thrown), a watch will be left on the node with the given path. The watch
+     * If the watcher is true and the call is successful (no exception is
+     * thrown), a watcher will be left on the node with the given path. The watcher
      * will be triggered by a successful operation that sets data on the node, or
      * deletes the node.
      * <p>
@@ -1697,7 +1697,7 @@ public class ZooKeeper implements AutoCloseable {
      * if no node with the given path exists.
      *
      * @param path  the given path
-     * @param watch whether need to watch this node
+     * @param watch whether need to watcher this node
      * @param stat  the stat of the node
      * @return the data of the node
      * @throws KeeperException      If the processor signals an error with a non-zero error code
@@ -1718,7 +1718,7 @@ public class ZooKeeper implements AutoCloseable {
         final String clientPath = path;
         PathUtils.validatePath(clientPath);
 
-        // the watch contains the un-chroot path
+        // the watcher contains the un-chroot path
         WatchRegistration wcb = null;
         if (watcher != null) {
             wcb = new DataWatchRegistration(watcher, clientPath);
@@ -1749,8 +1749,8 @@ public class ZooKeeper implements AutoCloseable {
      * Return the last committed configuration (as known to the processor to which the client is connected)
      * and the stat of the configuration.
      * <p>
-     * If the watch is non-null and the call is successful (no exception is
-     * thrown), a watch will be left on the configuration node (ZooDefs.CONFIG_NODE). The watch
+     * If the watcher is non-null and the call is successful (no exception is
+     * thrown), a watcher will be left on the configuration node (ZooDefs.CONFIG_NODE). The watcher
      * will be triggered by a successful reconfig operation
      * <p>
      * A KeeperException with error code KeeperException.NoNode will be thrown
@@ -1766,7 +1766,7 @@ public class ZooKeeper implements AutoCloseable {
             throws KeeperException, InterruptedException {
         final String configZnode = ZooDefs.CONFIG_NODE;
 
-        // the watch contains the un-chroot path
+        // the watcher contains the un-chroot path
         WatchRegistration wcb = null;
         if (watcher != null) {
             wcb = new DataWatchRegistration(watcher, configZnode);
@@ -1798,7 +1798,7 @@ public class ZooKeeper implements AutoCloseable {
                           DataCallback cb, Object ctx) {
         final String configZnode = ZooDefs.CONFIG_NODE;
 
-        // the watch contains the un-chroot path
+        // the watcher contains the un-chroot path
         WatchRegistration wcb = null;
         if (watcher != null) {
             wcb = new DataWatchRegistration(watcher, configZnode);
@@ -1819,14 +1819,14 @@ public class ZooKeeper implements AutoCloseable {
      * Return the last committed configuration (as known to the processor to which the client is connected)
      * and the stat of the configuration.
      * <p>
-     * If the watch is true and the call is successful (no exception is
-     * thrown), a watch will be left on the configuration node (ZooDefs.CONFIG_NODE). The watch
+     * If the watcher is true and the call is successful (no exception is
+     * thrown), a watcher will be left on the configuration node (ZooDefs.CONFIG_NODE). The watcher
      * will be triggered by a successful reconfig operation
      * <p>
      * A KeeperException with error code KeeperException.NoNode will be thrown
      * if no node with the given path exists.
      *
-     * @param watch whether need to watch this node
+     * @param watch whether need to watcher this node
      * @param stat  the stat of the configuration node ZooDefs.CONFIG_NODE
      * @return configuration data stored in ZooDefs.CONFIG_NODE
      * @throws KeeperException      If the processor signals an error with a non-zero error code
@@ -2043,8 +2043,8 @@ public class ZooKeeper implements AutoCloseable {
     /**
      * Return the list of the children of the node of the given path.
      * <p>
-     * If the watch is non-null and the call is successful (no exception is thrown),
-     * a watch will be left on the node with the given path. The watch willbe
+     * If the watcher is non-null and the call is successful (no exception is thrown),
+     * a watcher will be left on the node with the given path. The watcher willbe
      * triggered by a successful operation that deletes the node of the given
      * path or creates/delete a child under the node.
      * <p>
@@ -2066,7 +2066,7 @@ public class ZooKeeper implements AutoCloseable {
         final String clientPath = path;
         PathUtils.validatePath(clientPath);
 
-        // the watch contains the un-chroot path
+        // the watcher contains the un-chroot path
         WatchRegistration wcb = null;
         if (watcher != null) {
             wcb = new ChildWatchRegistration(watcher, clientPath);
@@ -2091,8 +2091,8 @@ public class ZooKeeper implements AutoCloseable {
     /**
      * Return the list of the children of the node of the given path.
      * <p>
-     * If the watch is true and the call is successful (no exception is thrown),
-     * a watch will be left on the node with the given path. The watch willbe
+     * If the watcher is true and the call is successful (no exception is thrown),
+     * a watcher will be left on the node with the given path. The watcher willbe
      * triggered by a successful operation that deletes the node of the given
      * path or creates/delete a child under the node.
      * <p>
@@ -2123,7 +2123,7 @@ public class ZooKeeper implements AutoCloseable {
         final String clientPath = path;
         PathUtils.validatePath(clientPath);
 
-        // the watch contains the un-chroot path
+        // the watcher contains the un-chroot path
         WatchRegistration wcb = null;
         if (watcher != null) {
             wcb = new ChildWatchRegistration(watcher, clientPath);
@@ -2154,8 +2154,8 @@ public class ZooKeeper implements AutoCloseable {
     /**
      * For the given znode path return the stat and children list.
      * <p>
-     * If the watch is non-null and the call is successful (no exception is thrown),
-     * a watch will be left on the node with the given path. The watch willbe
+     * If the watcher is non-null and the call is successful (no exception is thrown),
+     * a watcher will be left on the node with the given path. The watcher willbe
      * triggered by a successful operation that deletes the node of the given
      * path or creates/delete a child under the node.
      * <p>
@@ -2180,7 +2180,7 @@ public class ZooKeeper implements AutoCloseable {
         final String clientPath = path;
         PathUtils.validatePath(clientPath);
 
-        // the watch contains the un-chroot path
+        // the watcher contains the un-chroot path
         WatchRegistration wcb = null;
         if (watcher != null) {
             wcb = new ChildWatchRegistration(watcher, clientPath);
@@ -2208,8 +2208,8 @@ public class ZooKeeper implements AutoCloseable {
     /**
      * For the given znode path return the stat and children list.
      * <p>
-     * If the watch is true and the call is successful (no exception is thrown),
-     * a watch will be left on the node with the given path. The watch willbe
+     * If the watcher is true and the call is successful (no exception is thrown),
+     * a watcher will be left on the node with the given path. The watcher willbe
      * triggered by a successful operation that deletes the node of the given
      * path or creates/delete a child under the node.
      * <p>
@@ -2245,7 +2245,7 @@ public class ZooKeeper implements AutoCloseable {
         final String clientPath = path;
         PathUtils.validatePath(clientPath);
 
-        // the watch contains the un-chroot path
+        // the watcher contains the un-chroot path
         WatchRegistration wcb = null;
         if (watcher != null) {
             wcb = new ChildWatchRegistration(watcher, clientPath);

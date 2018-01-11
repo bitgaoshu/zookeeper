@@ -25,7 +25,7 @@ import org.apache.zookeeper.operation.multi.MultiTransactionRecord;
 import org.apache.zookeeper.proto.CreateRequest;
 import org.apache.zookeeper.server.common.ByteBufferInputStream;
 import org.apache.zookeeper.server.Request;
-import org.apache.zookeeper.server.ZKDatabase;
+import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 

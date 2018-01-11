@@ -655,7 +655,7 @@ public class ZooInspectorManagerImpl implements ZooInspectorManager {
 
         /**
          * @param nodePath
-         *            - the path to the node to watch
+         *            - the path to the node to watcher
          * @param nodeListener
          *            the {@link NodeListener} for this node
          * @param zookeeper

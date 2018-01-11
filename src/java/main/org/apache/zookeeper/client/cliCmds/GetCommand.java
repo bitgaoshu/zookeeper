@@ -32,7 +32,7 @@ public class GetCommand extends CliCommand {
 
     {
         options.addOption("s", false, "stats");
-        options.addOption("w", false, "watch");
+        options.addOption("w", false, "watcher");
     }
 
     public GetCommand() {
@@ -59,11 +59,11 @@ public class GetCommand extends CliCommand {
     }
 
     private void retainCompatibility(String[] cmdArgs) throws CliParseException {
-        // get path [watch]
+        // get path [watcher]
         if (args.length > 2) {
             // rewrite to option
             cmdArgs[2] = "-w";
-            err.println("'get path [watch]' has been deprecated. "
+            err.println("'get path [watcher]' has been deprecated. "
                     + "Please use 'get [-s] [-w] path' instead.");
             Parser parser = new PosixParser();
             try {

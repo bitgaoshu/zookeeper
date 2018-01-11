@@ -166,10 +166,10 @@ public class RemoveWatchesTest extends ClientBase {
 
         List<EventType> events = w1.getEventsAfterWatchRemoval();
         Assert.assertFalse(
-                "Shouldn't get NodeDeletedEvent after watch removal",
+                "Shouldn't get NodeDeletedEvent after watcher removal",
                 events.contains(EventType.NodeDeleted));
         Assert.assertEquals(
-                "Shouldn't get NodeDeletedEvent after watch removal", 0,
+                "Shouldn't get NodeDeletedEvent after watcher removal", 0,
                 events.size());
     }
 
@@ -207,7 +207,7 @@ public class RemoveWatchesTest extends ClientBase {
 
         List<EventType> events = w2.getEventsAfterWatchRemoval();
         Assert.assertEquals(
-                "Shouldn't get NodeDeletedEvent after watch removal", 0,
+                "Shouldn't get NodeDeletedEvent after watcher removal", 0,
                 events.size());
     }
 
@@ -464,7 +464,7 @@ public class RemoveWatchesTest extends ClientBase {
                 "/node1" });
         Assert.assertNotNull("Didn't set data watches",
                 zk2.exists("/node1", w2));
-        // Add child watch
+        // Add child watcher
         LOG.info("Adding child watcher {} on path {}", new Object[] { w2,
                 "/node1" });
         zk2.getChildren("/node1", w2);
@@ -535,7 +535,7 @@ public class RemoveWatchesTest extends ClientBase {
         try {
             removeWatches(zk2, "/node1", w1, WatcherType.Any, false,
                     KECode.CONNECTIONLOSS);
-            Assert.fail("Should throw exception as last watch removal requires server connection");
+            Assert.fail("Should throw exception as last watcher removal requires server connection");
         } catch (KeeperException.ConnectionLossException nwe) {
             // expected
         }
@@ -574,7 +574,7 @@ public class RemoveWatchesTest extends ClientBase {
                     KeeperException.KECode.OK);
             Assert.assertTrue("Didn't remove data watcher", watcher.matches());
         }
-        Assert.assertEquals("Didn't remove watch references!", 0, zk1
+        Assert.assertEquals("Didn't remove watcher references!", 0, zk1
                 .getExistWatches().size());
     }
 
@@ -613,7 +613,7 @@ public class RemoveWatchesTest extends ClientBase {
                     KeeperException.KECode.OK);
             Assert.assertTrue("Didn't remove child watcher", watcher.matches());
         }
-        Assert.assertEquals("Didn't remove watch references!", 0, zk1
+        Assert.assertEquals("Didn't remove watcher references!", 0, zk1
                 .getChildWatches().size());
     }
 
@@ -648,7 +648,7 @@ public class RemoveWatchesTest extends ClientBase {
                     KeeperException.KECode.OK);
             Assert.assertTrue("Didn't remove data watcher", watcher.matches());
         }
-        Assert.assertEquals("Didn't remove watch references!", 0, zk1
+        Assert.assertEquals("Didn't remove watcher references!", 0, zk1
                 .getDataWatches().size());
     }
 
@@ -700,9 +700,9 @@ public class RemoveWatchesTest extends ClientBase {
                     KeeperException.KECode.OK);
             Assert.assertTrue("Didn't remove watcher", watcher.matches());
         }
-        Assert.assertEquals("Didn't remove watch references!", 0, zk1
+        Assert.assertEquals("Didn't remove watcher references!", 0, zk1
                 .getChildWatches().size());
-        Assert.assertEquals("Didn't remove watch references!", 0, zk1
+        Assert.assertEquals("Didn't remove watcher references!", 0, zk1
                 .getDataWatches().size());
     }
 
@@ -751,21 +751,21 @@ public class RemoveWatchesTest extends ClientBase {
      * Verify that if a given watcher doesn't exist, the server properly
      * returns an error code for it.
      *
-     * In our Java client implementation, we check that a given watch exists at
+     * In our Java client implementation, we check that a given watcher exists at
      * two points:
      *
      * 1) before submitting the RemoveWatches request
      * 2) after a successful server response, when the watcher needs to be
      *    removed
      *
-     * Since this can be racy (i.e. a watch can fire while a RemoveWatches
-     * request is in-flight), we need to verify that the watch was actually
+     * Since this can be racy (i.e. a watcher can fire while a RemoveWatches
+     * request is in-flight), we need to verify that the watcher was actually
      * removed (i.e. from ZKDatabase and DataTree) and return NOWATCHER if
      * needed.
      *
      * Also, other implementations might not do a client side check before
      * submitting a RemoveWatches request. If we don't do a server side check,
-     * we would just return ZOK even if no watch was removed.
+     * we would just return ZOK even if no watcher was removed.
      *
      */
     @Test(timeout = 90000)
@@ -866,7 +866,7 @@ public class RemoveWatchesTest extends ClientBase {
 
         zk1.setData("/node1", "test".getBytes(), -1);
         LOG.info("Waiting for data watchers to be notified");
-        Assert.assertTrue("Didn't get data watch notification!",
+        Assert.assertTrue("Didn't get data watcher notification!",
                 dataWatchCount.await(CONNECTION_TIMEOUT, TimeUnit.MILLISECONDS));
     }
 
@@ -912,7 +912,7 @@ public class RemoveWatchesTest extends ClientBase {
         zk1.create("/node1/node2", null, Ids.OPEN_ACL_UNSAFE,
                 CreateMode.PERSISTENT);
         LOG.info("Waiting for child watchers to be notified");
-        Assert.assertTrue("Didn't get child watch notification!",
+        Assert.assertTrue("Didn't get child watcher notification!",
                 childWatchCount
                         .await(CONNECTION_TIMEOUT, TimeUnit.MILLISECONDS));
     }
@@ -1111,7 +1111,7 @@ public class RemoveWatchesTest extends ClientBase {
         Assert.assertFalse("Server session is still a watcher after removal",
                 isServerSessionWatcher(zk2.getSessionId(), "/node1",
                 WatcherType.Data));
-        Assert.assertEquals("Received watch notification after removal!", 2,
+        Assert.assertEquals("Received watcher notification after removal!", 2,
                 watchCount.getCount());
     }
 

@@ -153,12 +153,12 @@ public class WatcherTest extends ClientBase {
             zk2 = createClient(w2, hostPort);
 
             Stat stat = new Stat();
-            zk1.create("/watch-count-test", "value".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
-            zk1.create("/watch-count-test-2", "value".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
+            zk1.create("/watcher-count-test", "value".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
+            zk1.create("/watcher-count-test-2", "value".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
 
-            zk1.getData("/watch-count-test", w1, stat);
-            zk1.getData("/watch-count-test-2", w1, stat);
-            zk2.getData("/watch-count-test", w2, stat);
+            zk1.getData("/watcher-count-test", w1, stat);
+            zk1.getData("/watcher-count-test-2", w1, stat);
+            zk2.getData("/watcher-count-test", w2, stat);
 
             Assert.assertEquals(ClientBase.getServer(serverFactory)
                     .getZKDatabase().getDataTree().getWatchCount(), 3);
@@ -273,7 +273,7 @@ public class WatcherTest extends ClientBase {
     private void testWatcherAutoReset(ZooKeeper zk, MyWatcher globalWatcher,
             MyWatcher localWatcher) throws Exception {
         boolean isGlobal = (localWatcher == globalWatcher);
-        // First test to see if the watch survives across reconnects
+        // First test to see if the watcher survives across reconnects
         zk.create("/watchtest", new byte[0], Ids.OPEN_ACL_UNSAFE,
                 CreateMode.PERSISTENT);
         zk.create("/watchtest/child", new byte[0], Ids.OPEN_ACL_UNSAFE,

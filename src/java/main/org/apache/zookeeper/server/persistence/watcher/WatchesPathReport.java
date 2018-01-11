@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.persistence.watcher;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,8 +24,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * A watch report, essentially a mapping of path to session IDs of sessions that
- * have set a watch on that path. This class is immutable.
+ * A watcher report, essentially a mapping of path to session IDs of sessions that
+ * have set a watcher on that path. This class is immutable.
  */
 public class WatchesPathReport {
 
@@ -35,7 +35,7 @@ public class WatchesPathReport {
      * Creates a new report.
      *
      * @param path2Ids map of paths to session IDs of sessions that have set a
-     * watch on that path
+     * watcher on that path
      */
     WatchesPathReport(Map<String, Set<Long>> path2Ids) {
         this.path2Ids = Collections.unmodifiableMap(deepCopy(path2Ids));
@@ -53,7 +53,7 @@ public class WatchesPathReport {
      * Checks if the given path has watches set.
      *
      * @param path path
-     * @return true if path has watch set
+     * @return true if path has watcher set
      */
     public boolean hasSessions(String path) {
         return path2Ids.containsKey(path);

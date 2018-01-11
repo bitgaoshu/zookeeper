@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.persistence;
 
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.InputArchive;
@@ -27,12 +27,11 @@ import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.NoNodeException;
 import org.apache.zookeeper.operation.OpType;
-import org.apache.zookeeper.server.persistence.DataNode;
-import org.apache.zookeeper.server.persistence.DataTree;
+import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.TxnLogProposalIterator;
 import org.apache.zookeeper.server.persistence.DataTree.ProcessTxnResult;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.common.Time;
-import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog.PlayBackListener;
 import org.apache.zookeeper.server.persistence.TxnLog.TxnIterator;
 import org.apache.zookeeper.server.quorum.QuorumPacket;
@@ -48,6 +47,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
@@ -75,9 +75,9 @@ public class ZKDatabase {
      * make sure on a clear you take care of
      * all these members.
      */
-    protected DataTree dataTree;
+    private DataTree dataTree;
     protected ConcurrentHashMap<Long, Integer> sessionsWithTimeouts;
-    protected FileTxnSnapLog snapLog;
+    private FileTxnSnapLog snapLog;
     protected long minCommittedLog, maxCommittedLog;
 
     /**
@@ -466,6 +466,14 @@ public class ZKDatabase {
         return dataTree.getData(path, stat, watcher);
     }
 
+    /*get data dir*/
+    public File getDataDir() {
+        return snapLog.getDataDir();
+    }
+
+    public File getSnapDir() {
+        return snapLog.getSnapDir();
+    }
     /**
      * set watches on the datatree
      * @param relativeZxid the relative zxid that client has seen
@@ -631,7 +639,7 @@ public class ZKDatabase {
     }
 
     /**
-     * Remove watch from the datatree
+     * Remove watcher from the datatree
      *
      * @param path
      *            node to remove watches from

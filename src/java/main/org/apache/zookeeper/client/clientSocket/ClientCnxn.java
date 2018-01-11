@@ -107,7 +107,7 @@ public class ClientCnxn {
     /* ZOOKEEPER-706: If a session has a large number of watches set then
      * attempting to re-establish those watches after a connection loss may
      * fail due to the SetWatches request exceeding the processor's configured
-     * jute.maxBuffer value. To avoid this we instead split the watch
+     * jute.maxBuffer value. To avoid this we instead split the watcher
      * re-establishement across multiple SetWatches calls. This constant
      * controls the size of each call. It is set to 128kB to be conservative
      * with respect to the processor's 1MB default for jute.maxBuffer.
@@ -292,7 +292,7 @@ public class ClientCnxn {
         if (p.watchRegistration != null) {
             p.watchRegistration.register(err);
         }
-        // Add all the removed watch events to the event queue, so that the
+        // Add all the removed watcher events to the event queue, so that the
         // clients will be notified with 'Data/Child WatchRemoved' event type.
         if (p.watchDeregistration != null) {
             Map<EventType, Set<Watcher>> materializedWatchers = null;
@@ -761,7 +761,7 @@ public class ClientCnxn {
                 watchers.addAll(materializedWatchers);
             }
             WatcherSetEventPair pair = new WatcherSetEventPair(watchers, event);
-            // queue the pair (watch set & event) for later processing
+            // queue the pair (watcher set & event) for later processing
             waitingEvents.add(pair);
         }
 
@@ -1145,7 +1145,7 @@ public class ClientCnxn {
             ConnectRequest conReq = new ConnectRequest(0, lastZxid,
                     sessionTimeout, sessId, sessionPasswd);
             // We add backwards since we are pushing into the front
-            // Only send if there's a pending watch
+            // Only send if there's a pending watcher
             // TODO: here we have the only remaining use of zooKeeper in
             // this class. It's to be eliminated!
             if (!clientConfig.getBoolean(ZKClientConfig.DISABLE_AUTO_WATCH_RESET)) {
@@ -1167,7 +1167,7 @@ public class ClientCnxn {
                         int batchLength = 0;
 
                         // Note, we may exceed our max length by a bit when we add the last
-                        // watch in the batch. This isn't ideal, but it makes the code simpler.
+                        // watcher in the batch. This isn't ideal, but it makes the code simpler.
                         while (batchLength < SET_WATCHES_MAX_LENGTH) {
                             final String watch;
                             if (dataWatchesIter.hasNext()) {

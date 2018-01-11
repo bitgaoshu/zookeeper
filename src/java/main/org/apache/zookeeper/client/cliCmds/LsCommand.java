@@ -35,7 +35,7 @@ public class LsCommand extends CliCommand {
     {
         options.addOption("?", false, "help");
         options.addOption("s", false, "stat");
-        options.addOption("w", false, "watch");
+        options.addOption("w", false, "watcher");
         options.addOption("R", false, "recurse");
     }
 
@@ -68,11 +68,11 @@ public class LsCommand extends CliCommand {
     }
 
     private void retainCompatibility(String[] cmdArgs) throws CliParseException {
-        // get path [watch]
+        // get path [watcher]
         if (args.length > 2) {
             // rewrite to option
             cmdArgs[2] = "-w";
-            err.println("'ls path [watch]' has been deprecated. "
+            err.println("'ls path [watcher]' has been deprecated. "
                     + "Please use 'ls [-w] path' instead.");
             Parser parser = new PosixParser();
             try {

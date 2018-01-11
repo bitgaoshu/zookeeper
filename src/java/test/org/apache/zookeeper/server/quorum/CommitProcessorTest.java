@@ -61,7 +61,7 @@ import org.slf4j.LoggerFactory;
  * reset while reading the data. For reads/writes on two different sessions
  * on different nodes, or with reads that do not set watches, the reads can
  * happen in any order relative to the writes. For a read in one session that
- * resets a watch that is triggered by a write on another session, however,
+ * resets a watcher that is triggered by a write on another session, however,
  * we need to ensure that there is no race condition
  *
  * 3. The pipeline needs to be drained before a write request can enter.

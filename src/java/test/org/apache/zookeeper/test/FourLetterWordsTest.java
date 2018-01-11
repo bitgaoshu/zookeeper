@@ -98,7 +98,7 @@ public class FourLetterWordsTest extends ClientBase {
         verify("srvr", "Outstanding");
         verify("cons", "queued");
         verify("dump", "Session");
-        verify("wchs", "watch");
+        verify("wchs", "watcher");
         verify("wchp", "");
         verify("wchc", "");
 

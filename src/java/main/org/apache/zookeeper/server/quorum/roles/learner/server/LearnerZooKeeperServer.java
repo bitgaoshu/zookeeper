@@ -20,7 +20,7 @@ package org.apache.zookeeper.server.quorum.roles.learner.server;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.quorum.roles.learner.Learner;
 import org.apache.zookeeper.server.processor.SyncRequestProcessor;
-import org.apache.zookeeper.server.ZKDatabase;
+import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.jmx.MBeanRegistry;
 import org.apache.zookeeper.server.jmx.impl.DataTreeBean;

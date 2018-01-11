@@ -24,7 +24,7 @@ import org.apache.zookeeper.server.processor.FinalRequestProcessor;
 import org.apache.zookeeper.server.processor.PrepRequestProcessor;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.RequestProcessor;
-import org.apache.zookeeper.server.ZKDatabase;
+import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.jmx.MBeanRegistry;
 import org.apache.zookeeper.server.jmx.impl.DataTreeBean;

@@ -355,7 +355,7 @@ public class SessionTest extends ZKTestCase {
     /**
      * This test makes sure that duplicate state changes are not communicated
      * to the client watcher. For example we should not notify state as
-     * "disconnected" if the watch has already been disconnected. In general
+     * "disconnected" if the watcher has already been disconnected. In general
      * we don't consider a dup state notification if the event type is
      * not "None" (ie non-None communicates an event).
      */

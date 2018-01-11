@@ -38,6 +38,7 @@ import java.util.Map.Entry;
 
 import org.apache.yetus.audience.InterfaceAudience;
 import org.apache.zookeeper.exception.ConfigException;
+import org.apache.zookeeper.server.tools.PurgeTxnLog;
 import org.apache.zookeeper.server.util.StringUtils;
 import org.apache.zookeeper.util.ZKConfig;
 import org.slf4j.Logger;
@@ -96,7 +97,7 @@ public class QuorumPeerConfig {
 
     /**
      * Minimum snapshot retain count.
-     * @see org.apache.zookeeper.server.PurgeTxnLog#purge(File, File, int)
+     * @see PurgeTxnLog#purge(File, File, int)
      */
     private final int MIN_SNAP_RETAIN_COUNT = 3;
 

@@ -31,7 +31,7 @@ public class StatCommand extends CliCommand {
     private CommandLine cl;
 
     static {
-        options.addOption("w", false, "watch");
+        options.addOption("w", false, "watcher");
     }
     
     public StatCommand() {
@@ -58,11 +58,11 @@ public class StatCommand extends CliCommand {
     }
 
     private void retainCompatibility(String[] cmdArgs) throws CliParseException {
-        // stat path [watch]
+        // stat path [watcher]
         if (args.length > 2) {
             // rewrite to option
             cmdArgs[2] = "-w";
-            err.println("'stat path [watch]' has been deprecated. "
+            err.println("'stat path [watcher]' has been deprecated. "
                     + "Please use 'stat [-w] path' instead.");
             Parser parser = new PosixParser();
             try {

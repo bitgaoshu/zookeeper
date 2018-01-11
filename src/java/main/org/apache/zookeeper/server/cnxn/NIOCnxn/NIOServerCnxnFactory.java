@@ -43,6 +43,7 @@ import org.apache.zookeeper.server.*;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.ZooKeeperServer;
+import org.apache.zookeeper.server.util.WorkerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

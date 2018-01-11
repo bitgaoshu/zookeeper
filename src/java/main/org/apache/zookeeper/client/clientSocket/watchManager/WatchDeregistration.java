@@ -52,7 +52,7 @@ public class WatchDeregistration {
      * 
      * @param rc
      *            the result code of the operation that attempted to remove
-     *            watch on the path.
+     *            watcher on the path.
      */
     public Map<EventType, Set<Watcher>> unregister(int rc)
             throws KeeperException {

@@ -60,7 +60,7 @@ import org.slf4j.LoggerFactory;
  * The offer with the lowest sequence number is said to be the leader. The
  * process elected leader will transition to the leader state. All other
  * processes will transition to a ready state. Internally, the library creates a
- * ZooKeeper watch on the leader offer with the sequence ID of N - 1 (where N is
+ * ZooKeeper watcher on the leader offer with the sequence ID of N - 1 (where N is
  * the process's sequence ID). If that offer disappears due to a process
  * failure, the watching process will run through the election determination
  * process again to see if it should become the leader. Note that sequence ID
@@ -209,7 +209,7 @@ public class LeaderElectionSupport implements Watcher {
     /*
      * For each leader offer, find out where we fit in. If we're first, we
      * become the leader. If we're not elected the leader, attempt to stat the
-     * offer just less than us. If they exist, watch for their failure, but if
+     * offer just less than us. If they exist, watcher for their failure, but if
      * they don't, become the leader.
      */
     for (int i = 0; i < leaderOffers.size(); i++) {

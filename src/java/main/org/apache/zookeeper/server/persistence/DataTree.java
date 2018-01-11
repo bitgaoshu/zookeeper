@@ -21,30 +21,23 @@ package org.apache.zookeeper.server.persistence;
 import org.apache.jute.InputArchive;
 import org.apache.jute.OutputArchive;
 import org.apache.jute.Record;
+import org.apache.zookeeper.data.ACL;
+import org.apache.zookeeper.data.Stat;
+import org.apache.zookeeper.data.StatPersisted;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.exception.KeeperException.NoNodeException;
 import org.apache.zookeeper.exception.KeeperException.NodeExistsException;
+import org.apache.zookeeper.nodeMode.EphemeralType;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.ReferenceCountedACLCache;
-import org.apache.zookeeper.server.WatchManager;
-import org.apache.zookeeper.server.WatchesPathReport;
-import org.apache.zookeeper.server.WatchesReport;
-import org.apache.zookeeper.server.WatchesSummary;
 import org.apache.zookeeper.server.ZooTrace;
 import org.apache.zookeeper.server.common.ByteBufferInputStream;
-import org.apache.zookeeper.util.StatsTrack;
-import org.apache.zookeeper.watcher.WatchedEvent;
-import org.apache.zookeeper.watcher.Watcher;
-import org.apache.zookeeper.watcher.Event;
-import org.apache.zookeeper.watcher.Event.EventType;
-import org.apache.zookeeper.watcher.Event.KeeperState;
-import org.apache.zookeeper.watcher.WatcherType;
-import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.server.common.PathTrie;
-import org.apache.zookeeper.data.ACL;
-import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.data.StatPersisted;
+import org.apache.zookeeper.server.persistence.watcher.WatchManager;
+import org.apache.zookeeper.server.persistence.watcher.WatchesPathReport;
+import org.apache.zookeeper.server.persistence.watcher.WatchesReport;
+import org.apache.zookeeper.server.persistence.watcher.WatchesSummary;
 import org.apache.zookeeper.txn.CheckVersionTxn;
 import org.apache.zookeeper.txn.CreateContainerTxn;
 import org.apache.zookeeper.txn.CreateTTLTxn;
@@ -56,7 +49,14 @@ import org.apache.zookeeper.txn.SetACLTxn;
 import org.apache.zookeeper.txn.SetDataTxn;
 import org.apache.zookeeper.txn.Txn;
 import org.apache.zookeeper.txn.TxnHeader;
-import org.apache.zookeeper.nodeMode.EphemeralType;
+import org.apache.zookeeper.util.StatsTrack;
+import org.apache.zookeeper.util.ZooDefs;
+import org.apache.zookeeper.watcher.Event;
+import org.apache.zookeeper.watcher.Event.EventType;
+import org.apache.zookeeper.watcher.Event.KeeperState;
+import org.apache.zookeeper.watcher.WatchedEvent;
+import org.apache.zookeeper.watcher.Watcher;
+import org.apache.zookeeper.watcher.WatcherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -1243,9 +1243,9 @@ public class DataTree {
     }
 
     /**
-     * Returns a watch report.
+     * Returns a watcher report.
      *
-     * @return watch report
+     * @return watcher report
      * @see WatchesReport
      */
     public synchronized WatchesReport getWatches() {
@@ -1253,9 +1253,9 @@ public class DataTree {
     }
 
     /**
-     * Returns a watch report by path.
+     * Returns a watcher report by path.
      *
-     * @return watch report
+     * @return watcher report
      * @see WatchesPathReport
      */
     public synchronized WatchesPathReport getWatchesByPath() {
@@ -1263,9 +1263,9 @@ public class DataTree {
     }
 
     /**
-     * Returns a watch summary.
+     * Returns a watcher summary.
      *
-     * @return watch summary
+     * @return watcher summary
      * @see WatchesSummary
      */
     public synchronized WatchesSummary getWatchesSummary() {

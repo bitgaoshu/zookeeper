@@ -86,7 +86,7 @@ public class FourLetterWordsQuorumTest extends QuorumBase {
             verify(hp, "srvr", "Outstanding");
             verify(hp, "cons", "queued");
             verify(hp, "dump", "Session");
-            verify(hp, "wchs", "watch");
+            verify(hp, "wchs", "watcher");
             verify(hp, "wchp", "");
             verify(hp, "wchc", "");
             verify(hp, "dirs", "size");

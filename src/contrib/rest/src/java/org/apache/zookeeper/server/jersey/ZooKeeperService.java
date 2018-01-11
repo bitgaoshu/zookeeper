@@ -62,7 +62,7 @@ public class ZooKeeperService {
        }
 
        /**
-        * Track state - in particular watch for expiration. if it happens for
+        * Track state - in particular watcher for expiration. if it happens for
         * re-creation of the ZK client session
         */
        synchronized public void process(WatchedEvent event) {

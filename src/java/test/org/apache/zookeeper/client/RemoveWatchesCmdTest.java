@@ -337,7 +337,7 @@ public class RemoveWatchesCmdTest extends ClientBase {
 
         public boolean matches() throws InterruptedException {
             if (!latch.await(CONNECTION_TIMEOUT / 3, TimeUnit.MILLISECONDS)) {
-                LOG.error("Failed to get watch notifications!");
+                LOG.error("Failed to get watcher notifications!");
                 return false;
             }
             LOG.debug("Client path : {} eventPath : {}", new Object[] { path,

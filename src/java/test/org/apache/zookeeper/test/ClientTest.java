@@ -422,7 +422,7 @@ public class ClientTest extends ClientBase {
             Assert.assertEquals(children, children2);
             String value = new String(zk.getData("/pat/ben", false, stat));
             Assert.assertEquals("Ben was here", value);
-            // Test stat and watch of non existent node
+            // Test stat and watcher of non existent node
 
             try {
                 if (withWatcherObj) {
@@ -443,7 +443,7 @@ public class ClientTest extends ClientBase {
             Assert.assertEquals("/frog", event.getPath());
             Assert.assertEquals(EventType.NodeCreated, event.getType());
             Assert.assertEquals(KeeperState.SyncConnected, event.getState());
-            // Test child watch and create with sequence
+            // Test child watcher and create with sequence
             zk.getChildren("/pat/ben", true);
             for (int i = 0; i < 10; i++) {
                 zk.create("/pat/ben/" + i + "-", Integer.toString(i).getBytes(),

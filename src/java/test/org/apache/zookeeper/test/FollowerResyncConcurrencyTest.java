@@ -707,7 +707,7 @@ public class FollowerResyncConcurrencyTest extends ZKTestCase {
 
     /**
      * Verify that the server is sending the proper zxid, and as a result
-     * the watch doesn't fire. See ZOOKEEPER-1412.
+     * the watcher doesn't fire. See ZOOKEEPER-1412.
      */
     @Test
     public void testFollowerWatcherResync() throws Exception {

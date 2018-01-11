@@ -1117,7 +1117,7 @@ public class Zab1_0Test extends ZKTestCase {
                             new String(zkDb2.getData("/foo1", stat, null)));
                     Assert.assertEquals(foo2Zxid, lastZxid);
 
-                    // Register watch
+                    // Register watcher
                     TrackerWatcher watcher = new TrackerWatcher();
                     Assert.assertEquals("data1", new String(o.zk
                             .getZKDatabase().getData("/foo2", stat, watcher)));

@@ -67,11 +67,11 @@ public class DisconnectedWatcherTest extends ClientBase {
         ZooKeeper zk2 = createClient(watcher, hostPort + "/ch1");
         zk2.getChildren("/", true );
 
-        // this call shouldn't trigger any error or watch
+        // this call shouldn't trigger any error or watcher
         zk1.create("/youdontmatter1", null, Ids.OPEN_ACL_UNSAFE,
                 CreateMode.PERSISTENT);
 
-        // this should trigger the watch
+        // this should trigger the watcher
         zk1.create("/ch1/youshouldmatter1", null, Ids.OPEN_ACL_UNSAFE,
                 CreateMode.PERSISTENT);
         WatchedEvent e = watcher.events.poll(TIMEOUT, TimeUnit.MILLISECONDS);
@@ -87,7 +87,7 @@ public class DisconnectedWatcherTest extends ClientBase {
         startServer();
         watcher.waitForConnected(3000);
 
-        // this should trigger the watch
+        // this should trigger the watcher
         zk1.create("/ch1/youshouldmatter2", null, Ids.OPEN_ACL_UNSAFE,
                 CreateMode.PERSISTENT);
         e = childWatcher.events.poll(TIMEOUT, TimeUnit.MILLISECONDS);
@@ -107,11 +107,11 @@ public class DisconnectedWatcherTest extends ClientBase {
         ZooKeeper zk2 = createClient(watcher, hostPort + "/ch1");
         zk2.getChildren("/", true );
 
-        // this call shouldn't trigger any error or watch
+        // this call shouldn't trigger any error or watcher
         zk1.create("/youdontmatter1", null, Ids.OPEN_ACL_UNSAFE,
                 CreateMode.PERSISTENT);
 
-        // this should trigger the watch
+        // this should trigger the watcher
         zk1.create("/ch1/youshouldmatter1", null, Ids.OPEN_ACL_UNSAFE,
                 CreateMode.PERSISTENT);
         WatchedEvent e = watcher.events.poll(TIMEOUT, TimeUnit.MILLISECONDS);
@@ -126,7 +126,7 @@ public class DisconnectedWatcherTest extends ClientBase {
         startServer();
         watcher.waitForConnected(3000);
 
-        // this should trigger the watch
+        // this should trigger the watcher
         zk1.create("/ch1/youshouldmatter2", null, Ids.OPEN_ACL_UNSAFE,
                 CreateMode.PERSISTENT);
         e = watcher.events.poll(TIMEOUT, TimeUnit.MILLISECONDS);
@@ -152,7 +152,7 @@ public class DisconnectedWatcherTest extends ClientBase {
         ZooKeeper zk2 = createClient(watcher, hostPort + "/ch1/here/we");
         zk2.getChildren("/are", true );
 
-        // this should trigger the watch
+        // this should trigger the watcher
         zk1.create("/ch1/here/we/are/now", null, Ids.OPEN_ACL_UNSAFE,
                 CreateMode.PERSISTENT);
         WatchedEvent e = watcher.events.poll(TIMEOUT, TimeUnit.MILLISECONDS);
@@ -168,7 +168,7 @@ public class DisconnectedWatcherTest extends ClientBase {
         startServer();
         watcher.waitForConnected(3000);
 
-        // this should trigger the watch
+        // this should trigger the watcher
         zk1.create("/ch1/here/we/are/again", null, Ids.OPEN_ACL_UNSAFE,
                 CreateMode.PERSISTENT);
         e = childWatcher.events.poll(TIMEOUT, TimeUnit.MILLISECONDS);

@@ -124,11 +124,11 @@ public class DataTreeTest extends ZKTestCase {
             }
         }
         MyWatcher watcher=new MyWatcher();
-        // set a watch on the root node
+        // set a watcher on the root node
         dt.getChildren("/", new Stat(), watcher);
-        // add a new node, should trigger a watch
+        // add a new node, should trigger a watcher
         dt.createNode("/xyz", new byte[0], null, 0, dt.getNode("/").stat.getCversion()+1, 1, 1);
-        Assert.assertFalse("Root node watch not triggered",!watcher.fired);
+        Assert.assertFalse("Root node watcher not triggered",!watcher.fired);
     }
 
     /**

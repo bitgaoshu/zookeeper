@@ -34,6 +34,7 @@ import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.proto.RequestHeader;
 import org.apache.zookeeper.proto.SetSASLResponse;
 import org.apache.zookeeper.server.persistence.DataTree.ProcessTxnResult;
+import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.quorum.SessionTracker;
 import org.apache.zookeeper.server.quorum.SessionTracker.Session;
 import org.apache.zookeeper.server.quorum.SessionTracker.SessionExpirer;
@@ -232,11 +233,11 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         pwriter.print("secureClientPort=");
         pwriter.println(secureServerCnxnFactory == null ? secureServerCnxnFactory.getLocalPort():-1);
         pwriter.print("dataDir=");
-        pwriter.println(zkDb.snapLog.getDataDir().getAbsolutePath());
+        pwriter.println(zkDb.getDataDir().getAbsolutePath());
         pwriter.print("dataDirSize=");
         pwriter.println(getDataDirSize());
         pwriter.print("dataLogDir=");
-        pwriter.println(zkDb.snapLog.getSnapDir().getAbsolutePath());
+        pwriter.println(zkDb.getSnapDir().getAbsolutePath());
         pwriter.print("dataLogSize=");
         pwriter.println(getLogDirSize());
         pwriter.print("tickTime=");
@@ -255,8 +256,8 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     public ZooKeeperServerConf getConf() {
         return new ZooKeeperServerConf
                 (serverCnxnFactory == null ? serverCnxnFactory.getLocalPort():-1,
-                        zkDb.snapLog.getSnapDir().getAbsolutePath(),
-                        zkDb.snapLog.getDataDir().getAbsolutePath(),
+                        zkDb.getSnapDir().getAbsolutePath(),
+                        zkDb.getDataDir().getAbsolutePath(),
                         getTickTime(),
                         serverCnxnFactory.getMaxClientCnxnsPerHost(),
                         getMinSessionTimeout(),
@@ -347,7 +348,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         if (zkDb == null) {
             return 0L;
         }
-        File path = zkDb.snapLog.getDataDir();
+        File path = zkDb.getDataDir();
         return getDirSize(path);
     }
 
@@ -356,7 +357,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         if (zkDb == null) {
             return 0L;
         }
-        File path = zkDb.snapLog.getSnapDir();
+        File path = zkDb.getSnapDir();
         return getDirSize(path);
     }
 
@@ -960,7 +961,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
             LOG.info(msg);
             throw new CloseRequestException(msg);
         }
-        if (connReq.getLastZxidSeen() > zkDb.dataTree.lastProcessedZxid) {
+        if (connReq.getLastZxidSeen() > zkDb.getDataTree().lastProcessedZxid) {
             String msg = "Refusing session request for client "
                     + cnxn.getRemoteSocketAddress()
                     + " as it has seen zxid 0x"

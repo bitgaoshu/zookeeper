@@ -21,7 +21,7 @@ package org.apache.zookeeper.server.admin;
 import org.apache.zookeeper.util.Version;
 import org.apache.zookeeper.server.persistence.DataTree;
 import org.apache.zookeeper.server.ServerStats;
-import org.apache.zookeeper.server.ZKDatabase;
+import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.ZooTrace;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
@@ -491,7 +491,7 @@ public class Commands {
     }
 
     /**
-     * Summarized watch information.
+     * Summarized watcher information.
      * @see DataTree#getWatchesSummary()
      */
     public static class WatchSummaryCommand extends CommandBase {

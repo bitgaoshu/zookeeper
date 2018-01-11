@@ -295,7 +295,7 @@ public class ZKWatchManager implements ClientWatchManager {
                     Set<Watcher> list = existWatches.remove(clientPath);
                     if (list != null) {
                         addTo(existWatches.remove(clientPath), result);
-                        LOG.warn("We are triggering an exists watch for delete! Shouldn't happen!");
+                        LOG.warn("We are triggering an exists watcher for delete! Shouldn't happen!");
                     }
                 }
                 synchronized (childWatches) {
@@ -303,7 +303,7 @@ public class ZKWatchManager implements ClientWatchManager {
                 }
                 break;
             default:
-                String msg = "Unhandled watch event type " + type
+                String msg = "Unhandled watcher event type " + type
                         + " with state " + state + " on path " + clientPath;
                 LOG.error(msg);
                 throw new RuntimeException(msg);

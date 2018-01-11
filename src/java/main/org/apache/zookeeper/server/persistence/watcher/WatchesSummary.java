@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.persistence.watcher;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * A summary of watch information. This class is immutable.
+ * A summary of watcher information. This class is immutable.
  */
 public class WatchesSummary {
 

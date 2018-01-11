@@ -103,7 +103,7 @@ public class WatchLeakTest {
     }
 
     /**
-     * Check that if session has expired then no watch can be set
+     * Check that if session has expired then no watcher can be set
      */
 
     @Test
@@ -166,7 +166,7 @@ public class WatchLeakTest {
             } else {
                 // Session has been re-validated
                 LOG.info("session is valid, watches = {}", watchCount);
-                assertEquals("Session is valid so the watch should be there", 1, watchCount);
+                assertEquals("Session is valid so the watcher should be there", 1, watchCount);
             }
         } finally {
             if (fzks != null) {
@@ -247,9 +247,9 @@ public class WatchLeakTest {
     }
 
     /**
-     * Create a watches message with a single watch on /
+     * Create a watches message with a single watcher on /
      *
-     * @return a message that attempts to set 1 watch on /
+     * @return a message that attempts to set 1 watcher on /
      */
     private ByteBuffer createWatchesMessage() {
         List<String> dataWatches = new ArrayList<String>(1);

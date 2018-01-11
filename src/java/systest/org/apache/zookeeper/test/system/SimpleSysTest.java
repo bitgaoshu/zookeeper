@@ -138,7 +138,7 @@ public class SimpleSysTest extends BaseSysTest implements Watcher {
         // send out the kill signal
         zk.setData("/simpleCase", "die".getBytes(), -1);
         
-        // watch for everyone to die
+        // watcher for everyone to die
         for(int i = 0; i < getClientCount(); i++) {
             try {
                 for(int j = 0; j < maxTries; j++) {

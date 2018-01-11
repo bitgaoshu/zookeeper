@@ -28,7 +28,7 @@ import org.apache.zookeeper.server.RequestProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.server.Request;
-import org.apache.zookeeper.server.WorkerService;
+import org.apache.zookeeper.server.util.WorkerService;
 import org.apache.zookeeper.server.ZooKeeperCriticalThread;
 import org.apache.zookeeper.server.ZooKeeperServerListener;
 
@@ -61,7 +61,7 @@ import org.apache.zookeeper.server.ZooKeeperServerListener;
  *   - Each session's requests must be processed in order.
  *   - Write requests must be processed in zxid order
  *   - Must ensure no race condition between writes in one session that would
- *     trigger a watch being set by a read request in another session
+ *     trigger a watcher being set by a read request in another session
  *
  * The current implementation solves the third constraint by simply allowing no
  * read requests to be processed in parallel with write requests.

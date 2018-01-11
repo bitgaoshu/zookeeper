@@ -190,7 +190,7 @@ public class FourLetterWordsWhiteListTest extends ClientBase {
         verifyFuzzyMatch("srvr", "Outstanding");
         verifyFuzzyMatch("cons", "queued");
         verifyFuzzyMatch("dump", "Session");
-        verifyFuzzyMatch("wchs", "watch");
+        verifyFuzzyMatch("wchs", "watcher");
         verifyFuzzyMatch("wchp", "");
         verifyFuzzyMatch("wchc", "");
 
