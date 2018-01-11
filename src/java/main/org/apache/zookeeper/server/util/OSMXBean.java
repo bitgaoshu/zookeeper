@@ -119,16 +119,8 @@ public class OSMXBean {
             BufferedReader output = new BufferedReader(
                     new InputStreamReader(in));
 
-            try {
-                String openFileDesCount;
-                if ((openFileDesCount = output.readLine()) != null) {
-                    return Long.parseLong(openFileDesCount);
-                }
-            } finally {
-                if (output != null) {
-                    output.close();
-                }
-            }
+            Long openFileDesCount = getaLong(output);
+            if (openFileDesCount != null) return openFileDesCount;
         } catch (IOException ie) {
             LOG.warn("Not able to get the number of open file descriptors", ie);
         }
@@ -157,19 +149,25 @@ public class OSMXBean {
             BufferedReader output = new BufferedReader(
                     new InputStreamReader(in));
 
-            try {
-                String maxFileDesCount;
-                if ((maxFileDesCount = output.readLine()) != null) {
-                    return Long.parseLong(maxFileDesCount);
-                }
-            } finally {
-                if (output != null) {
-                    output.close();
-                }
-            }
+            Long maxFileDesCount = getaLong(output);
+            if (maxFileDesCount != null) return maxFileDesCount;
         } catch (IOException ie) {
             LOG.warn("Not able to get the max number of file descriptors", ie);
         }
         return -1;
+    }
+
+    private Long getaLong(BufferedReader output) throws IOException {
+        try {
+            String fileDesCount;
+            if ((fileDesCount = output.readLine()) != null) {
+                return Long.parseLong(fileDesCount);
+            }
+        } finally {
+            if (output != null) {
+                output.close();
+            }
+        }
+        return null;
     }
 }
