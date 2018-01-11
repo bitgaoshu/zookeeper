@@ -34,6 +34,7 @@ import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.mBean.impl.LeaderBean;
 import org.apache.zookeeper.server.quorum.mBean.impl.LocalPeerBean;
 import org.apache.zookeeper.server.quorum.QuorumZooKeeperServer;
+import org.apache.zookeeper.server.session.LeaderSessionTracker;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

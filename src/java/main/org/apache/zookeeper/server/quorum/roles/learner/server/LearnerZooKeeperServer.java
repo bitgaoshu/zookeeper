@@ -30,6 +30,7 @@ import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.mBean.impl.LocalPeerBean;
 import org.apache.zookeeper.server.quorum.processor.CommitProcessor;
 import org.apache.zookeeper.server.quorum.QuorumZooKeeperServer;
+import org.apache.zookeeper.server.session.LearnerSessionTracker;
 
 import java.io.IOException;
 import java.util.Collections;

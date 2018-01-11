@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.server.quorum.roles.learner.server;
+package org.apache.zookeeper.server.session;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -31,9 +31,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
 import org.apache.zookeeper.exception.KeeperException.SessionMovedException;
 import org.apache.zookeeper.exception.KeeperException.UnknownSessionException;
-import org.apache.zookeeper.server.quorum.SessionTrackerImpl;
 import org.apache.zookeeper.server.ZooKeeperServerListener;
-import org.apache.zookeeper.server.quorum.UpgradeableSessionTracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,21 +57,19 @@ public class LearnerSessionTracker extends UpgradeableSessionTracker {
     private final long serverId;
     private final AtomicLong nextSessionId = new AtomicLong();
 
-    private final boolean localSessionsEnabled;
     private final ConcurrentMap<Long, Integer> globalSessionsWithTimeouts;
 
     public LearnerSessionTracker(SessionExpirer expirer,
             ConcurrentMap<Long, Integer> sessionsWithTimeouts,
             int tickTime, long id, boolean localSessionsEnabled,
             ZooKeeperServerListener listener) {
+        super(localSessionsEnabled);
         this.expirer = expirer;
         this.touchTable.set(new ConcurrentHashMap<Long, Integer>());
         this.globalSessionsWithTimeouts = sessionsWithTimeouts;
         this.serverId = id;
         nextSessionId.set(SessionTrackerImpl.initializeNextSession(serverId));
-
-        this.localSessionsEnabled = localSessionsEnabled;
-        if (this.localSessionsEnabled) {
+        if (localSessionsEnabled) {
             createLocalSessionTracker(expirer, tickTime, id, listener);
         }
     }
@@ -111,24 +107,6 @@ public class LearnerSessionTracker extends UpgradeableSessionTracker {
             LOG.info("Adding global session 0x" + Long.toHexString(sessionId));
         }
         touchTable.get().put(sessionId, sessionTimeout);
-        return added;
-    }
-
-    public boolean addSession(long sessionId, int sessionTimeout) {
-        boolean added;
-        if (localSessionsEnabled && !isGlobalSession(sessionId)) {
-            added = localSessionTracker.addSession(sessionId, sessionTimeout);
-            // Check for race condition with session upgrading
-            if (isGlobalSession(sessionId)) {
-                added = false;
-                localSessionTracker.removeSession(sessionId);
-            } else if (added) {
-                LOG.info("Adding local session 0x"
-                         + Long.toHexString(sessionId));
-            }
-        } else {
-            added = addGlobalSession(sessionId, sessionTimeout);
-        }
         return added;
     }
 

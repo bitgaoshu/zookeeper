@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.session;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -33,7 +33,11 @@ public abstract class UpgradeableSessionTracker implements SessionTracker {
 
     private ConcurrentMap<Long, Integer> localSessionsWithTimeouts;
     protected LocalSessionTracker localSessionTracker;
+    protected final boolean localSessionsEnabled;
 
+    protected UpgradeableSessionTracker(boolean localSessionsEnabled){
+        this.localSessionsEnabled = localSessionsEnabled;
+    }
     public void start() {}
 
     public void createLocalSessionTracker(SessionExpirer expirer,
@@ -55,6 +59,24 @@ public abstract class UpgradeableSessionTracker implements SessionTracker {
 
     abstract public boolean isGlobalSession(long sessionId);
 
+    @Override
+    public boolean addSession(long sessionId, int sessionTimeout) {
+        boolean added;
+        if (localSessionsEnabled && !isGlobalSession(sessionId)) {
+            added = localSessionTracker.addSession(sessionId, sessionTimeout);
+            // Check for race condition with session upgrading
+            if (isGlobalSession(sessionId)) {
+                added = false;
+                localSessionTracker.removeSession(sessionId);
+            } else if (added) {
+                LOG.info("Adding local session 0x"
+                        + Long.toHexString(sessionId));
+            }
+        } else {
+            added = addGlobalSession(sessionId, sessionTimeout);
+        }
+        return added;
+    }
     /**
      * Upgrades the session to a global session.
      * This simply removes the session from the local tracker and marks

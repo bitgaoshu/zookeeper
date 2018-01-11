@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server.session;
 
 import java.io.PrintWriter;
 import java.util.Map;

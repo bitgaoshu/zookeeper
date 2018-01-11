@@ -28,6 +28,7 @@ import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
+import org.apache.zookeeper.server.session.UpgradeableSessionTracker;
 
 import java.io.IOException;
 import java.io.PrintWriter;
