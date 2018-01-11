@@ -20,7 +20,7 @@ package org.apache.zookeeper.server.quorum;
 import org.apache.zookeeper.exception.KeeperException.BadArgumentsException;
 import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperServer;
-import org.apache.zookeeper.server.ZooKeeperThread;
+import org.apache.zookeeper.server.zkThread.ZooKeeperThread;
 import org.apache.zookeeper.server.admin.AdminServer;
 import org.apache.zookeeper.server.admin.AdminServer.AdminServerException;
 import org.apache.zookeeper.server.admin.AdminServerFactory;
@@ -1029,7 +1029,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats {
     public QuorumVerifier configFromString(String s) throws IOException, ConfigException {
         Properties props = new Properties();
         props.load(new StringReader(s));
-        return QuorumPeerConfig.parseDynamicConfig(props, electionType, false, false);
+        return QuorumPeerConfig.parseDynamicConfig(props, false, false);
     }
 
     /**

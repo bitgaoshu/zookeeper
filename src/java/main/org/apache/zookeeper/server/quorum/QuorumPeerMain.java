@@ -22,13 +22,13 @@ import java.io.IOException;
 import javax.management.JMException;
 
 import org.apache.yetus.audience.InterfaceAudience;
+import org.apache.zookeeper.server.ZKServerStandAloneMain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.server.jmx.ManagedUtil;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.DatadirCleanupManager;
-import org.apache.zookeeper.server.standalone.ZooKeeperServerMain;
 import org.apache.zookeeper.server.admin.AdminServer.AdminServerException;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog.DatadirException;
@@ -124,7 +124,7 @@ public class QuorumPeerMain {
             LOG.warn("Either no config or no quorum defined in config, running "
                     + " in standalone mode");
             // there is only processor in the quorum -- run as standalone
-            ZooKeeperServerMain.main(args);
+            ZKServerStandAloneMain.main(args);
         }
     }
 

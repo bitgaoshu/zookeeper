@@ -39,12 +39,12 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.apache.zookeeper.server.*;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.util.ExpiryQueue;
 import org.apache.zookeeper.server.util.WorkerService;
+import org.apache.zookeeper.server.zkThread.ZooKeeperThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

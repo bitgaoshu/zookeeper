@@ -42,7 +42,7 @@ import org.apache.zookeeper.server.common.ByteBufferInputStream;
 import org.apache.zookeeper.server.persistence.DataNode;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.RequestProcessor;
-import org.apache.zookeeper.server.ZooKeeperCriticalThread;
+import org.apache.zookeeper.server.zkThread.ZooKeeperCriticalThread;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.ZooTrace;
 import org.apache.zookeeper.server.auth.ProviderRegistry;
@@ -494,7 +494,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                     try {
                         Properties props = new Properties();
                         props.load(new StringReader(newMembers));
-                        request.qv = QuorumPeerConfig.parseDynamicConfig(props, lzks.self.getElectionType(), true, false);
+                        request.qv = QuorumPeerConfig.parseDynamicConfig(props, true, false);
                         request.qv.setVersion(request.getHdr().getZxid());
                     } catch (IOException | ConfigException e) {
                         throw new KeeperException.BadArgumentsException(e.getMessage());

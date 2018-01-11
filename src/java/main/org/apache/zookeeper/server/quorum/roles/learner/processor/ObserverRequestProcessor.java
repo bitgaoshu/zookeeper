@@ -22,7 +22,7 @@ import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.RequestProcessor;
-import org.apache.zookeeper.server.ZooKeeperCriticalThread;
+import org.apache.zookeeper.server.zkThread.ZooKeeperCriticalThread;
 import org.apache.zookeeper.server.ZooTrace;
 import org.apache.zookeeper.server.quorum.roles.learner.server.ObserverZooKeeperServer;
 import org.apache.zookeeper.txn.ErrorTxn;

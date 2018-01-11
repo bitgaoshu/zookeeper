@@ -62,7 +62,7 @@ import org.apache.zookeeper.proto.SetDataResponse;
 import org.apache.zookeeper.proto.SetWatches;
 import org.apache.zookeeper.proto.WatcherEvent;
 import org.apache.zookeeper.server.common.ByteBufferInputStream;
-import org.apache.zookeeper.server.ZooKeeperThread;
+import org.apache.zookeeper.server.zkThread.ZooKeeperThread;
 import org.apache.zookeeper.server.ZooTrace;
 import org.apache.zookeeper.watcher.Event;
 import org.apache.zookeeper.watcher.Event.EventType;

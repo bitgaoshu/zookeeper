@@ -33,7 +33,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
 import org.apache.zookeeper.server.util.ExpiryQueue;
-import org.apache.zookeeper.server.ZooKeeperCriticalThread;
+import org.apache.zookeeper.server.zkThread.ZooKeeperCriticalThread;
 import org.apache.zookeeper.server.ZooKeeperServerListener;
 import org.apache.zookeeper.server.ZooTrace;
 import org.apache.zookeeper.server.common.Time;

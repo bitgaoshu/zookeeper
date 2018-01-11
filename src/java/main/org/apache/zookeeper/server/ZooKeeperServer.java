@@ -510,7 +510,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
      * @return true if the server is running or server hits an error, false
      * otherwise.
      */
-    protected boolean canShutdown() {
+    public boolean canShutdown() {
         return state == State.RUNNING || state == State.ERROR;
     }
 

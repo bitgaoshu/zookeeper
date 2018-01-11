@@ -15,8 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.zkThread;
 
+import org.apache.zookeeper.server.ZooKeeperServerListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

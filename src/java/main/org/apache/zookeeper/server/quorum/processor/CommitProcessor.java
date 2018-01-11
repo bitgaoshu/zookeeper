@@ -29,7 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.util.WorkerService;
-import org.apache.zookeeper.server.ZooKeeperCriticalThread;
+import org.apache.zookeeper.server.zkThread.ZooKeeperCriticalThread;
 import org.apache.zookeeper.server.ZooKeeperServerListener;
 
 /**

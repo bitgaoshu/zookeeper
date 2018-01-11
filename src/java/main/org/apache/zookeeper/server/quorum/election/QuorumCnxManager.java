@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.server.quorum.election;
 
-import org.apache.zookeeper.server.ZooKeeperThread;
+import org.apache.zookeeper.server.zkThread.ZooKeeperThread;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 import org.slf4j.Logger;

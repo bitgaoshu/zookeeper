@@ -16,13 +16,13 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.persistence;
 
 import org.apache.jute.Index;
 import org.apache.jute.InputArchive;
 import org.apache.jute.OutputArchive;
-import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.data.ACL;
+import org.apache.zookeeper.util.ZooDefs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
