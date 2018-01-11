@@ -21,7 +21,7 @@ package org.apache.zookeeper.server.cmd4l;
 import java.io.PrintWriter;
 
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
-import org.apache.zookeeper.server.ZooTrace;
+import org.apache.zookeeper.server.util.ZooTrace;
 
 public class TraceMaskCommand extends AbstractFourLetterCommand {
     TraceMaskCommand(PrintWriter pw, ServerCnxn serverCnxn) {

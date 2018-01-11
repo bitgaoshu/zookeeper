@@ -18,7 +18,7 @@
 
 package org.apache.zookeeper.server.persistence.watcher;
 
-import org.apache.zookeeper.server.ZooTrace;
+import org.apache.zookeeper.server.util.ZooTrace;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.watcher.Event.EventType;
 import org.apache.zookeeper.watcher.Event.KeeperState;

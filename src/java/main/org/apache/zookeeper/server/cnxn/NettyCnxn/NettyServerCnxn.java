@@ -37,6 +37,7 @@ import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
 import org.apache.jute.Record;
 import org.apache.zookeeper.server.ZooKeeperServer;
+import org.apache.zookeeper.server.util.ZooTrace;
 import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.proto.WatcherEvent;
@@ -307,7 +308,7 @@ public class NettyServerCnxn extends ServerCnxn {
             return true;
         }
 
-        LOG.info("Processing " + cmd + " cmd4l from "
+        LOG.info("Processing " + cmd + " command from "
                 + channel.getRemoteAddress());
 
        if (len == FourLetterCommands.setTraceMaskCmd) {

@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.util;
 
+import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.quorum.QuorumPacket;
-import org.apache.zookeeper.server.util.SerializeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,7 +82,7 @@ public class ZooTrace {
     }
 
     static public void logRequest(Logger log, long mask,
-            char rp, Request request, String header)
+                                  char rp, Request request, String header)
     {
         if (isTraceEnabled(log, mask)) {
             log.trace(header + ":" + rp + request.toString());

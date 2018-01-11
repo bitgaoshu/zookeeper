@@ -24,7 +24,7 @@ import org.apache.jute.OutputArchive;
 import org.apache.jute.Record;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.Request;
-import org.apache.zookeeper.server.ZooTrace;
+import org.apache.zookeeper.server.util.ZooTrace;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.quorum.LearnerInfo;
 import org.apache.zookeeper.server.quorum.QuorumPacket;

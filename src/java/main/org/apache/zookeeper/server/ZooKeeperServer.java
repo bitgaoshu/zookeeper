@@ -33,11 +33,7 @@ import org.apache.zookeeper.proto.GetSASLRequest;
 import org.apache.zookeeper.proto.ReplyHeader;
 import org.apache.zookeeper.proto.RequestHeader;
 import org.apache.zookeeper.proto.SetSASLResponse;
-import org.apache.zookeeper.server.persistence.DataTree.ProcessTxnResult;
-import org.apache.zookeeper.server.persistence.ZKDatabase;
-import org.apache.zookeeper.server.session.SessionTracker;
-import org.apache.zookeeper.server.session.SessionTracker.Session;
-import org.apache.zookeeper.server.session.SessionTracker.SessionExpirer;
+import org.apache.zookeeper.server.RequestProcessor.RequestProcessorException;
 import org.apache.zookeeper.server.auth.ProviderRegistry;
 import org.apache.zookeeper.server.auth.ServerAuthenticationProvider;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
@@ -47,15 +43,20 @@ import org.apache.zookeeper.server.exception.CloseRequestException;
 import org.apache.zookeeper.server.jmx.MBeanRegistry;
 import org.apache.zookeeper.server.jmx.impl.DataTreeBean;
 import org.apache.zookeeper.server.jmx.impl.ZooKeeperServerBean;
+import org.apache.zookeeper.server.persistence.DataTree.ProcessTxnResult;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
+import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.processor.ChangeRecord;
-import org.apache.zookeeper.server.quorum.ReadOnlyZooKeeperServer;
-import org.apache.zookeeper.server.RequestProcessor.RequestProcessorException;
 import org.apache.zookeeper.server.processor.FinalRequestProcessor;
 import org.apache.zookeeper.server.processor.PrepRequestProcessor;
 import org.apache.zookeeper.server.processor.SyncRequestProcessor;
-import org.apache.zookeeper.server.session.SessionTrackerImpl;
+import org.apache.zookeeper.server.quorum.ReadOnlyZooKeeperServer;
 import org.apache.zookeeper.server.quorum.processor.UnimplementedRequestProcessor;
+import org.apache.zookeeper.server.session.SessionTracker;
+import org.apache.zookeeper.server.session.SessionTracker.Session;
+import org.apache.zookeeper.server.session.SessionTracker.SessionExpirer;
+import org.apache.zookeeper.server.session.SessionTrackerImpl;
+import org.apache.zookeeper.server.util.ZooTrace;
 import org.apache.zookeeper.txn.CreateSessionTxn;
 import org.apache.zookeeper.txn.TxnHeader;
 import org.apache.zookeeper.util.LogEnv;
@@ -105,15 +106,6 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     // this data structure must be accessed under the outstandingChanges lock
     private final Map<String, ChangeRecord> outstandingChangesForPath =
             new HashMap<String, ChangeRecord>();
-
-    public List<ChangeRecord> getOutstandingChanges() {
-        return outstandingChanges;
-    }
-
-    public Map<String, ChangeRecord> getOutstandingChangesForPath() {
-        return outstandingChangesForPath;
-    }
-
     private final AtomicLong hzxid = new AtomicLong(0);
     private final AtomicInteger requestsInProcess = new AtomicInteger(0);
     private final ServerStats serverStats;
@@ -219,50 +211,20 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         }
     }
 
+    public List<ChangeRecord> getOutstandingChanges() {
+        return outstandingChanges;
+    }
+
+    public Map<String, ChangeRecord> getOutstandingChangesForPath() {
+        return outstandingChangesForPath;
+    }
+
     public void removeCnxn(ServerCnxn cnxn) {
         zkDb.removeCnxn(cnxn);
     }
 
     public ServerStats serverStats() {
         return serverStats;
-    }
-
-    public void dumpConf(PrintWriter pwriter) {
-        pwriter.print("clientPort=");
-        pwriter.println(serverCnxnFactory == null ? serverCnxnFactory.getLocalPort():-1);
-        pwriter.print("secureClientPort=");
-        pwriter.println(secureServerCnxnFactory == null ? secureServerCnxnFactory.getLocalPort():-1);
-        pwriter.print("dataDir=");
-        pwriter.println(zkDb.getDataDir().getAbsolutePath());
-        pwriter.print("dataDirSize=");
-        pwriter.println(getDataDirSize());
-        pwriter.print("dataLogDir=");
-        pwriter.println(zkDb.getSnapDir().getAbsolutePath());
-        pwriter.print("dataLogSize=");
-        pwriter.println(getLogDirSize());
-        pwriter.print("tickTime=");
-        pwriter.println(getTickTime());
-        pwriter.print("maxClientCnxns=");
-        pwriter.println(serverCnxnFactory.getMaxClientCnxnsPerHost());
-        pwriter.print("minSessionTimeout=");
-        pwriter.println(getMinSessionTimeout());
-        pwriter.print("maxSessionTimeout=");
-        pwriter.println(getMaxSessionTimeout());
-
-        pwriter.print("serverId=");
-        pwriter.println(getServerId());
-    }
-
-    public ZooKeeperServerConf getConf() {
-        return new ZooKeeperServerConf
-                (serverCnxnFactory == null ? serverCnxnFactory.getLocalPort():-1,
-                        zkDb.getSnapDir().getAbsolutePath(),
-                        zkDb.getDataDir().getAbsolutePath(),
-                        getTickTime(),
-                        serverCnxnFactory.getMaxClientCnxnsPerHost(),
-                        getMinSessionTimeout(),
-                        getMaxSessionTimeout(),
-                        getServerId());
     }
 
     /**
@@ -789,14 +751,15 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     }
 
     public int getClientPort() {
-        if (serverCnxnFactory!= null) {
+        if (serverCnxnFactory != null) {
             return serverCnxnFactory.getLocalPort();
         }
-        if( secureServerCnxnFactory != null) {
+        if (secureServerCnxnFactory != null) {
             return secureServerCnxnFactory.getLocalPort();
         }
         return -1;
     }
+
     public ServerCnxnFactory getSecureServerCnxnFactory() {
         return secureServerCnxnFactory;
     }
@@ -1197,8 +1160,65 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         return jmxServerBean;
     }
 
+    public void dumpConf(PrintWriter pwriter) {
+        pwriter.print(ConfKeys.CLIENT_PORT);
+        pwriter.println(serverCnxnFactory == null ? serverCnxnFactory.getLocalPort() : -1);
+        pwriter.print(ConfKeys.SECURE_CLIENT_PORT);
+        pwriter.println(secureServerCnxnFactory == null ? secureServerCnxnFactory.getLocalPort() : -1);
+        pwriter.print(ConfKeys.DATA_DIR);
+        pwriter.println(zkDb.getDataDir().getAbsolutePath());
+        pwriter.print(ConfKeys.Data_DIR_SIZE);
+        pwriter.println(getDataDirSize());
+        pwriter.print(ConfKeys.DATA_LOG_DIR);
+        pwriter.println(zkDb.getSnapDir().getAbsolutePath());
+        pwriter.print(ConfKeys.DATA_LOG_DIR_SIZE);
+        pwriter.println(getLogDirSize());
+        pwriter.print(ConfKeys.TICK_TIME);
+        pwriter.println(getTickTime());
+        pwriter.print(ConfKeys.MAX_CLIENT_CNXNS);
+        pwriter.println(serverCnxnFactory.getMaxClientCnxnsPerHost());
+        pwriter.print(ConfKeys.MIN_SESSION_TIMEOUT);
+        pwriter.println(getMinSessionTimeout());
+        pwriter.print(ConfKeys.MAX_SESSION_TIMEOUT);
+        pwriter.println(getMaxSessionTimeout());
+
+        pwriter.print(ConfKeys.SERVER_ID);
+        pwriter.println(getServerId());
+    }
+
+    public Map<String, Object> getConf() {
+        Map<String, Object> confs = new HashMap<>();
+        confs.put(ConfKeys.CLIENT_PORT, Integer.toString(
+                (serverCnxnFactory == null ? serverCnxnFactory.getLocalPort() : -1)
+                )
+        );
+        confs.put(ConfKeys.DATA_LOG_DIR, zkDb.getSnapDir().getAbsolutePath());
+        confs.put(ConfKeys.DATA_DIR, zkDb.getDataDir().getAbsolutePath());
+        confs.put(ConfKeys.TICK_TIME, getTickTime());
+        confs.put(ConfKeys.MAX_CLIENT_CNXNS,serverCnxnFactory.getMaxClientCnxnsPerHost());
+        confs.put(ConfKeys.MIN_SESSION_TIMEOUT, getMaxSessionTimeout());
+        confs.put(ConfKeys.MAX_SESSION_TIMEOUT, getMaxSessionTimeout());
+        confs.put(ConfKeys.SERVER_ID, getServerId());
+        return confs;
+    }
+
     protected enum State {
         INITIAL, RUNNING, SHUTDOWN, ERROR
+    }
+
+    private interface ConfKeys {
+        String CLIENT_PORT = "clientPort";
+        String SECURE_CLIENT_PORT = "secureClientPort";
+        String DATA_DIR = "dataDir";
+        String Data_DIR_SIZE = "dataDirSize";
+        String DATA_LOG_DIR = "dataLogDir";
+        String DATA_LOG_DIR_SIZE = "dataLogDirSize";
+        String TICK_TIME = "tickTime";
+        String MAX_CLIENT_CNXNS = "maxClientCnxns";
+        String MIN_SESSION_TIMEOUT = "minSessionTimeout";
+        String MAX_SESSION_TIMEOUT = "maxSessionTimeout";
+        String SERVER_ID = "serverId";
+
     }
 
     public static class MissingSessionException extends IOException {
@@ -1208,5 +1228,4 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
             super(msg);
         }
     }
-
 }

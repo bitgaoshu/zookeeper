@@ -30,7 +30,7 @@ import org.apache.zookeeper.exception.KeeperException.NoNodeException;
 import org.apache.zookeeper.exception.KeeperException.NodeExistsException;
 import org.apache.zookeeper.nodeMode.EphemeralType;
 import org.apache.zookeeper.operation.OpType;
-import org.apache.zookeeper.server.ZooTrace;
+import org.apache.zookeeper.server.util.ZooTrace;
 import org.apache.zookeeper.server.common.ByteBufferInputStream;
 import org.apache.zookeeper.server.common.PathTrie;
 import org.apache.zookeeper.server.persistence.watcher.WatchManager;

@@ -30,7 +30,7 @@ import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.persistence.DataTree.ProcessTxnResult;
 import org.apache.zookeeper.server.Request;
-import org.apache.zookeeper.server.ZooTrace;
+import org.apache.zookeeper.server.util.ZooTrace;
 import org.apache.zookeeper.server.persistence.TxnLog.TxnIterator;
 import org.apache.zookeeper.txn.CreateSessionTxn;
 import org.apache.zookeeper.txn.TxnHeader;

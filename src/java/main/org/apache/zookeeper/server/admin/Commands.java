@@ -23,7 +23,7 @@ import org.apache.zookeeper.server.persistence.DataTree;
 import org.apache.zookeeper.server.ServerStats;
 import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperServer;
-import org.apache.zookeeper.server.ZooTrace;
+import org.apache.zookeeper.server.util.ZooTrace;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.quorum.roles.leader.Leader;
 import org.apache.zookeeper.server.quorum.roles.leader.LeaderZooKeeperServer;
@@ -156,7 +156,7 @@ public class Commands {
         @Override
         public CommandResponse run(ZooKeeperServer zkServer, Map<String, String> kwargs) {
             CommandResponse response = initializeResponse();
-            response.putAll(zkServer.getConf().toMap());
+            response.putAll(zkServer.getConf());
             return response;
         }
     }
