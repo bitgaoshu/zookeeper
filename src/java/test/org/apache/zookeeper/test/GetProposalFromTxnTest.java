@@ -24,18 +24,19 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import org.apache.jute.Record;
-import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.PortAssignment;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.ZKTestCase;
+import org.apache.zookeeper.server.util.IOUtils;
 import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
-import org.apache.zookeeper.server.SyncRequestProcessor;
-import org.apache.zookeeper.server.ZKDatabase;
+import org.apache.zookeeper.server.processor.SyncRequestProcessor;
+import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperServer;
-import org.apache.zookeeper.server.quorum.roles.leader.Leader.Proposal;
+import org.apache.zookeeper.server.quorum.Proposal;
 import org.apache.zookeeper.txn.TxnHeader;
 import org.junit.Assert;
 import org.junit.Test;
@@ -107,7 +108,7 @@ public class GetProposalFromTxnTest extends ZKTestCase{
         while (itr.hasNext()) {
             Proposal proposal = itr.next();
             TxnHeader hdr = new TxnHeader();
-            Record rec = SerializeUtils.deserializeTxn(
+            Record rec = IOUtils.deserializeTxn(
                     proposal.packet.getData(), hdr);
             if (hdr.getType() == OpType.create.getValue()) {
                 retrievedZxids.add(hdr.getZxid());

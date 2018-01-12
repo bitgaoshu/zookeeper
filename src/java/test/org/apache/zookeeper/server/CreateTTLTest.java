@@ -24,6 +24,7 @@ import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.operation.Op;
 import org.apache.zookeeper.operation.OpResult;
 import org.apache.zookeeper.client.clientSocket.TestableZooKeeper;
+import org.apache.zookeeper.server.persistence.DataNode;
 import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.operation.OpType;

@@ -23,6 +23,7 @@ import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.exception.KeeperException.ConnectionLossException;
 import org.apache.zookeeper.ZKTestCase;
+import org.apache.zookeeper.server.processor.SyncRequestProcessor;
 import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.test.ClientBase;

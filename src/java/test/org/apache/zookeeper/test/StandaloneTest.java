@@ -24,8 +24,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.PortAssignment;
+import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
 import org.apache.zookeeper.data.Stat;

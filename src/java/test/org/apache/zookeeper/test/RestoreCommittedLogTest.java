@@ -21,14 +21,14 @@ package org.apache.zookeeper.test;
 import java.io.File;
 import java.util.List;
 
-import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.PortAssignment;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.util.ZooDefs.Ids;
-import org.apache.zookeeper.server.quorum.roles.leader.Leader.Proposal;
+import org.apache.zookeeper.server.quorum.Proposal;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
-import org.apache.zookeeper.server.SyncRequestProcessor;
+import org.apache.zookeeper.server.processor.SyncRequestProcessor;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.junit.Assert;
 import org.junit.Test;

@@ -26,8 +26,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.zookeeper.server.ServerStats;
 import org.apache.zookeeper.server.ZooKeeperServer;
+import org.apache.zookeeper.server.statistics.ServerStats;
 import org.apache.zookeeper.test.ClientBase;
 import org.junit.Test;
 
@@ -41,10 +41,6 @@ public class CommandsTest extends ClientBase {
      *            - the primary name of the command
      * @param kwargs
      *            - keyword arguments to the command
-     * @param keys
-     *            - the keys that are expected in the returned Map
-     * @param types
-     *            - the classes of the values in the returned Map. types[i] is
      *            the type of the value for keys[i].
      * @throws IOException
      * @throws InterruptedException

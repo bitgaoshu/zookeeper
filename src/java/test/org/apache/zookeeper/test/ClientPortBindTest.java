@@ -27,9 +27,9 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 
+import org.apache.zookeeper.PortAssignment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;

@@ -25,7 +25,7 @@ import static org.junit.Assert.assertTrue;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.client.util.HostProvider;
 import org.apache.zookeeper.client.util.StaticHostProvider;
-import org.apache.zookeeper.server.common.Time;
+import org.apache.zookeeper.server.util.Time;
 import org.junit.Test;
 
 import java.net.InetAddress;

@@ -24,10 +24,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
+import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.util.ZooDefs;
-import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.client.ZooKeeperAdmin;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;

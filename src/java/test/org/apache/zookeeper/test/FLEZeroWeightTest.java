@@ -24,10 +24,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
+import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.server.quorum.QuorumState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.election.Vote;
@@ -142,7 +142,7 @@ public class FLEZeroWeightTest extends ZKTestCase {
     public void testZeroWeightQuorum() throws Exception {
         LOG.info("TestZeroWeightQuorum: " + getTestName()+ ", " + count);
         for(int i = 0; i < count; i++) {
-            InetSocketAddress addr1 = new InetSocketAddress("127.0.0.1",PortAssignment.unique());
+            InetSocketAddress addr1 = new InetSocketAddress("127.0.0.1", PortAssignment.unique());
             InetSocketAddress addr2 = new InetSocketAddress("127.0.0.1",PortAssignment.unique());
             InetSocketAddress addr3 = new InetSocketAddress("127.0.0.1",PortAssignment.unique());
             port[i] = addr3.getPort();

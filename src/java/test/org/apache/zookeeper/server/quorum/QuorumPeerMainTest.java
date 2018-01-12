@@ -41,8 +41,7 @@ import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.client.ZooKeeper.States;
-import org.apache.zookeeper.server.common.Time;
-import org.apache.zookeeper.server.quorum.roles.leader.Leader.Proposal;
+import org.apache.zookeeper.server.util.Time;
 import org.apache.zookeeper.test.ClientBase;
 import org.junit.After;
 import org.junit.Assert;
@@ -776,7 +775,7 @@ public class QuorumPeerMainTest extends QuorumPeerTestBase {
                         CONNECTION_TIMEOUT));
 
         QuorumPeer quorumPeer = q1.main.quorumPeer;
-        final int maxSessionTimeOut = quorumPeer.tickTime * 20;
+        final int maxSessionTimeOut = quorumPeer.getTickTime()* 20;
 
         Assert.assertEquals("minimumSessionTimeOut is not considered",
                 minSessionTimeOut, quorumPeer.getMinSessionTimeout());

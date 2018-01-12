@@ -76,7 +76,18 @@ public class FLETestUtils extends ZKTestCase {
      * Creates a leader election notification message.
      */
     static ByteBuffer createMsg(int state, long leader, long zxid, long epoch){
-        return FastLeaderElection.buildMsg(state, leader, zxid, 1, epoch);
+        byte requestBytes[] = new byte[40];
+        ByteBuffer requestBuffer = ByteBuffer.wrap(requestBytes);
+
+        requestBuffer.clear();
+        requestBuffer.putInt(state);
+        requestBuffer.putLong(leader);
+        requestBuffer.putLong(zxid);
+        requestBuffer.putLong(epoch);
+        requestBuffer.putLong(epoch);
+        requestBuffer.putInt(0x1);
+
+        return requestBuffer;
     }
 
 }

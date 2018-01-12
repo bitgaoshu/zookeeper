@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import org.apache.jute.BinaryOutputArchive;
+import org.apache.zookeeper.server.persistence.DataTree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.exception.KeeperException;
@@ -38,7 +39,7 @@ public class SerializationPerfTest extends ZKTestCase {
     }
 
     static int createNodes(DataTree tree, String path, int depth,
-            int childcount, int parentCVersion, byte[] data) throws KeeperException.NodeExistsException, KeeperException.NoNodeException {
+                           int childcount, int parentCVersion, byte[] data) throws KeeperException.NodeExistsException, KeeperException.NoNodeException {
         path += "node" + depth;
         tree.createNode(path, data, null, -1, ++parentCVersion, 1, 1);
 

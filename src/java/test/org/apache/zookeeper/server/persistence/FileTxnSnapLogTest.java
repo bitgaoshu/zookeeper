@@ -20,7 +20,6 @@ package org.apache.zookeeper.server.persistence;
 
 import org.apache.jute.Record;
 import org.apache.zookeeper.operation.OpType;
-import org.apache.zookeeper.server.DataTree;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.txn.SetDataTxn;

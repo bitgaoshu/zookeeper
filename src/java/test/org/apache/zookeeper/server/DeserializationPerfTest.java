@@ -24,6 +24,7 @@ import java.io.IOException;
 
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.BinaryOutputArchive;
+import org.apache.zookeeper.server.persistence.DataTree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.exception.KeeperException;

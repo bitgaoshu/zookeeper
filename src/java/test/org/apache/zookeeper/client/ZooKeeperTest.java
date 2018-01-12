@@ -28,7 +28,7 @@ import org.apache.zookeeper.client.cliCmds.ZKUtil;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.server.common.StringUtils;
+import org.apache.zookeeper.server.util.StringUtils;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.watcher.Event;

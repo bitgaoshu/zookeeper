@@ -38,7 +38,7 @@ import org.apache.zookeeper.exception.KeeperException.NoNodeException;
 import org.apache.zookeeper.exception.KeeperException.NodeExistsException;
 import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.server.common.Time;
+import org.apache.zookeeper.server.util.Time;
 
 /**
  * This class doles out assignments to InstanceContainers that are registered to

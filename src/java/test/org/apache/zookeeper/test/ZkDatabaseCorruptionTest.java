@@ -29,7 +29,7 @@ import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.server.quorum.QuorumState;
 import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.client.ZooKeeper;
-import org.apache.zookeeper.server.SyncRequestProcessor;
+import org.apache.zookeeper.server.processor.SyncRequestProcessor;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.junit.After;

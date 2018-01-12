@@ -41,20 +41,20 @@ import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
 
 
-import org.apache.zookeeper.server.common.Time;
-import org.apache.zookeeper.server.common.X509Exception.SSLContextException;
-import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.PortAssignment;
+import org.apache.zookeeper.server.util.Time;
+import org.apache.zookeeper.server.exception.X509Exception.SSLContextException;
+import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.client.clientSocket.TestableZooKeeper;
 import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.watcher.Event.KeeperState;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.client.ZooKeeper;
-import org.apache.zookeeper.server.common.IOUtils;
+import org.apache.zookeeper.server.util.IOUtils;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactoryAccessor;
-import org.apache.zookeeper.server.ZKDatabase;
+import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.persistence.FileTxnLog;
 import org.apache.zookeeper.server.quorum.QuorumPeer;

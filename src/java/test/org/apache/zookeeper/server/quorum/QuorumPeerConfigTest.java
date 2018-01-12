@@ -26,8 +26,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.zookeeper.server.common.ZKConfig;
-import org.apache.zookeeper.server.quorum.QuorumPeerConfig.ConfigException;
+import org.apache.zookeeper.exception.ConfigException;
+import org.apache.zookeeper.util.ZKConfig;
 import org.junit.Test;
 
 public class QuorumPeerConfigTest {

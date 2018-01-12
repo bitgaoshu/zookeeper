@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.client.AsyncCallback.DataCallback;
@@ -47,7 +48,6 @@ import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.nodeMode.CreateMode;
-import org.apache.zookeeper.PortAssignment;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -601,7 +601,7 @@ public class ReconfigTest extends ZKTestCase implements DataCallback{
 
         int quorumPort = qu.getPeer(followerIndex).peer.getQuorumAddress().getPort();
         int electionPort = qu.getPeer(followerIndex).peer.getElectionAddress().getPort(); 
-        int oldClientPort = qu.getPeer(followerIndex).peer.getClientAddress();
+        int oldClientPort = qu.getPeer(followerIndex).peer.getClientAddress().getPort();
         int newClientPort = PortAssignment.unique();
         joiningServers.add("server." + followerIndex + "=localhost:" + quorumPort
                 + ":" + electionPort + ":participant;localhost:" + newClientPort);
@@ -735,7 +735,7 @@ public class ReconfigTest extends ZKTestCase implements DataCallback{
         // modify server's client port
         int quorumPort = qu.getPeer(serverIndex).peer.getQuorumAddress().getPort();
         int electionPort = qu.getPeer(serverIndex).peer.getElectionAddress().getPort();
-        int oldClientPort = qu.getPeer(serverIndex).peer.getClientAddress();
+        int oldClientPort = qu.getPeer(serverIndex).peer.getClientAddress().getPort();
         int newClientPort = PortAssignment.unique();
 
         try(ServerSocket ss = new ServerSocket()) {

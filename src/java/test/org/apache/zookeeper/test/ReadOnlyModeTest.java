@@ -36,7 +36,7 @@ import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.client.ZooKeeper.States;
-import org.apache.zookeeper.server.common.Time;
+import org.apache.zookeeper.server.util.Time;
 import org.apache.zookeeper.test.ClientBase.CountdownWatcher;
 import org.junit.After;
 import org.junit.Assert;

@@ -19,7 +19,7 @@ package org.apache.zookeeper.test;
 
 
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.server.common.StringUtils;
+import org.apache.zookeeper.server.util.StringUtils;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

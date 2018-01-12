@@ -17,20 +17,14 @@
  */
 package org.apache.zookeeper.server;
 
-import static org.apache.zookeeper.client.FourLetterWordMain.send4LetterWord;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.client.ZooKeeper;
-import org.apache.zookeeper.server.common.X509Exception.SSLContextException;
 import org.apache.zookeeper.server.cnxn.NettyCnxn.NettyServerCnxnFactory;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
+import org.apache.zookeeper.server.exception.X509Exception;
+import org.apache.zookeeper.server.processor.SyncRequestProcessor;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.test.ClientBase.CountdownWatcher;
 import org.junit.After;
@@ -38,6 +32,13 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
+import static org.apache.zookeeper.client.FourLetterWordMain.send4LetterWord;
 
 /**
  * This class tests the startup behavior of ZooKeeper server.
@@ -75,7 +76,7 @@ public class ZooKeeperServerStartupTest extends ZKTestCase {
 
     /**
      * Test case for
-     * {@link https://issues.apache.org/jira/browse/ZOOKEEPER-2383}.
+     * @link {https://issues.apache.org/jira/browse/ZOOKEEPER-2383}.
      */
     @Test(timeout = 30000)
     public void testClientConnectionRequestDuringStartupWithNIOServerCnxn()
@@ -113,7 +114,7 @@ public class ZooKeeperServerStartupTest extends ZKTestCase {
 
     /**
      * Test case for
-     * {@link https://issues.apache.org/jira/browse/ZOOKEEPER-2383}.
+     * @link https{://issues.apache.org/jira/browse/ZOOKEEPER-2383}.
      */
     @Test(timeout = 30000)
     public void testClientConnectionRequestDuringStartupWithNettyServerCnxn()
@@ -166,7 +167,7 @@ public class ZooKeeperServerStartupTest extends ZKTestCase {
 
     /**
      * Test case for
-     * {@link https://issues.apache.org/jira/browse/ZOOKEEPER-2383}.
+     * @link {https://issues.apache.org/jira/browse/ZOOKEEPER-2383}.
      */
     @Test(timeout = 30000)
     public void testFourLetterWords() throws Exception {
@@ -186,14 +187,14 @@ public class ZooKeeperServerStartupTest extends ZKTestCase {
     }
 
     private void verify(String cmd, String expected)
-            throws IOException, SSLContextException {
+            throws IOException, X509Exception.SSLContextException {
         String resp = sendRequest(cmd);
         LOG.info("cmd " + cmd + " expected " + expected + " got " + resp);
         Assert.assertTrue("Unexpected response", resp.contains(expected));
     }
 
     private String sendRequest(String cmd)
-            throws IOException, SSLContextException {
+            throws IOException, X509Exception.SSLContextException {
         return send4LetterWord(HOST, PORT, cmd);
     }
 

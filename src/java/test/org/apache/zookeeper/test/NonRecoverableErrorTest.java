@@ -25,12 +25,12 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 import java.util.UUID;
 
-import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.PortAssignment;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.server.quorum.QuorumState;
 import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.client.ZooKeeper;
-import org.apache.zookeeper.server.ZKDatabase;
+import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeerTestBase;

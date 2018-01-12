@@ -44,7 +44,7 @@ import org.apache.zookeeper.operation.OpResult.ErrorResult;
 import org.apache.zookeeper.operation.OpResult.SetDataResult;
 import org.apache.zookeeper.util.ZooDefs.Ids;
 import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.server.SyncRequestProcessor;
+import org.apache.zookeeper.server.processor.SyncRequestProcessor;
 import org.apache.zookeeper.ZKParameterized;
 import org.apache.zookeeper.watcher.Event;
 import org.junit.Assert;

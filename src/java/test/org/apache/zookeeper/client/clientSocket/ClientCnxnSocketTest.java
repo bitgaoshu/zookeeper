@@ -18,7 +18,7 @@
 package org.apache.zookeeper.client.clientSocket;
 
 import org.apache.zookeeper.client.util.ZKClientConfig;
-import org.apache.zookeeper.server.common.ZKConfig;
+import org.apache.zookeeper.util.ZKConfig;
 import org.junit.Test;
 
 import java.io.IOException;

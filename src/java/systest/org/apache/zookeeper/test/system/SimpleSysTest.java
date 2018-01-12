@@ -32,7 +32,7 @@ import org.apache.zookeeper.client.ZooKeeper.States;
 import org.apache.zookeeper.data.Stat;
 import org.junit.Assert;
 import org.junit.Test;
-import org.apache.zookeeper.server.common.Time;
+import org.apache.zookeeper.server.util.Time;
 
 /**
  * This does a basic system test. It starts up an ensemble of servers and a set of clients.

@@ -22,12 +22,12 @@
 package org.apache.zookeeper.test;
 
 
-import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.PortAssignment;
+import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.client.util.ZKClientConfig;
-import org.apache.zookeeper.server.common.ZKConfig;
+import org.apache.zookeeper.util.ZKConfig;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.quorum.QuorumPeerTestBase;
 import org.junit.After;

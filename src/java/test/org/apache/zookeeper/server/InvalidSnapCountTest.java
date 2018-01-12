@@ -24,12 +24,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.apache.zookeeper.server.processor.SyncRequestProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.server.common.PathUtils;
+import org.apache.zookeeper.server.util.PathUtils;
 import org.apache.zookeeper.test.ClientBase;
 import org.junit.Assert;
 import org.junit.Test;
@@ -89,7 +90,7 @@ public class InvalidSnapCountTest extends ZKTestCase implements Watcher {
         }
     }
 
-    public static  class TestMain extends ZooKeeperServerMain {
+    public static  class TestMain extends ZKServerStandAloneMain {
         public void shutdown() {
             super.shutdown();
         }

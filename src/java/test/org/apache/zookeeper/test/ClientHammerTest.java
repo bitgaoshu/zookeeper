@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.zookeeper.server.common.Time;
+import org.apache.zookeeper.server.util.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.nodeMode.CreateMode;

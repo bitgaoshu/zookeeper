@@ -29,6 +29,7 @@ import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.client.ZooKeeperAdmin;
 import org.apache.zookeeper.data.Stat;
+import org.apache.zookeeper.server.statistics.QuorumStats;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.test.QuorumUtil;
 import org.apache.zookeeper.test.ReconfigTest;
@@ -193,9 +194,9 @@ public class ReconfigFailureCasesTest extends QuorumPeerTestBase {
         // LOOKING state. A new leader won't be established since that
         // would require completing the reconfig, which is not possible while
         // 2 is down.
-        Assert.assertEquals(QuorumStats.Provider.LOOKING_STATE,
+        Assert.assertEquals(QuorumState.LOOKING,
                 qu.getPeer(1).peer.getServerState());
-        Assert.assertEquals(QuorumStats.Provider.LOOKING_STATE,
+        Assert.assertEquals(QuorumState.LOOKING,
                 qu.getPeer(3).peer.getServerState());
         ReconfigTest.closeAllHandles(zkArr, zkAdminArr);
     }

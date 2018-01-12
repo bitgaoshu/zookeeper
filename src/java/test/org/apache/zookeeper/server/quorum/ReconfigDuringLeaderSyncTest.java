@@ -28,9 +28,9 @@ import java.util.Map;
 
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.PortAssignment;
+import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
 import org.apache.zookeeper.server.quorum.roles.learner.Follower;
-import org.apache.zookeeper.server.quorum.roles.leader.Leader;
-import org.apache.zookeeper.server.quorum.roles.server.FollowerZooKeeperServer;
+import org.apache.zookeeper.server.quorum.roles.learner.server.FollowerZooKeeperServer;
 import org.apache.zookeeper.util.ZooDefs;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.client.ZooKeeperAdmin;
@@ -232,8 +232,8 @@ public class ReconfigDuringLeaderSyncTest extends QuorumPeerTestBase {
             return new Follower(this, new FollowerZooKeeperServer(logFactory, this, this.getZkDb())) {
 
                 @Override
-                void writePacket(QuorumPacket pp, boolean flush) throws IOException {
-                    if (pp != null && pp.getType() == Leader.ACK) {
+                public void writePacket(QuorumPacket pp, boolean flush) throws IOException {
+                    if (pp != null && pp.getType() == OpOfLeader.ACK.intType()) {
                         newLeaderMessage = true;
                         try {
                             /**

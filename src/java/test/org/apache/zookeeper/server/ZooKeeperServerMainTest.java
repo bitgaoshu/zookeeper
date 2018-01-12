@@ -27,8 +27,10 @@ import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.zookeeper.exception.ConfigException;
 import org.apache.zookeeper.server.cnxn.NettyCnxn.NettyServerCnxnFactory;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
+import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.nodeMode.CreateMode;
@@ -40,9 +42,8 @@ import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.watcher.Event.KeeperState;
 import org.apache.zookeeper.util.ZooDefs.Ids;
-import org.apache.zookeeper.server.common.PathUtils;
+import org.apache.zookeeper.server.util.PathUtils;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
-import org.apache.zookeeper.server.quorum.QuorumPeerConfig.ConfigException;
 import org.apache.zookeeper.test.ClientBase;
 import org.junit.Assert;
 import org.junit.Test;
@@ -142,7 +143,7 @@ public class ZooKeeperServerMainTest extends ZKTestCase implements Watcher {
         }
     }
 
-    public static  class TestZKSMain extends ZooKeeperServerMain {
+    public static  class TestZKSMain extends ZKServerStandAloneMain {
         public void shutdown() {
             super.shutdown();
         }

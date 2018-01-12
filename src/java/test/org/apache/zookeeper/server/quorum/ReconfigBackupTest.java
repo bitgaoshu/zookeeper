@@ -21,7 +21,7 @@ package org.apache.zookeeper.server.quorum;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.client.ZooKeeperAdmin;
-import org.apache.zookeeper.server.common.StringUtils;
+import org.apache.zookeeper.server.util.StringUtils;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.test.ReconfigTest;
 import org.junit.Assert;

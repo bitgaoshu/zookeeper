@@ -32,7 +32,7 @@ import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.exception.KeeperException.KECode;
 import org.apache.zookeeper.watcher.Event.EventType;
 import org.apache.zookeeper.util.ZooDefs.Ids;
-import org.apache.zookeeper.server.common.Time;
+import org.apache.zookeeper.server.util.Time;
 import org.apache.zookeeper.data.Stat;
 import org.junit.Assert;
 

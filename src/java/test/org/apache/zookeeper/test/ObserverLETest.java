@@ -17,16 +17,19 @@
  */
 package org.apache.zookeeper.test;
 
-import static org.junit.Assert.*;
-
-import java.util.Arrays;
-
 import org.apache.zookeeper.ZKTestCase;
+import org.apache.zookeeper.server.quorum.QuorumPacket;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
-import org.apache.zookeeper.server.quorum.QuorumStats;
+import org.apache.zookeeper.server.quorum.QuorumState;
+import org.apache.zookeeper.server.statistics.QuorumStats;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Arrays;
+
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class ObserverLETest extends ZKTestCase {
     final QuorumBase qb = new QuorumBase();
@@ -57,7 +60,7 @@ public class ObserverLETest extends ZKTestCase {
         QuorumPeer leader = null;
         for (QuorumPeer server : Arrays.asList(qb.s1, qb.s2, qb.s3)) {
             if (server.getServerState().equals(
-                    QuorumStats.Provider.FOLLOWING_STATE)) {
+                    QuorumState.LOOKING)) {
                 server.shutdown();
                 assertTrue("Waiting for server down", ClientBase
                         .waitForServerDown("127.0.0.1:"
@@ -70,7 +73,7 @@ public class ObserverLETest extends ZKTestCase {
         }
         assertTrue("leader is not in Looking state", ClientBase
                 .waitForServerState(leader, ClientBase.CONNECTION_TIMEOUT,
-                        QuorumStats.Provider.LOOKING_STATE));
+                        QuorumState.LOOKING.getMsg()));
     }
 
 }

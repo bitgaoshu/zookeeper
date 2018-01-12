@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.client.clientSocket.TestableZooKeeper;
 import org.apache.zookeeper.client.util.ZKClientConfig;
-import org.apache.zookeeper.server.common.ZKConfig;
+import org.apache.zookeeper.util.ZKConfig;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.junit.After;
 import org.junit.Assert;

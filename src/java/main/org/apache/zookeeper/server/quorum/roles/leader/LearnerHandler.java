@@ -59,7 +59,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
  * learner. All communication with a learner is handled by this
  * class.
  */
-class LearnerHandler extends ZooKeeperThread {
+public class LearnerHandler extends ZooKeeperThread {
     /**
      * For testing purpose, force leader to use snapshot to sync with followers
      */
