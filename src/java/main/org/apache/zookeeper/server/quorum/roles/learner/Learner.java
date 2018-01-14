@@ -24,6 +24,7 @@ import org.apache.jute.OutputArchive;
 import org.apache.jute.Record;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.util.IOUtils;
 import org.apache.zookeeper.server.util.ZooTrace;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
@@ -654,6 +655,11 @@ public class Learner  implements Role {
     @Override
     public QuorumPeer getQuorumPeer() {
         return self;
+    }
+
+    @Override
+    public ZooKeeperServer getZk() {
+        return zk;
     }
 
     static class PacketInFlight {

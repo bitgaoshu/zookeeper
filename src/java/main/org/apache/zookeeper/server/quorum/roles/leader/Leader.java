@@ -111,10 +111,10 @@ public class Leader implements Role {
     private final HashSet<Long> connectingFollowers = new HashSet<Long>();
     private final HashSet<Long> electingFollowers = new HashSet<Long>();
     /* the follower acceptor thread */
-    volatile LearnerCnxAcceptor cnxAcceptor = null;
-    StateSummary leaderStateSummary;
+    protected volatile LearnerCnxAcceptor cnxAcceptor = null;
+    protected StateSummary leaderStateSummary;
     AtomicInteger followerCounter = new AtomicInteger(-1);
-    long epoch = -1;
+    protected long epoch = -1;
     boolean waitingForNewEpoch = true;
     long lastProposed;
     /*
@@ -1141,7 +1141,7 @@ public class Leader implements Role {
         }
     }
 
-    class LearnerCnxAcceptor extends ZooKeeperCriticalThread {
+    protected class LearnerCnxAcceptor extends ZooKeeperCriticalThread {
         private volatile boolean stop = false;
 
         public LearnerCnxAcceptor() {

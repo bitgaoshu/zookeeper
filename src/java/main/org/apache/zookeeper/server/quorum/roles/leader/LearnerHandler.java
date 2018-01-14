@@ -108,7 +108,7 @@ public class LearnerHandler extends ZooKeeperThread {
     private long leaderLastZxid;
     private LearnerType learnerType = LearnerType.PARTICIPANT;
 
-    LearnerHandler(Socket sock, Leader leader) throws IOException {
+    public LearnerHandler(Socket sock, Leader leader) throws IOException {
         super("LearnerHandler-" + sock.getRemoteSocketAddress());
         this.sock = sock;
         this.leader = leader;

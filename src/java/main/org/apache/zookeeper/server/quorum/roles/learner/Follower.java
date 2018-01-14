@@ -21,6 +21,7 @@ package org.apache.zookeeper.server.quorum.roles.learner;
 import org.apache.jute.Record;
 import org.apache.zookeeper.operation.OpType;
 import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.util.Time;
 import org.apache.zookeeper.server.quorum.QuorumPacket;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
@@ -208,5 +209,10 @@ public class Follower extends Learner {
     public void shutdown() {
         LOG.info("shutdown called", new Exception("shutdown Follower"));
         super.shutdown();
+    }
+
+    @Override
+    public ZooKeeperServer getZk() {
+        return fzk;
     }
 }

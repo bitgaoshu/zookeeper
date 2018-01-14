@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.test;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,11 +30,6 @@ import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.operation.Op;
 import org.apache.zookeeper.server.quorum.roles.leader.Leader;
 import org.apache.zookeeper.server.quorum.roles.leader.LearnerHandler;
-import org.apache.zookeeper.test.ClientBase;
-import org.apache.zookeeper.test.ClientTest;
-import org.apache.zookeeper.test.DisconnectableZooKeeper;
-import org.apache.zookeeper.test.QuorumBase;
-import org.apache.zookeeper.test.QuorumUtil;
 import org.apache.zookeeper.watcher.WatchedEvent;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.watcher.Event.KeeperState;
