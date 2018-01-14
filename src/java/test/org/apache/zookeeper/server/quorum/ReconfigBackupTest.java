@@ -21,6 +21,7 @@ package org.apache.zookeeper.server.quorum;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.client.ZooKeeperAdmin;
+import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.server.util.StringUtils;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.test.ReconfigTest;
@@ -177,7 +178,7 @@ public class ReconfigBackupTest extends QuorumPeerTestBase {
             Properties cfg = ReconfigLegacyTest.readPropertiesFromFile(mt[i].confFile);
             String filename = cfg.getProperty("dynamicConfigFile", "");
 
-            String version = QuorumPeerConfig.getVersionFromFilename(filename);
+            String version = ServerConfig.getVersionFromFilename(filename);
             Assert.assertNotNull(version);
 
             String configStr = ReconfigTest.testServerHasConfig(
@@ -217,7 +218,7 @@ public class ReconfigBackupTest extends QuorumPeerTestBase {
             Properties cfg = ReconfigLegacyTest.readPropertiesFromFile(mt[i].confFile);
             String filename = cfg.getProperty("dynamicConfigFile", "");
 
-            String version = QuorumPeerConfig.getVersionFromFilename(filename);
+            String version = ServerConfig.getVersionFromFilename(filename);
             Assert.assertNotNull(version);
 
             String configStr = ReconfigTest.testServerHasConfig(zk[i],

@@ -28,6 +28,7 @@ import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.client.ZooKeeperAdmin;
+import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.test.ReconfigTest;
 import org.junit.Assert;
@@ -122,8 +123,8 @@ public class StandaloneDisabledTest extends QuorumPeerTestBase {
      */
     private void setUpData() throws Exception {
         ClientBase.setupTestEnv();
-        QuorumPeerConfig.setStandaloneEnabled(false);
-        QuorumPeerConfig.setReconfigEnabled(true);
+        ServerConfig.setStandaloneEnabled(false);
+        ServerConfig.setReconfigEnabled(true);
         peers = new MainThread[NUM_SERVERS];
         zkHandles = new ZooKeeper[NUM_SERVERS];
         zkAdminHandles = new ZooKeeperAdmin[NUM_SERVERS];

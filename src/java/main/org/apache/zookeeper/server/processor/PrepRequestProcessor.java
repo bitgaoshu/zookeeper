@@ -52,7 +52,7 @@ import org.apache.zookeeper.server.util.PathUtils;
 import org.apache.zookeeper.server.util.StringUtils;
 import org.apache.zookeeper.server.util.Time;
 import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
-import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
+import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.exception.ConfigException;
 import org.apache.zookeeper.server.quorum.flexible.QuorumMaj;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
@@ -452,7 +452,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                 addChangeRecord(nodeRecord);
                 break;
             case reconfig:
-                if (!QuorumPeerConfig.isReconfigEnabled()) {
+                if (!ServerConfig.isReconfigEnabled()) {
                     LOG.error("Reconfig operation requested but reconfig feature is disabled.");
                     throw new KeeperException.ReconfigDisabledException();
                 }
@@ -494,7 +494,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                     try {
                         Properties props = new Properties();
                         props.load(new StringReader(newMembers));
-                        request.qv = QuorumPeerConfig.parseDynamicConfig(props, true, false);
+                        request.qv = ServerConfig.parseDynamicConfig(props, true, false);
                         request.qv.setVersion(request.getHdr().getZxid());
                     } catch (IOException | ConfigException e) {
                         throw new KeeperException.BadArgumentsException(e.getMessage());
@@ -559,7 +559,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                     request.qv = new QuorumMaj(nextServers);
                     request.qv.setVersion(request.getHdr().getZxid());
                 }
-                if (QuorumPeerConfig.isStandaloneEnabled() && request.qv.getVotingMembers().size() < 2) {
+                if (ServerConfig.isStandaloneEnabled() && request.qv.getVotingMembers().size() < 2) {
                     String msg = "Reconfig failed - new configuration must include at least 2 followers";
                     LOG.warn(msg);
                     throw new KeeperException.BadArgumentsException(msg);

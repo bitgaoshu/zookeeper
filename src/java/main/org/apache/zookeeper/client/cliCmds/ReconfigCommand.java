@@ -24,7 +24,7 @@ import org.apache.commons.cli.*;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.client.ZooKeeperAdmin;
 import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
+import org.apache.zookeeper.server.ServerConfig;
 
 /**
  * reconfig command for cli
@@ -133,7 +133,7 @@ public class ReconfigCommand extends CliCommand {
                 //check that membership makes sense; leader will make these checks again
                 //don't check for leader election ports since 
                 //client doesn't know what leader election alg is used
-                members = QuorumPeerConfig.parseDynamicConfig(dynamicCfg, true, false).toString();
+                members = ServerConfig.parseDynamicConfig(dynamicCfg, true, false).toString();
             } catch (Exception e) {
                 throw new CliParseException("Error processing " + cl.getOptionValue("file") + e.getMessage());
             } 

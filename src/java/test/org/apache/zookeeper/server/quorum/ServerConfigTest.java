@@ -27,10 +27,11 @@ import java.io.IOException;
 import java.util.Properties;
 
 import org.apache.zookeeper.exception.ConfigException;
+import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.util.ZKConfig;
 import org.junit.Test;
 
-public class QuorumPeerConfigTest {
+public class ServerConfigTest {
 
     /**
      * test case for https://issues.apache.org/jira/browse/ZOOKEEPER-2264
@@ -38,7 +39,7 @@ public class QuorumPeerConfigTest {
     @Test
     public void testErrorMessageWhensecureClientPortNotSetButsecureClientPortAddressSet()
             throws IOException, ConfigException {
-        QuorumPeerConfig quorumPeerConfig = new QuorumPeerConfig();
+        ServerConfig quorumPeerConfig = new ServerConfig();
         try {
             Properties zkProp = getDefaultZKProperties();
             zkProp.setProperty("secureClientPortAddress", "localhost");
@@ -57,7 +58,7 @@ public class QuorumPeerConfigTest {
     @Test
     public void testErrorMessageWhenclientPortNotSetButclientPortAddressSet()
             throws IOException, ConfigException {
-        QuorumPeerConfig quorumPeerConfig = new QuorumPeerConfig();
+        ServerConfig quorumPeerConfig = new ServerConfig();
         try {
             Properties zkProp = getDefaultZKProperties();
             zkProp.setProperty("clientPortAddress", "localhost");
@@ -76,7 +77,7 @@ public class QuorumPeerConfigTest {
     public void testConfigureSSLAuthGetsConfiguredIfSecurePortConfigured()
             throws IOException, ConfigException {
         String sslAuthProp = "zookeeper.authProvider.x509";
-        QuorumPeerConfig quorumPeerConfig = new QuorumPeerConfig();
+        ServerConfig quorumPeerConfig = new ServerConfig();
         Properties zkProp = getDefaultZKProperties();
         zkProp.setProperty("secureClientPort", "12345");
         quorumPeerConfig.parseProperties(zkProp);
@@ -92,7 +93,7 @@ public class QuorumPeerConfigTest {
     public void testCustomSSLAuth()
             throws IOException{
         System.setProperty(ZKConfig.SSL_AUTHPROVIDER, "y509");
-        QuorumPeerConfig quorumPeerConfig = new QuorumPeerConfig();
+        ServerConfig quorumPeerConfig = new ServerConfig();
         try {
             Properties zkProp = getDefaultZKProperties();
             zkProp.setProperty("secureClientPort", "12345");

@@ -27,7 +27,7 @@ import java.util.List;
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.watcher.Watcher;
 import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
+import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.ZooKeeperServer;
@@ -52,7 +52,7 @@ public class StandaloneTest extends QuorumPeerTestBase implements Watcher{
     public void setup() {
         System.setProperty("zookeeper.DigestAuthenticationProvider.superDigest",
                 "super:D/InIHSb7yEEbrWz8b9l71RjZJU="/* password is 'test'*/);
-        QuorumPeerConfig.setReconfigEnabled(true);
+        ServerConfig.setReconfigEnabled(true);
     }
 
     /**

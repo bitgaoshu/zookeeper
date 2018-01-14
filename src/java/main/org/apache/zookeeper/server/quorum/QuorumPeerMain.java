@@ -22,6 +22,7 @@ import java.io.IOException;
 import javax.management.JMException;
 
 import org.apache.yetus.audience.InterfaceAudience;
+import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.server.ZKServerStandAloneMain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,7 +108,7 @@ public class QuorumPeerMain {
     protected void initializeAndRun(String[] args)
         throws ConfigException, IOException, AdminServerException
     {
-        QuorumPeerConfig config = new QuorumPeerConfig();
+        ServerConfig config = new ServerConfig();
         if (args.length == 1) {
             config.parse(args[0]);
         }
@@ -128,7 +129,7 @@ public class QuorumPeerMain {
         }
     }
 
-    public void runFromConfig(QuorumPeerConfig config)
+    public void runFromConfig(ServerConfig config)
             throws IOException, AdminServerException
     {
       try {

@@ -25,6 +25,7 @@ import java.util.HashSet;
 
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.client.ZooKeeper;
+import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.test.ReconfigTest;
 import org.junit.Assert;
@@ -34,7 +35,7 @@ import org.junit.Test;
 public class ReconfigRecoveryTest extends QuorumPeerTestBase {
     @Before
     public void setup() {
-        QuorumPeerConfig.setReconfigEnabled(true);
+        ServerConfig.setReconfigEnabled(true);
     }
 
     /**

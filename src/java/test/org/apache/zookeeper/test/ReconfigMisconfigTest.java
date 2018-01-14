@@ -28,7 +28,7 @@ import org.apache.zookeeper.ZKTestCase;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.client.ZooKeeperAdmin;
 import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
+import org.apache.zookeeper.server.ServerConfig;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -45,7 +45,7 @@ public class ReconfigMisconfigTest extends ZKTestCase {
 
     @Before
     public void setup() throws InterruptedException {
-        QuorumPeerConfig.setReconfigEnabled(true);
+        ServerConfig.setReconfigEnabled(true);
         // Get a three server quorum.
         qu = new QuorumUtil(1);
         qu.disableJMXTest = true;

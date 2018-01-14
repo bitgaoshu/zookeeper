@@ -17,22 +17,20 @@
  */
 package org.apache.zookeeper.server.quorum;
 
+import org.apache.zookeeper.exception.ConfigException;
 import org.apache.zookeeper.exception.KeeperException.BadArgumentsException;
-import org.apache.zookeeper.server.persistence.ZKDatabase;
+import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.server.ZooKeeperServer;
-import org.apache.zookeeper.server.statistics.QuorumStats;
-import org.apache.zookeeper.server.zkThread.ZooKeeperThread;
 import org.apache.zookeeper.server.admin.AdminServer;
 import org.apache.zookeeper.server.admin.AdminServer.AdminServerException;
 import org.apache.zookeeper.server.admin.AdminServerFactory;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.common.AtomicFileWritingIdiom;
 import org.apache.zookeeper.server.common.AtomicFileWritingIdiom.WriterStatement;
-import org.apache.zookeeper.server.util.Time;
 import org.apache.zookeeper.server.jmx.MBeanRegistry;
 import org.apache.zookeeper.server.jmx.ZKMBeanInfo;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
-import org.apache.zookeeper.exception.ConfigException;
+import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.quorum.election.Election;
 import org.apache.zookeeper.server.quorum.election.FastLeaderElection;
 import org.apache.zookeeper.server.quorum.election.QuorumCnxManager;
@@ -43,13 +41,16 @@ import org.apache.zookeeper.server.quorum.mBean.impl.LeaderElectionBean;
 import org.apache.zookeeper.server.quorum.mBean.impl.LocalPeerBean;
 import org.apache.zookeeper.server.quorum.mBean.impl.QuorumBean;
 import org.apache.zookeeper.server.quorum.mBean.impl.RemotePeerBean;
-import org.apache.zookeeper.server.quorum.roles.learner.Follower;
 import org.apache.zookeeper.server.quorum.roles.leader.Leader;
+import org.apache.zookeeper.server.quorum.roles.leader.LeaderZooKeeperServer;
+import org.apache.zookeeper.server.quorum.roles.learner.Follower;
 import org.apache.zookeeper.server.quorum.roles.learner.Observer;
 import org.apache.zookeeper.server.quorum.roles.learner.server.FollowerZooKeeperServer;
-import org.apache.zookeeper.server.quorum.roles.leader.LeaderZooKeeperServer;
 import org.apache.zookeeper.server.quorum.roles.learner.server.ObserverZooKeeperServer;
+import org.apache.zookeeper.server.statistics.QuorumStats;
+import org.apache.zookeeper.server.util.Time;
 import org.apache.zookeeper.server.util.ZxidUtils;
+import org.apache.zookeeper.server.zkThread.ZooKeeperThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -136,10 +137,6 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats {
     public Leader leader;
     public Observer observer;
     /**
-     * The number of milliseconds of each tick
-     */
-    private int tickTime;
-    /**
      * Whether learners in this quorum should create new sessions as local.
      * False by default to preserve existing behavior.
      */
@@ -174,10 +171,6 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats {
      */
     protected boolean syncEnabled = true;
     /**
-     * The current tick
-     */
-    private AtomicInteger tick = new AtomicInteger();
-    /**
      * Whether or not to listen on all IPs for the two quorum ports
      * (broadcast and fast leader election).
      */
@@ -189,6 +182,14 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats {
     ServerCnxnFactory cnxnFactory;
     ServerCnxnFactory secureCnxnFactory;
     AdminServer adminServer;
+    /**
+     * The number of milliseconds of each tick
+     */
+    private int tickTime;
+    /**
+     * The current tick
+     */
+    private AtomicInteger tick = new AtomicInteger();
     private LocalPeerBean jmxLocalPeerBean;
     private boolean shuttingDownLE = false;
     private QuorumBean jmxQuorumBean;
@@ -229,6 +230,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats {
     private FileTxnSnapLog logFactory = null;
     private long acceptedEpoch = -1;
     private long currentEpoch = -1;
+
     public QuorumPeer() {
         super("QuorumPeer");
         jmxRemotePeerBean = new HashMap<Long, RemotePeerBean>();
@@ -599,16 +601,16 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats {
         observer = newObserver;
     }
 
-   /*  this method for test
-   synchronized public ZooKeeperServer getActiveServer() {
+    /*this method for test*/
+    synchronized public ZooKeeperServer getActiveServer() {
         if (leader != null)
             return leader.getZk();
-        else if (follower != null)
-            return follower.getZk();
-        else if (observer != null)
-            return observer.zk;
+//        else if (follower != null)
+//            return follower.getZk();
+//        else if (observer != null)
+//            return observer.getZk();
         return null;
-    }*/
+    }
 
     @Override
     public void run() {
@@ -998,10 +1000,6 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats {
         this.initLimit = initLimit;
     }
 
-
-    public void setTick(int val){
-        tick.set(val);
-    }
     /**
      * Get the current tick
      */
@@ -1009,9 +1007,14 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats {
         return tick.get();
     }
 
+    public void setTick(int val) {
+        tick.set(val);
+    }
+
     public int addTick() {
         return tick.incrementAndGet();
     }
+
     /**
      * Get the synclimit
      */
@@ -1030,7 +1033,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats {
     public QuorumVerifier configFromString(String s) throws IOException, ConfigException {
         Properties props = new Properties();
         props.load(new StringReader(s));
-        return QuorumPeerConfig.parseDynamicConfig(props, false, false);
+        return ServerConfig.parseDynamicConfig(props, false, false);
     }
 
     /**
@@ -1077,7 +1080,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats {
             LOG.warn("configFilename is null! This should only happen in tests.");
             return null;
         }
-        return configFilename + QuorumPeerConfig.nextDynamicConfigFileSuffix;
+        return configFilename + ServerConfig.nextDynamicConfigFileSuffix;
     }
 
     public void setLastSeenQuorumVerifier(QuorumVerifier qv, boolean writeToDisk) {
@@ -1099,7 +1102,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats {
                 try {
                     String fileName = getNextDynamicConfigFilename();
                     if (fileName != null) {
-                        QuorumPeerConfig.writeDynamicConfig(fileName, qv, true);
+                        ServerConfig.writeDynamicConfig(fileName, qv, true);
                     }
                 } catch (IOException e) {
                     LOG.error("Error writing next dynamic config file to disk: ", e.getMessage());
@@ -1128,9 +1131,9 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats {
                     try {
                         String dynamicConfigFilename = makeDynamicConfigFilename(
                                 qv.getVersion());
-                        QuorumPeerConfig.writeDynamicConfig(
+                        ServerConfig.writeDynamicConfig(
                                 dynamicConfigFilename, qv, false);
-                        QuorumPeerConfig.editStaticConfig(configFilename,
+                        ServerConfig.editStaticConfig(configFilename,
                                 dynamicConfigFilename,
                                 needEraseClientInfoFromStaticConfig());
                     } catch (IOException e) {
@@ -1142,7 +1145,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats {
             }
 
             if (qv.getVersion() == lastSeenQuorumVerifier.getVersion()) {
-                QuorumPeerConfig.deleteFile(getNextDynamicConfigFilename());
+                ServerConfig.deleteFile(getNextDynamicConfigFilename());
             }
             QuorumServer qs = qv.getAllMembers().get(getId());
             if (qs != null) {
@@ -1252,6 +1255,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats {
 
         adminServer.setZooKeeperServer(zks);
     }
+
     public void setZooKeeperServer(ZooKeeperServer zks) {
         setZooKeeperServer(zks, true);
     }
@@ -1364,7 +1368,7 @@ public class QuorumPeer extends ZooKeeperThread implements QuorumStats {
     }
 
     public boolean processReconfig(QuorumVerifier qv, Long suggestedLeaderId, Long zxid, boolean restartLE) {
-        if (!QuorumPeerConfig.isReconfigEnabled()) {
+        if (!ServerConfig.isReconfigEnabled()) {
             LOG.debug("Reconfig feature is disabled, skip reconfig processing.");
             return false;
         }

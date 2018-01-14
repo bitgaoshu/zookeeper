@@ -16,11 +16,10 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server.quorum;
+package org.apache.zookeeper.server;
 
 import org.apache.yetus.audience.InterfaceAudience;
 import org.apache.zookeeper.exception.ConfigException;
-import org.apache.zookeeper.server.ZooKeeperServer;
 import org.apache.zookeeper.server.common.AtomicFileWritingIdiom;
 import org.apache.zookeeper.server.common.AtomicFileWritingIdiom.OutputStreamStatement;
 import org.apache.zookeeper.server.common.AtomicFileWritingIdiom.WriterStatement;
@@ -57,9 +56,9 @@ import java.util.Map.Entry;
 import java.util.Properties;
 
 @InterfaceAudience.Public
-public class QuorumPeerConfig {
+public class ServerConfig {
     public static final String nextDynamicConfigFileSuffix = ".dynamic.next";
-    private static final Logger LOG = LoggerFactory.getLogger(QuorumPeerConfig.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ServerConfig.class);
     private static final int UNSET_SERVERID = -1;
     private static boolean standaloneEnabled = true;
     private static boolean reconfigEnabled = false;

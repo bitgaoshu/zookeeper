@@ -28,6 +28,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.apache.zookeeper.server.ServerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.watcher.WatchedEvent;
@@ -227,7 +228,7 @@ public class QuorumPeerTestBase extends ZKTestCase implements Watcher {
         public void writeTempDynamicConfigFile(String nextQuorumCfgSection, String version)
                 throws IOException {
             File nextDynamicConfigFile = new File(tmpDir,
-                    "zoo.cfg" + QuorumPeerConfig.nextDynamicConfigFileSuffix);
+                    "zoo.cfg" + ServerConfig.nextDynamicConfigFileSuffix);
             FileWriter fwriter = new FileWriter(nextDynamicConfigFile);
             fwriter.write(nextQuorumCfgSection
                     + "\n"

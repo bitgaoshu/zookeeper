@@ -29,7 +29,7 @@ import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.client.ZooKeeperAdmin;
 import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.server.statistics.QuorumStats;
+import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.test.QuorumUtil;
 import org.apache.zookeeper.test.ReconfigTest;
@@ -44,7 +44,7 @@ public class ReconfigFailureCasesTest extends QuorumPeerTestBase {
 
     @Before
     public void setup() {
-        QuorumPeerConfig.setReconfigEnabled(true);
+        ServerConfig.setReconfigEnabled(true);
         System.setProperty("zookeeper.DigestAuthenticationProvider.superDigest",
                 "super:D/InIHSb7yEEbrWz8b9l71RjZJU="/* password is 'test'*/);
     }

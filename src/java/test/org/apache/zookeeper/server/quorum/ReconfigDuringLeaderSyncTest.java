@@ -28,6 +28,7 @@ import java.util.Map;
 
 import org.apache.zookeeper.nodeMode.CreateMode;
 import org.apache.zookeeper.PortAssignment;
+import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
 import org.apache.zookeeper.server.quorum.roles.learner.Follower;
 import org.apache.zookeeper.server.quorum.roles.learner.server.FollowerZooKeeperServer;
@@ -56,7 +57,7 @@ public class ReconfigDuringLeaderSyncTest extends QuorumPeerTestBase {
     public void setup() {
         System.setProperty("zookeeper.DigestAuthenticationProvider.superDigest",
                 "super:D/InIHSb7yEEbrWz8b9l71RjZJU="/* password is 'test'*/);
-        QuorumPeerConfig.setReconfigEnabled(true);
+        ServerConfig.setReconfigEnabled(true);
     }
 
     /**
@@ -255,7 +256,7 @@ public class ReconfigDuringLeaderSyncTest extends QuorumPeerTestBase {
 
     private static class MockTestQPMain extends TestQPMain {
         @Override
-        public void runFromConfig(QuorumPeerConfig config)
+        public void runFromConfig(ServerConfig config)
                 throws IOException, AdminServerException {
             quorumPeer = new CustomQuorumPeer(config.getQuorumVerifier().getAllMembers(), config.getDataDir(),
                     config.getDataLogDir(), config.getClientPortAddress().getPort(), config.getElectionAlg(),

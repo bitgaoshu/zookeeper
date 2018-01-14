@@ -32,7 +32,7 @@ import org.apache.zookeeper.client.ZooKeeperAdmin;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
+import org.apache.zookeeper.server.ServerConfig;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -57,7 +57,7 @@ public class ReconfigExceptionTest extends ZKTestCase {
     @Before
     public void setup() throws InterruptedException {
         System.setProperty(authProvider, superDigest);
-        QuorumPeerConfig.setReconfigEnabled(true);
+        ServerConfig.setReconfigEnabled(true);
 
         // Get a three server quorum.
         qu = new QuorumUtil(1);
@@ -89,7 +89,7 @@ public class ReconfigExceptionTest extends ZKTestCase {
 
     @Test(timeout = 10000)
     public void testReconfigDisabled() throws InterruptedException {
-        QuorumPeerConfig.setReconfigEnabled(false);
+        ServerConfig.setReconfigEnabled(false);
         try {
             reconfigPort();
             Assert.fail("Reconfig should be disabled.");
