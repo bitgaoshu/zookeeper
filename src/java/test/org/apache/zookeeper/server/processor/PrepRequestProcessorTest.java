@@ -71,7 +71,7 @@ public class PrepRequestProcessorTest extends ClientBase {
     public void setup() throws Exception {
         File tmpDir = createTmpDir();
         setupTestEnv();
-        zks = new ZooKeeperServer(tmpDir, tmpDir, 3000);
+        zks = new MyZookeeper(tmpDir, tmpDir, 3000);
         SyncRequestProcessor.setSnapCount(100);
         final int PORT = Integer.parseInt(HOSTPORT.split(":")[1]);
 
@@ -79,7 +79,19 @@ public class PrepRequestProcessorTest extends ClientBase {
         servcnxnf.startup(zks);
         Assert.assertTrue("waiting for server being up ",
                 waitForServerUp(HOSTPORT, CONNECTION_TIMEOUT));
-        zks.sessionTracker = new MySessionTracker();
+        ((MyZookeeper)zks).setSessionTracker(new MySessionTracker());
+
+    }
+
+    private static class MyZookeeper extends ZooKeeperServer {
+
+        MyZookeeper(File snapDir, File logDir, int tickTime) throws IOException {
+            super(snapDir, logDir, tickTime);
+        }
+
+        public void setSessionTracker(SessionTracker sessionTracker){
+            super.sessionTracker = sessionTracker;
+        }
     }
 
     @After
