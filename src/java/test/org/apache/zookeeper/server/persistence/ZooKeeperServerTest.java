@@ -16,18 +16,16 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.persistence;
+
+import org.apache.zookeeper.ZKTestCase;
+import org.apache.zookeeper.test.ClientBase;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-
-import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.server.persistence.FileTxnLog;
-import org.apache.zookeeper.server.persistence.Util;
-import org.apache.zookeeper.test.ClientBase;
-import org.junit.Assert;
-import org.junit.Test;
 
 public class ZooKeeperServerTest extends ZKTestCase {
     @Test

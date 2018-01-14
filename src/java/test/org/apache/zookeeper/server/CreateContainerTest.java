@@ -24,6 +24,7 @@ import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.data.Stat;
 import org.apache.zookeeper.operation.Op;
 import org.apache.zookeeper.server.exception.RequestProcessorException;
+import org.apache.zookeeper.server.persistence.ContainerManager;
 import org.apache.zookeeper.server.persistence.DataTree;
 import org.apache.zookeeper.server.processor.RequestProcessor;
 import org.apache.zookeeper.test.ClientBase;

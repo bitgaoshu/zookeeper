@@ -16,13 +16,12 @@
  * limitations under the License.
  */
 
-package org.apache.zookeeper.server;
+package org.apache.zookeeper.server.persistence;
 
 import org.apache.zookeeper.operation.OpType;
+import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.util.Time;
 import org.apache.zookeeper.nodeMode.EphemeralType;
-import org.apache.zookeeper.server.persistence.DataNode;
-import org.apache.zookeeper.server.persistence.ZKDatabase;
 import org.apache.zookeeper.server.processor.RequestProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

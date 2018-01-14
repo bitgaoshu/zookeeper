@@ -46,7 +46,7 @@ import org.apache.zookeeper.txn.TxnHeader;
  * A collection of utility methods for dealing with file name parsing, 
  * low level I/O file operations and marshalling/unmarshalling.
  */
-public class Util {
+class Util {
     private static final Logger LOG = LoggerFactory.getLogger(Util.class);
     private static final String SNAP_DIR="snapDir";
     private static final String LOG_DIR="logDir";

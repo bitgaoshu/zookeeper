@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.apache.zookeeper.server.jmx.ManagedUtil;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
 import org.apache.zookeeper.server.persistence.ZKDatabase;
-import org.apache.zookeeper.server.DatadirCleanupManager;
+import org.apache.zookeeper.server.persistence.DatadirCleanupManager;
 import org.apache.zookeeper.server.admin.AdminServer.AdminServerException;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog;
 import org.apache.zookeeper.server.persistence.FileTxnSnapLog.DatadirException;

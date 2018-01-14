@@ -19,7 +19,7 @@
 package org.apache.zookeeper.server.quorum.roles.leader;
 
 import org.apache.zookeeper.exception.KeeperException.SessionExpiredException;
-import org.apache.zookeeper.server.ContainerManager;
+import org.apache.zookeeper.server.persistence.ContainerManager;
 import org.apache.zookeeper.server.processor.FinalRequestProcessor;
 import org.apache.zookeeper.server.processor.PrepRequestProcessor;
 import org.apache.zookeeper.server.Request;
