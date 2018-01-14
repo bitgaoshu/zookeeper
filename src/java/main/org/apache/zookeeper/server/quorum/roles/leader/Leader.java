@@ -51,6 +51,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
@@ -83,6 +84,11 @@ public class Leader implements Role {
     }
 
     private final QuorumPeer self;
+
+    public Map<Long, Proposal> getOutstandingProposals() {
+        return outstandingProposals;
+    }
+
     /* Follower counter */
     private final ConcurrentMap<Long, Proposal> outstandingProposals = new ConcurrentHashMap<Long, Proposal>();
     private final LearnerSnapshotThrottler learnerSnapshotThrottler =

@@ -184,7 +184,7 @@ public class QuorumPeerMainTest extends QuorumPeerTestBase {
                 mt[i].shutdown();
             } else {
                 leader = i;
-                outstanding = mt[leader].main.quorumPeer.leader.outstandingProposals;
+                outstanding = mt[leader].main.quorumPeer.leader.getOutstandingProposals();
             }
         }
 
