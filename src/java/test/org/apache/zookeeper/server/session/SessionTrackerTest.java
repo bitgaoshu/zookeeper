@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,23 +18,22 @@
 
 package org.apache.zookeeper.server.session;
 
+import org.apache.zookeeper.ZKTestCase;
+import org.apache.zookeeper.exception.KeeperException;
+import org.apache.zookeeper.operation.OpType;
+import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.ZooKeeperServer;
+import org.apache.zookeeper.server.processor.PrepRequestProcessor;
+import org.apache.zookeeper.server.processor.RequestProcessor;
+import org.apache.zookeeper.server.session.SessionTrackerImpl.SessionImpl;
+import org.apache.zookeeper.test.ClientBase;
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-
-
-import org.apache.zookeeper.exception.KeeperException;
-import org.apache.zookeeper.ZKTestCase;
-import org.apache.zookeeper.operation.OpType;
-import org.apache.zookeeper.server.Request;
-import org.apache.zookeeper.server.processor.PrepRequestProcessor;
-import org.apache.zookeeper.server.processor.RequestProcessor;
-import org.apache.zookeeper.server.session.SessionTrackerImpl.SessionImpl;
-import org.apache.zookeeper.server.ZooKeeperServer;
-import org.apache.zookeeper.test.ClientBase;
-import org.junit.Assert;
-import org.junit.Test;
 
 /**
  * Testing zk client session logic in sessiontracker
@@ -123,10 +122,10 @@ public class SessionTrackerTest extends ZKTestCase {
     private ZooKeeperServer setupSessionTracker() throws IOException {
         File tmpDir = ClientBase.createTmpDir();
         ClientBase.setupTestEnv();
-        ZooKeeperServer zks = new ZooKeeperServer(tmpDir, tmpDir, 3000);
+        MyZookeeper zks = new MyZookeeper(tmpDir, tmpDir, 3000);
         zks.setupRequestProcessors();
         firstProcessor = new FirstProcessor(zks, null);
-        zks.firstProcessor = firstProcessor;
+        zks.setFirstProcessor(firstProcessor);
 
         // setup session tracker
         zks.createSessionTracker();
@@ -134,12 +133,40 @@ public class SessionTrackerTest extends ZKTestCase {
         return zks;
     }
 
+
+    private static class MyZookeeper extends ZooKeeperServer {
+
+        MyZookeeper(File snapDir, File logDir, int tickTime) throws IOException {
+            super(snapDir, logDir, tickTime);
+        }
+
+        @Override
+        public void setupRequestProcessors() {
+
+        }
+
+        @Override
+        public void createSessionTracker() {
+            super.createSessionTracker();
+        }
+
+        @Override
+        public void startSessionTracker() {
+            super.startSessionTracker();
+        }
+
+        public void setFirstProcessor(RequestProcessor firstProcessor) {
+            this.firstProcessor = firstProcessor;
+        }
+
+    }
+
     // Mock processor used in zookeeper server
     private class FirstProcessor extends PrepRequestProcessor {
         private volatile int countOfCloseSessionReq = 0;
 
         public FirstProcessor(ZooKeeperServer zks,
-                RequestProcessor nextProcessor) {
+                              RequestProcessor nextProcessor) {
             super(zks, nextProcessor);
         }
 
