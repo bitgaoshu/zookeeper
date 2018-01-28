@@ -43,7 +43,7 @@ import javax.management.ObjectName;
 
 import org.apache.zookeeper.PortAssignment;
 import org.apache.zookeeper.server.util.Time;
-import org.apache.zookeeper.server.exception.X509Exception.SSLContextException;
+import org.apache.zookeeper.exception.X509Exception.SSLContextException;
 import org.apache.zookeeper.exception.KeeperException;
 import org.apache.zookeeper.client.clientSocket.TestableZooKeeper;
 import org.apache.zookeeper.watcher.WatchedEvent;

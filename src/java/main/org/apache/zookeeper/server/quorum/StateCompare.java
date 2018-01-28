@@ -22,10 +22,10 @@ package org.apache.zookeeper.server.quorum;
  * This class encapsulates the state comparison logic. Specifically,
  * how two different states are compared.
  */
-public class StateSummary {
+public class StateCompare {
 	private long currentEpoch;
 	private long lastZxid;
-	public StateSummary(long currentEpoch, long lastZxid) {
+	public StateCompare(long currentEpoch, long lastZxid) {
 		this.currentEpoch = currentEpoch;
 		this.lastZxid = lastZxid;
 	}
@@ -38,15 +38,15 @@ public class StateSummary {
 		return lastZxid;
 	}
 	
-	public boolean isMoreRecentThan(StateSummary ss) {
+	public boolean isMoreRecentThan(StateCompare ss) {
 		return (currentEpoch > ss.currentEpoch) || (currentEpoch == ss.currentEpoch && lastZxid > ss.lastZxid);
 	}
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof StateSummary)) {
+		if (!(obj instanceof StateCompare)) {
 			return false;
 		}
-		StateSummary ss = (StateSummary)obj;
+		StateCompare ss = (StateCompare)obj;
 		return currentEpoch == ss.currentEpoch && lastZxid == ss.lastZxid;
 	}
 	

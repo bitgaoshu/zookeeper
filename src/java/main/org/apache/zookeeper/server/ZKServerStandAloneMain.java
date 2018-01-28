@@ -45,7 +45,7 @@ public class ZKServerStandAloneMain {
             LoggerFactory.getLogger(ZKServerStandAloneMain.class);
 
     private static final String USAGE =
-            "Usage: ZKServerStandAloneMain configfile | port datadir [ticktime] [maxcnxns]";
+            "Usage: ZKServerStandAloneMain configfile";
 
     // ZooKeeper server supports two kinds of connection: unencrypted and encrypted.
     private ServerCnxnFactory cnxnFactory;
@@ -57,7 +57,7 @@ public class ZKServerStandAloneMain {
     /*
      * Start up the ZooKeeper server.
      *
-     * @param args the configfile or the port datadir [ticktime]
+     * @param args the configfile
      */
     public static void main(String[] args) {
         ZKServerStandAloneMain standAloneMain = new ZKServerStandAloneMain();

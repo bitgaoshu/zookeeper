@@ -23,7 +23,7 @@ import org.apache.zookeeper.client.ZooKeeper;
 import org.apache.zookeeper.server.cnxn.NettyCnxn.NettyServerCnxnFactory;
 import org.apache.zookeeper.server.cnxn.ServerCnxn;
 import org.apache.zookeeper.server.cnxn.ServerCnxnFactory;
-import org.apache.zookeeper.server.exception.X509Exception;
+import org.apache.zookeeper.exception.X509Exception;
 import org.apache.zookeeper.server.processor.SyncRequestProcessor;
 import org.apache.zookeeper.test.ClientBase;
 import org.apache.zookeeper.test.ClientBase.CountdownWatcher;

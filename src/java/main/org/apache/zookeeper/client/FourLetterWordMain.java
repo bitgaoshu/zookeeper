@@ -19,7 +19,7 @@
 package org.apache.zookeeper.client;
 
 import org.apache.yetus.audience.InterfaceAudience;
-import org.apache.zookeeper.server.exception.X509Exception.SSLContextException;
+import org.apache.zookeeper.exception.X509Exception.SSLContextException;
 import org.apache.zookeeper.util.X509Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

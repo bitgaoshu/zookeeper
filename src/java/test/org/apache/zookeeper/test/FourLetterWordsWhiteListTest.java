@@ -21,7 +21,7 @@ package org.apache.zookeeper.test;
 import java.io.IOException;
 
 import org.apache.zookeeper.client.clientSocket.TestableZooKeeper;
-import org.apache.zookeeper.server.exception.X509Exception.SSLContextException;
+import org.apache.zookeeper.exception.X509Exception.SSLContextException;
 
 import static org.apache.zookeeper.client.FourLetterWordMain.send4LetterWord;
 

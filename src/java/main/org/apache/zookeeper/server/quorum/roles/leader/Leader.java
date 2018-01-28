@@ -27,7 +27,7 @@ import org.apache.zookeeper.server.quorum.Proposal;
 import org.apache.zookeeper.server.quorum.QuorumPacket;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.LearnerType;
-import org.apache.zookeeper.server.quorum.StateSummary;
+import org.apache.zookeeper.server.quorum.StateCompare;
 import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 import org.apache.zookeeper.server.quorum.mBean.impl.LeaderBean;
 import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
@@ -112,7 +112,7 @@ public class Leader implements Role {
     private final HashSet<Long> electingFollowers = new HashSet<Long>();
     /* the follower acceptor thread */
     protected volatile LearnerCnxAcceptor cnxAcceptor = null;
-    protected StateSummary leaderStateSummary;
+    protected StateCompare leaderStateSummary;
     AtomicInteger followerCounter = new AtomicInteger(-1);
     protected long epoch = -1;
     boolean waitingForNewEpoch = true;
@@ -293,7 +293,7 @@ public class Leader implements Role {
             self.setTick(0);
             zk.loadData();
 
-            leaderStateSummary = new StateSummary(self.getCurrentEpoch(), zk.getLastProcessedZxid());
+            leaderStateSummary = new StateCompare(self.getCurrentEpoch(), zk.getLastProcessedZxid());
 
             // Start thread that waits for connection requests from
             // new followers.
@@ -985,7 +985,7 @@ public class Leader implements Role {
         }
     }
 
-    public void waitForEpochAck(long id, StateSummary ss) throws IOException, InterruptedException {
+    public void waitForEpochAck(long id, StateCompare ss) throws IOException, InterruptedException {
         synchronized (electingFollowers) {
             if (electionFinished) {
                 return;

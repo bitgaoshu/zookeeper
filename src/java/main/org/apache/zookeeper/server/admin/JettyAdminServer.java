@@ -174,7 +174,7 @@ public class JettyAdminServer implements AdminServer {
             // Run the cmd4l
             CommandResponse cmdResponse = Commands.runCommand(cmd, zkServer, kwargs);
 
-            // Format and print the output of the cmd4l
+            // Format and print the output of the command
             CommandOutputter outputter = new JsonOutputter();
             response.setStatus(HttpServletResponse.SC_OK);
             response.setContentType(outputter.getContentType());

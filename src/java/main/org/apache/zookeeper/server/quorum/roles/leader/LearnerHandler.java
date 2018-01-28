@@ -32,7 +32,7 @@ import org.apache.zookeeper.server.quorum.QuorumPacket;
 import org.apache.zookeeper.server.quorum.QuorumPeer;
 import org.apache.zookeeper.server.quorum.QuorumPeer.LearnerType;
 import org.apache.zookeeper.server.exception.SnapshotThrottleException;
-import org.apache.zookeeper.server.quorum.StateSummary;
+import org.apache.zookeeper.server.quorum.StateCompare;
 import org.apache.zookeeper.server.quorum.roles.OpOfLeader;
 import org.apache.zookeeper.server.quorum.Proposal;
 import org.apache.zookeeper.server.util.ZxidUtils;
@@ -246,7 +246,7 @@ public class LearnerHandler extends ZooKeeperThread {
             long lastAcceptedEpoch = ZxidUtils.getEpochFromZxid(qp.getZxid());
 
             long peerLastZxid;
-            StateSummary ss = null;
+            StateCompare ss = null;
             long zxid = qp.getZxid();
             long newEpoch = leader.getEpochToPropose(this.getSid(), lastAcceptedEpoch);
             long newLeaderZxid = ZxidUtils.makeZxid(newEpoch, 0);
@@ -254,7 +254,7 @@ public class LearnerHandler extends ZooKeeperThread {
             if (this.getVersion() < 0x10000) {
                 // we are going to have to extrapolate the epoch information
                 long epoch = ZxidUtils.getEpochFromZxid(zxid);
-                ss = new StateSummary(epoch, zxid);
+                ss = new StateCompare(epoch, zxid);
                 // fake the message
                 leader.waitForEpochAck(this.getSid(), ss);
             } else {
@@ -271,7 +271,7 @@ public class LearnerHandler extends ZooKeeperThread {
                     return;
                 }
                 ByteBuffer bbepoch = ByteBuffer.wrap(ackEpochPacket.getData());
-                ss = new StateSummary(bbepoch.getInt(), ackEpochPacket.getZxid());
+                ss = new StateCompare(bbepoch.getInt(), ackEpochPacket.getZxid());
                 leader.waitForEpochAck(this.getSid(), ss);
             }
             peerLastZxid = ss.getLastZxid();

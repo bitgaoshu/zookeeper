@@ -82,7 +82,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 public class Zab1_0Test extends ZKTestCase {
@@ -1258,7 +1257,7 @@ public class Zab1_0Test extends ZKTestCase {
         }
 
         public void setLeaderStateSummary() throws IOException {
-            super.leaderStateSummary = new StateSummary(getQuorumPeer().getCurrentEpoch(), getZk().getLastProcessedZxid());
+            super.leaderStateSummary = new StateCompare(getQuorumPeer().getCurrentEpoch(), getZk().getLastProcessedZxid());
         }
 
         public boolean isAlive() {
@@ -1287,7 +1286,7 @@ public class Zab1_0Test extends ZKTestCase {
                 }
             } else {
                 try {
-                    leader.waitForEpochAck(followerSid, new StateSummary(0, 0));
+                    leader.waitForEpochAck(followerSid, new StateCompare(0, 0));
                     msg = "FollowerMockThread (id = " + followerSid + ")  returned from waitForEpochAck";
                 } catch (Exception e) {
                 }
